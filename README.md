@@ -8,7 +8,7 @@
 
 ## Sample Code
 
-You can find the sample code [here](https://github.com/Nomad-Media/samples/archive/refs/heads/main.zip).
+You can find the sample code [here](https://github.com/Nomad-Media/samples-js).
 
 ## Nomad SDK NPM
 
