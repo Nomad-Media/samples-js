@@ -12,7 +12,7 @@ You can find the sample code [here](https://github.com/Nomad-Media/samples/archi
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -21,7 +21,7 @@ To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
 [block:image]
 {
   "images": [
-    {
+{
       "image": [
         "https://files.readme.io/c265ab9-image.png",
         null,
