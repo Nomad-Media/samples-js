@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Asset Upload</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fav Icon -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+     <!-- Google Fonts -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+ 
+     <!-- Sweet Alert 2 -->
+     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui@5.0.4/material-ui.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="asset-upload.css">
+
+    <!-- JS -->
+    <script type="module" src="asset-upload.js" defer></script>
+</head>
+
+<body>
+
+    <h1>Asset Upload</h1>
+
+    <h2> Start Asset Upload </h2>
+    <form id="startForm">
+        <label for="name">Asset Name:</label>
+        <input type="text" id="name">
+
+        <label for="existingAssetId">Existing Asset Id:</label>
+        <input type="text" id="existingAssetId">
+
+        <label for="relatedAssetId">Related Asset Id:</label>
+        <input type="text" id="relatedAssetId">
+
+        <label for="createTranscribeRelatedAsset">Create a Related Transcribe Asset?:</label>
+        <select id="createTranscribeRelatedAsset">
+            <option value="true">true</option>
+            <option value="false" selected>false</option>
+        </select>
+
+        <label for="relatedContentId">Related Content Id:</label>
+        <input type="text" id="relatedContentId">
+
+        <label for="languageId">Language Id:</label>
+        <input type="text" id="languageId">
+
+        <label for="uploadOverwriteOption">Upload Overwrite Option:</label>
+        <select id="uploadOverwriteOption" required>
+            <option value="cancel">cancel</option>
+            <option value="continue">continue</option>
+            <option value="replace" selected>replace</option>
+        </select>
+
+        <label for="nomadFile">Choose a file to upload:</label>
+        <input type="file" id="nomadFile" required>
+
+        <label for="parentId">Parent Id:</label>
+        <input type="text" id="parentId">
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>

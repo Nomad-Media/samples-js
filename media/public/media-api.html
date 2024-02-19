@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Media API</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fav Icon -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+     <!-- Google Fonts -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+ 
+     <!-- Sweet Alert 2 -->
+     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui@5.0.4/material-ui.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="media-api.css">
+
+    <!-- JS -->
+    <script type="module" src="media-api.js" defer></script>
+</head>
+
+<body>
+
+    <h1>Media API</h1>
+
+    <h3>Media Search</h3>
+    <form id="mediaSearchForm">
+        <label for="searchQuery">Search Query:</label>
+        <input type="text" id="searchQuery">
+
+        <label for="pageOffset">Page Offset:</label>
+        <input type="text" id="pageOffset">
+
+        <label for="pageSize">Page Size:</label>
+        <input type="text" id="pageSize">
+
+        <label for="ids">Ids (separated by comma):</label>
+        <input type="text" id="ids">
+        
+        <h3>Sort Fields</h3>
+        <div id="sortFieldsDiv"></div>
+        <br><br>
+        <button type="button" id="addSortFieldsButton">Add Sort Field</button>
+        </select>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Get Dynamic Contents</h3>
+    <form id="getDynamicContentsForm">
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Get Dynamic Content</h3>
+    <form id="getDynamicContentForm">
+        <label for="dynamicContentId">Dynamic Content Id:</label>
+        <input type="text" id="dynamicContentId" required>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Get Media Group</h3>
+    <form id="getMediaGroupForm">
+        <label for="mediaGroupId">Media Group Id:</label>
+        <input type="text" id="mediaGroupId" required>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Get Media Item</h3>
+    <form id="getMediaItemForm">
+        <label for="mediaItemId">Media Item Id:</label>
+        <input type="text" id="mediaItemId" required>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Get Default Site Config</h3>
+    <form id="getDefaultSiteConfigForm">
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Get Site Config</h3>
+    <form id="getSiteConfigForm">
+        <label for="siteConfigId">Site Config Id:</label>
+        <input type="text" id="siteConfigId" required>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+    
+    <h3>Get My Content</h3>
+    <form id="getMyContentForm">
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Get My Group</h3>
+    <form id="getMyGroupForm">
+        <label for="myGroupId">My Group Id:</label>
+        <input type="text" id="myGroupId" required>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Clear Watchlist</h3>
+    <form id="clearWatchlistForm">
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Clear Continue Watching</h3>
+    <form id="clearContinueWatchingForm">
+        <label for="userId">User Id:</label>
+        <input type="text" id="userId">
+
+        <label for="assetId">Asset Id:</label>
+        <input type="text" id="assetId">
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Get Content Cookies</h3>
+    <form id="getContentCookiesForm">
+        <label for="contentId">Content Id:</label>
+        <input type="text" id="contentId" required>
+        
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Form</h3>
+    <form id="formForm">
+        <label for="contentDefinitionId">Content Definition Id:</label>
+        <input type="text" id="contentDefinitionId" required>
+
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" required>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" required>
+
+        <label for="active">Active:</label>
+        <select id="active">
+            <option value="True">True</option>
+            <option value="False">False</option>
+        </select>
+        
+        <label for="startDate">Start Date:</label>
+        <input type="datetime-local" id="startDate" required>
+
+        <label for="lookupId">Lookup Id:</label>
+        <input type="text" id="lookupId" required>
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" required>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>
