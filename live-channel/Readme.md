@@ -33,7 +33,7 @@ To get all live channels, click submit under Get Live Channels.
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Gets live channels.](ref:getlivechannels)
+> For more information about the API call used go to [Gets live channels.](ref:getlivechannels)
 
 ## Get Live Channel
 
@@ -43,7 +43,7 @@ To get a specific live channel, enter the id of the live channel you want to get
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Gets a live channel.](ref:getlivechannel)
+> For more information about the API call used go to [Gets a live channel.](ref:getlivechannel)
 
 ## Create Live Channel
 
@@ -53,7 +53,7 @@ To create a live channel, enter the channel name you want to assign the channel.
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Creates a live channel.](ref:createlivechannel)
+> For more information about the API call used go to [Creates a live channel.](ref:createlivechannel)
 
 ## Update Channel
 
@@ -63,7 +63,7 @@ To update a live channel, enter the channel name , the id of the thumbnail image
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Updates a live channel.](ref:updatelivechannel)
+> For more information about the API call used go to [Updates a live channel.](ref:updatelivechannel)
 
 ## Clip Live Channel
 
@@ -73,7 +73,7 @@ To clip a live channel, select the channel you want to clip. Then enter the star
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Clips a live channel.](ref:cliplivechannel)
+> For more information about the API call used go to [Clips a live channel.](ref:cliplivechannel)
 
 ## Add Asset Schedule Event to Channel
 
@@ -83,7 +83,7 @@ To add an asset schedule event to a channel, enter the channel id you want to ad
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Adds an asset schedule event.](ref:addassetscheduleevent)
+> For more information about the API call used go to [Adds an asset schedule event.](ref:addassetscheduleevent)
 
 ## Get Asset Schedule Event
 
@@ -93,7 +93,7 @@ To get an asset schedule event, enter the channel id that the asset schedule eve
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Gets an asset schedule event.](ref:getassetscheduleevent)
+> For more information about the API call used go to [Gets an asset schedule event.](ref:getassetscheduleevent)
 
 ## Update Asset Schedule Event
 
@@ -103,7 +103,7 @@ To update an asset schedule event, enter the id of the schedule event, and the i
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Updates an asset schedule event.](ref:updateassetscheduleevent)
+> For more information about the API call used go to [Updates an asset schedule event.](ref:updateassetscheduleevent)
 
 ## Remove Asset Schedule Event from Channel
 
@@ -113,7 +113,7 @@ To remove an asset schedule event from a live channel, enter the id of the chann
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Removes an asset schedule event.](ref:removeassetscheduleevent)
+> For more information about the API call used go to [Removes an asset schedule event.](ref:removeassetscheduleevent)
 
 ## Get Live Inputs
 
@@ -123,7 +123,7 @@ To get all live inputs, click submit under Get Live Inputs.
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Gets live inputs.](ref:getliveinputs)
+> For more information about the API call used go to [Gets live inputs.](ref:getliveinputs)
 
 ## Get Live Input
 
@@ -133,7 +133,7 @@ To get a specific live input, enter the id of the input you want to get.
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Gets a live input.](ref:getliveinput)
+> For more information about the API call used go to [Gets a live input.](ref:getliveinput)
 
 ## Create Live Input
 
@@ -143,7 +143,7 @@ To create a live input, enter the name you want to assign the input and choose t
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Creates a live input.](ref:createliveinput)
+> For more information about the API call used go to [Creates a live input.](ref:createliveinput)
 
 ## Update Live Input
 
@@ -153,7 +153,7 @@ To update a live input, enter the id of the input you want to update. Then enter
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Updates a live input.](ref:updateliveinput)
+> For more information about the API call used go to [Updates a live input.](ref:updateliveinput)
 
 ## Start Channel
 
@@ -163,7 +163,7 @@ To start a live channel, enter the id of the channel you want to start.
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Starts a live channel.](ref:startlivechannel)
+> For more information about the API call used go to [Starts a live channel.](ref:startlivechannel)
 
 ## Stop Channel
 
@@ -173,7 +173,7 @@ To stop a live channel, enter the id of the channel you want to stop.
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Stops a live channel.](ref:stoplivechannel)
+> For more information about the API call used go to [Stops a live channel.](ref:stoplivechannel)
 
 ## Add Live Input Schedule Event to Channel
 
@@ -183,7 +183,7 @@ To add a live input schedule event to a channel, enter the id of the channel you
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Adds an input schedule event.](ref:addinputscheduleevent)
+> For more information about the API call used go to [Adds an input schedule event.](ref:addinputscheduleevent)
 
 ## Get Live Input Schedule Event
 
@@ -193,7 +193,7 @@ To get a live input schedule event, enter the id of the channel that the schedul
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Gets an input schedule event.](ref:getinputscheduleevent)
+> For more information about the API call used go to [Gets an input schedule event.](ref:getinputscheduleevent)
 
 ## Update Live Input Schedule Event
 
@@ -203,7 +203,7 @@ To update a live input schedule event, enter the id of the channel that the sche
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Updates an input schedule event.](ref:updateinputscheduleevent)
+> For more information about the API call used go to [Updates an input schedule event.](ref:updateinputscheduleevent)
 
 ## Remove Live Input Schedule Event from Live Channel
 
@@ -213,7 +213,7 @@ To remove a live input from a live channel, enter the id of the channel that the
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Removes an input schedule event.](ref:removeinputscheduleevent)
+> For more information about the API call used go to [Removes an input schedule event.](ref:removeinputscheduleevent)
 
 ## Refresh Live Channels
 
@@ -223,7 +223,7 @@ To refresh the live channels, click the button under refresh live channels.
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Refresh Live Channels](ref:livechannelrefresh)
+> For more information about the API call used go to [Refresh Live Channels](ref:livechannelrefresh)
 
 ## Next Event
 
@@ -233,7 +233,7 @@ To get the next event of a live channel, enter the id of the channel you want th
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Gets the next event.](ref:nextevent)
+> For more information about the API call used go to [Gets the next event.](ref:nextevent)
 
 ## Start Output Tracking
 
@@ -243,7 +243,7 @@ To start tracking the output of a live channel, enter the id of the channel you 
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Starts output tracking.](ref:startoutputtracking)
+> For more information about the API call used go to [Starts output tracking.](ref:startoutputtracking)
 
 ## Move Schedule Event
 
@@ -253,7 +253,7 @@ To move a schedule event, you need to enter the id of the channel the schedule e
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Moves a schedule event.](ref:movescheduleevent)
+> For more information about the API call used go to [Moves a schedule event.](ref:movescheduleevent)
 
 ## Delete Live Channel
 
@@ -263,7 +263,7 @@ To delete a live channel, enter the id of the channel you want to delete and if 
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Deletes a live channel.](ref:deletelivechannel)
+> For more information about the API call used go to [Deletes a live channel.](ref:deletelivechannel)
 
 ## Delete Live Input
 
@@ -273,7 +273,57 @@ To delete a live input, enter the id of the input you want to delete.
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Deletes a live input.](ref:deleteliveinput)
+> For more information about the API call used go to [Deletes a live input.](ref:deleteliveinput)
+
+## Get Live Outputs
+
+To get all live outputs, click submit under Get Live Outputs.
+
+![](images/get-live-outputs.png)
+
+> 📘 Note
+>
+> For more information about the API call used go to [Gets live outputs.](ref:getliveoutputs)
+
+## Get Live Output
+
+To get a specific live output, enter the id of the output you want to get.
+
+![](images/get-live-output.png)
+
+> 📘 Note
+>
+> For more information about the API call used go to [Gets a live output.](ref:getliveoutput)
+
+## Create Live Output
+
+To create a live output, enter the name of the output, choose an output type, and select if the output is active or not. Then, optionally, fill in the rest of the information you want to add.
+
+![](images/create-live-output.png)
+
+> 📘 Note
+>
+> For more information about the API call used go to [Creates a live output.](ref:createliveoutput)
+
+## Update Live Output
+
+To update a live output, enter the id of the output you want to update. Then enter the name of the output, choose an output type, and select if the output is active or not. Then, optionally, fill in the rest of the information you want to add.
+
+![](images/update-live-output.png)
+
+> 📘 Note
+>
+> For more information about the API call used go to [Updates a live output.](ref:updateliveoutput)
+
+## Delete Live Output
+
+To delete a live output, enter the id of the output you want to delete.
+
+![](images/delete-live-output.png)
+
+> 📘 Note
+>
+> For more information about the API call used go to [Deletes a live output.](ref:deleteliveoutput)
 
 ## Get Live Operators
 
@@ -283,7 +333,7 @@ To get all live operators, click submit under Get Live Operators.
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Gets live operators.](ref:getliveoperators)
+> For more information about the API call used go to [Gets live operators.](ref:getliveoperators)
 
 ## Get Live Operator
 
@@ -293,7 +343,7 @@ To get a specific live operator, enter the id of the channel you want to get the
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Gets a live operator.](ref:getliveoperator)
+> For more information about the API call used go to [Gets a live operator.](ref:getliveoperator)
 
 ## Start Broadcast
 
@@ -303,7 +353,7 @@ To start a broadcast, enter the id of the channel you want to use for the broadc
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Starts a broadcast.](ref:startbroadcast)
+> For more information about the API call used go to [Starts a broadcast.](ref:startbroadcast)
 
 ## Cancel Broadcast
 
@@ -313,7 +363,7 @@ To cancel a broadcast, enter the id of the channel associated with the broadcast
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Cancels a Broadcast](ref:post_admin-liveoperator-liveoperatorid-cancel)
+> For more information about the API call used go to [Cancels a Broadcast](ref:post_admin-liveoperator-liveoperatorid-cancel)
 
 ## Stop Broadcast
 
@@ -323,7 +373,7 @@ To stop a broadcast, enter the id of the channel associated with the broadcast.
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Stops a Broadcast](ref:post_admin-liveoperator-liveoperatorid-stop)
+> For more information about the API call used go to [Stops a Broadcast](ref:post_admin-liveoperator-liveoperatorid-stop)
 
 ## Get Completed Segments
 
@@ -333,7 +383,7 @@ To get all completed segments, enter the id of the channel associated with the b
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Gets complete segments.](ref:getcompletesegments)
+> For more information about the API call used go to [Gets complete segments.](ref:getcompletesegments)
 
 ## Start Segment
 
@@ -343,7 +393,7 @@ To start a segment, enter the id of the channel associated with the broadcast th
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Starts a segment.](ref:startsegment)
+> For more information about the API call used go to [Starts a segment.](ref:startsegment)
 
 ## Cancel Segment
 
@@ -353,7 +403,7 @@ To cancel a segment, enter the id of the channel associated with the broadcast t
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Cancels a segment.](ref:cancelsegment)
+> For more information about the API call used go to [Cancels a segment.](ref:cancelsegment)
 
 ## Complete Segment
 
@@ -363,4 +413,4 @@ To complete a segment, enter the id of the channel. Then enter the ids of the re
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Completes a segment.](ref:completesegment)
+> For more information about the API call used go to [Completes a segment.](ref:completesegment)

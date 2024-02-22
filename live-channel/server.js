@@ -135,6 +135,28 @@ app.get('/get-tag-list', upload.none(), async (req, res) =>
     }
 });
 
+app.get('/get-output-types', upload.none(), async (req, res) =>
+{
+    try
+    {
+        if (config.apiType === "portal")
+        {
+            res.status(200).json(null)
+        }
+        else
+        {
+            const OUTPUT_TYPES = await NomadSDK.miscFunctions("lookup/117", "GET");
+
+            res.status(200).json(OUTPUT_TYPES.items);
+        }
+    }
+    catch (error)
+    {
+        console.error(error);
+        res.status(500).send(error);
+    }
+});
+
 app.get('/getLiveChannels', async (req, res) => 
 {
     try 
@@ -541,7 +563,9 @@ app.post('/removeAssetScheduleEvent', upload.none(), async (req, res) =>
 {
     try
     {
-        const SCHEDULE_EVENT = await NomadSDK.removeAssetScheduleEvent(req.body.removeAssetScheduleEventId);
+        const SCHEDULE_EVENT = await NomadSDK.removeAssetScheduleEvent(
+            req.body.removeAssetScheduleEventChannelId,
+            removeAssetScheduleEventScheduleEventId);
 
         res.status(200).json(SCHEDULE_EVENT);
     }
@@ -552,11 +576,13 @@ app.post('/removeAssetScheduleEvent', upload.none(), async (req, res) =>
     }
 });
 
-app.post('/removeLiveInputScheduleEvent', upload.none(), async (req, res) =>
+app.post('/removeInputScheduleEvent', upload.none(), async (req, res) =>
 {
     try
     {
-        const SCHEDULE_EVENT = await NomadSDK.removeLiveInputScheduleEvent(req.body.removeLiveInputScheduleEventId);
+        const SCHEDULE_EVENT = await NomadSDK.removeInputScheduleEvent(
+            req.body.removeInputScheduleEventChannelId,
+            req.body.removeInputScheduleEventScheduleEventId);
 
         res.status(200).json(SCHEDULE_EVENT);
     }
@@ -589,6 +615,93 @@ app.post('/stopLiveChannel', upload.none(), async (req, res) =>
         const LIVE_CHANNEL = await NomadSDK.stopLiveChannel(req.body.stopLiveChannelId);
 
         res.status(200).json(LIVE_CHANNEL);
+    }
+    catch (error)
+    {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get('/getLiveOutputs', async (req, res) =>
+{
+    try
+    {
+        const LIVE_OUTPUTS = await NomadSDK.getLiveOutputs();
+
+        res.status(200).json(LIVE_OUTPUTS);
+    }
+    catch (error)
+    {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/getLiveOutput', upload.none(), async (req, res) =>
+{
+    try
+    {
+        const LIVE_OUTPUT = await NomadSDK.getLiveOutput(req.body.id);
+
+        res.status(200).json(LIVE_OUTPUT);
+    }
+    catch (error)
+    {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/createLiveOutput', upload.none(), async (req, res) =>
+{
+    try
+    {
+        const OUTPUT_TYPE = JSON.parse(req.body.createOutputTypeSelect) || {};
+
+        const LIVE_OUTPUT = await NomadSDK.createLiveOutput(req.body.name,
+            OUTPUT_TYPE, req.body.isActive === "true",req.body.audioBitrate, 
+            req.body.outputStreamKey, req.body.outputUrl, req.body.secondaryOutputStreamKey,
+            req.body.secondaryOutputUrl, req.body.videoBitrate, req.body.videoBitrateMode,
+            req.body.videoCodec, req.body.videoFramesPerSecond,);
+
+        res.status(200).json(LIVE_OUTPUT);
+    }
+    catch (error)
+    {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/updateLiveOutput', upload.none(), async (req, res) =>
+{
+    try
+    {
+        const OUTPUT_TYPE = JSON.parse(req.body.updateOutputTypeSelect) || {};
+
+        const LIVE_OUTPUT = await NomadSDK.updateLiveOutput(req.body.id, req.body.name,
+            OUTPUT_TYPE, req.body.isActive === "true",req.body.audioBitrate, 
+            req.body.outputStreamKey, req.body.outputUrl, req.body.secondaryOutputStreamKey,
+            req.body.secondaryOutputUrl, req.body.videoBitrate, req.body.videoBitrateMode,
+            req.body.videoCodec, req.body.videoFramesPerSecond,);
+
+        res.status(200).json(LIVE_OUTPUT);
+    }
+    catch (error)
+    {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/deleteLiveOutput', upload.none(), async (req, res) =>
+{
+    try
+    {
+        const LIVE_OUTPUT = await NomadSDK.deleteLiveOutput(req.body.id);
+
+        res.status(200).json(LIVE_OUTPUT);
     }
     catch (error)
     {
