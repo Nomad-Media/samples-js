@@ -16,63 +16,35 @@ To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](https://github.c
 
 ## Setup
 
-- First, open up a terminal and navigate to the directory of the sample you want to run.
+- First, add a config.js file to the root of the sample directory. The config.js file should look like this:
 
-[block:image]
-{
-  "images": [
-{
-      "image": [
-        "https://files.readme.io/c265ab9-image.png",
-        null,
-        ""
-      ],
-      "align": "center"
-    }
-  ]
-}
-[/block]
+```javascript 
+const config = {
+    "username": "username",
+    "password": "password",
+    "serviceApiUrl": "serviceApiUrl",
+    "apiType": "admin",
+    "debugMode": true
+};
 
+export default config;
+```
 
-- Then install the needed packages.
+- Next, open up a terminal and navigate to the directory of the sample you want to run.
 
-[block:image]
-{
-  "images": [
-    {
-      "image": [
-        "https://files.readme.io/6d29688-image.png",
-        null,
-        ""
-      ],
-      "align": "center"
-    }
-  ]
-}
-[/block]
+- Then, install the needed packages.
 
+```bash
+npm install
+```
 
 - Next, start the server.
 
-[block:image]
-{
-  "images": [
-    {
-      "image": [
-        "https://files.readme.io/cf5868f-image.png",
-        null,
-        ""
-      ],
-      "align": "center"
-    }
-  ]
-}
-[/block]
-
+```bash
+npm start
+```
 
 - Finally open a webpage and go to localhost:4200.
-
-![](https://files.readme.io/978ae99-image.png)
 
 ## Nomad SDK Files
 
