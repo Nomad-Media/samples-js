@@ -78,6 +78,10 @@ app.get('/get-days-list', upload.none(), async (req, res) =>
 app.post('/create-event', upload.none(), async (req, res) => {
     try
     {
+        const CONTENT_ID = req.body.createOrUpdateEventSelect === "update" ? req.body.contnetId : null;
+
+        const NAME = req.body.overrideSeriesDetails === "true" ? req.body.name : null;
+            
         const EVENT_TYPE = JSON.parse(req.body.eventTypeSelect);
 
         const SERIES = req.body.seriesSelect 
@@ -86,28 +90,32 @@ app.post('/create-event', upload.none(), async (req, res) => {
             
         const PROPERTIES = {}
 
-        if (typeof req.body.key === "string")
-        {
-            req.body.key = [req.body.key];
-            req.body.value = [req.body.value];
-        }
-
-        for (let propertyIdx = 0; propertyIdx < req.body.key.length; ++propertyIdx)
-        {
-            let value = req.body.value[propertyIdx];
-            try
+        if (req.body.key)
+        {         
+            if (typeof req.body.key === "string")
             {
-                value = JSON.parse(value);
-            }
-            catch (error){}
+                req.body.key = [req.body.key];
+                req.body.value = [req.body.value];
+            }   
 
-            PROPERTIES[req.body.key[propertyIdx]] = value;
+            for (let propertyIdx = 0; propertyIdx < req.body.key.length; ++propertyIdx)
+            {
+                let value = req.body.value[propertyIdx];
+                try
+                {
+                    value = JSON.parse(value);
+                }
+                catch (error){}
+
+                PROPERTIES[req.body.key[propertyIdx]] = value;
+            }
         }
 
         const EVENT_ID = await NomadSDK.createAndUpdateEvent(
-            req.body.createOrUpdateEventSelect, EVENT_CONTENT_DEFINITION_ID,
-            req.body.name, req.body.startDatetime, req.body.endDatetime,
-            EVENT_TYPE, SERIES, req.body.isDisabled === "true", PROPERTIES);
+            CONTENT_ID, EVENT_CONTENT_DEFINITION_ID, NAME, 
+            req.body.startDatetime, req.body.endDatetime, EVENT_TYPE, SERIES, 
+            req.body.isDisabled === "true", req.body.overrideSeriesDetails === "true",
+            PROPERTIES);
         
         res.status(200).json(EVENT_ID);
     }

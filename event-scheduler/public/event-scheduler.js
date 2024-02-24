@@ -7,11 +7,14 @@ const STOP_FORM = document.getElementById("stopForm");
 const DELETE_FORM = document.getElementById("deleteForm");
 
 const CREATE_OR_UPDATE_EVENT_DIV = document.getElementById("createOrUpdateEventDiv");
+const NAME_DIV = document.getElementById("nameDiv");
+const ADD_PROPERTIES_DIV = document.getElementById("addPropertiesDiv");
 const PROPERTIES_DIV = document.getElementById("propertiesDiv");
 
 const CREATE_OR_UPDATE_EVENT_SELECT = document.getElementById("createOrUpdateEventSelect");
 const EVENT_TYPE_SELECT = document.getElementById("eventTypeSelect");
 const SERIES_SELECT = document.getElementById("seriesSelect");
+const OVERRIDE_SERIES_DETAILS_SELECT = document.getElementById("overrideSeriesDetailsSelect");
 const PRIMARY_LIVESTREAM_INPUT_SELECT = document.getElementById("primaryLivestreamInputSelect");
 const BACKUP_LIVESTREAM_INPUT_SELECT = document.getElementById("backupLivestreamInputSelect");
 const EXTERNAL_OUTPUT_PROFILES_SELECT = document.getElementById("externalOutputProfilesSelect");
@@ -87,6 +90,22 @@ async function getDaysOfTheWeekList()
     $(DAYS_OF_THE_WEEK_SELECT).select2();
 }
 
+OVERRIDE_SERIES_DETAILS_SELECT.addEventListener("change", async function (event)
+{
+    event.preventDefault();
+
+    if (OVERRIDE_SERIES_DETAILS_SELECT.value === "true")
+    {
+        ADD_PROPERTIES_DIV.hidden = false;
+        NAME_DIV.hidden = false;
+    }
+    else
+    {
+        ADD_PROPERTIES_DIV.hidden = true;
+        NAME_DIV.hidden = true;
+    }
+});
+
 ADD_PROPERTY_BUTTON.addEventListener("click", async function (event)
 {
     event.preventDefault();
@@ -138,7 +157,6 @@ CREATE_FORM.addEventListener("submit", async function (event)
     event.preventDefault();
 
     const FORM_DATA = getElements(CREATE_FORM);
-    console.log(FORM_DATA);
 
     console.log(await sendRequest("/create-event", "POST", FORM_DATA));
 });

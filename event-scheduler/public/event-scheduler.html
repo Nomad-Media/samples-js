@@ -52,8 +52,10 @@
             <input type="text" id="contentId">
         </div>
 
-        <label for="name">Name:</label>
-        <input type="text" id="name" required>
+        <div id="nameDiv" hidden>
+            <label for="name">Name:</label>
+            <input type="text" id="name">
+        </div>
 
         <label for="startDatetime">Start Datetime:</label>
         <input type="datetime-local" id="startDatetime" required>
@@ -76,10 +78,18 @@
             <option value="true">True</option>
         </select>
 
-        <label for="properties">Properties</label>
-        <div id="propertiesDiv"></div>
-        <br>
-        <button type="button" id="addPropertyButton">Add Property</button>
+        <label for="overrideSeriesDetailsSelect">Override Series Details:</label>
+        <select id="overrideSeriesDetailsSelect">
+            <option value="false" selected>False</option>
+            <option value="true">True</option>
+        </select>
+
+        <div id="addPropertiesDiv" hidden>
+            <label for="properties">Properties</label>
+            <div id="propertiesDiv" hidden></div>
+            <br>
+            <button type="button" id="addPropertyButton">Add Property</button>
+        </div>
 
         <br><br>
         <button type="submit">Submit</button>
