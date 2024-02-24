@@ -27,7 +27,7 @@ In the nomad-sdk/js directory there are two versions of the Nomad SDK. There is 
 
 ## Create and Update Event Instance
 
-To create or update an event, first select whether you want to create or update an event. Then enter the start and end datetime of the event, and any additional properties.
+To create or update an event, first select whether you want to create or update an event. Then enter the start and end datetime of the event, the event type, and optionally, the series and/or any additional properties.
 
 ![](images/creating-and-updating-event.png)
 
