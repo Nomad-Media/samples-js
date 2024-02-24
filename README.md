@@ -6,10 +6,6 @@
 > 
 > You can download npm [here](https://nodejs.org/en/download).
 
-## Sample Code
-
-You can find the sample code [here](https://github.com/Nomad-Media/samples-js).
-
 ## Nomad SDK NPM
 
 To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
