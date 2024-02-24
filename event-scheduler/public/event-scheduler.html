@@ -42,7 +42,7 @@
     <form id="createForm">
         
         <label for="createOrUpdateEvent">Create or Update:</label>
-        <select id="createOrUpdateEvent">
+        <select id="createOrUpdateEventSelect">
             <option value="create">Create</option>
             <option value="update">Update</option>
         </select>
@@ -55,118 +55,19 @@
         <label for="name">Name:</label>
         <input type="text" id="name" required>
 
-        <div id="seriesDiv">
-            <label for="seriesSelect">Series:</label>
-            <select id="seriesSelect"></select>
-            <br><br>
-        </div>
-
         <label for="startDatetime">Start Datetime:</label>
         <input type="datetime-local" id="startDatetime" required>
 
         <label for="endDatetime">End Datetime:</label>
         <input type="datetime-local" id="endDatetime" required>
+        
+        <div id="eventTypeDiv">
+            <label for="eventTypeSelect">Event Type:</label>
+            <select id="eventTypeSelect"></select>
 
-        <div id="primaryPerformerDiv">
-            <label for="primaryPerformerSelect">Primary Performer:</label>
-            <select id="primaryPerformerSelect"></select>
-            <br><br>
-        </div>
-
-        <div id="performersDiv">
-            <label for="performersSelect">Performers:</label>
-            <select id="performersSelect" multiple></select>
-            <br><br>
-        </div>
-
-        <label for="shortDescription">Short Description:</label>
-        <input type="text" id="shortDescription">
-
-        <label for="longDescription">Long Description:</label>
-        <input type="text" id="longDescription">
-
-        <h4>Thumbnail Image</h4>
-        <label for="thumbnailImageId">Thumbnail Image Id:</label>
-        <input type="text" id="thumbnailImageId">
-        <label for="thumbnailImageName">Thumbnail Image Name:</label>
-        <input type="text" id="thumbnailImageName">
-
-        <h4>Hero Image</h4>
-        <label for="heroImageId">Hero Image:</label>
-        <input type="text" id="heroImageId">
-        <label for="heroImageName">Hero Image Name:</label>
-        <input type="text" id="heroImageName">
-
-        <h4>Logo Image</h4>
-        <label for="logoImageId">Logo Image:</label>
-        <input type="text" id="logoImageId">
-        <label for="logoImageName">Logo Image Name:</label>
-        <input type="text" id="logoImageName">
-
-        <label for="externalUrl">External Url:</label>
-        <input type="text" id="externalUrl">
-
-        <div id="venueDiv">
-            <label for="venueSelect">Venue:</label>
-            <select id="venueSelect"></select>
-            <br><br>
-        </div>
-
-        <div id="genresDiv">
-            <label for="genresSelect">Genres:</label>
-            <select id="genresSelect" multiple></select>
-            <br><br>
-        </div>
-
-        <div id="mediaAttributes">
-            <label for="mediaAttributesSelect">Media Attributes:</label>
-            <select id="mediaAttributesSelect" multiple></select>
-            <br><br>
-        </div>
-
-        <div id="languages">
-            <label for="languagesSelect">Languages:</label>
-            <select id="languagesSelect" multiple></select>
-            <br><br>
-        </div>
-
-        <div id="products">
-            <label for="productsSelect">Products:</label>
-            <select id="productsSelect" multiple></select>
-            <br><br>
-        </div>
-
-        <div id="featuredGroups">
-            <label for="featuredGroupsSelect">Featured Groups:</label>
-            <select id="featuredGroupsSelect" multiple></select>
-            <br><br>
-        </div>
-
-        <label for="groupSequence">Group Sequence:</label>
-        <input type="text" id="groupSequence">
-
-        <div id="relatedMediaItems">
-            <label for="relatedMediaItemsSelect">Related Media Items:</label>
-            <select id="relatedMediaItemsSelect" multiple></select>
-            <br><br>
-        </div>
-
-        <div id="recommendationSimilarItems">
-            <label for="recommendationSimilarItemsSelect">Recommendation Similar Items:</label>
-            <select id="recommendationSimilarItemsSelect" multiple></select>
-            <br><br>
-        </div>
-
-        <div id="rating">
-            <label for="ratingSelect">Rating:</label>
-            <select id="ratingSelect"></select>
-            <br><br>
-        </div>
-
-        <div id="liveChannel">
-            <label for="liveChannelSelect">Live Channel:</label>
-            <select id="liveChannelSelect"></select>
-            <br><br>
+        <div id="seriesDiv">
+            <label for="seriesSelect">Series:</label>
+            <select id="seriesSelect"></select>
         </div>
 
         <label for="isDisabled">Is Disabled:</label>
@@ -174,6 +75,11 @@
             <option value="false">False</option>
             <option value="true">True</option>
         </select>
+
+        <label for="properties">Properties</label>
+        <div id="propertiesDiv"></div>
+        <br>
+        <button type="button" id="addPropertyButton">Add Property</button>
 
         <br><br>
         <button type="submit">Submit</button>

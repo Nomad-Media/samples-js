@@ -6,36 +6,45 @@ const START_FORM = document.getElementById("startForm");
 const STOP_FORM = document.getElementById("stopForm");
 const DELETE_FORM = document.getElementById("deleteForm");
 
-const CREATE_OR_UPDATE_EVENT = document.getElementById("createOrUpdateEvent");
-
 const CREATE_OR_UPDATE_EVENT_DIV = document.getElementById("createOrUpdateEventDiv");
+const PROPERTIES_DIV = document.getElementById("propertiesDiv");
 
+const CREATE_OR_UPDATE_EVENT_SELECT = document.getElementById("createOrUpdateEventSelect");
+const EVENT_TYPE_SELECT = document.getElementById("eventTypeSelect");
 const SERIES_SELECT = document.getElementById("seriesSelect");
-const PRIMARY_PERFORMER_SELECT = document.getElementById("primaryPerformerSelect");
-const PERFORMERS_SELECT = document.getElementById("performersSelect");
-const VENUE_SELECT = document.getElementById("venueSelect");
-const GENRES_SELECT = document.getElementById("genresSelect");
-const MEDIA_ATTRIBUTES_SELECT = document.getElementById("mediaAttributesSelect");
-const LANGUAGES_SELECT = document.getElementById("languagesSelect");
-const PRODUCTS_SELECT = document.getElementById("productsSelect");
-const FEATURED_GROUPS_SELECT = document.getElementById("featuredGroupsSelect");
-const RELATED_MEDIA_ITEMS_SELECT = document.getElementById("relatedMediaItemsSelect");
-const RECOMMENDATION_SIMILAR_ITEMS_SELECT = document.getElementById("recommendationSimilarItemsSelect");
-const RATING_SELECT = document.getElementById("ratingSelect");
-const LIVE_CHANNEL_SELECT = document.getElementById("liveChannelSelect");
 const PRIMARY_LIVESTREAM_INPUT_SELECT = document.getElementById("primaryLivestreamInputSelect");
 const BACKUP_LIVESTREAM_INPUT_SELECT = document.getElementById("backupLivestreamInputSelect");
 const EXTERNAL_OUTPUT_PROFILES_SELECT = document.getElementById("externalOutputProfilesSelect");
 const DAYS_OF_THE_WEEK_SELECT = document.getElementById("daysOfTheWeekSelect");
 
-CREATE_OR_UPDATE_EVENT.addEventListener("change", async function (event)
+const ADD_PROPERTY_BUTTON = document.getElementById("addPropertyButton");
+
+CREATE_OR_UPDATE_EVENT_SELECT.addEventListener("change", async function (event)
 {
     event.preventDefault();
 
-    CREATE_OR_UPDATE_EVENT.value === "create" 
+    CREATE_OR_UPDATE_EVENT_SELECT.value === "create" 
         ? CREATE_OR_UPDATE_EVENT_DIV.hidden = true 
         : CREATE_OR_UPDATE_EVENT_DIV.hidden = false;
 });
+
+await getEventList();
+
+async function getEventList()
+{
+    const EVENT_LIST = await sendRequest("/get-event-list", "GET");
+
+    for(let eventIdx = 0; eventIdx < EVENT_LIST.length; ++eventIdx)
+    {
+        let option = document.createElement("option");
+        option.value = EVENT_LIST[eventIdx].id;
+        option.text = EVENT_LIST[eventIdx].title;
+        EVENT_TYPE_SELECT.appendChild(option);
+    }
+
+    $(EVENT_TYPE_SELECT).select2();
+    
+}
 
 await getSeriesList();
 
@@ -51,183 +60,10 @@ async function getSeriesList()
         SERIES_SELECT.appendChild(option);
     }
 
-    $(SERIES_SELECT).select2();
-}
-
-await getPerformerList();
-
-async function getPerformerList()
-{
-    const PERFORMER_LIST = await sendRequest("/get-performer-list", "GET");
-
-    for(let performerIdx = 0; performerIdx < PERFORMER_LIST.length; ++performerIdx)
-    {
-        let option1 = document.createElement("option");
-        option1.value = PERFORMER_LIST[performerIdx].id;
-        option1.text = PERFORMER_LIST[performerIdx].title;
-        PRIMARY_PERFORMER_SELECT.appendChild(option1);
-
-        let option2 = document.createElement("option");
-        option2.value = PERFORMER_LIST[performerIdx].id;
-        option2.text = PERFORMER_LIST[performerIdx].title;
-        PERFORMERS_SELECT.appendChild(option2);
-    }
-
-    $(PRIMARY_PERFORMER_SELECT).select2();
-    $(PERFORMERS_SELECT).select2();
-}
-
-await getVenueList();
-
-async function getVenueList()
-{
-    const VENUE_LIST = await sendRequest("/get-venue-list", "GET");
-
-    for(let venueIdx = 0; venueIdx < VENUE_LIST.length; ++venueIdx)
-    {
-        let option = document.createElement("option");
-        option.value = VENUE_LIST[venueIdx].id;
-        option.text = VENUE_LIST[venueIdx].title;
-        VENUE_SELECT.appendChild(option);
-    }
-
-    $(VENUE_SELECT).select2();
-}
-
-await getGenresList();
-
-async function getGenresList()
-{
-    const GENRE_LIST = await sendRequest("/get-genre-list", "GET");
-
-    for(let genreIdx = 0; genreIdx < GENRE_LIST.length; ++genreIdx)
-    {
-        let option = document.createElement("option");
-        option.value = GENRE_LIST[genreIdx].id;
-        option.text = GENRE_LIST[genreIdx].title;
-        GENRES_SELECT.appendChild(option);
-    }
-
-    $(GENRES_SELECT).select2();
-}
-
-await getMediaAttributesList();
-
-async function getMediaAttributesList()
-{
-    const MEDIA_ATTRIBUTES_LIST = await sendRequest("/get-media-attributes-list", "GET");
-
-    for(let mediaAttributesIdx = 0; mediaAttributesIdx < MEDIA_ATTRIBUTES_LIST.length; ++mediaAttributesIdx)
-    {
-        let option = document.createElement("option");
-        option.value = MEDIA_ATTRIBUTES_LIST[mediaAttributesIdx].id;
-        option.text = MEDIA_ATTRIBUTES_LIST[mediaAttributesIdx].title;
-        MEDIA_ATTRIBUTES_SELECT.appendChild(option);
-    }
-
-    $(MEDIA_ATTRIBUTES_SELECT).select2();
-}
-
-await getLanguageList();
-
-async function getLanguageList()
-{
-    const LANGUAGE_LIST = await sendRequest("/get-language-list", "GET");
-
-    for(let languageIdx = 0; languageIdx < LANGUAGE_LIST.length; ++languageIdx)
-    {
-        let option = document.createElement("option");
-        option.value = LANGUAGE_LIST[languageIdx].id;
-        option.text = LANGUAGE_LIST[languageIdx].title;
-        LANGUAGES_SELECT.appendChild(option);
-    }
-
-    $(LANGUAGES_SELECT).select2();
-}
-
-await getProductsList();
-
-async function getProductsList()
-{
-    const PRODUCTS_LIST = await sendRequest("/get-product-list", "GET");
-
-    for(let productsIdx = 0; productsIdx < PRODUCTS_LIST.length; ++productsIdx)
-    {
-        let option = document.createElement("option");
-        option.value = PRODUCTS_LIST[productsIdx].id;
-        option.text = PRODUCTS_LIST[productsIdx].title;
-        PRODUCTS_SELECT.appendChild(option);
-    }
-
-    $(PRODUCTS_SELECT).select2();
-}
-
-await getFeaturedGroupsList();
-
-async function getFeaturedGroupsList()
-{
-    const FEATURED_GROUPS_LIST = await sendRequest("/get-featured-groups-list", "GET");
-
-    for(let featuredGroupsIdx = 0; featuredGroupsIdx < FEATURED_GROUPS_LIST.length; ++featuredGroupsIdx)
-    {
-        let option = document.createElement("option");
-        option.value = FEATURED_GROUPS_LIST[featuredGroupsIdx].id;
-        option.text = FEATURED_GROUPS_LIST[featuredGroupsIdx].title;
-        FEATURED_GROUPS_SELECT.appendChild(option);
-    }
-
-    $(FEATURED_GROUPS_SELECT).select2();
-}
-
-await getRelatedMediaItemsList();
-
-async function getRelatedMediaItemsList()
-{
-    const RELATED_MEDIA_ITEMS_LIST = await sendRequest("/get-related-media-items-list", "GET");
-
-    for(let relatedMediaItemsIdx = 0; relatedMediaItemsIdx < RELATED_MEDIA_ITEMS_LIST.length; ++relatedMediaItemsIdx)
-    {
-        let option = document.createElement("option");
-        option.value = RELATED_MEDIA_ITEMS_LIST[relatedMediaItemsIdx].id;
-        option.text = RELATED_MEDIA_ITEMS_LIST[relatedMediaItemsIdx].title;
-        RELATED_MEDIA_ITEMS_SELECT.appendChild(option);
-    }
-
-    $(RELATED_MEDIA_ITEMS_SELECT).select2();
-}
-
-await getRecommendationSimilarItemsList();
-
-async function getRecommendationSimilarItemsList()
-{
-    const RECOMMENDATION_SIMILAR_ITEMS_LIST = await sendRequest("/get-recommendation-similar-items-list", "GET");
-
-    for(let recommendationSimilarItemsIdx = 0; recommendationSimilarItemsIdx < RECOMMENDATION_SIMILAR_ITEMS_LIST.length; ++recommendationSimilarItemsIdx)
-    {
-        let option = document.createElement("option");
-        option.value = RECOMMENDATION_SIMILAR_ITEMS_LIST[recommendationSimilarItemsIdx].id;
-        option.text = RECOMMENDATION_SIMILAR_ITEMS_LIST[recommendationSimilarItemsIdx].title;
-        RECOMMENDATION_SIMILAR_ITEMS_SELECT.appendChild(option);
-    }
-
-    $(RECOMMENDATION_SIMILAR_ITEMS_SELECT).select2();
-}
-
-await getRatingList();
-
-async function getRatingList()
-{
-    const RATING_LIST = await sendRequest("/get-rating-list", "GET");
-
-    for(let ratingIdx = 0; ratingIdx < RATING_LIST.length; ++ratingIdx)
-    {
-        let option = document.createElement("option");
-        option.value = RATING_LIST[ratingIdx].id;
-        option.text = RATING_LIST[ratingIdx].title;
-        RATING_SELECT.appendChild(option);
-    }
-
-    $(RATING_SELECT).select2();
+    $(SERIES_SELECT).select2({
+        placeholder: "Select a series",
+        allowClear: true
+    });
 }
 
 await getDaysOfTheWeekList();
@@ -251,28 +87,58 @@ async function getDaysOfTheWeekList()
     $(DAYS_OF_THE_WEEK_SELECT).select2();
 }
 
-await getLiveChannelList();
-
-async function getLiveChannelList()
+ADD_PROPERTY_BUTTON.addEventListener("click", async function (event)
 {
-    const LIVE_CHANNEL_LIST = await sendRequest("/get-live-channel-list", "GET");
+    event.preventDefault();
 
-    for(let liveChannelIdx = 0; liveChannelIdx < LIVE_CHANNEL_LIST.length; ++liveChannelIdx)
+    let keyInput = document.createElement("input");
+    keyInput.type = "text";
+    keyInput.placeholder = "Key";
+    keyInput.name = "key";
+    keyInput.style.width = "100px";
+
+    let valueInput = document.createElement("input");
+    valueInput.type = "text";
+    valueInput.name = "value";
+    valueInput.placeholder = "Value";
+
+    let br1 = document.createElement("br");
+    let br2 = document.createElement("br");
+    let br3 = document.createElement("br");
+    let br4 = document.createElement("br");
+
+    PROPERTIES_DIV.appendChild(keyInput);
+    PROPERTIES_DIV.appendChild(valueInput);
+    PROPERTIES_DIV.appendChild(br1);
+    PROPERTIES_DIV.appendChild(br2);
+
+    let removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.textContent = "Remove";
+    removeButton.addEventListener("click", function (event)
     {
-        let option = document.createElement("option");
-        option.value = LIVE_CHANNEL_LIST[liveChannelIdx].id;
-        option.text = LIVE_CHANNEL_LIST[liveChannelIdx].title;
-        LIVE_CHANNEL_SELECT.appendChild(option);
-    }
+        event.preventDefault();
 
-    $(LIVE_CHANNEL_SELECT).select2();
-}
+        PROPERTIES_DIV.removeChild(keyInput);
+        PROPERTIES_DIV.removeChild(valueInput);
+        PROPERTIES_DIV.removeChild(removeButton);
+        PROPERTIES_DIV.removeChild(br1);
+        PROPERTIES_DIV.removeChild(br2);
+        PROPERTIES_DIV.removeChild(br3);
+        PROPERTIES_DIV.removeChild(br4);
+    });
+
+    PROPERTIES_DIV.appendChild(removeButton);
+    PROPERTIES_DIV.appendChild(br3);
+    PROPERTIES_DIV.appendChild(br4);
+});
 
 CREATE_FORM.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
     const FORM_DATA = getElements(CREATE_FORM);
+    console.log(FORM_DATA);
 
     console.log(await sendRequest("/create-event", "POST", FORM_DATA));
 });
