@@ -70,3 +70,4 @@ In the nomad-sdk/js directory there are two versions of the Nomad SDK. There is 
 | Sync | Shows how to set up CRUD operations for a content definition (in this case, a movie). | [Sync](https://github.com/Nomad-Media/samples-js/tree/main/sync)
 | User | Shows how to delete various user data. | [User](https://github.com/Nomad-Media/samples-js/tree/main/user)
 | User Session | Shows how to change a user session status. | [User Session](https://github.com/Nomad-Media/samples-js/tree/main/user-session)
+| Video Tracking | Shows the different ways to track video. | [Video Tracking](https://github.com/Nomad-Media/samples-js/tree/main/user-session)
