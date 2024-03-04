@@ -80,7 +80,14 @@ app.post('/create-event', upload.none(), async (req, res) => {
     {
         const CONTENT_ID = req.body.createOrUpdateEventSelect === "update" ? req.body.contnetId : null;
 
-        const NAME = req.body.overrideSeriesDetails === "true" ? req.body.name : null;
+        let name = null
+        if (req.body.seriesSelect)
+        {
+            if (req.body.name === "")
+                name = req.body.seriesSelect.description;
+            else
+                name = req.body.name;
+        }
             
         const EVENT_TYPE = JSON.parse(req.body.eventTypeSelect);
 
@@ -112,9 +119,9 @@ app.post('/create-event', upload.none(), async (req, res) => {
         }
 
         const EVENT_ID = await NomadSDK.createAndUpdateEvent(
-            CONTENT_ID, EVENT_CONTENT_DEFINITION_ID, NAME, 
+            CONTENT_ID, EVENT_CONTENT_DEFINITION_ID, name, 
             req.body.startDatetime, req.body.endDatetime, EVENT_TYPE, SERIES, 
-            req.body.isDisabled === "true", req.body.overrideSeriesDetails === "true",
+            req.body.isDisabled === "true", req.body.overrideSeriesDetailsSelect === "true",
             PROPERTIES);
         
         res.status(200).json(EVENT_ID);
