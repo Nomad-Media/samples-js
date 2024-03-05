@@ -20,7 +20,6 @@ npm start
 
 Then open a webpage and go to localhost:4200.
 
-
 ## Nomad SDK Files
 
 In the nomad-sdk/js directory there are two versions of the Nomad SDK. There is the sdk.min.js file which is a minified version of the sdk, and the sdk-debug.js file which is a concatenated version of the sdk. The sdk-debug file will show you all the parameter documentation and readable code.
