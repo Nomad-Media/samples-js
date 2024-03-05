@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Basic Live Channel</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fav Icon -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Sweet Alert 2 -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui@5.0.4/material-ui.min.css">
+
+    <!-- Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+     
+    <!-- Styles -->
+    <link rel="stylesheet" href="media-builder.css" />
+
+    <!-- JS -->
+    <script type="module" src="media-builder.js" defer></script>
+</head>
+
+<body>
+    <h1>Media Builder</h1>
+
+    <h3>Create Media Builder</h3>
+    <form id="createMediaBuilderForm">
+        <label for="name">Name</label>
+        <input type="text" id="name" required>
+
+        <label for="destinationFolderId">Destination Folder Id</label>
+        <input type="text" id="destinationFolderId">
+
+        <label for="collections">Collections</label>
+        <select id="createMediaBuilderCollectionsSelect" multiple></select>
+        
+        <label for="relatedContentIds">Related Content Ids (separate by comma)</label>
+        <input type="text" id="relatedContentIds">
+
+        <label for="properties">Properties</label>
+        <div id="createMediaBuilderPropertiesDiv"></div>
+        <br>
+        <button type="button" id="createMediaBuilderAddPropertyButton">Add Property</button>
+
+        <br><br>
+        <button type="submit">Create Media Builder</button>
+    </form>
+
+    <h3>Create Media Builder Item</h3>
+    <form id="createMediaBuilderItemForm">
+        <label for="id">Media Builder Id</label>
+        <input type="text" id="id" required>
+
+        <label for="sourceType">Source Type</label>
+        <select id="sourceTypeSelect">
+            <option value="asset">Asset</option>
+            <option value="annotation">Annotation</option>
+        </select>
+
+        <div id="assetDiv">
+            <label for="sourceAssetId">Source Asset Id</label>
+            <input type="text" id="sourceAssetId">
+
+            <label for="startTimeCode">Start Time Code (hh:mm:ss;ff)</label>
+            <input type="text" id="startTimeCode">
+
+            <label for="endTimeCode">End Time Code (hh:mm:ss;ff)</label>
+            <input type="text" id="endTimeCode">
+        </div>
+
+        <div id="annotationDiv" hidden>
+            <label for="annotationId">Annotation Id</label>
+            <input type="text" id="annotationId">
+        </div>
+
+        <label for="relatedContentIds">Related Content Ids (separated by comma)</label>
+        <input type="text" id="relatedContentIds">
+
+        <br><br>
+        <button type="submit">Create Media Builder Item</button>
+    </form>
+
+    <h3>Create Media Builder Items Add Annotations</h3>
+    <form id="createMediaBuilderItemsAddAnnotationsForm">
+        <label for="id">Media Builder Id</label>
+        <input type="text" id="id" required>
+
+        <label for="sourceAssetId">Source Asset Id</label>
+        <input type="text" id="sourceAssetId" required>
+
+        <br><br>
+        <button type="submit">Create Media Builder Items Add Annotations</button>
+    </form>
+
+    <h3>Create Media Builder Items Bulk</h3>
+    <form id="createMediaBuilderItemsBulkForm">
+        <label for="id">Media Builder Id</label>
+        <input type="text" id="id" required>
+
+        <label for="addMediaBuilderItems">Add Media Builder Items</label>
+        <br>
+        <div id="addMediaBuilderItemsDiv"></div>
+        <br>
+        <button type="button" id="addMediaBuilderItemButton">Add Media Builder Item</button>
+    
+        <br><br>
+        <button type="submit">Create Media Builder Items Bulk</button>
+    </form>
+
+    <h3>Delete Media Builder</h3>
+    <form id="deleteMediaBuilderForm">
+        <label for="id">Media Builder Id</label>
+        <input type="text" id="id" required>
+
+        <br><br>
+        <button type="submit">Delete Media Builder</button>
+    </form>
+
+    <h3>Delete Media Builder Item</h3>
+    <form id="deleteMediaBuilderItemForm">
+        <label for="id">Media Builder Id</label>
+        <input type="text" id="id" required>
+
+        <label for="itemId">Media Builder Item Id</label>
+        <input type="text" id="itemId" required>
+
+        <br><br>
+        <button type="submit">Delete Media Builder Item</button>
+    </form>
+
+    <h3>Duplicate Media Builder</h3>
+    <form id="duplicateMediaBuilderForm">
+        <label for="id">Media Builder Id</label>
+        <input type="text" id="id" required>
+
+        <label for="name">New Media Builder Name</label>
+        <input type="text" id="name" required>
+
+        <label for="destinationFolderId">New Destination Folder Id</label>
+        <input type="text" id="destinationFolderId">
+
+        <label for="collections">Collections</label>
+        <select id="duplicateMediaBuilderCollectionsSelect" multiple></select>
+
+        <label for="relatedContentIds">Related Content Ids (separated by comma)</label>
+        <input type="text" id="relatedContentIds">
+
+        <label for="properties">Properties</label>
+        <div id="duplicateMediaBuilderPropertiesDiv"></div>
+        <br>
+        <button type="button" id="duplicateMediaBuilderAddPropertyButton">Add Property</button>
+
+        <br><br>
+        <button type="submit">Duplicate Media Builder</button>
+    </form>
+
+    <h3>Get Media Builder</h3>
+    <form id="getMediaBuilderForm">
+        <label for="id">Media Builder Id</label>
+        <input type="text" id="id" required>
+
+        <br><br>
+        <button type="submit">Get Media Builder</button>
+    </form>
+
+    <h3>Get Media Builders</h3>
+    <form id="getMediaBuildersForm">
+        <button type="submit">Get Media Builders</button>
+    </form>
+
+    <h3>Get Media Builder Ids From Asset</h3>
+    <form id="getMediaBuilderIdsFromAssetForm">
+        <label for="assetId">Asset Id</label>
+        <input type="text" id="assetId" required>
+
+        <br><br>
+        <button type="submit">Get Media Builder Ids From Asset</button>
+    </form>
+
+    <h3>Get Media Builder Items</h3>
+    <form id="getMediaBuilderItemsForm">
+        <label for="id">Media Builder Id</label>
+        <input type="text" id="id" required>
+
+        <br><br>
+        <button type="submit">Get Media Builder Items</button>
+    </form>
+
+    <h3>Move Media Builder Item</h3>
+    <form id="moveMediaBuilderItemForm">
+        <label for="id">Media Builder Id</label>
+        <input type="text" id="id" required>
+
+        <label for="itemId">Media Builder Item Id</label>
+        <input type="text" id="itemId" required>
+
+        <label for="previousItemId">Previous Media Builder Item Id</label>
+        <input type="text" id="previousItemId">
+
+        <br><br>
+        <button type="submit">Move Media Builder Items</button>
+    </form>
+
+    <h3>Render Media Builder</h3>
+    <form id="renderMediaBuilderForm">
+        <label for="id">Media Builder Id</label>
+        <input type="text" id="id" required>
+
+        <br><br>
+        <button type="submit">Render Media Builder</button>
+    </form>
+
+    <h3>Update Media Builder</h3>
+    <form id="updateMediaBuilderForm">
+        <label for="id">Media Builder Id</label>
+        <input type="text" id="id" required>
+
+        <label for="name">Name</label>
+        <input type="text" id="name">
+
+        <label for="destinationFolderId">Destination Folder Id</label>
+        <input type="text" id="destinationFolderId">
+
+        <label for="collections">Collections</label>
+        <select id="updateMediaBuilderCollectionsSelect" multiple></select>
+
+        <label for="relatedContentIds">Related Content Ids (separated by comma)</label>
+        <input type="text" id="relatedContentIds">
+
+        <label for="properties">Properties</label>
+        <div id="updateMediaBuilderPropertiesDiv"></div>
+        <br>
+        <button type="button" id="updateMediaBuilderAddPropertyButton">Add Property</button>
+
+        <br><br>
+        <button type="submit">Update Media Builder</button>
+    </form>
+
+</body>
+
+</html>
