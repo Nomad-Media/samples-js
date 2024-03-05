@@ -19,7 +19,7 @@ npm start
 ```
 
 Then open a webpage and go to localhost:4200.
-![](images/homepage.png)
+
 
 ## Nomad SDK Files
 
