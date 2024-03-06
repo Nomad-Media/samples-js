@@ -25,6 +25,7 @@ const DELETE_CHANNEL_FORM = document.getElementById("deleteChannelForm");
 const DELETE_INPUT_FORM = document.getElementById("deleteInputForm");
 const GET_OUTPUTS_FORM = document.getElementById("getOutputsForm");
 const GET_OUTPUT_FORM = document.getElementById("getOutputForm");
+const GET_OUTPUT_TYPES_FORM = document.getElementById("getOutputTypesForm");
 const CREATE_OUTPUT_FORM = document.getElementById("createOutputForm");
 const UPDATE_OUTPUT_FORM = document.getElementById("updateOutputForm");
 const DELETE_OUTPUT_FORM = document.getElementById("deleteOutputForm");
@@ -498,6 +499,13 @@ GET_OUTPUT_FORM.addEventListener("submit", async function (event)
     const FORM_DATA = getElements(GET_OUTPUT_FORM);
 
     console.log(await sendRequest("/getLiveOutput", "POST", FORM_DATA));
+});
+
+GET_OUTPUT_TYPES_FORM.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    console.log(await sendRequest("/get-output-types", "GET"));
 });
 
 CREATE_OUTPUT_FORM.addEventListener("submit", async function (event)
