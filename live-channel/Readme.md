@@ -274,9 +274,9 @@ To delete a live input, enter the id of the input you want to delete.
 > 
 > For more information about the API call used go to [Deletes a live input.](ref:deleteliveinput)
 
-## Get Live Outputs
+## Get Live Output Profiles
 
-To get all live outputs, click submit under Get Live Outputs.
+To get all live output profiles, click submit under Get Live Outputs.
 
 ![](images/get-live-outputs.png)
 
@@ -284,9 +284,9 @@ To get all live outputs, click submit under Get Live Outputs.
 >
 > For more information about the API call used go to [Gets live outputs.](ref:getliveoutputs)
 
-## Get Live Output
+## Get Live Output Profile
 
-To get a specific live output, enter the id of the output you want to get.
+To get a specific live output profile, enter the id of the output you want to get.
 
 ![](images/get-live-output.png)
 
@@ -304,9 +304,9 @@ To get all live output types, click submit under Get Live Output Types.
 >
 > For more information about the API call used go to [Gets live output types.](ref:getliveoutputtypes)
 
-## Create Live Output
+## Create Live Output Profile
 
-To create a live output, enter the name of the output, choose an output type, and select if the output is active or not. Then, optionally, fill in the rest of the information you want to add.
+To create a live output profile, enter the name of the output, choose an output type, and select if the output is active or not. Then, optionally, fill in the rest of the information you want to add.
 
 ![](images/create-live-output.png)
 
@@ -314,9 +314,9 @@ To create a live output, enter the name of the output, choose an output type, an
 >
 > For more information about the API call used go to [Creates a live output.](ref:createliveoutput)
 
-## Update Live Output
+## Update Live Output Profile
 
-To update a live output, enter the id of the output you want to update. Then enter the name of the output, choose an output type, and select if the output is active or not. Then, optionally, fill in the rest of the information you want to add.
+To update a live output profile, enter the id of the output you want to update. Then fill in the rest of the information you want to add.
 
 ![](images/update-live-output.png)
 
@@ -324,9 +324,9 @@ To update a live output, enter the id of the output you want to update. Then ent
 >
 > For more information about the API call used go to [Updates a live output.](ref:updateliveoutput)
 
-## Delete Live Output
+## Delete Live Output Profile
 
-To delete a live output, enter the id of the output you want to delete.
+To delete a live output profile, enter the id of the output you want to delete.
 
 ![](images/delete-live-output.png)
 
