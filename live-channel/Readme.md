@@ -294,6 +294,16 @@ To get a specific live output, enter the id of the output you want to get.
 >
 > For more information about the API call used go to [Gets a live output.](ref:getliveoutput)
 
+## Get Live Output Types
+
+To get all live output types, click submit under Get Live Output Types.
+
+![](images/get-live-output-types.png)
+
+> 📘 Note
+>
+> For more information about the API call used go to [Gets live output types.](ref:getliveoutputtypes)
+
 ## Create Live Output
 
 To create a live output, enter the name of the output, choose an output type, and select if the output is active or not. Then, optionally, fill in the rest of the information you want to add.
