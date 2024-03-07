@@ -627,7 +627,7 @@ app.get('/getLiveOutputs', async (req, res) =>
 {
     try
     {
-        const LIVE_OUTPUTS = await NomadSDK.getLiveOutputs();
+        const LIVE_OUTPUTS = await NomadSDK.getLiveOutputProfiles();
 
         res.status(200).json(LIVE_OUTPUTS);
     }
@@ -642,7 +642,7 @@ app.post('/getLiveOutput', upload.none(), async (req, res) =>
 {
     try
     {
-        const LIVE_OUTPUT = await NomadSDK.getLiveOutput(req.body.id);
+        const LIVE_OUTPUT = await NomadSDK.getLiveOutputProfile(req.body.id);
 
         res.status(200).json(LIVE_OUTPUT);
     }
@@ -659,7 +659,7 @@ app.post('/createLiveOutput', upload.none(), async (req, res) =>
     {
         const OUTPUT_TYPE = JSON.parse(req.body.createOutputTypeSelect) || {};
 
-        const LIVE_OUTPUT = await NomadSDK.createLiveOutput(req.body.name,
+        const LIVE_OUTPUT = await NomadSDK.createLiveOutputProfile(req.body.name,
             OUTPUT_TYPE, req.body.isActive === "true",req.body.audioBitrate, 
             req.body.outputStreamKey, req.body.outputUrl, req.body.secondaryOutputStreamKey,
             req.body.secondaryOutputUrl, req.body.videoBitrate, req.body.videoBitrateMode,
@@ -680,7 +680,7 @@ app.post('/updateLiveOutput', upload.none(), async (req, res) =>
     {
         const OUTPUT_TYPE = JSON.parse(req.body.updateOutputTypeSelect) || {};
 
-        const LIVE_OUTPUT = await NomadSDK.updateLiveOutput(req.body.id, req.body.name,
+        const LIVE_OUTPUT = await NomadSDK.updateLiveOutputProfile(req.body.id, req.body.name,
             OUTPUT_TYPE, req.body.isActive === "true",req.body.audioBitrate, 
             req.body.outputStreamKey, req.body.outputUrl, req.body.secondaryOutputStreamKey,
             req.body.secondaryOutputUrl, req.body.videoBitrate, req.body.videoBitrateMode,
@@ -699,7 +699,7 @@ app.post('/deleteLiveOutput', upload.none(), async (req, res) =>
 {
     try
     {
-        const LIVE_OUTPUT = await NomadSDK.deleteLiveOutput(req.body.id);
+        const LIVE_OUTPUT = await NomadSDK.deleteLiveOutputProfile(req.body.id);
 
         res.status(200).json(LIVE_OUTPUT);
     }
