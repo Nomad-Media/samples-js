@@ -32,8 +32,8 @@
 
     <h1>Asset Upload</h1>
 
-    <h2> Start Asset Upload </h2>
-    <form id="startForm">
+    <h3>Upload Asset</h3>
+    <form id="uploadAssetForm">
         <label for="name">Asset Name:</label>
         <input type="text" id="name">
 
@@ -43,17 +43,8 @@
         <label for="relatedAssetId">Related Asset Id:</label>
         <input type="text" id="relatedAssetId">
 
-        <label for="createTranscribeRelatedAsset">Create a Related Transcribe Asset?:</label>
-        <select id="createTranscribeRelatedAsset">
-            <option value="true">true</option>
-            <option value="false" selected>false</option>
-        </select>
-
         <label for="relatedContentId">Related Content Id:</label>
         <input type="text" id="relatedContentId">
-
-        <label for="languageId">Language Id:</label>
-        <input type="text" id="languageId">
 
         <label for="uploadOverwriteOption">Upload Overwrite Option:</label>
         <select id="uploadOverwriteOption" required>
@@ -62,11 +53,45 @@
             <option value="replace" selected>replace</option>
         </select>
 
-        <label for="nomadFile">Choose a file to upload:</label>
-        <input type="file" id="nomadFile" required>
+        <label for="file">File Path:</label>
+        <input type="text" id="file">
 
         <label for="parentId">Parent Id:</label>
         <input type="text" id="parentId">
+
+        <label for="languageId">Language Id:</label>
+        <input type="text" id="languageId">
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Upload Related Asset</h3>
+    <form id="uploadRelatedAssetForm">
+        <label for="existingAssetId">Existing Asset Id:</label>
+        <input type="text" id="existingAssetId">
+
+        <label for="relatedAssetId">Related Asset Id:</label>
+        <input type="text" id="relatedAssetId">
+
+        <label for="newRelatedAssetMetadataType">New Related Asset Metadata Type:</label>
+        <input type="text" id="newRelatedAssetMetadataType">
+
+        <label for="uploadOverwriteOption">Upload Overwrite Option:</label>
+        <select id="uploadOverwriteOption" required>
+            <option value="cancel">cancel</option>
+            <option value="continue">continue</option>
+            <option value="replace" selected>replace</option>
+        </select>
+
+        <label for="file">File Path:</label>
+        <input type="text" id="file">
+
+        <label for="parentId">Parent Id:</label>
+        <input type="text" id="parentId">
+
+        <label for="languageId">Language Id:</label>
+        <input type="text" id="languageId">
 
         <br><br>
         <button type="submit">Submit</button>

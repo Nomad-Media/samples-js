@@ -1,34 +1,72 @@
-const START_FORM = document.getElementById("startForm");
+const UPLOAD_ASSET_FORM = document.getElementById("uploadAssetForm");
+const UPLOAD_RELATED_ASSET_FORM = document.getElementById("uploadRelatedAssetForm");
 
-START_FORM.addEventListener("submit", async function (event)
+UPLOAD_ASSET_FORM.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-    const FORM_DATA = new FormData();
+    
+    const FORM_DATA = getElements(UPLOAD_ASSET_FORM);
 
-    for (let input of START_FORM)
+    console.log(await sendRequest("/uploadAsset", "POST", FORM_DATA));
+});
+
+UPLOAD_RELATED_ASSET_FORM.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    
+    const FORM_DATA = getElements(UPLOAD_RELATED_ASSET_FORM);
+
+    console.log(await sendRequest("/uploadRelatedAsset", "POST", FORM_DATA))
+});
+
+function getElements(FORM)
+{
+    const FORM_DATA = new FormData();
+    for (let input of FORM)
     {
-        if (input.tagName === "INPUT" || input.tagName === "SELECT")
-        {
-            if (input.type === "file")
-            {
-                FORM_DATA.append(input.id, input.files[0]);
+        if (input.tagName === "SELECT") {
+            const SELECTED_OPTIONS = []
+            for (let element of input) {
+                if (element.selected) {
+                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase()) {
+                        if (input.id) {
+                            FORM_DATA.append(input.id, element.value);
+                        } else {
+                            FORM_DATA.append(input.name, element.value);
+                        }
+                    } else {
+                        SELECTED_OPTIONS.push({ id: element.value, description: element.label });
+                    }
+                }
             }
-            else
+            if (SELECTED_OPTIONS.length > 1)
             {
-                FORM_DATA.append(input.id, input.value);
+                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS));
+            }
+            else if (SELECTED_OPTIONS.length === 1)
+            {
+                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS[0]));
             }
         }
-        else if (input.type === "file")
+        else if (input.tagName === "INPUT")
         {
-            console.log(input.id);
-            FORM_DATA.append(input.id, input.files[0]);
+            if (input.id) {
+                FORM_DATA.append(input.id, input.value);
+            } else {
+                FORM_DATA.append(input.name, input.value);
+            }
         }
     }
-    
-    console.log(FORM_DATA);
+    return FORM_DATA;
+}
+
+async function sendRequest(PATH, METHOD, BODY)
+{
     try
     {
-        const RESPONSE = await fetch("/uploadAsset", { method: "POST", body: FORM_DATA });
+        const REQUEST = { method: METHOD };
+        if (BODY) REQUEST["body"] = BODY;
+        const RESPONSE = await fetch(PATH, REQUEST);
 
         if (RESPONSE.ok)
         {
@@ -46,4 +84,4 @@ START_FORM.addEventListener("submit", async function (event)
     {
         console.error(error);
     }
-});
+}

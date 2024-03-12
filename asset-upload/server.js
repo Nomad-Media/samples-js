@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-import NomadMediaSDK from "nomad-media-npm";
+import NomadMediaSDK from "nomad-media-npm/debug";
 import config from "./config.js";
 const NomadSDK = new NomadMediaSDK(config);
 
@@ -23,13 +23,32 @@ app.get('/', (req, res) => {
 });
 	
 
-app.post('/uploadAsset', upload.single('nomadFile'), async (req, res) => {
-  	try {
-		await NomadSDK.uploadAsset(req.body.name, req.body.existingAssetId, req.body.relatedAssetId, 
-			req.body.createTranscribeRelatedAsset === "true", req.body.relatedContentId, req.body.languageId, 
-			req.body.uploadOverwriteOption, req.file, req.body.parentId);
+app.post('/uploadAsset', upload.none(), async (req, res) => {
+  	try 
+	{
+		console.log(req.body);
 
-		res.status(200).json({ message: 'Asset uploaded successfully' });
+		await NomadSDK.uploadAsset(req.body.name, req.body.existingAssetId, req.body.relatedAssetId, 
+			req.body.relatedContentId, req.body.uploadOverwriteOption, req.body.file, req.body.parentId,
+			req.body.languageId);
+
+		res.status(200).json();
+  	} 
+	catch (error) 
+	{
+		console.error(error);
+		res.status(500).json({ error: error.message });
+ 	}
+});
+
+app.post('/uploadRelatedAsset', upload.none(), async (req, res) => {
+	try 
+	{
+		await NomadSDK.uploadRelatedAsset(req.body.existingAssetId, req.body.relatedAssetId, 
+			req.body.newRelatedAssetMetadataType, req.body.uploadOverwriteOption, req.body.file,
+			req.file, req.body.parentId, req.body.languageId);
+
+		res.status(200).json();
   	} 
 	catch (error) 
 	{
