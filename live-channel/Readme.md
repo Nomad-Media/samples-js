@@ -316,7 +316,7 @@ To create a live output profile, enter the name of the output, choose an output 
 
 ## Update Live Output Profile
 
-To update a live output profile, enter the id of the output you want to update. Then fill in the rest of the information you want to add.
+To update a live output profile, enter the id of the output you want to update. Then enter the name of the output, choose an output type, select if the output is active or not, and/or fill in the rest of the information you want to update.
 
 ![](images/update-live-output.png)
 
@@ -333,6 +333,56 @@ To delete a live output profile, enter the id of the output you want to delete.
 > 📘 Note
 >
 > For more information about the API call used go to [Deletes a live output.](ref:deleteliveoutput)
+
+## Get Live Output Profile Groups
+
+To get all live output profile groups, click submit under Get Live Output Profile Groups.
+
+![](images/get-live-output-groups.png)
+
+> 📘 Note
+>
+> For more information about the API call used go to [Gets live output profile groups.](ref:getliveoutputprofilegroups)
+
+## Get Live Output Profile Group
+
+To get a specific live output profile group, enter the id of the output profile group you want to get.
+
+![](images/get-live-output-group.png)
+
+> 📘 Note
+>
+> For more information about the API call used go to [Gets a live output profile group.](ref:getliveoutputprofilegroup)
+
+## Create Live Output Profile Group
+
+To create a live output profile group, enter the name of the output profile group. Then select if the output profile group is enabled or not, the manifest type, whether or not to set the output profile group as the default, the live output type, optionally, the archive output profile, and the live output profile(s).
+
+![](images/create-live-output-group.png)
+
+> 📘 Note
+>
+> For more information about the API call used go to [Creates a live output profile group.](ref:createliveoutputprofilegroup)
+
+## Update Live Output Profile Group
+
+To update a live output profile group, enter the id of the output profile group you want to update. Then enter the name, select if the output profile group is enabled or not, the manifest type, whether or not to set the output profile group as the default, the live output type, the archive output profile, and/or the live output profile(s) you want to update.
+
+![](images/update-live-output-group.png)
+
+> 📘 Note
+>
+> For more information about the API call used go to [Updates a live output profile group.](ref:updateliveoutputprofilegroup)
+
+## Delete Live Output Profile Group
+
+To delete a live output profile group, enter the id of the output profile group you want to delete.
+
+![](images/delete-live-output-group.png)
+
+> 📘 Note
+>
+> For more information about the API call used go to [Deletes a live output profile group.](ref:deleteliveoutputprofilegroup)
 
 ## Get Live Operators
 

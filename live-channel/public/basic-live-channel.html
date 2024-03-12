@@ -707,6 +707,120 @@
         <button type="submit">Submit</button>
     </form>
 
+    <h3>Get Live Output Profile Groups</h3>
+    <form id="getOutputGroupsForm">
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Get Live Output Profile Group</h3>
+    <form id="getOutputGroupForm">
+        <label for="id">Live Output Profile Group Id:</label>
+        <input type="text" id="id" required>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Create Live Output Profile Group</h3>
+    <form id="createOutputGroupForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+
+        <label for="isEnabled">Is Enabled:</label>
+        <select id="isEnabled">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select>
+
+        <label for="manifestType">Manifest Type:</label>
+        <select id="manifestType" multiple>
+            <option value="HLS">HLS</option>
+            <option value="DASH">DASH</option>
+        </select>
+
+        <script>
+            $(document).ready(function() {
+                $('#manifestType').select2();
+            });
+        </script>
+
+        <label for="isDefaultGroup">Is Default Group:</label>
+        <select id="isDefaultGroup">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select>
+
+        <label for="createOutputGroupTypeSelect">Live Output Type:</label>
+        <select id="createOutputGroupTypeSelect"></select>
+
+        <label for="createOutputGroupArchiveOutputProfile">Archive Output Profile:</label>
+        <select id="createOutputGroupArchiveOutputProfile">
+            <option value=null></option>
+        </select>
+
+        <label for="createOutputGroupOutputProfiles">Live Output Profiles:</label>
+        <select id="createOutputGroupOutputProfiles" multiple required></select>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Update Live Output Profile Group</h3>
+    <form id="updateOutputGroupForm">
+        <label for="id">Live Output Profile Group Id:</label>
+        <input type="text" id="id" required>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name">
+
+        <label for="isEnabled">Is Enabled:</label>
+        <select id="isEnabled">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select>
+
+        <label for="updateManifestType">Manifest Type:</label>
+        <select id="updateManifestType" multiple>
+            <option value="HLS">HLS</option>
+            <option value="DASH">DASH</option>
+        </select>
+
+        <script>
+            $(document).ready(function() {
+                $('#updateManifestType').select2();
+            });
+        </script>
+
+        <label for="isDefaultGroup">Is Default Group:</label>
+        <select id="isDefaultGroup">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select>
+
+        <label for="updateOutputGroupTypeSelect">Live Output Type:</label>
+        <select id="updateOutputGroupTypeSelect"></select>
+
+        <label for="updateOutputGroupArchiveOutputProfile">Archive Output Profile:</label>    
+        <select id="updateOutputGroupArchiveOutputProfile">
+            <option value=null></option>
+        </select>
+
+        <label for="updateOutputGroupOutputProfiles">Live Output Profiles:</label>
+        <select id="updateOutputGroupOutputProfiles" multiple></select>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Delete Live Output Profile Group</h3>
+    <form id="deleteOutputGroupForm">
+        <label for="id">Live Output Profile Group Id:</label>
+        <input type="text" id="id" required>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
     <h3>Get Live Operators</h3>
     <form id="getOperatorsForm">
 

@@ -40,3 +40,9 @@ input[type="checkbox"]
     width: 20px;
     vertical-align: middle;
 }
+
+body select[id="manifestType"], body select[id="updateManifestType"]
+{
+    width: 100px;
+    padding: 5px;
+}

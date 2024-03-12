@@ -710,6 +710,102 @@ app.post('/deleteLiveOutput', upload.none(), async (req, res) =>
     }
 });
 
+app.get('/getLiveOutputGroups', async (req, res) =>
+{
+    try
+    {
+        const LIVE_OUTPUT_GROUPS = await NomadSDK.getLiveOutputProfileGroups();
+
+        res.status(200).json(LIVE_OUTPUT_GROUPS);
+    }
+    catch (error)
+    {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/getLiveOutputGroup', upload.none(), async (req, res) =>
+{
+    try
+    {
+        const LIVE_OUTPUT_GROUP = await NomadSDK.getLiveOutputProfileGroup(req.body.id);
+    }
+    catch (error)
+    {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/createLiveOutputGroup', upload.none(), async (req, res) =>
+{
+    try
+    {
+        const MANIFEST_TYPE = typeof req.body.manifestType === "string" ? req.body.manifestType : "both";
+        const CREATE_OUTPUT_GROUP_TYPE_SELECT = JSON.parse(req.body.createOutputGroupTypeSelect) || null;
+        let createOutputGroupArchiveOutputProfile = JSON.parse(req.body.createOutputGroupArchiveOutputProfile) || null;
+        if (createOutputGroupArchiveOutputProfile.id === "null") createOutputGroupArchiveOutputProfile = null;
+        const CREATE_OUTPUT_GROUP_OUTPUT_PROFILES = JSON.parse(req.body.createOutputGroupOutputProfiles) || null;
+        
+        const LIVE_OUTPUT_GROUP = await NomadSDK.createLiveOutputProfileGroup(req.body.name,
+            req.body.isEnabled === "true", MANIFEST_TYPE, req.body.isDefaultGroup === "true", 
+            CREATE_OUTPUT_GROUP_TYPE_SELECT, createOutputGroupArchiveOutputProfile,
+            CREATE_OUTPUT_GROUP_OUTPUT_PROFILES);
+
+        res.status(200).json(LIVE_OUTPUT_GROUP);
+    }
+    catch (error)
+    {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/updateLiveOutputGroup', upload.none(), async (req, res) =>
+{
+    try
+    {
+        let manifestType = req.body.manifestType;
+        if (manifestType !== "")
+        {
+            manifestType = typeof manifestType === "string" ? manifestType : "both";
+        }
+        const UPDATE_OUTPUT_GROUP_TYPE_SELECT = JSON.parse(req.body.updateOutputGroupTypeSelect) || null;
+        let updateOutputGroupArchiveOutputProfile = JSON.parse(req.body.updateOutputGroupArchiveOutputProfile) || null;
+        if (updateOutputGroupArchiveOutputProfile.id === "null") updateOutputGroupArchiveOutputProfile = null;
+        let updateOutputGroupOutputProfiles = req.body.updateOutputGroupOutputProfiles;
+        updateOutputGroupOutputProfiles = updateOutputGroupOutputProfiles ? JSON.parse(req.body.updateOutputGroupOutputProfiles) : null;
+
+        const LIVE_OUTPUT_GROUP = await NomadSDK.updateLiveOutputProfileGroup(req.body.id, req.body.name,
+            req.body.isEnabled === "true", manifestType, req.body.isDefaultGroup === "true", 
+            UPDATE_OUTPUT_GROUP_TYPE_SELECT, updateOutputGroupArchiveOutputProfile,
+            updateOutputGroupOutputProfiles);
+
+        res.status(200).json(LIVE_OUTPUT_GROUP);
+    }
+    catch (error)
+    {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/deleteLiveOutputGroup', upload.none(), async (req, res) =>
+{
+    try
+    {
+        const LIVE_OUTPUT_GROUP = await NomadSDK.deleteLiveOutputProfileGroup(req.body.id);
+
+        res.status(200).json(LIVE_OUTPUT_GROUP);
+    }
+    catch (error)
+    {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 app.get('/getLiveOperators', async (req, res) =>
 {
     try

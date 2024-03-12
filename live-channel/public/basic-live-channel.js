@@ -29,6 +29,11 @@ const GET_OUTPUT_TYPES_FORM = document.getElementById("getOutputTypesForm");
 const CREATE_OUTPUT_FORM = document.getElementById("createOutputForm");
 const UPDATE_OUTPUT_FORM = document.getElementById("updateOutputForm");
 const DELETE_OUTPUT_FORM = document.getElementById("deleteOutputForm");
+const GET_OUTPUT_GROUPS_FORM = document.getElementById("getOutputGroupsForm");
+const GET_OUTPUT_GROUP_FORM = document.getElementById("getOutputGroupForm");
+const CREATE_OUTPUT_GROUP_FORM = document.getElementById("createOutputGroupForm");
+const UPDATE_OUTPUT_GROUP_FORM = document.getElementById("updateOutputGroupForm");
+const DELETE_OUTPUT_GROUP_FORM = document.getElementById("deleteOutputGroupForm");
 const GET_OPERATORS_FORM = document.getElementById("getOperatorsForm");
 const GET_OPERATOR_FORM = document.getElementById("getOperatorForm");
 const START_BROADCAST_FORM = document.getElementById("startBroadcastForm");
@@ -63,6 +68,12 @@ const CLIP_LIVE_CHANNEL_TAGS_SELECT = document.getElementById("clipLiveChannelTa
 const UPDATE_CHANNEL_SELECT = document.getElementById("updateChannelSelect");
 const CREATE_OUTPUT_TYPE_SELECT = document.getElementById("createOutputTypeSelect");
 const UPDATE_OUTPUT_TYPE_SELECT = document.getElementById("updateOutputTypeSelect");
+const CREATE_OUTPUT_GROUP_TYPE_SELECT = document.getElementById("createOutputGroupTypeSelect");
+const CREATE_OUTPUT_GROUP_ARCHIVE_OUTPUT_PROFILE = document.getElementById("createOutputGroupArchiveOutputProfile");
+const CREATE_OUTPUT_GROUP_OUTPUT_PROFILES = document.getElementById("createOutputGroupOutputProfiles");
+const UPDATE_OUTPUT_GROUP_TYPE_SELECT = document.getElementById("updateOutputGroupTypeSelect");
+const UPDATE_OUTPUT_GROUP_ARCHIVE_OUTPUT_PROFILE = document.getElementById("updateOutputGroupArchiveOutputProfile");
+const UPDATE_OUTPUT_GROUP_OUTPUT_PROFILES = document.getElementById("updateOutputGroupOutputProfiles");
 
 await getContentDefinitions();
 
@@ -126,6 +137,32 @@ async function getLiveChannels()
     }
 }
 
+await getLiveOutputProfiles();
+
+async function getLiveOutputProfiles()
+{
+    const LIVE_OUTPUT_PROFILES = await sendRequest("/getLiveOutputs", "GET");
+
+    if (LIVE_OUTPUT_PROFILES)
+    {
+        for (let liveOutputProfile of LIVE_OUTPUT_PROFILES)
+        {
+            const OPTION = document.createElement("option");
+            OPTION.value = liveOutputProfile.id;
+            OPTION.textContent = liveOutputProfile.name;
+            CREATE_OUTPUT_GROUP_ARCHIVE_OUTPUT_PROFILE.appendChild(OPTION);
+            CREATE_OUTPUT_GROUP_OUTPUT_PROFILES.appendChild(OPTION.cloneNode(true));
+            UPDATE_OUTPUT_GROUP_ARCHIVE_OUTPUT_PROFILE.appendChild(OPTION.cloneNode(true));
+            UPDATE_OUTPUT_GROUP_OUTPUT_PROFILES.appendChild(OPTION.cloneNode(true));
+        }
+
+        $(CREATE_OUTPUT_GROUP_ARCHIVE_OUTPUT_PROFILE).select2();
+        $(CREATE_OUTPUT_GROUP_OUTPUT_PROFILES).select2();
+        $(UPDATE_OUTPUT_GROUP_ARCHIVE_OUTPUT_PROFILE).select2();
+        $(UPDATE_OUTPUT_GROUP_OUTPUT_PROFILES).select2();
+    }
+}
+
 await getTagList();
 
 async function getTagList()
@@ -161,10 +198,14 @@ async function getOutputTypes()
             OPTION.textContent = OUTPUT_TYPES[outputTypeIdx].description;
             CREATE_OUTPUT_TYPE_SELECT.appendChild(OPTION);
             UPDATE_OUTPUT_TYPE_SELECT.appendChild(OPTION.cloneNode(true));
+            CREATE_OUTPUT_GROUP_TYPE_SELECT.appendChild(OPTION.cloneNode(true));
+            UPDATE_OUTPUT_GROUP_TYPE_SELECT.appendChild(OPTION.cloneNode(true));
         }
 
         $(CREATE_OUTPUT_TYPE_SELECT).select2();
         $(UPDATE_OUTPUT_TYPE_SELECT).select2();
+        $(CREATE_OUTPUT_GROUP_TYPE_SELECT).select2();
+        $(UPDATE_OUTPUT_GROUP_TYPE_SELECT).select2();
     }
 }
 
@@ -532,6 +573,49 @@ DELETE_OUTPUT_FORM.addEventListener("submit", async function (event)
     const FORM_DATA = getElements(DELETE_OUTPUT_FORM);
 
     console.log(await sendRequest("/deleteLiveOutput", "POST", FORM_DATA));
+});
+
+GET_OUTPUT_GROUPS_FORM.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    console.log(await sendRequest("/getLiveOutputGroups", "GET"));
+});
+
+GET_OUTPUT_GROUP_FORM.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const FORM_DATA = getElements(GET_OUTPUT_GROUP_FORM);
+
+    console.log(await sendRequest("/getLiveOutputGroup", "POST", FORM_DATA));
+});
+
+CREATE_OUTPUT_GROUP_FORM.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const FORM_DATA = getElements(CREATE_OUTPUT_GROUP_FORM);
+
+    console.log(await sendRequest("/createLiveOutputGroup", "POST", FORM_DATA));
+});
+
+UPDATE_OUTPUT_GROUP_FORM.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const FORM_DATA = getElements(UPDATE_OUTPUT_GROUP_FORM);
+
+    console.log(await sendRequest("/updateLiveOutputGroup", "POST", FORM_DATA));
+});
+
+DELETE_OUTPUT_GROUP_FORM.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const FORM_DATA = getElements(DELETE_OUTPUT_GROUP_FORM);
+
+    console.log(await sendRequest("/deleteLiveOutputGroup", "POST", FORM_DATA));
 });
 
 GET_OPERATORS_FORM.addEventListener("submit", async function (event)
