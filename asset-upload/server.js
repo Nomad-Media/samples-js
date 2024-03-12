@@ -46,7 +46,7 @@ app.post('/uploadRelatedAsset', upload.none(), async (req, res) => {
 	{
 		await NomadSDK.uploadRelatedAsset(req.body.existingAssetId, req.body.relatedAssetId, 
 			req.body.newRelatedAssetMetadataType, req.body.uploadOverwriteOption, req.body.file,
-			req.file, req.body.parentId, req.body.languageId);
+			req.body.parentId, req.body.languageId);
 
 		res.status(200).json();
   	} 
