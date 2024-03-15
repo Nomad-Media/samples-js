@@ -1,4 +1,5 @@
 const COLLECTION_CONTENT_DEFINITION_ID = "20352932-05d2-4a7a-8821-06fcf4438ced";
+const TAG_CONTENT_DEFINITION_ID = "c806783c-f127-48ae-90c9-32175f4e1fff";
 
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -54,6 +55,21 @@ app.get('/get-related-content-list', upload.none(), async (req, res) =>
     }
 });
 
+app.get('/get-tags-list', upload.none(), async (req, res) =>
+{
+    try
+    {
+        const TAGS = await getGroups(TAG_CONTENT_DEFINITION_ID);
+
+        res.status(200).json(TAGS);
+    }
+    catch (error)
+    {
+        console.error(error);
+        res.status(500).send(error);
+    }
+});
+
 app.post('/create-media-builder', upload.none(), async (req, res) =>
 {
     try
@@ -66,6 +82,13 @@ app.post('/create-media-builder', upload.none(), async (req, res) =>
         }
 
         const RELATED_CONTENT_IDS = req.body.relatedContentIds !== "" ? req.body.relatedContentIds.split(",") : null;
+
+        let tags = null;
+        if (req.body.createMediaBuilderTagsSelect)
+        {
+            const PARSED_TAGS = JSON.parse(req.body.createMediaBuilderTagsSelect);
+            tags = Array.isArray(PARSED_TAGS) ? PARSED_TAGS : [PARSED_TAGS];
+        }
 
         const PROPERTIES = {};
 
@@ -92,7 +115,7 @@ app.post('/create-media-builder', upload.none(), async (req, res) =>
 
         const MEDIA_BUILDER = await NomadSDK.createMediaBuilder(req.body.name, 
             req.body.destinationFolderId, collections, RELATED_CONTENT_IDS,
-            PROPERTIES);
+            tags, PROPERTIES);
 
         res.status(200).json(MEDIA_BUILDER);
     }
@@ -375,6 +398,13 @@ app.post('/update-media-builder', upload.none(), async (req, res) =>
 
         const RELATED_CONTENT_IDS = req.body.relatedContentIds !== "" ? req.body.relatedContentIds.split(",") : null;
 
+        let tags = null;
+        if (req.body.updateMediaBuilderTagsSelect)
+        {
+            const PARSED_TAGS = JSON.parse(req.body.updateMediaBuilderTagsSelect);
+            tags = Array.isArray(PARSED_TAGS) ? PARSED_TAGS : [PARSED_TAGS];
+        }
+
         const PROPERTIES = {};
 
         if (req.body.key)
@@ -400,7 +430,7 @@ app.post('/update-media-builder', upload.none(), async (req, res) =>
 
         const MEDIA_BUILDER = await NomadSDK.updateMediaBuilder(req.body.id, 
             req.body.name, req.body.destinationFolderId, collections, RELATED_CONTENT_IDS, 
-            PROPERTIES);
+            tags, PROPERTIES);
 
         res.status(200).json(MEDIA_BUILDER);
     }

@@ -14,9 +14,11 @@ const RENDER_MEDIA_BUILDER_FORM = document.getElementById('renderMediaBuilderFor
 const UPDATE_MEDIA_BUILDER_FORM = document.getElementById('updateMediaBuilderForm');
 
 const CREATE_MEDIA_BUILDER_COLLECTIONS_SELECT = document.getElementById('createMediaBuilderCollectionsSelect');
+const CREATE_MEDIA_BUILDER_TAGS_SELECT = document.getElementById('createMediaBuilderTagsSelect');
 const SOURCE_TYPE_SELECT = document.getElementById('sourceTypeSelect');
 const DUPLICATE_MEDIA_BUILDER_COLLECTIONS_SELECT = document.getElementById('duplicateMediaBuilderCollectionsSelect');
 const UPDATE_MEDIA_BUILDER_COLLECTIONS_SELECT = document.getElementById('updateMediaBuilderCollectionsSelect');
+const UPDATE_MEDIA_BUILDER_TAGS_SELECT = document.getElementById('updateMediaBuilderTagsSelect');
 
 const CREATE_MEDIA_BUILDER_PROPERTIES_DIV = document.getElementById('createMediaBuilderPropertiesDiv');
 const ASSET_DIV = document.getElementById('assetDiv');
@@ -49,6 +51,25 @@ async function getCollectionsList()
     $(CREATE_MEDIA_BUILDER_COLLECTIONS_SELECT).select2();
     $(DUPLICATE_MEDIA_BUILDER_COLLECTIONS_SELECT).select2();
     $(UPDATE_MEDIA_BUILDER_COLLECTIONS_SELECT).select2();
+}
+
+await getTagsList();
+
+async function getTagsList()
+{
+    const TAGS_LIST = await sendRequest('/get-tags-list', 'GET');
+
+    for (let tagIdx = 0; tagIdx < TAGS_LIST.length; ++tagIdx)
+    {
+        const OPTION = document.createElement('option');
+        OPTION.value = TAGS_LIST[tagIdx].id;
+        OPTION.text = TAGS_LIST[tagIdx].title;
+        CREATE_MEDIA_BUILDER_TAGS_SELECT.appendChild(OPTION);
+        UPDATE_MEDIA_BUILDER_TAGS_SELECT.appendChild(OPTION.cloneNode(true));
+    }
+
+    $(CREATE_MEDIA_BUILDER_TAGS_SELECT).select2();
+    $(UPDATE_MEDIA_BUILDER_TAGS_SELECT).select2();
 }
 
 CREATE_MEDIA_BUILDER_ADD_PROPERTY_BUTTON.addEventListener('click', async function (event)
