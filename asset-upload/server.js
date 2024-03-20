@@ -28,11 +28,11 @@ app.post('/uploadAsset', upload.none(), async (req, res) => {
 	{
 		console.log(req.body);
 
-		await NomadSDK.uploadAsset(req.body.name, req.body.existingAssetId, req.body.relatedAssetId, 
+		const ID = await NomadSDK.uploadAsset(req.body.name, req.body.existingAssetId, req.body.relatedAssetId, 
 			req.body.relatedContentId, req.body.uploadOverwriteOption, req.body.file, req.body.parentId,
 			req.body.languageId);
 
-		res.status(200).json();
+		res.status(200).json(ID);
   	} 
 	catch (error) 
 	{
@@ -44,11 +44,11 @@ app.post('/uploadAsset', upload.none(), async (req, res) => {
 app.post('/uploadRelatedAsset', upload.none(), async (req, res) => {
 	try 
 	{
-		await NomadSDK.uploadRelatedAsset(req.body.existingAssetId, req.body.relatedAssetId, 
+		const ID = await NomadSDK.uploadRelatedAsset(req.body.existingAssetId, req.body.relatedAssetId, 
 			req.body.newRelatedAssetMetadataType, req.body.uploadOverwriteOption, req.body.file,
 			req.body.parentId, req.body.languageId);
 
-		res.status(200).json();
+		res.status(200).json(ID);
   	} 
 	catch (error) 
 	{
