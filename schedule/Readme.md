@@ -274,6 +274,16 @@ To update a playlist, enter the id of the playlist. Then fill the fields of your
 > 
 > For more information about the API call used got to [Update Playlist](doc:update-playlist)
 
+## Update Playlist Video
+
+To update a playlist video, enter the id of the playlist the video is in and the id of the video. Then fill the fields of your choosing with the information you want to update.
+
+![](images/update-playlist-video.png)
+
+> 📘 Note
+>
+> For more information about the API call used got to [Update Playlist Video](doc:update-playlist-video)
+
 ## Update Schedule Item Asset
 
 To update a schedule item asset, enter the id of the schedule the item is located in and the id of the item. Then fill the fields with the information you want to update.

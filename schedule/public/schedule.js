@@ -23,6 +23,7 @@ const STOP_SCHEDULE_FORM = document.getElementById("stopScheduleForm");
 const UPDATE_INTELLIGENT_PLAYLIST_FORM = document.getElementById("updateIntelligentPlaylistForm");
 const UPDATE_INTELLIGENT_SCHEDULE_FORM = document.getElementById("updateIntelligentScheduleForm");
 const UPDATE_PLAYLIST_FORM = document.getElementById("updatePlaylistForm");
+const UPDATE_PLAYLIST_VIDEO_FORM = document.getElementById("updatePlaylistVideoForm");
 const UPDATE_SCHEDULE_ITEM_ASSET_FORM = document.getElementById("updateScheduleItemAssetForm");
 const UPDATE_SCHEDULE_ITEM_LIVE_CHANNEL_FORM = document.getElementById("updateScheduleItemLiveChannelForm");
 const UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_FORM = document.getElementById("updateScheduleItemSearchFilterForm");
@@ -605,6 +606,15 @@ UPDATE_PLAYLIST_FORM.addEventListener("submit", async function (event)
     const FORM_DATA = getElements(UPDATE_PLAYLIST_FORM);
 
     console.log(await sendRequest("/update-playlist", "POST", FORM_DATA));
+});
+
+UPDATE_PLAYLIST_VIDEO_FORM.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const FORM_DATA = getElements(UPDATE_PLAYLIST_VIDEO_FORM);
+
+    console.log(await sendRequest("/update-playlist-video", "POST", FORM_DATA));
 });
 
 UPDATE_SCHEDULE_ITEM_ASSET_FORM.addEventListener("submit", async function (event)

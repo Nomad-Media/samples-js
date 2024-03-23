@@ -709,6 +709,22 @@ app.post('/update-playlist', upload.none(), async (req, res) =>
     }
 });
 
+app.post('/update-playlist-video', upload.none(), async (req, res) =>
+{
+    try
+    {
+        const VIDEO = await NomadSDK.updatePlaylistVideo(req.body.playlistId, 
+            req.body.itemId, {id: req.body.assetId});
+
+        res.status(200).json(VIDEO);
+    }
+    catch (error)
+    {
+        console.error(error);
+        res.status(500).send(error);
+    }
+});
+
 app.post('/update-schedule-item-asset', upload.none(), async (req, res) =>
 {
     try
