@@ -313,6 +313,16 @@ To update an annotation, enter the id of the asset you want to add the annotatio
 > 
 > For more information about the API call used got to [Update Annotation](doc:update-annotation)
 
+## Update Asset
+
+To update an asset, enter the id of the asset you want to update. Then enter the display name, display date, available start date, available end date, and/or custom properties you wish to update.
+
+![](images/update-asset.png)
+
+> 📘 Note
+>
+> For more information about the API call used got to [Update Asset](doc:update-asset)
+
 ## Update Asset Ad Break
 
 To update the ad break of an asset, enter the id of the asset, the id of the ad break, and the time code of the ad break if you want to update it. Then optionally enter the tags and labels you want to update.

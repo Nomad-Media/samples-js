@@ -1006,8 +1006,10 @@ app.patch('/update-asset', upload.none(), async (req, res) => {
         const PROPERTIES = {};
         if (req.body.propertyKey)
         {
-            for (let propertyIdx = 0; propertyIdx < req.body.propertyKey.length; ++propertyIdx) {
-                PROPERTIES[req.body.propertyKey[propertyIdx]] = req.body.propertyValue[propertyIdx];
+            const PROPERTY_KEY = Array.isArray(req.body.propertyKey) ? req.body.propertyKey : [req.body.propertyKey];
+            const PROPERTY_VALUE = Array.isArray(req.body.propertyValue) ? req.body.propertyValue : [req.body.propertyValue];
+            for (let propertyIdx = 0; propertyIdx < PROPERTY_KEY.length; ++propertyIdx) {
+                PROPERTIES[PROPERTY_KEY[propertyIdx]] = PROPERTY_VALUE[propertyIdx];
             }
         }
 
