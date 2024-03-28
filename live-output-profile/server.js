@@ -75,7 +75,7 @@ app.post('/create-live-output-profile', upload.none(), async (req, res) => {
         VIDEO_CODEC = VIDEO_CODEC.id === "" ? null : VIDEO_CODEC;
         
         const RESPONSE = await NomadSDK.createLiveOutputProfile(req.body.name,
-            TYPE, req.body.isActive === "true", req.body.audioBitrate, req.body.outputStreamKey,
+            TYPE, req.body.enabled === "true", req.body.audioBitrate, req.body.outputStreamKey,
             req.body.outputUrl, req.body.secondaryOutputKey, req.body.secondaryOutputUrl, 
             req.body.videoBitrate, VIDEO_BITRATE_MODE, VIDEO_CODEC, req.body.videoHeight, 
             req.body.videoWidth);
@@ -98,10 +98,10 @@ app.post('/update-live-output-profile', upload.none(), async (req, res) => {
         VIDEO_BITRATE_MODE = VIDEO_BITRATE_MODE.id === "" ? null : VIDEO_BITRATE_MODE;
 
         let VIDEO_CODEC = JSON.parse(req.body.videoCodec);
-        VIDEO_CODEC = VIDEO_CODAC.id === "" ? null : VIDEO_CODEC;
+        VIDEO_CODEC = VIDEO_CODEC.id === "" ? null : VIDEO_CODEC;
         
         const RESPONSE = await NomadSDK.updateLiveOutputProfile(req.body.id, req.body.name,
-            TYPE, req.body.isActive === "true", req.body.audioBitrate, req.body.outputStreamKey,
+            TYPE, req.body.enabled === "true", req.body.audioBitrate, req.body.outputStreamKey,
             req.body.outputUrl, req.body.secondaryOutputKey, req.body.secondaryOutputUrl, 
             req.body.videoBitrate, VIDEO_BITRATE_MODE, VIDEO_CODEC, req.body.videoHeight, 
             req.body.videoWidth);
