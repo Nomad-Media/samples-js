@@ -32,7 +32,7 @@ To get all live output profiles, click the button under the "Get Live Output Pro
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Get Live Output Profiles](https://developer.nomad-cms.com/docs/create-live-output-profile)
+> For more information about the API call used go to [Get Live Output Profiles](https://developer.nomad-cms.com/docs/get-live-output-profiles)
 
 ## Get Live Output Profile
 

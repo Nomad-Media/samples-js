@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Live Output Profile Group</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fav Icon -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Sweet Alert 2 -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui@5.0.4/material-ui.min.css">
+
+    <!-- Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+     
+    <!-- Styles -->
+    <link rel="stylesheet" href="live-output-profile-group.css" />
+
+    <!-- JS -->
+    <script type="module" src="live-output-profile-group.js" defer></script>
+</head>
+
+<body>
+    <h1>Live Output Profile Group</h1>
+
+    <h3>Get Live Output Profile Groups</h3>
+    <form id="getLiveOutputProfileGroupsForm">
+        <button type="submit">Get Live Output Profile Groups</button>
+    </form>
+
+    <h3>Get Live Output Profile Group</h3>
+    <form id="getLiveOutputProfileGroupForm">
+        <label for="id">Live Output Profile Group ID</label>
+        <input type="text" id="id" required>
+
+        <br><br>
+        <button type="submit">Get Live Output Profile Group</button>
+    </form>
+
+    <h3>Create Live Output Profile Group</h3>
+    <form id="createLiveOutputProfileGroupForm">
+        <label for="name">Name</label>
+        <input type="text" id="name" required>
+
+        <label for="isEnabled">Is Enabled</label>
+        <select id="isEnabled">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select>
+
+        <label for="manifestType">Manifest Type</label>
+        <select id="manifestType">
+            <option value="HLS">HLS</option>
+            <option value="DASH">DASH</option>
+            <option value="BOTH">BOTH</option>
+        </select>
+
+        <label for="isDefaultGroup">Is Default Group</label>
+        <select id="isDefaultGroup">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select>
+
+        <label for="createLiveOutputGroupOutputTypeSelect">Output Type</label>
+        <select id="createLiveOutputGroupOutputTypeSelect">
+            <option value="">Select Output Type</option>
+        </select>
+            
+        <label for="createLiveOutputGroupArchiveLiveOutputProfileSelect">Archive Live Output Profile</label>
+        <select id="createLiveOutputGroupArchiveLiveOutputProfileSelect">
+            <option value="">Select Archive Live Output Profile</option>
+        </select>
+
+        <label for="createLiveOutputGroupLiveOutputProfilesSelect">Live Output Profiles</label>
+        <select id="createLiveOutputGroupLiveOutputProfilesSelect" multiple required></select>
+
+        <br><br>
+        <button type="submit">Create Live Output Profile Group</button>
+    </form>
+
+    <h3>Update Live Output Profile Group</h3>
+    <form id="updateLiveOutputProfileGroupForm">
+        <label for="id">Live Output Profile Group ID</label>
+        <input type="text" id="id" required>
+
+        <label for="name">Name</label>
+        <input type="text" id="name">
+
+        <label for="isEnabled">Is Enabled</label>
+        <select id="isEnabled">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select>
+
+        <label for="manifestType">Manifest Type</label>
+        <select id="manifestType">
+            <option value="HLS">HLS</option>
+            <option value="DASH">DASH</option>
+            <option value="BOTH">BOTH</option>
+        </select>
+
+        <label for="isDefaultGroup">Is Default Group</label>
+        <select id="isDefaultGroup">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select>
+
+        <label for="updateLiveOutputGroupOutputTypeSelect">Output Type</label>
+        <select id="updateLiveOutputGroupOutputTypeSelect">
+            <option value="">Select Output Type</option>
+        </select>
+
+        <label for="updateLiveOutputGroupArchiveLiveOutputProfileSelect">Archive Live Output Profile</label>
+        <select id="updateLiveOutputGroupArchiveLiveOutputProfileSelect">
+            <option value="">Select Archive Live Output Profile</option>
+        </select>
+
+        <label for="updateLiveOutputGroupLiveOutputProfilesSelect">Live Output Profiles</label>
+        <select id="updateLiveOutputGroupLiveOutputProfilesSelect" multiple></select>
+
+        <br><br>
+        <button type= "submit">Update Live Output Profile Group</button>
+    </form>
+
+    <h3>Delete Live Output Profile Group</h3>
+    <form id="deleteLiveOutputProfileGroupForm">
+        <label for="id">Live Output Profile Group ID</label>
+        <input type="text" id="id" required>
+
+        <br><br>
+        <button type="submit">Delete Live Output Profile Group</button>
+    </form>
+</body>
+
+</html>
