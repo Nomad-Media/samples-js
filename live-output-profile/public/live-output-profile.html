@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Live Output Profile</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fav Icon -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Sweet Alert 2 -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui@5.0.4/material-ui.min.css">
+
+    <!-- Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+     
+    <!-- Styles -->
+    <link rel="stylesheet" href="live-output-profile.css" />
+
+    <!-- JS -->
+    <script type="module" src="live-output-profile.js" defer></script>
+</head>
+
+<body>
+    <h1>Live Output Profile</h1>
+
+    <h3>Get Live Output Profiles</h3>
+    <form id="getLiveOutputProfilesForm">
+        <button type="submit">Get Live Output Profiles</button>
+    </form>
+
+    <h3>Get Live Output Profile</h3>
+    <form id="getLiveOutputProfileForm">
+        <label for="id">Live Output Profile ID</label>
+        <input type="text" id="id" required>
+
+        <br><br>
+        <button type="submit">Get Live Output Profile</button>
+    </form>
+
+    <h3>Get Live Output Types</h3>
+    <form id="getLiveOutputTypesForm">
+        <button type="submit">Get Live Output Types</button>
+    </form>
+
+    <h3>Create Live Output Profile</h3>
+    <form id="createLiveOutputProfileForm">
+        <label for="name">Name</label>
+        <input type="text" id="name" required>
+        
+        <label for="createLiveOutputTypeSelect">Output Type</label>
+        <select id="createLiveOutputTypeSelect">
+            <option value="">Select</option>
+        </select>
+
+        <label for="isActive">Is Active</label>
+        <select id="isActive">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select>
+
+        <label for="audioBitrate">Audio Bitrate</label>
+        <input type="text" id="audioBitrate">
+        
+        <label for="outputStreamKey">Output Stream Key</label>
+        <input type="text" id="outputStreamKey">
+
+        <label for="outputUrl">Output URL</label>
+        <input type="text" id="outputUrl">
+
+        <label for="secondaryOutputKey">Secondary Output Key</label>
+        <input type="text" id="secondaryOutputKey">
+
+        <label for="secondaryOutputUrl">Secondary Output URL</label>
+        <input type="text" id="secondaryOutputUrl">
+
+        <label for="videoBitrate">Video Bitrate</label>
+        <input type="text" id="videoBitrate">
+
+        <label for="videoBitrateMode">Video Bitrate Mode</label>
+        <select id="videoBitrateMode">
+            <option value="">Select</option>
+            <option value="CBR">CBR</option>
+            <option value="VBR">VBR</option>
+        </select>
+
+        <label for="videoCodec">Video Codec</label>
+        <select id="videoCodec">
+            <option value="">Select</option>
+            <option value="H264">H264</option>
+            <option value="H265">H265</option>
+        </select>
+
+        <label for="videoFramesPerSecond">Video Frames Per Second</label>
+        <input type="text" id="videoFramesPerSecond">
+
+        <label for="videoHeight">Video Height</label>
+        <input type="text" id="videoHeight">
+
+        <label for="videoWidth">Video Width</label>
+        <input type="text" id="videoWidth">
+
+        <br><br>
+        <button type="submit">Create Live Output Profile</button>
+    </form>
+
+    <h3>Update Live Output Profile</h3>
+    <form id="updateLiveOutputProfileForm">
+        <label for="id">Live Output Profile ID</label>
+        <input type="text" id="id" required>
+
+        <label for="name">Name</label>
+        <input type="text" id="name" required>
+        
+        <label for="updateLiveOutputTypeSelect">Output Type</label>
+        <select id="updateLiveOutputTypeSelect">
+            <option value="">Select</option>
+        </select>
+
+        <label for="isActive">Is Active</label>
+        <select id="isActive">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select>
+
+        <label for="audioBitrate">Audio Bitrate</label>
+        <input type="text" id="audioBitrate">
+        
+        <label for="outputStreamKey">Output Stream Key</label>
+        <input type="text" id="outputStreamKey">
+
+        <label for="outputUrl">Output URL</label>
+        <input type="text" id="outputUrl">
+
+        <label for="secondaryOutputKey">Secondary Output Key</label>
+        <input type="text" id="secondaryOutputKey">
+
+        <label for="secondaryOutputUrl">Secondary Output URL</label>
+        <input type="text" id="secondaryOutputUrl">
+
+        <label for="videoBitrate">Video Bitrate</label>
+        <input type="text" id="videoBitrate">
+
+        <label for="videoBitrateMode">Video Bitrate Mode</label>
+        <select id="videoBitrateMode">
+            <option value="">Select</option>
+            <option value="CBR">CBR</option>
+            <option value="VBR">VBR</option>
+        </select>
+
+        <label for="videoCodec">Video Codec</label>
+        <select id="videoCodec">
+            <option value="">Select</option>
+            <option value="H264">H264</option>
+            <option value="H265">H265</option>
+        </select>
+
+        <label for="videoFramesPerSecond">Video Frames Per Second</label>
+        <input type="text" id="videoFramesPerSecond">
+
+        <label for="videoHeight">Video Height</label>
+        <input type="text" id="videoHeight">
+
+        <label for="videoWidth">Video Width</label>
+        <input type="text" id="videoWidth">
+
+        <br><br>
+        <button type= "submit">Update Live Output Profile</button>
+    </form>
+
+    <h3>Delete Live Output Profile</h3>
+    <form id="deleteLiveOutputProfileForm">
+        <label for="id">Live Output Profile ID</label>
+        <input type="text" id="id" required>
+
+        <br><br>
+        <button type="submit">Delete Live Output Profile</button>
+    </form>, 
+</body>
+
+</html>
