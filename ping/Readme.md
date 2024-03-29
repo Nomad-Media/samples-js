@@ -8,7 +8,7 @@
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -32,4 +32,4 @@ To ping a user, click ping.
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Pings the server.](ref:ping-3)
+> For more information about the API call used got to [Ping User](https://developer.nomad-cms.com/docs/ping-user)

@@ -8,7 +8,7 @@
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -32,7 +32,7 @@ To get a content, enter the content and content definition id and if it is a rev
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Gets a content.](ref:getcontent-1)
+> For more information about the API call used go to [Get Content](https://developer.nomad-cms.com/docs/get-content)
 
 ## Create Content
 
@@ -42,7 +42,7 @@ To create content, enter the id of the content definition you want to add the co
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Creates a content.](ref:createcontent)
+> For more information about the API call used go to [Create Content](https://developer.nomad-cms.com/docs/create-content)
 
 ## Update Content
 
@@ -52,7 +52,7 @@ To update content, enter the id of the content definition you want to update the
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Updates a content.](ref:updatecontent)
+> For more information about the API call used go to [Update Content](https://developer.nomad-cms.com/docs/update-content)
 
 ## Get Content User Tracking
 
@@ -62,7 +62,7 @@ To get user tracking, enter the id and content definition id of the content you 
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Gets the content user track.](ref:getcontentusertrack)
+> For more information about the API call used go to [Gets Content User Track](https://developer.nomad-cms.com/docs/get-content-user-track)
 
 ## Delete Content
 
@@ -72,4 +72,4 @@ To delete content, enter the id of the content definition the content is in and 
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Deletes a content.](ref:deletecontent)
+> For more information about the API call used go to [Delete Content](https://developer.nomad-cms.com/docs/delete-content)

@@ -8,7 +8,7 @@
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -30,16 +30,18 @@ For the inputs, you first need to enter your email into "Email" and click the "R
 
 ![](images/register-user.png)
 ![](images/register-email.png)
+
 > 📘 Note
 > 
-> For more information about the API call used go to [Registers a user.](ref:register-1)
+> For more information about the API call used go to [Register User](https://developer.nomad-cms.com/docs/register)
 
 Type the code into the "Enter Code" and click "Submit". If done correctly, you should get a message in the console saying "Account now verified".
 
 ![](images/enter-code.png)
+
 > 📘 Note
 > 
-> For more information about the API call used go to [Verifies a user.](ref:verify-1)
+> For more information about the API call used go to [Verifie User](https://developer.nomad-cms.com/docs/verify)
 
 ## Resend Code
 
@@ -47,6 +49,7 @@ If you didn't get an email with the code, push the resend code button. You will 
 
 ![](images/resend-code.png)
 ![](images/resend-email.png)
+
 > 📘 Note
 > 
-> For more information about the API call used go to [Resends a code.](ref:resendcode)
+> For more information about the API call used go to [Resend Code](https://developer.nomad-cms.com/docs/resend-code)

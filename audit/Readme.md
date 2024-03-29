@@ -8,7 +8,7 @@
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -32,4 +32,4 @@ To get an audit, enter the id of the content you want the audit of.
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Gets the audit.](ref:getaudit)
+> For more information about the API call used go to [Get Audit](https://developer.nomad-cms.com/docs/get-audit)

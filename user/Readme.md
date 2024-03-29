@@ -8,7 +8,7 @@
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -22,7 +22,7 @@ Then open a webpage and go to localhost:4200.
 
 ## Nomad SDK Files
 
-In the nomad-sdk/js directory there are two versions of the Nomad SDK. There is the sdk.min.js file which is a minified version of the sdk, and the sdk-debug.js file which is a concatenated version of the sdk. The sdk-debug file will show you all the parameter documentation and readable code.
+In the nomad-sdk/js directory there are two versions of the Nomad SDK. There is the sdk.min.js file which i Minified Version Of the sdk, and the sdk-debug.js file which i Concatenated Version Of the sdk. The sdk-debug file will show you all the parameter documentation and readable code.
 
 ## Delete User
 
@@ -32,7 +32,7 @@ To delete a user, enter the id of the user you want to delete. If the user id is
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Deletes a user.](ref:deleteuser)
+> For more information about the API call used go to [Delete User](https://developer.nomad-cms.com/docs/delete-user)
 
 ## Delete User Data
 
@@ -42,7 +42,7 @@ To delete a user's data, enter the id of the user you want to delete the data of
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Deletes a user's data.](ref:deleteuserdata)
+> For more information about the API call used go to [Delete User Data](https://developer.nomad-cms.com/docs/delete-user-data)
 
 ## Delete User Content Attribute Data
 
@@ -52,7 +52,7 @@ To delete a user's content attribute data, enter the id of the user you want to 
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Deletes a user's content attribute data.](ref:deleteusercontentattributedata)
+> For more information about the API call used go to [Delete User Content Attribute Data](https://developer.nomad-cms.com/docs/delete-user-content-attribute-data)
 
 ## Delete User Content Group Data
 
@@ -62,7 +62,7 @@ To delete a user's content group data, enter the id of the user you want to dele
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Deletes a user's content group data.](ref:deleteusercontentgroupdata)
+> For more information about the API call used go to [Delete User Content Group Data](https://developer.nomad-cms.com/docs/delete-user-content-group-data)
 
 ## Delete User Dislikes Data
 
@@ -72,7 +72,7 @@ To delete a user's dislikes data, enter the id of the user you want to delete th
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Deletes a user's data.](ref:deleteuserdata)
+> For more information about the API call used go to [Delete User Dislike Data](https://developer.nomad-cms.com/docs/delete-user-dislike-data)
 
 ## Delete User Likes Data
 
@@ -82,7 +82,7 @@ To delete a user's likes data, enter the id of the user you want to delete the l
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Deletes a user's likes data](ref:delete_admin-user-like-userid)
+> For more information about the API call used go to [Delete User Likes Data](https://developer.nomad-cms.com/docs/delete-user-likes-data)
 
 ## Delete User Favorites Data
 
@@ -92,7 +92,7 @@ To delete a user's favorites data, enter the id of the user you want to delete t
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Deletes a user's favorites data](ref:delete_admin-user-favorite-userid)
+> For more information about the API call used go to [Delete User Favorites Data](https://developer.nomad-cms.com/docs/delete-user-favorites-data)
 
 ## Delete User Saved Search Data
 
@@ -102,7 +102,7 @@ To delete a user's saved search data, enter the id of the user you want to delet
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Deletes a user's saved search data.](ref:deleteusersavedsearchdata)
+> For more information about the API call used go to [Delete User Saved Search Data](https://developer.nomad-cms.com/docs/delete-user-saved-search-data)
 
 ## Delete User Session Data
 
@@ -112,7 +112,7 @@ To delete a user's session data, enter the id of the user you want to delete the
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Deletes a user's session data.](ref:deleteusersessiondata)
+> For more information about the API call used go to [Delete User Session Data](https://developer.nomad-cms.com/docs/delete-user-session-data)
 
 ## Delete User Content Security Data
 
@@ -122,7 +122,7 @@ To delete a user's content security data, enter the information in the form belo
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Deletes a user's content security data.](ref:deleteusercontentsecuritydata)
+> For more information about the API call used go to [Delete User Content Security Data](https://developer.nomad-cms.com/docs/delete-user-content-security-data)
 
 ## Delete User Video Tracking Data
 
@@ -132,4 +132,4 @@ To delete a user's video tracking data, enter the information in the form below.
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Deletes a user's video tracking data.](ref:deleteuservideotrackingdata)
+> For more information about the API call used go to [Delete User Video Tracking Data](https://developer.nomad-cms.com/docs/delete-user-video-tracking-data)

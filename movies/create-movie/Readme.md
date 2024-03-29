@@ -12,7 +12,7 @@ Enter the data for the fields you want to fill. Leave the field blank for fields
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Creates a content.](ref:createcontent)
+> For more information about the API calls used go to [Create Content](https://developer.nomad-cms.com/docs/create-content)
 
 ## Updating existing movie
 
@@ -22,7 +22,7 @@ You can update a movie by selecting update and entering the id of the movie you 
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Updates a content.](ref:updatecontent)
+> For more information about the API calls used go to [Update Content](https://developer.nomad-cms.com/docs/update-content)
 
 ## Search Movies
 
@@ -40,7 +40,7 @@ When you click on add sort field, you will see new text fields asking for the fi
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Search.](ref:search-3)
+> For more information about the API calls used go to [Search](https://developer.nomad-cms.com/docs/search-api)
 
 ## Get Movie By Id
 
@@ -50,7 +50,7 @@ If you want to get a movie by id, add a filter under Filters in Search Movies. T
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Gets a content.](ref:getcontent-1)
+> For more information about the API call used got to [Get Content](https://developer.nomad-cms.com/docs/get-content)
 
 ## Delete Movie
 
@@ -60,4 +60,4 @@ To delete a movie, enter the movie id of the movie you want to delete under Movi
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Deletes a content.](ref:deletecontent)
+> For more information about the API call used got to [Delete Content](https://developer.nomad-cms.com/docs/delete-content)

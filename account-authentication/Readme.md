@@ -8,7 +8,7 @@
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -32,7 +32,7 @@ To login, click the login button. (Note the NomadSDK automatically logs you in).
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Login](ref:login-1)
+> For more information about the API call used go to [Login](https://developer.nomad-cms.com/docs/login)
 
 ## Refresh Token
 
@@ -42,7 +42,7 @@ To refresh the authentication token, click the refresh token button. (Note the N
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Refresh Token](ref:refresh)
+> For more information about the API call used go to [Refresh Token](https://developer.nomad-cms.com/docs/refresh-token)
 
 ## Forgot Password
 
@@ -53,7 +53,7 @@ If you forgot your password, enter your email under "Enter Username" under "Forg
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Forgot Password](ref:forgotpassword)
+> For more information about the API call used go to [Forgot Password](https://developer.nomad-cms.com/docs/forgot-password)
 
 ## Reset Password
 
@@ -63,7 +63,7 @@ Enter your code into "Enter Code" under "Reset Password" and your password will 
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Reset Password](ref:resetpassword)
+> For more information about the API call used go to [Reset Password](https://developer.nomad-cms.com/docs/reset-password)
 
 ## Logout
 
@@ -73,4 +73,4 @@ To logout, click logout.
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Logout](ref:logout-1)
+> For more information about the API call used go to [Logout](https://developer.nomad-cms.com/docs/logout)

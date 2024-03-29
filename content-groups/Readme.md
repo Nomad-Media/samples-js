@@ -8,7 +8,7 @@
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -22,7 +22,7 @@ Then open a webpage and go to localhost:4200.
 
 ## Nomad SDK Files
 
-In the nomad-sdk/js directory there are two versions of the Nomad SDK. There is the sdk.min.js file which is a minified version of the sdk, and the sdk-debug.js file which is a concatenated version of the sdk. The sdk-debug file will show you all the parameter documentation and readable code.
+In the nomad-sdk/js directory there are two version Of The Nomad SDK There is the sdk.min.js file which is a minified version of the sdk, and the sdk-debug.js file which is a concatenated version of the sdk. The sdk-debug file will show you all the parameter documentation and readable code.
 
 ## Get Content Group
 
@@ -32,7 +32,7 @@ To get a specific content group,  enter the content group id of the content grou
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Gets a content group.](ref:getcontentgroup)
+> For more information about the API call used go to [Get Content Group](https://developer.nomad-cms.com/docs/get-content-group)
 
 ## Get Content Groups
 
@@ -42,7 +42,7 @@ To get all of the current asset groups, all you need to do is click the submit b
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Gets content groups.](ref:getcontentgroups)
+> For more information about the API call used go to [Get Content Groups](https://developer.nomad-cms.com/docs/get-content-groups)
 
 ## Create Content Group
 
@@ -52,7 +52,7 @@ To create a content group, enter a name. If you don't enter a name, the name wil
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Creates a content group.](ref:createcontentgroup)
+> For more information about the API call used go to [Create Content Group](https://developer.nomad-cms.com/docs/create-content-group)
 
 ## Add Content To Content Group
 
@@ -62,7 +62,7 @@ To add content to your content group, enter the id of the content group you want
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Adds content to a content group.](ref:addcontenttocontentgroup)
+> For more information about the API call used go to [Add Content to Content Group](https://developer.nomad-cms.com/docs/add-content-to-content-group)
 
 ## Remove Content From Content Group
 
@@ -72,7 +72,7 @@ To remove content from your content group, enter the id of the content group you
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Removes contents from content group.](ref:removecontentsfromcontentgroups)
+> For more information about the API call used go to [Remove Content From Content Group](https://developer.nomad-cms.com/docs/remove-content-from-content-group)
 
 ## Rename Content Group
 
@@ -82,7 +82,7 @@ To rename your asset group, enter the id of the asset group you want to rename t
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Renames a content group.](ref:renamecontentgroup)
+> For more information about the API call used go to [Rename Content Group](https://developer.nomad-cms.com/docs/rename-content-group)
 
 ## Share Content Group with Users
 
@@ -92,7 +92,7 @@ To share a content group with user(s), enter the id of the content group you wan
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Shares a content group.](ref:sharecontentgroup)
+> For more information about the API call used go to [Share Content Group](https://developer.nomad-cms.com/docs/share-content-group)
 
 ## Stop Sharing Content Group with Users
 
@@ -102,7 +102,7 @@ To stop sharing a content group with user(s), enter the id of the content group 
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Stops sharing a content group.](ref:stopsharingcontentgroup)
+> For more information about the API call used go to [Stop Sharing Content Group](https://developer.nomad-cms.com/docs/stop-sharing-content-group)
 
 ## Get Portal Groups
 
@@ -112,7 +112,7 @@ To get portal groups, enter the names of the portal group(s) you want to get. Th
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Gets portal groups.](ref:getportalgroups)
+> For more information about the API call used go to [Get Portal Groups](https://developer.nomad-cms.com/docs/get-portal-groups)
 
 ## Delete Content Group
 
@@ -122,4 +122,4 @@ To delete your content group, enter the id of the content group you want to dele
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Deletes a content group.](ref:deletecontentgroup)
+> For more information about the API call used go to [Delete Content Group](https://developer.nomad-cms.com/docs/delete-content-group)

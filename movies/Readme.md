@@ -8,7 +8,7 @@
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -28,7 +28,7 @@ In the nomad-sdk/js directory there are two versions of the Nomad SDK. There is 
 
 ## Introduction
 
-For this walkthrough we are assuming you read and understand the concepts and terminology explained in [Content Definitions](doc:content-definitions).
+For this walkthrough we are assuming you read and understand the concepts and terminology explained in [Content Definitions](https://developer.nomad-cms.com/docs/content-definitions).
 
 ## Creating the Movie content definition
 

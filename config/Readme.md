@@ -8,7 +8,7 @@
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -32,7 +32,7 @@ To get the config of your user, choose the type of config you want.
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Gets the config.](ref:getconfig)
+> For more information about the API call used go to [Get Config](https://developer.nomad-cms.com/docs/get-config)
 
 ## Get Server Time
 
@@ -42,7 +42,7 @@ To get the server time, click submit under Get Server Time.
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Gets the server time.](ref:getservertime-1)
+> For more information about the API call used go to [Get Server Time](https://developer.nomad-cms.com/docs/get-server-time)
 
 ## Clear Server Cache
 
@@ -52,4 +52,4 @@ To clear the server cache, click submit under Clear Server Cache.
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Clears the server cache.](ref:clearservercache)
+> For more information about the API call used go to [Clear Server Cache](https://developer.nomad-cms.com/docs/clear-server-cache)

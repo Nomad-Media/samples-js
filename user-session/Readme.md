@@ -8,7 +8,7 @@
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -32,7 +32,7 @@ To get the user session, click submit under Get User Session.
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Gets a user session.](ref:getusersession)
+> For more information about the API call used go to [Get User Session](https://developer.nomad-cms.com/docs/get-user-session)
 
 ## Change Session Status
 
@@ -42,4 +42,4 @@ To change the user session status, select what you want to change the status to.
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Changes a session status.](ref:changesessionstatus)
+> For more information about the API call used go to [Change Session Status](https://developer.nomad-cms.com/docs/change-session-status)

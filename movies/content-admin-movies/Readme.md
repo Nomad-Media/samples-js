@@ -14,7 +14,7 @@ If you are using an existing tag or collection select false under Create New. Th
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Adds a tag or collection to a content.](ref:addtagorcollection)
+> For more information about the API call used got to [Add Tag Or Collection](https://developer.nomad-cms.com/docs/add-tag-or-collection)
 
 ## Create Tag or Collection
 
@@ -24,7 +24,7 @@ To create a tag or collection, enter whether you want to create a tag or collect
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Creates a tag or collection.](ref:createtagorcollection)
+> For more information about the API call used go to [Create Tag or Collection.](https://developer.nomad-cms.com/docs/create-tag-or-collection)
 
 ## Gets a Tag or Collection
 
@@ -34,7 +34,7 @@ To get a tag or collection, enter whether you want to get a tag or collection, a
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Gets a tag or collection.](ref:gettagorcollection)
+> For more information about the API call used go to [Get Tag or Collection.](https://developer.nomad-cms.com/docs/get-tag-or-collection)
 
 ## Remove Tag or Collection
 
@@ -44,7 +44,7 @@ To remove a tag or collection from an asset, first enter whether you are removin
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Removes a tag or collection from a content.](ref:removetagorcollection)
+> For more information about the API call used got to [Remove Tag Or Collection](https://developer.nomad-cms.com/docs/remove-tag-or-collection)
 
 ## Delete Tag or Collection
 
@@ -54,7 +54,7 @@ To delete a tag or collection, first enter whether you are deleting a tag or col
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Deletes a tag or collection from a content.](ref:deletetagorcollection)
+> For more information about the API call used got to [Delete Tag Or Collection](https://developer.nomad-cms.com/docs/delete-tag-or-collection)
 
 ## Add Related Content
 
@@ -64,7 +64,7 @@ For this example we are going to add the image in our movie as the related conte
 
 > 📘 Note
 > 
-> For more information about the API calls used got to [Adds related content to a content.](ref:addrelatedcontent)
+> For more information about the API calls used got to [Add Related Content](https://developer.nomad-cms.com/docs/add-related-content)
 
 ## Delete Related Content
 
@@ -74,7 +74,7 @@ To delete the related content made in the example above, enter the content id of
 
 > 📘 Note
 > 
-> For more information about the API calls used got to [Deletes related content from a content.](ref:deleterelatedcontent)
+> For more information about the API calls used got to [Delete Related Content](https://developer.nomad-cms.com/docs/delete-related-content)
 
 ## Bulk Update
 
@@ -84,4 +84,4 @@ To update metadata in bulk enter the id(s) of the content(s) you want to update.
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Bulk updates the metadata of a content.](ref:bulkupdatemetadata)
+> For more information about the API call used go to [Bulk Update Metadata](https://developer.nomad-cms.com/docs/bulk-update-metadata) 

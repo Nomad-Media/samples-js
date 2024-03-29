@@ -8,7 +8,7 @@
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -29,24 +29,27 @@ In the nomad-sdk/js directory there are two versions of the Nomad SDK. There is 
 To update the user, enter the user information you want to update.
 
 ![](images/update-user.png)
+
 > 📘 Note
 > 
-> For more information about the API call used go to [Updates a user.](ref:updateuser)
+> For more information about the API call used go to [Update User](https://developer.nomad-cms.com/docs/update-user)
 
 ## Change Email
 
 To change your email, enter the new email you want to use under "Change Email" and click submit.
 
 ![](images/change-email.png)
+
 > 📘 Note
 > 
-> For more information about the API call used go to [Changes the email of a user.](ref:changeemail)
+> For more information about the API call used go to [Change Email](https://developer.nomad-cms.com/docs/change-email)
 
 ## Change Password
 
 To change your password, enter the new password you want to use under "Change Password" and click submit.
 
 ![](images/change-password.png)
+
 > 📘 Note
 > 
-> For more information about the API call used go to [Changes the password of a user.](ref:changepassword)
+> For more information about the API call used go to [Change Password](https://developer.nomad-cms.com/docs/change-password)

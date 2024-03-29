@@ -8,7 +8,7 @@
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -32,7 +32,7 @@ To create an intelligent playlist, you need to enter the end search and search d
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Create Intelligent Playlist](doc:create-intelligent-playlist)
+> For more information about the API call used got to [Create Intelligent Playlist](https://developer.nomad-cms.com/docs/create-intelligent-playlist)
 
 ## Create Intelligent Schedule
 
@@ -42,7 +42,7 @@ To create an intelligent schedule, you need to enter the default video asset id,
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Create Intelligent Schedule](doc:create-intelligent-schedule)
+> For more information about the API call used got to [Create Intelligent Schedule](https://developer.nomad-cms.com/docs/create-intelligent-schedule)
 
 ## Create Playlist
 
@@ -52,7 +52,7 @@ To create a playlist, enter the name, whether or not to loop the playlist, and, 
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Create Playlist](doc:create-playlist)
+> For more information about the API call used got to [Create Playlist](https://developer.nomad-cms.com/docs/create-playlist)
 
 ## Create Playlist Video
 
@@ -62,7 +62,7 @@ To create a video in a playlist, enter the id of the playlist and the id of the 
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Create Playlist Video](doc:create-playlist-video)
+> For more information about the API call used got to [Create Playlist Video](https://developer.nomad-cms.com/docs/create-playlist-video)
 
 ## Create Schedule Item Asset
 
@@ -72,7 +72,7 @@ To create a schedule item asset, enter the id of the schedule you want to add th
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Create Schedule Item Asset](doc:create-schedule-item-asset)
+> For more information about the API call used got to [Create Schedule Item Asset](https://developer.nomad-cms.com/docs/create-schedule-item-asset)
 
 ## Create Schedule Item Live Channel
 
@@ -82,7 +82,7 @@ To create a schedule item live channel, enter the id of the schedule you want to
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Create Schedule Item Live Channel](doc:create-schedule-item-live-channel)
+> For more information about the API call used got to [Create Schedule Item Live Channel](https://developer.nomad-cms.com/docs/create-schedule-item-live-channel)
 
 ## Create Schedule Item Search Filter
 
@@ -92,7 +92,7 @@ To create a schedule item search filter, enter the id of the schedule you want t
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Create Schedule Item Search Filter](doc:create-schedule-item-search-filter)
+> For more information about the API call used got to [Create Schedule Item Search Filter](https://developer.nomad-cms.com/docs/create-schedule-item-search-filter)
 
 ## Create Schedule Item Playlist Schedule
 
@@ -102,7 +102,7 @@ To create a schedule item live channel, enter the id of the schedule you want to
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Create Schedule Item Playlist Schedule](doc:create-schedule-item-playlist-schedule)
+> For more information about the API call used got to [Create Schedule Item Playlist Schedule](https://developer.nomad-cms.com/docs/create-schedule-item-playlist-schedule)
 
 ## Delete Intelligent Playlist
 
@@ -112,7 +112,7 @@ To delete an intelligent playlist, enter the id of the intelligent playlist.
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Delete Intelligent Playlist](doc:delete-intelligent-playlist)
+> For more information about the API call used got to [Delete Intelligent Playlist](https://developer.nomad-cms.com/docs/delete-intelligent-playlist)
 
 ## Delete Intelligent Schedule
 
@@ -122,7 +122,7 @@ To delete an intelligent schedule, enter the id of the intelligent schedule.
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Delete Intelligent Schedule](doc:delete-intelligent-schedule)
+> For more information about the API call used got to [Delete Intelligent Schedule](https://developer.nomad-cms.com/docs/delete-intelligent-schedule)
 
 ## Delete Playlist
 
@@ -132,7 +132,7 @@ To delete a playlist, enter the id of the playlist.
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Delete Playlist](doc:delete-playlist)
+> For more information about the API call used got to [Delete Playlist](https://developer.nomad-cms.com/docs/delete-playlist)
 
 ## Delete Schedule Item
 
@@ -142,7 +142,7 @@ To delete an item in a schedule, enter the id of the schedule that the item is i
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Delete Schedule Item](doc:delete-schedule-item)
+> For more information about the API call used got to [Delete Schedule Item](https://developer.nomad-cms.com/docs/delete-schedule-item)
 
 ## Get Intelligent Playlist
 
@@ -152,7 +152,7 @@ To get an intelligent playlist, enter the id of the intelligent playlist.
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Get Intelligent Playlist](doc:get-intelligent-playlist)
+> For more information about the API call used got to [Get Intelligent Playlist](https://developer.nomad-cms.com/docs/get-intelligent-playlist)
 
 ## Get Intelligent Schedule
 
@@ -162,7 +162,7 @@ To get an intelligent schedule, enter the id of the intelligent schedule.
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Get Intelligent Schedule](doc:get-intelligent-schedule)
+> For more information about the API call used got to [Get Intelligent Schedule](https://developer.nomad-cms.com/docs/get-intelligent-schedule)
 
 ## Get Playlist
 
@@ -172,7 +172,7 @@ To get a playlist, enter the id of the playlist.
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Get Playlist](doc:get-playlist)
+> For more information about the API call used got to [Get Playlist](https://developer.nomad-cms.com/docs/get-playlist)
 
 ## Get Schedule Item
 
@@ -182,7 +182,7 @@ To get a schedule item, enter the id of the schedule the item is in and the id o
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Get Schedule Item](doc:get-schedule-item)
+> For more information about the API call used got to [Get Schedule Item](https://developer.nomad-cms.com/docs/get-schedule-item)
 
 ## Get Schedule Items
 
@@ -192,7 +192,7 @@ To get all the items for a schedule, enter the id of the schedule to get the ite
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Get Schedule Items](doc:get-schedule-items)
+> For more information about the API call used got to [Get Schedule Items](https://developer.nomad-cms.com/docs/get-schedule-items)
 
 ## Get Schedule Preview
 
@@ -202,7 +202,7 @@ To get a schedule preview, enter the id of the schedule you want to preview.
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Get Schedule Preview](doc:get-schedule-preview)
+> For more information about the API call used got to [Get Schedule Preview](https://developer.nomad-cms.com/docs/get-schedule-preview)
 
 ## Move Schedule Item
 
@@ -212,7 +212,7 @@ To move a schedule item, enter the id of the schedule the item is in, the id of 
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Move Schedule Item](doc:move-schedule-item)
+> For more information about the API call used got to [Move Schedule Item](https://developer.nomad-cms.com/docs/move-schedule-item)
 
 ## Publish Intelligent Schedule
 
@@ -222,7 +222,7 @@ To publish an intelligent schedule, enter the id of the intelligent schedule and
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Publish Intelligent Schedule](doc:publish-schedule)
+> For more information about the API call used got to [Publish Intelligent Schedule](https://developer.nomad-cms.com/docs/publish-intelligent-schedule)
 
 ## Start Schedule
 
@@ -232,7 +232,7 @@ To start a schedule, enter the id of the schedule and whether or not you want it
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Start Schedule](doc:start-schedule)
+> For more information about the API call used got to [Start Schedule](https://developer.nomad-cms.com/docs/start-schedule)
 
 ## Stop Schedule
 
@@ -242,7 +242,7 @@ To stop a schedule, enter the id of the schedule and whether or not you want to 
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Stop Schedule](doc:stop-schedule)
+> For more information about the API call used got to [Stop Schedule](https://developer.nomad-cms.com/docs/stop-schedule)
 
 ## Update Intelligent Playlist
 
@@ -252,7 +252,7 @@ To update an intelligent playlist, enter the schedule id of the intelligent play
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Update Intelligent Playlist](doc:update-intelligent-playlist)
+> For more information about the API call used got to [Update Intelligent Playlist](https://developer.nomad-cms.com/docs/update-intelligent-playlist)
 
 ## Update Intelligent Schedule
 
@@ -262,7 +262,7 @@ To update an intelligent schedule, you need to enter the id of the intelligent s
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Update Intelligent Schedule](doc:update-intelligent-schedule)
+> For more information about the API call used got to [Update Intelligent Schedule](https://developer.nomad-cms.com/docs/update-intelligent-schedule)
 
 ## Update Playlist
 
@@ -272,7 +272,7 @@ To update a playlist, enter the id of the playlist. Then fill the fields of your
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Update Playlist](doc:update-playlist)
+> For more information about the API call used got to [Update Playlist](https://developer.nomad-cms.com/docs/update-playlist)
 
 ## Update Playlist Video
 
@@ -282,7 +282,7 @@ To update a playlist video, enter the id of the playlist the video is in and the
 
 > 📘 Note
 >
-> For more information about the API call used got to [Update Playlist Video](doc:update-playlist-video)
+> For more information about the API call used got to [Update Playlist Video](https://developer.nomad-cms.com/docs/update-playlist-video)
 
 ## Update Schedule Item Asset
 
@@ -292,7 +292,7 @@ To update a schedule item asset, enter the id of the schedule the item is locate
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Update Schedule Item Asset](doc:update-schedule-item-asset)
+> For more information about the API call used got to [Update Schedule Item Asset](https://developer.nomad-cms.com/docs/update-schedule-item-asset)
 
 ## Update Schedule Item Live Channel
 
@@ -302,17 +302,7 @@ To update a schedule item live channel, enter the id of the schedule the item is
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Update Schedule Item Live Channel](doc:update-schedule-item-live-channel)
-
-## Update Schedule Item Search Filter
-
-To update a schedule item search filter, enter the id of the schedule the item is located in and the id of the item. Then fill the fields with the information you want to update.
-
-![](images/update-schedule-item-search-filter.png)
-
-> 📘 Note
-> 
-> For more information about the API call used got to [Update Schedule Item Search Filter](doc:update-schedule-item-search-filter)
+> For more information about the API call used got to [Update Schedule Item Live Channel](https://developer.nomad-cms.com/docs/update-schedule-item-live-channel)
 
 ## Update Schedule Item Playlist Schedule
 
@@ -322,4 +312,14 @@ To update a schedule item playlist schedule, enter the id of the schedule the it
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Update Schedule Item Playlist Schedule](doc:update-schedule-item-playlist-schedule)
+> For more information about the API call used got to [Update Schedule Item Playlist Schedule](https://developer.nomad-cms.com/docs/update-schedule-item-playlist-schedule)
+
+## Update Schedule Item Search Filter
+
+To update a schedule item search filter, enter the id of the schedule the item is located in and the id of the item. Then fill the fields with the information you want to update.
+
+![](images/update-schedule-item-search-filter.png)
+
+> 📘 Note
+> 
+> For more information about the API call used got to [Update Schedule Item Search Filter](https://developer.nomad-cms.com/docs/update-schedule-item-search-filter)

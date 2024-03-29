@@ -8,7 +8,7 @@
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -44,4 +44,4 @@ To hide a user's video tracking data, enter the asset id for the video they want
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Video Tracking Service API](doc:video-tracking-service-api)
+> For more information about the API call used got to [Video Tracking Service](https://developer.nomad-cms.com/docs/video-tracking-service-api)

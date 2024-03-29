@@ -6,7 +6,7 @@ To create a movie group, enter the name you want to name your content group and 
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Creates a content group.](ref:createcontentgroup)
+> For more information about the API call used got to [Create Content Group](https://developer.nomad-cms.com/docs/create-content-group)
 
 ## Get Movie Groups
 
@@ -16,7 +16,7 @@ To get all of the movie, click submit under Get Movie Groups.
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Gets a content group.](ref:getcontentgroup)
+> For more information about the API call used got to [Get Content Group](https://developer.nomad-cms.com/docs/get-content-group)
 
 ## Get Movie Group
 
@@ -26,7 +26,7 @@ To get a movie group with a specific id, enter the group id under Movie Group Id
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Gets content groups.](ref:getcontentgroups)
+> For more information about the API call used got to [Get Content Groups](https://developer.nomad-cms.com/docs/get-content-groups)
 
 ## Add Movie To Movie Group
 
@@ -36,7 +36,7 @@ To add a movie to a movie group, enter the movie group id you want to add the mo
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Adds content to a content group.](ref:addcontenttocontentgroup)
+> For more information about the API call used got to [Add Content to Content Group](https://developer.nomad-cms.com/docs/add-content-to-content-group)
 
 ## Remove Movie From Movie Group
 
@@ -46,7 +46,7 @@ To remove a movie to a movie group, enter the movie group id you want to remove 
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Removes contents from content group.](ref:removecontentsfromcontentgroups)
+> For more information about the API call used got to [Remove Contents from Content Group](https://developer.nomad-cms.com/docs/remove-contents-from-content-group)
 
 ## Rename Movie Group
 
@@ -56,7 +56,7 @@ To rename a movie group, enter the id of the movie group and the new name you wa
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Renames a content group.](ref:renamecontentgroup)
+> For more information about the API call used go to [Rename Content Group](https://developer.nomad-cms.com/docs/rename-content-group)
 
 ## Share Movie Group with User
 
@@ -66,7 +66,7 @@ To share a movie group with a user enter the movie group id of the movie group y
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Shares a content group.](ref:sharecontentgroup)
+> For more information about the API call used got to [Share Content Group](https://developer.nomad-cms.com/docs/share-content-group)
 
 ## Stop Sharing Movie Group with User
 
@@ -76,7 +76,7 @@ To stop sharing a movie group with a user enter the movie group id of the movie 
 
 > 📘 Note
 > 
-> For more information about the API calls used got to [Stops sharing a content group.](ref:stopsharingcontentgroup)
+> For more information about the API calls used got to [Stops sharing Content Group](https://developer.nomad-cms.com/docs/stop-sharing-content-group)
 
 ## Delete Movie Group
 
@@ -84,4 +84,4 @@ To stop sharing a movie group with a user enter the movie group id of the movie 
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Deletes a content group.](ref:deletecontentgroup)
+> For more information about the API call used got to [Delete Content Group](https://developer.nomad-cms.com/docs/delete-content-group)

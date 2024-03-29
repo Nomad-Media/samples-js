@@ -8,7 +8,7 @@
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -32,7 +32,7 @@ To create or update an event, first select whether you want to create or update 
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Creates and updates an event.](ref:createandupdateevent)
+> For more information about the API calls used go to [Create and Updates Event](https://developer.nomad-cms.com/docs/create-event)
 
 ## Add Live Schedule To Event
 
@@ -44,7 +44,7 @@ To add a live schedule to an event, you need to enter the id of the event you wa
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Adds a live schedule to an event.](ref:addlivescheduletoevent)
+> For more information about the API calls used go to [Add Live Schedule to Event](https://developer.nomad-cms.com/docs/add-live-schedule-to-event)
 
 ## Extend Live Schedule
 
@@ -54,7 +54,7 @@ To extend a Live Schedule, you need to enter the id of the event with the live s
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Extends a live schedule.](ref:extendliveschedule)
+> For more information about the API calls used go to [Extend Live Schedule](https://developer.nomad-cms.com/docs/extend-live-schedule)
 
 ## Get Live Schedule
 
@@ -64,7 +64,7 @@ To get a live schedule of an event, you need to enter the id of the event.
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Gets a live schedule.](ref:getliveschedule)
+> For more information about the API calls used go to [Gets Live Schedule](https://developer.nomad-cms.com/docs/get-live-schedule)
 
 ## Start Live Schedule
 
@@ -74,7 +74,7 @@ To start a live schedule of an event, you need to enter the id of the event.
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Starts a live schedule.](ref:startliveschedule)
+> For more information about the API calls used go to [Start Live Schedule](https://developer.nomad-cms.com/docs/start-live-schedule)
 
 ## Stop Live Schedule
 
@@ -84,7 +84,7 @@ To stop a live schedule of an event, you need to enter the id of the event.
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Stops a live schedule.](ref:stopliveschedule)
+> For more information about the API calls used go to [Stop Live Schedule](https://developer.nomad-cms.com/docs/stop-live-schedule)
 
 ## Deleting Event Instance
 
@@ -94,4 +94,4 @@ To delete an instance, you need the content id, and the content definition id.
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Deletes an event.](ref:deleteevent)
+> For more information about the API calls used go to [Delete Event](https://developer.nomad-cms.com/docs/delete-event)

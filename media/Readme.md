@@ -8,7 +8,7 @@
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -32,7 +32,7 @@ To search for media, use a search query and/or ids to filter the search. You can
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Media Search](doc:search-1)
+> For more information about the API call used got to [Media Search](https://developer.nomad-cms.com/docs/media-search)
 
 ## Get Dynamic Content
 
@@ -42,7 +42,7 @@ To get a dynamic content, enter the id for the dynamic content record.
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Get Dynamic Content](ref:get_media-content-id)
+> For more information about the API call used got to [Get Dynamic Content](https://developer.nomad-cms.com/docs/get-dynamic-content)
 
 ## Get Dynamic Contents
 
@@ -62,7 +62,7 @@ To get a media group, enter the id of the media group you want to get.
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Get Media Group](ref:get_media-group-id)
+> For more information about the API call used got to [Get Media Group](https://developer.nomad-cms.com/docs/get-media-group)
 
 ## Get Media Item
 
@@ -72,7 +72,7 @@ To get a media item, enter the id of the media item you want to get.
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Get Media Item](ref:get_media-item-id)
+> For more information about the API call used got to [Get Media Item](https://developer.nomad-cms.com/docs/get-media-item)
 
 ## Get Default Site Config
 
@@ -82,7 +82,7 @@ To get the default site config, click submit under Get Default Site Config.
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Get Default Site Config](doc:get-default-site-config)
+> For more information about the API call used got to [Get Default Site Config](https://developer.nomad-cms.com/docs/get-default-site-config)
 
 ## Get Site Config
 
@@ -92,7 +92,7 @@ To get a site config, enter the id of the site config you want to generate.
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Get Site Config](doc:get-site-config)
+> For more information about the API call used got to [Get Site Config](https://developer.nomad-cms.com/docs/get-site-config)
 
 ## Get My Content
 
@@ -102,7 +102,7 @@ To get the favorites and continue watching lists of IDs for the logged in user, 
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Get My Content](doc:get-my-content)
+> For more information about the API call used got to [Get My Content](https://developer.nomad-cms.com/docs/get-my-content)
 
 ## Get My Group
 
@@ -112,7 +112,7 @@ To get a user's group, enter the id of the group.
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Get My Group](doc:get-my-group)
+> For more information about the API call used got to [Get My Group](https://developer.nomad-cms.com/docs/get-my-group)
 
 ## Clear Watchlist
 
@@ -122,7 +122,7 @@ To clear a user's watchlist, click submit under Clear Watchlist.
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Clear Watchlist](doc:clear-watchlist)
+> For more information about the API call used got to [Clear Watchlist](https://developer.nomad-cms.com/docs/clear-watchlist)
 
 ## Clear Continue Watching
 
@@ -132,7 +132,7 @@ To clear continue watching markers, enter the id of the user you want to clear t
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Clear Continue Watching](doc:clear-continue-watching)
+> For more information about the API call used got to [Clear Continue Watching](https://developer.nomad-cms.com/docs/clear-continue-watching)
 
 ## Get Content Cookies
 
@@ -142,9 +142,9 @@ To get the cookies of a content, enter the id of the content you want to get the
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Get Content Cookies](doc:get-content-cookies)
+> For more information about the API call used got to [Get Content Cookies](https://developer.nomad-cms.com/docs/get-content-cookies)
 
-## Form
+## Create Form
 
 To create a form, you need the content definition id of the form, and the data you want to put in the form. For this example, the data is the first and last name, if its active, the start date, the lookup id, and the description of the form.
 
@@ -152,4 +152,4 @@ To create a form, you need the content definition id of the form, and the data y
 
 > 📘 Note
 > 
-> For more information about the API call used got to [Forms](doc:forms)
+> For more information about the API call used got to [Create Form](https://developer.nomad-cms.com/docs/create-form)

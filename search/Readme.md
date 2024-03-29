@@ -8,7 +8,7 @@
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -40,4 +40,4 @@ When you click on add sort field, you will see new text fields asking for the fi
 
 > 📘 Note
 > 
-> For more information about the API call used go to [Search](ref:search-2)
+> For more information about the API call used go to [Search](https://developer.nomad-cms.com/docs/search-api)

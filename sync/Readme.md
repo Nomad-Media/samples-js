@@ -2,7 +2,7 @@
 
 ## Introduction
 
-For this walkthrough we are assuming you read and understand the concepts and terminology explained in [Content Definitions](doc:content-definitions).
+For this walkthrough we are assuming you read and understand the concepts and terminology explained in [Content Definitions](https://developer.nomad-cms.com/docs/content-definitions).
 
 ## Creating the Movie content definition
 
@@ -73,7 +73,7 @@ Ratings:
 
 ## Nomad SDK NPM
 
-To learn how to set up the nomad sdk npm, go to [Nomad SDK NPM](doc:nomad-sdk).
+To learn how to download and setup the nomad sdk npm, go to [Nomad SDK NPM](https://github.com/Nomad-Media/nomad-sdk/tree/main/nomad-sdk-npm).
 
 ## Setup
 
@@ -103,15 +103,15 @@ Then to start synchronization run the code. The movie data in the json file will
 
 > 📘 Note
 > 
-> For more information about the API calls used go to [Search](ref:search-2) [Creates a content.](ref:createcontent) [Updates a content.](ref:updatecontent) [Deletes a content.](ref:deletecontent)
+> For more information about the API calls used go to [Search](https://developer.nomad-cms.com/docs/search-api) [Create Content](https://developer.nomad-cms.com/docs/create-conentt) [Update Content](https://developer.nomad-cms.com/docs/update-content) [Delete Content](https://developer.nomad-cms.com/docs/delete-content)
 
 # Importing Movies Sample Content
 ## Introduction
 
 In this walkthrough, we will be importing content definitions, content records, and assets into the Asset Manager. This walkthrough assumes you are already familiar with using the Asset Manager and have already read these guides:
 
-- [Nomad's Asset Manager](doc:administering-cloud-content-with-nomads-asset-manager) 
-- [Registration](doc:registration) 
+- [Nomad's Asset Manager](https://developer.nomad-cms.com/docs/administering-cloud-content-with-nomads-asset-manager) 
+- [Registration](https://developer.nomad-cms.com/docs/registration) 
 
 ## Step 1: Download the import file
 
