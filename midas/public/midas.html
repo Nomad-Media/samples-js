@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Mitus</title>
+    <title>Midas</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,22 +28,23 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
      
     <!-- Styles -->
-    <link rel="stylesheet" href="mitus.css" />
+    <link rel="stylesheet" href="midas.css" />
 
     <!-- JS -->
-    <script type="module" src="mitus.js" defer></script>
+    <script type="module" src="midas.js" defer></script>
 </head>
 
 <body>
     <h3>My Uploads</h3>
+    <div id="myUploadsDiv"></div>
 
     <h3>Upload Video</h3>
     <form id="uploadVideoForm">
         <label for="mainVideoFile">Main Video</label>
-        <input type="file" id="mainVideo" required>
+        <input type="file" id="mainVideo">
 
         <label for="thumbnailFile">Thumbnail</label>
-        <input type="file" id="thumbnail" required>
+        <input type="file" id="thumbnail">
 
         <label for="mediaType">Media Type</label>
         <select id="mediaTypeSelect">
@@ -63,8 +64,8 @@
         <label for="featuredGroups">Featured Groups</label>
         <select id="featuredGroupsSelect" multiple></select>
         
-        <label for="contentRating">Content Rating</label>
-        <select id="contentRatingSelect"></select>
+        <label for="contentRatings">Content Rating</label>
+        <select id="contentRatingsSelect" multiple style="width: 200px"></select>
             
         <label for="performers">Performers</label>
         <select id="performersSelect" multiple></select>
@@ -117,6 +118,67 @@
 
         <br><br>
         <button type="submit">Upload</button>
+    </form>
+
+    <h3>Update Episode/Video</h3>
+    <form id="updateVideoForm">
+        <label for="mainVideoFile">Main Video</label>
+        <input type="file" id="updateMainVideo">
+
+        <label for="thumbnailFile">Thumbnail</label>
+        <input type="file" id="updateThumbnail">
+    
+        <label for="updateMediaType">Media Type</label>
+        <select id="updateMediaTypeSelect">
+            <option value="episode">Episode</option>
+            <option value="video">Video</option>
+        </select>
+
+        <div id="updateEpisodeDiv">
+            <label for="updateEpisodeSelect">Episode</label>
+            <select id="updateEpisodeSelect">
+                <option value="">Select Episode</option>
+            </select>
+        </div>
+
+        <div id="updateVideoDiv" hidden>
+            <label for="updateVideoSelect">Video</label>
+            <select id="updateVideoSelect">
+                <option value="">Select Video</option>
+            </select>
+        </div>
+
+        <div id="updateDiv"></div>
+
+        <br><br>
+        <button type="submit">Update</button>
+    </form>
+
+    <h3>Delete Episode/Video</h3>
+    <form id="deleteVideoForm">
+        <label for="deleteMediaType">Media Type</label>
+        <select id="deleteMediaTypeSelect">
+            <option value="episode">Episode</option>
+            <option value="video">Video</option>
+        </select>
+
+        <div id="deleteEpisodeDiv">
+            <label for="deleteEpisodeSelect">Episode</label>
+            <select id="deleteEpisodeSelect">
+                <option value="">Select Episode</option>
+            </select>
+        </div>
+
+        <div id="deleteVideoDiv" hidden>
+            <label for="deleteVideoSelect">Video</label>
+            <select id="deleteVideoSelect">
+                <option value="">Select Video</option>
+            </select>
+        </div>
+
+        <br><br>
+        <button type="submit">Delete</button>
+    </form>
 </body>
 
 </html>
