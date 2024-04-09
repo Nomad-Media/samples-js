@@ -24,7 +24,14 @@ function getElements(FORM)
     const FORM_DATA = new FormData();
     for (let input of FORM)
     {
-        if (input.tagName === "SELECT") {
+        if (input.type === "file")
+        {
+            for (let file of input.files)
+            {
+                FORM_DATA.append(input.id, file);
+            }
+        }
+        else if (input.tagName === "SELECT") {
             const SELECTED_OPTIONS = []
             for (let element of input) {
                 if (element.selected) {
