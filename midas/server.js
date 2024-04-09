@@ -48,7 +48,6 @@ app.get('/api-paths', (req, res) => {
 app.post('/asset-details', upload.none(), async (req, res) => {
     try
     {
-        console.log(req.body);
         const ASSET_DETAILS = await NomadSDK.getAssetDetails(req.body.assetId);
 
         res.status(200).json(ASSET_DETAILS);

@@ -55,6 +55,9 @@ const UPDATE_SERIES_DIV = document.getElementById("updateSeriesDiv");
 const EPISODE_KEY_ORDER = ["title", "series", "season", "shortDescription", "longDescription", "featuredGroups", "contentRatings", "performers", "tags", "languages", "thumbnailImage"];
 const VIDEO_KEY_ORDER = ["title", "shortDescription", "longDescription", "genres", "featuredGroups", "contentRatings", "performers", "primaryPerformer", "mediaAttributes", "tags", "languages", "videoType", "thumbnailImage"];
 
+const VIDEO_IMAGE_NAMES = ["thumbnailImage"];
+const SERIES_IMAGE_VIDEO_NAMES = ["thumbnailImage", "titleIcon"];
+
 const VIDEO_SUB_CALL_DICT = {
     "primary-performer": "performers"
 }
@@ -76,19 +79,19 @@ async function getUserUploadMedia()
     if (EPISODES.length > 0)
     {
         MY_UPLOADS_DIV.appendChild(document.createElement("h3")).textContent = "Episodes";
-        await createTable(EPISODES, EPISODE_KEY_ORDER, ["thumbnailImage"]);
+        await createTable(EPISODES, EPISODE_KEY_ORDER, VIDEO_IMAGE_NAMES);
     }
 
     if (VIDEOS.length > 0)
     {
         MY_UPLOADS_DIV.appendChild(document.createElement("h3")).textContent = "Videos";
-        await createTable(VIDEOS, VIDEO_KEY_ORDER, ["mainVideo", "thumbnailImage"]);
+        await createTable(VIDEOS, VIDEO_KEY_ORDER, VIDEO_IMAGE_NAMES);
     }
 
     if (SERIES.length > 0)
     {
         MY_UPLOADS_DIV.appendChild(document.createElement("h3")).textContent = "Series";
-        await createTable(SERIES, SERIES_KEY_ORDER, ["thumbnailImage", "titleIcon"]);
+        await createTable(SERIES, SERIES_KEY_ORDER, SERIES_IMAGE_VIDEO_NAMES);
     }
 }
 
@@ -102,18 +105,10 @@ async function createTable(UPLOADS, KEY_ORDER = [], IMAGE_VIDEO_NAMES = [])
     
     for (let key of KEY_ORDER)
     {
-        if (IMAGE_VIDEO_NAMES.includes(key)) continue;
         const FORMATTED_KEY = key.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, str => str.toUpperCase());
 
         let th = document.createElement("th");
         th.textContent = FORMATTED_KEY;
-        tr.appendChild(th);
-    }
-
-    for (let name of IMAGE_VIDEO_NAMES)
-    {
-        let th = document.createElement("th");
-        th.textContent = name;
         tr.appendChild(th);
     }
 
@@ -146,7 +141,6 @@ async function createTable(UPLOADS, KEY_ORDER = [], IMAGE_VIDEO_NAMES = [])
             }
             else if (uploadIdentifiers[key] && IMAGE_VIDEO_NAMES.includes(key))
             {
-                console.log(uploadIdentifiers[key]);
                 const FORM_DATA = new FormData();
                 FORM_DATA.append("assetId", uploadIdentifiers[key].id);
                 try
@@ -416,9 +410,6 @@ UPLOAD_VIDEO_FORM.addEventListener("submit", async (event) => {
 
 UPDATE_MEDIA_TYPE_SELECT.addEventListener("change", async (event) => {
     const MEDIA_TYPE = event.target.value;
-
-    clearFormFields(UPDATE_EPISODE_DIV);
-    clearFormFields(UPDATE_VIDEO_DIV);
     
     if (MEDIA_TYPE === "episode")
     {
@@ -430,39 +421,36 @@ UPDATE_MEDIA_TYPE_SELECT.addEventListener("change", async (event) => {
         UPDATE_EPISODE_DIV.hidden = true;
         UPDATE_VIDEO_DIV.hidden = false;
     }
+    clearFormFields(UPDATE_VIDEO_PROPERTIES_DIV);
 });
 
-function clearFormFields(div) {
-    const inputs = div.querySelectorAll('input, select, textarea');
-    for (let i = 0; i < inputs.length; i++) {
-        if (inputs[i].type === 'checkbox' || inputs[i].type === 'radio') {
-            inputs[i].checked = false;
-        } else if (inputs[i].tagName === 'SELECT') {
-            console.log(inputs[i]);
-            $(inputs[i]).val(null).trigger('change');
-        } else {
-            inputs[i].value = '';
-        }
+function clearFormFields(div) 
+{
+    while (div.firstChild) 
+    {
+        div.removeChild(div.firstChild);
     }
 }
 
 $('#updateEpisodeSelect').on('select2:select', async (event) => {
     const EPISODES = await sendRequest("/episodes", "GET");
-    updateDiv(EPISODES, event.target.value, EPISODE_KEY_ORDER, UPDATE_VIDEO_PROPERTIES_DIV);
+    updateDiv(EPISODES, event.target.value, EPISODE_KEY_ORDER, UPDATE_VIDEO_PROPERTIES_DIV, "Episode", VIDEO_SUB_CALL_DICT, VIDEO_IMAGE_NAMES);
 });
 
 $('#updateVideoSelect').on('select2:select', async (event) => {
     const VIDEOS = await sendRequest("/videos", "GET");
-    updateDiv(VIDEOS, event.target.value, VIDEO_KEY_ORDER, UPDATE_VIDEO_PROPERTIES_DIV, VIDEO_SUB_CALL_DICT);
+    updateDiv(VIDEOS, event.target.value, VIDEO_KEY_ORDER, UPDATE_VIDEO_PROPERTIES_DIV, "Video", VIDEO_SUB_CALL_DICT, VIDEO_IMAGE_NAMES);
 });
 
 $('#updateSeriesSelect').on('select2:select', async (event) => {
     const SERIES = await sendRequest("/series", "GET");
-    updateDiv(SERIES, event.target.value, SERIES_KEY_ORDER, UPDATE_SERIES_DIV, UPDATE_SERIES_SUB_CALL_DICT);
+    updateDiv(SERIES, event.target.value, SERIES_KEY_ORDER, UPDATE_SERIES_DIV, "Series", UPDATE_SERIES_SUB_CALL_DICT, SERIES_IMAGE_VIDEO_NAMES);
 });
 
-async function updateDiv(CONTENTS, CONTENT_ID, KEY_ORDER, DIV, SUB_CALL_DICT = {})
+async function updateDiv(CONTENTS, CONTENT_ID, KEY_ORDER, DIV, ELEMS_NAME, SUB_CALL_DICT = {}, IMAGE_VIDEO_NAMES = [])
 {
+    console.log(IMAGE_VIDEO_NAMES);
+    clearFormFields(DIV);
     const CONTENT = CONTENTS.find(content => content.id === CONTENT_ID);
     const CONTENT_DETAILS = CONTENT.identifiers;
 
@@ -491,19 +479,21 @@ async function updateDiv(CONTENTS, CONTENT_ID, KEY_ORDER, DIV, SUB_CALL_DICT = {
 
         if (typeof(CONTENT_DETAILS[key]) === "string" || !CONTENT_DETAILS[key])
         {
+            if (IMAGE_VIDEO_NAMES.includes(key)) continue;
             let input = document.createElement("input");
             input.id = key;
             input.value = CONTENT_DETAILS[key] ? CONTENT_DETAILS[key] : "";
 
             let label = document.createElement("label");
             label.textContent = FORMATTED_KEY;
-            UPDATE_VIDEO_DIV.appendChild(label);
-            UPDATE_VIDEO_DIV.appendChild(input);
+            DIV.appendChild(label);
+            DIV.appendChild(input);
         }
         else
         {
+            if (IMAGE_VIDEO_NAMES.includes(key)) continue;
             let select = document.createElement("select");
-            select.id = `update${key.charAt(0).toUpperCase() + key.slice(1)}Select`;
+            select.id = `update${ELEMS_NAME}${key.charAt(0).toUpperCase() + key.slice(1)}Select`;
 
             if (Array.isArray(CONTENT_DETAILS[key]))
             {
@@ -544,12 +534,12 @@ async function updateDiv(CONTENTS, CONTENT_ID, KEY_ORDER, DIV, SUB_CALL_DICT = {
             {
                 for (let value of CONTENT_DETAILS[key])
                 {
-                    $(`#update${key.charAt(0).toUpperCase() + key.slice(1)}Select`).val(value.id).trigger("change");
+                    $(`#update${ELEMS_NAME}${key.charAt(0).toUpperCase() + key.slice(1)}Select`).val(value.id).trigger("change");
                 }
             }
             else
             {
-                $(`#update${key.charAt(0).toUpperCase() + key.slice(1)}Select`).val(CONTENT_DETAILS[key].id).trigger("change");
+                $(`#update${ELEMS_NAME}${key.charAt(0).toUpperCase() + key.slice(1)}Select`).val(CONTENT_DETAILS[key].id).trigger("change");
             }
         }
     }
