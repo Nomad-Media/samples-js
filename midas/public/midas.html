@@ -148,7 +148,13 @@
             </select>
         </div>
 
-        <div id="updateDiv"></div>
+        <div id="updateVideoPropertiesDiv"></div>
+
+        <label for="disabled">Disabled</label>
+        <select id="disabledSelect">
+            <option value="true">True</option>
+            <option value="false" selected>False</option>
+        </select>
 
         <br><br>
         <button type="submit">Update</button>
@@ -175,6 +181,81 @@
                 <option value="">Select Video</option>
             </select>
         </div>
+
+        <br><br>
+        <button type="submit">Delete</button>
+    </form>
+
+    <h3>Create Series</h3>
+    <form id="createSeriesForm">
+        <label for="titleIconFile">Title Icon</label>
+        <input type="file" id="createSeriesTitleIconFile">
+
+        <label for="thumbnailFile">Thumbnail</label>
+        <input type="file" id="createSeriesThumbnailFile">
+
+        <label for="name">Name</label>
+        <input type="text" id="name" required>
+
+        <label for="description">Description</label>
+        <input type="text" id="description">
+
+        <label for="featuredGroupsSelect">Featured Groups</label>
+        <select id="createSeriesFeaturedGroupsSelect" multiple></select>
+
+        <label for="contentRatingsSelect">Content Ratings</label>
+        <select id="createSeriesContentRatingsSelect" multiple></select>
+
+        <label for="genresSelect">Genres</label>
+        <select id="createSeriesGenresSelect" multiple></select>
+
+        <label for="mediaAttributesSelect">Media Attributes</label>
+        <select id="createSeriesMediaAttributesSelect" multiple></select>
+
+        <label for="performersSelect">Performers</label>
+        <select id="createSeriesPerformersSelect" multiple></select>
+
+        <label for="relatedSeriesSelect">Related Series</label>
+        <select id="createSeriesRelatedSeriesSelect" multiple></select>
+
+        <label for="groupSequence">Group Sequence</label>
+        <input type="text" id="groupSequence">
+
+        <label for="isDisabled">Is Disabled</label>
+        <select id="isDisabledSelect">
+            <option value="true">True</option>
+            <option value="false" selected>False</option>
+        </select>
+
+        <br><br>
+        <button type="submit">Create</button>
+    </form>
+
+    <h3>Update Series</h3>
+    <form id="updateSeriesForm">
+        <label for="titleIconFile">Title Icon</label>
+        <input type="file" id="updateSeriesTitleIconFile">
+        
+        <label for="thumbnailFile">Thumbnail</label>
+        <input type="file" id="updateSeriesThumbnail">
+
+        <label for="updateSeriesSelect">Series</label>
+        <select id="updateSeriesSelect">
+            <option value="">Select Series</option>
+        </select>
+
+        <div id="updateSeriesDiv"></div>
+
+        <br><br>
+        <button type="submit">Update</button>
+    </form>
+
+    <h3>Delete Series</h3>
+    <form id="deleteSeriesForm">
+        <label for="deleteSeriesSelect">Series</label>
+        <select id="deleteSeriesSelect">
+            <option value="">Select Series</option>
+        </select>
 
         <br><br>
         <button type="submit">Delete</button>

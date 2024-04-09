@@ -1,7 +1,10 @@
 const MY_UPLOADS_DIV = document.getElementById("myUploadsDiv");
 
+const CREATE_SERIES_FORM = document.getElementById("createSeriesForm");
+const DELETE_SERIES_FORM = document.getElementById("deleteSeriesForm");
 const DELETE_VIDEO_FORM = document.getElementById("deleteVideoForm");
 const UPLOAD_VIDEO_FORM = document.getElementById("uploadVideoForm");
+const UPDATE_SERIES_FORM = document.getElementById("updateSeriesForm");
 const UPDATE_VIDEO_FORM = document.getElementById("updateVideoForm");
 
 const CONTENT_RATINGS_SELECT = document.getElementById("contentRatingsSelect");
@@ -26,41 +29,70 @@ const DELETE_MEDIA_TYPE_SELECT = document.getElementById("deleteMediaTypeSelect"
 const DELETE_EPISODE_SELECT = document.getElementById("deleteEpisodeSelect");
 const DELETE_VIDEO_SELECT = document.getElementById("deleteVideoSelect");
 
+const CREATE_SERIES_CONTENT_RATINGS_SELECT = document.getElementById("createSeriesContentRatingsSelect");
+const CREATE_SERIES_FEATURE_GROUPS_SELECT = document.getElementById("createSeriesFeaturedGroupsSelect");
+const CREATE_SERIES_GENRES_SELECT = document.getElementById("createSeriesGenresSelect");
+const CREATE_SERIES_MEDIA_ATTRIBUTES_SELECT = document.getElementById("createSeriesMediaAttributesSelect");
+const CREATE_SERIES_PERFORMERS_SELECT = document.getElementById("createSeriesPerformersSelect");
+const CREATE_SERIES_RELATED_SERIES_SELECT = document.getElementById("createSeriesRelatedSeriesSelect");
+
+const UPDATE_SERIES_SELECT = document.getElementById("updateSeriesSelect");
+
+const DELETE_SERIES_SELECT = document.getElementById("deleteSeriesSelect");
+
 const EPISODE_DIV = document.getElementById("episodeDiv");
 const VIDEO_DIV = document.getElementById("videoDiv");
 
 const UPDATE_EPISODE_DIV = document.getElementById("updateEpisodeDiv");
 const UPDATE_VIDEO_DIV = document.getElementById("updateVideoDiv");
-const UPDATE_DIV = document.getElementById("updateDiv");
+const UPDATE_VIDEO_PROPERTIES_DIV = document.getElementById("updateVideoPropertiesDiv");
 
 const DELETE_EPISODE_DIV = document.getElementById("deleteEpisodeDiv");
 const DELETE_VIDEO_DIV = document.getElementById("deleteVideoDiv");
 
-const EPISODE_KEY_ORDER = ["title", "series", "season", "shortDescription", "longDescription", "featuredGroups", "contentRatings", "performers", "tags", "languages"];
-const VIDEO_KEY_ORDER = ["title", "shortDescription", "longDescription", "genre", "featuredGroups", "contentRatings", "performers", "primaryPerformer", "mediaAttributes", "tags", "languages", "videoType"];
+const UPDATE_SERIES_DIV = document.getElementById("updateSeriesDiv");
+
+const EPISODE_KEY_ORDER = ["title", "series", "season", "shortDescription", "longDescription", "featuredGroups", "contentRatings", "performers", "tags", "languages", "thumbnailImage"];
+const VIDEO_KEY_ORDER = ["title", "shortDescription", "longDescription", "genres", "featuredGroups", "contentRatings", "performers", "primaryPerformer", "mediaAttributes", "tags", "languages", "videoType", "thumbnailImage"];
+
+const VIDEO_SUB_CALL_DICT = {
+    "primary-performer": "performers"
+}
+
+const UPDATE_SERIES_SUB_CALL_DICT = {
+    "related-series": "series"
+}
+
+const SERIES_KEY_ORDER = ["name", "longDescription", "genres", "featuredGroups", "contentRatings", "performers", "mediaAttributes", "relatedSeries", "thumbnailImage", "titleIcon"];
 
 await getUserUploadMedia();
 
 async function getUserUploadMedia()
 {
-    const UPLOADS = await sendRequest("/user-upload-media", "GET");
-    const EPISODE_UPLOADS = UPLOADS[0];
-    const VIDEO_UPLOADS = UPLOADS[1];
+    const EPISODES = await sendRequest("/episodes", "GET");
+    const VIDEOS = await sendRequest("/videos", "GET");
+    const SERIES = await sendRequest("/series", "GET");
 
-    if (EPISODE_UPLOADS.length > 0)
+    if (EPISODES.length > 0)
     {
         MY_UPLOADS_DIV.appendChild(document.createElement("h3")).textContent = "Episodes";
-        createTable(EPISODE_UPLOADS, EPISODE_KEY_ORDER);
+        await createTable(EPISODES, EPISODE_KEY_ORDER, ["thumbnailImage"]);
     }
 
-    if (VIDEO_UPLOADS.length > 0)
+    if (VIDEOS.length > 0)
     {
         MY_UPLOADS_DIV.appendChild(document.createElement("h3")).textContent = "Videos";
-        createTable(VIDEO_UPLOADS, VIDEO_KEY_ORDER);
+        await createTable(VIDEOS, VIDEO_KEY_ORDER, ["mainVideo", "thumbnailImage"]);
+    }
+
+    if (SERIES.length > 0)
+    {
+        MY_UPLOADS_DIV.appendChild(document.createElement("h3")).textContent = "Series";
+        await createTable(SERIES, SERIES_KEY_ORDER, ["thumbnailImage", "titleIcon"]);
     }
 }
 
-function createTable(UPLOADS, KEY_ORDER = [])
+async function createTable(UPLOADS, KEY_ORDER = [], IMAGE_VIDEO_NAMES = [])
 {
     let table = document.createElement("table");
     table.className = "styled-table";
@@ -70,10 +102,18 @@ function createTable(UPLOADS, KEY_ORDER = [])
     
     for (let key of KEY_ORDER)
     {
+        if (IMAGE_VIDEO_NAMES.includes(key)) continue;
         const FORMATTED_KEY = key.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, str => str.toUpperCase());
 
         let th = document.createElement("th");
         th.textContent = FORMATTED_KEY;
+        tr.appendChild(th);
+    }
+
+    for (let name of IMAGE_VIDEO_NAMES)
+    {
+        let th = document.createElement("th");
+        th.textContent = name;
         tr.appendChild(th);
     }
 
@@ -90,7 +130,7 @@ function createTable(UPLOADS, KEY_ORDER = [])
         for (let key of KEY_ORDER)
         {
             let td = document.createElement("td");
-            
+
             const values = [];
             if (Array.isArray(uploadIdentifiers[key]))
             {
@@ -100,9 +140,27 @@ function createTable(UPLOADS, KEY_ORDER = [])
                 }
                 td.textContent = values.join(", ");
             }
-            else if (Object.prototype.toString.call(uploadIdentifiers[key]) === '[object Object]')
+            else if (Object.prototype.toString.call(uploadIdentifiers[key]) === '[object Object]' && !IMAGE_VIDEO_NAMES.includes(key))
             {
                 td.textContent = uploadIdentifiers[key].description;
+            }
+            else if (uploadIdentifiers[key] && IMAGE_VIDEO_NAMES.includes(key))
+            {
+                console.log(uploadIdentifiers[key]);
+                const FORM_DATA = new FormData();
+                FORM_DATA.append("assetId", uploadIdentifiers[key].id);
+                try
+                {
+                    let assetDetails = await sendRequest('/asset-details', 'POST', FORM_DATA);
+
+                    let img = document.createElement("img");
+                    img.src = assetDetails.properties.fullUrl;
+                    img.width = 100;
+                    img.height = 100;
+                    td.appendChild(img);
+                }
+                catch (error)
+                {}
             }
             else
             {
@@ -130,9 +188,11 @@ async function getContentRatings()
         OPTION.value = contentRating.id;
         OPTION.text = contentRating.title;
         CONTENT_RATINGS_SELECT.appendChild(OPTION);
+        CREATE_SERIES_CONTENT_RATINGS_SELECT.appendChild(OPTION.cloneNode(true));
     }
 
     $(CONTENT_RATINGS_SELECT).select2();
+    $(CREATE_SERIES_CONTENT_RATINGS_SELECT).select2();
 }
 
 await getEpisodes();
@@ -164,9 +224,11 @@ async function getFeaturedGroups()
         OPTION.value = featuredGroup.id;
         OPTION.text = featuredGroup.title;
         FEATURED_GROUPS_SELECT.appendChild(OPTION);
+        CREATE_SERIES_FEATURE_GROUPS_SELECT.appendChild(OPTION.cloneNode(true));
     }
 
     $(FEATURED_GROUPS_SELECT).select2();
+    $(CREATE_SERIES_FEATURE_GROUPS_SELECT).select2();
 }
 
 await getGenres();
@@ -180,9 +242,11 @@ async function getGenres()
         OPTION.value = genre.id;
         OPTION.text = genre.title;
         GENRES_SELECT.appendChild(OPTION);
+        CREATE_SERIES_GENRES_SELECT.appendChild(OPTION.cloneNode(true));
     }
 
     $(GENRES_SELECT).select2();
+    $(CREATE_SERIES_GENRES_SELECT).select2();
 }
 
 await getLanguages();
@@ -212,9 +276,11 @@ async function getMediaAttributes()
         OPTION.value = mediaAttribute.id;
         OPTION.text = mediaAttribute.title;
         MEDIA_ATTRIBUTES_SELECT.appendChild(OPTION);
+        CREATE_SERIES_MEDIA_ATTRIBUTES_SELECT.appendChild(OPTION.cloneNode(true));
     }
 
     $(MEDIA_ATTRIBUTES_SELECT).select2();
+    $(CREATE_SERIES_MEDIA_ATTRIBUTES_SELECT).select2();
 }
 
 await getPerformers();
@@ -229,10 +295,12 @@ async function getPerformers()
         OPTION.text = performer.title;
         PERFROMERS_SELECT.appendChild(OPTION);
         PRIMARY_PERFRORMER_SELECT.appendChild(OPTION.cloneNode(true));
+        CREATE_SERIES_PERFORMERS_SELECT.appendChild(OPTION.cloneNode(true));
     }
 
     $(PERFROMERS_SELECT).select2();
     $(PRIMARY_PERFRORMER_SELECT).select2();
+    $(CREATE_SERIES_PERFORMERS_SELECT).select2();
 }
 
 await getSeasons();
@@ -262,9 +330,15 @@ async function getSeries()
         OPTION.value = series.id;
         OPTION.text = series.title;
         SERIES_SELECT.appendChild(OPTION);
+        CREATE_SERIES_RELATED_SERIES_SELECT.appendChild(OPTION.cloneNode(true));
+        UPDATE_SERIES_SELECT.appendChild(OPTION.cloneNode(true));
+        DELETE_SERIES_SELECT.appendChild(OPTION.cloneNode(true));
     }
 
     $(SERIES_SELECT).select2();
+    $(CREATE_SERIES_RELATED_SERIES_SELECT).select2();
+    $(UPDATE_SERIES_SELECT).select2();
+    $(DELETE_SERIES_SELECT).select2();
 }
 
 await getTags();
@@ -337,11 +411,14 @@ UPLOAD_VIDEO_FORM.addEventListener("submit", async (event) => {
 
     const FORM_DATA = getElements(UPLOAD_VIDEO_FORM);
 
-    await sendRequest("/upload", "POST", FORM_DATA);
+    await sendRequest("/uploadVideo", "POST", FORM_DATA);
 });
 
 UPDATE_MEDIA_TYPE_SELECT.addEventListener("change", async (event) => {
     const MEDIA_TYPE = event.target.value;
+
+    clearFormFields(UPDATE_EPISODE_DIV);
+    clearFormFields(UPDATE_VIDEO_DIV);
     
     if (MEDIA_TYPE === "episode")
     {
@@ -355,160 +432,97 @@ UPDATE_MEDIA_TYPE_SELECT.addEventListener("change", async (event) => {
     }
 });
 
+function clearFormFields(div) {
+    const inputs = div.querySelectorAll('input, select, textarea');
+    for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].type === 'checkbox' || inputs[i].type === 'radio') {
+            inputs[i].checked = false;
+        } else if (inputs[i].tagName === 'SELECT') {
+            console.log(inputs[i]);
+            $(inputs[i]).val(null).trigger('change');
+        } else {
+            inputs[i].value = '';
+        }
+    }
+}
+
 $('#updateEpisodeSelect').on('select2:select', async (event) => {
-
-    UPDATE_DIV.innerHTML = "";
-
     const EPISODES = await sendRequest("/episodes", "GET");
-    const EPISODE = EPISODES.find(episode => episode.id === event.target.value);
-    const EPISODE_DETAILS = EPISODE.identifiers;
+    updateDiv(EPISODES, event.target.value, EPISODE_KEY_ORDER, UPDATE_VIDEO_PROPERTIES_DIV);
+});
 
-    for (let key of EPISODE_KEY_ORDER)
+$('#updateVideoSelect').on('select2:select', async (event) => {
+    const VIDEOS = await sendRequest("/videos", "GET");
+    updateDiv(VIDEOS, event.target.value, VIDEO_KEY_ORDER, UPDATE_VIDEO_PROPERTIES_DIV, VIDEO_SUB_CALL_DICT);
+});
+
+$('#updateSeriesSelect').on('select2:select', async (event) => {
+    const SERIES = await sendRequest("/series", "GET");
+    updateDiv(SERIES, event.target.value, SERIES_KEY_ORDER, UPDATE_SERIES_DIV, UPDATE_SERIES_SUB_CALL_DICT);
+});
+
+async function updateDiv(CONTENTS, CONTENT_ID, KEY_ORDER, DIV, SUB_CALL_DICT = {})
+{
+    const CONTENT = CONTENTS.find(content => content.id === CONTENT_ID);
+    const CONTENT_DETAILS = CONTENT.identifiers;
+
+    for (let key of KEY_ORDER)
     {
         const FORMATTED_KEY = key.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, str => str.toUpperCase());
-        const FORMATTED_KEY_HYPHEN = FORMATTED_KEY.replace(/\s+/g, '-').toLowerCase();
-        if (!EPISODE_DETAILS[key])
+        let formattedKeyHyphen = FORMATTED_KEY.replace(/\s+/g, '-').toLowerCase();
+        if (!CONTENT_DETAILS[key])
         {
             const REQUESTS = await sendRequest("/api-paths", "GET");
-
-            if (FORMATTED_KEY_HYPHEN[FORMATTED_KEY_HYPHEN.length - 1] === "s")
+            if (formattedKeyHyphen[formattedKeyHyphen.length - 1] === "s")
             {
-                if (REQUESTS.includes(`/${FORMATTED_KEY_HYPHEN}`))
+                if (REQUESTS.includes(`/${formattedKeyHyphen}`))
                 {
-                    EPISODE_DETAILS[key] = [];
+                    CONTENT_DETAILS[key] = [];
                 }
             }
             else
             {
-                if (REQUESTS.includes(`/${FORMATTED_KEY_HYPHEN}s`))
+                if (REQUESTS.includes(`/${formattedKeyHyphen}s`))
                 {
-                    EPISODE_DETAILS[key] = {};
+                    CONTENT_DETAILS[key] = {};
                 }
             }
         }
 
-        if (typeof(EPISODE_DETAILS[key]) === "string" || !EPISODE_DETAILS[key])
+        if (typeof(CONTENT_DETAILS[key]) === "string" || !CONTENT_DETAILS[key])
         {
             let input = document.createElement("input");
             input.id = key;
-            input.value = EPISODE_DETAILS[key] ? EPISODE_DETAILS[key] : "";
+            input.value = CONTENT_DETAILS[key] ? CONTENT_DETAILS[key] : "";
 
             let label = document.createElement("label");
             label.textContent = FORMATTED_KEY;
-            UPDATE_DIV.appendChild(label);
-            UPDATE_DIV.appendChild(input);
+            UPDATE_VIDEO_DIV.appendChild(label);
+            UPDATE_VIDEO_DIV.appendChild(input);
         }
         else
         {
             let select = document.createElement("select");
             select.id = `update${key.charAt(0).toUpperCase() + key.slice(1)}Select`;
 
-            if (Array.isArray(EPISODE_DETAILS[key]))
+            if (Array.isArray(CONTENT_DETAILS[key]))
             {
                 select.multiple = true;
             }
 
             let selectValues = []
-            if (FORMATTED_KEY_HYPHEN[FORMATTED_KEY_HYPHEN.length - 1] === "s")
+            if (SUB_CALL_DICT[formattedKeyHyphen])
             {
-                selectValues = await sendRequest(`/${FORMATTED_KEY_HYPHEN}`, "GET");
+                formattedKeyHyphen = SUB_CALL_DICT[formattedKeyHyphen];
+            }
+                
+            if (formattedKeyHyphen[formattedKeyHyphen.length - 1] === "s")
+            {
+                selectValues = await sendRequest(`/${formattedKeyHyphen}`, "GET");
             }
             else
             {
-                selectValues = await sendRequest(`/${FORMATTED_KEY_HYPHEN}s`, "GET");
-            }
-
-
-            for (let value of selectValues)
-            {
-                let option = document.createElement("option");
-                option.value = value.id;
-                option.text = value.description ? value.description : value.title;
-                select.appendChild(option);
-            }
-
-            let label = document.createElement("label");
-            label.textContent = FORMATTED_KEY;
-            UPDATE_DIV.appendChild(label);
-            UPDATE_DIV.appendChild(select);
-
-            $(`#${select.id}`).select2();
-
-            if (Array.isArray(EPISODE_DETAILS[key]))
-            {
-                for (let value of EPISODE_DETAILS[key])
-                {
-                    $(`#update${key.charAt(0).toUpperCase() + key.slice(1)}Select`).val(value.id).trigger("change");
-                }
-            }
-            else
-            {
-                $(`#update${key.charAt(0).toUpperCase() + key.slice(1)}Select`).val(EPISODE_DETAILS[key].id).trigger("change");
-            }
-        }
-    }
-});
-
-$('#updateVideoSelect').on('select2:select', async (event) => {
-    UPDATE_DIV.innerHTML = "";
-
-    const VIDEOS = await sendRequest("/videos", "GET");
-    const VIDEO = VIDEOS.find(video => video.id === event.target.value);
-    const VIDEO_DETAILS = VIDEO.identifiers;
-
-    for (let key of VIDEO_KEY_ORDER)
-    {
-        const FORMATTED_KEY = key.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, str => str.toUpperCase());
-        const FORMATTED_KEY_HYPHEN = FORMATTED_KEY.replace(/\s+/g, '-').toLowerCase();
-        if (!VIDEO_DETAILS[key])
-        {
-            const REQUESTS = await sendRequest("/api-paths", "GET");
-
-            if (FORMATTED_KEY_HYPHEN[FORMATTED_KEY_HYPHEN.length - 1] === "s")
-            {
-                if (REQUESTS.includes(`/${FORMATTED_KEY_HYPHEN}`))
-                {
-                    VIDEO_DETAILS[key] = [];
-                }
-            }
-            else
-            {
-                if (REQUESTS.includes(`/${FORMATTED_KEY_HYPHEN}s`))
-                {
-                    VIDEO_DETAILS[key] = {};
-                }
-            }
-        }
-
-        if (typeof(VIDEO_DETAILS[key]) === "string" || !VIDEO_DETAILS[key])
-        {
-            let input = document.createElement("input");
-            input.id = key;
-            input.value = VIDEO_DETAILS[key] ? VIDEO_DETAILS[key] : "";
-
-            let label = document.createElement("label");
-            label.textContent = FORMATTED_KEY;
-            UPDATE_DIV.appendChild(label);
-            UPDATE_DIV.appendChild(input);
-        }
-        else
-        {
-            let select = document.createElement("select");
-            select.id = `#update${key.charAt(0).toUpperCase() + key.slice(1)}Select`;
-
-            if (Array.isArray(VIDEO_DETAILS[key]))
-            {
-                select.multiple = true;
-            }
-
-            let selectValues = []
-            if (FORMATTED_KEY_HYPHEN[FORMATTED_KEY_HYPHEN.length - 1] === "s")
-            {
-                selectValues = await sendRequest(`/${FORMATTED_KEY_HYPHEN}`, "GET");
-            }
-            else
-            {
-                selectValues = await sendRequest(`/${FORMATTED_KEY_HYPHEN}s`, "GET");
+                selectValues = await sendRequest(`/${formattedKeyHyphen}s`, "GET");
             }
 
             for (let value of selectValues)
@@ -521,32 +535,32 @@ $('#updateVideoSelect').on('select2:select', async (event) => {
 
             let label = document.createElement("label");
             label.textContent = FORMATTED_KEY;
-            UPDATE_DIV.appendChild(label);
-            UPDATE_DIV.appendChild(select);
+            DIV.appendChild(label);
+            DIV.appendChild(select);
 
             $(`#${select.id}`).select2();
 
-            if (Array.isArray(VIDEO_DETAILS[key]))
+            if (Array.isArray(CONTENT_DETAILS[key]))
             {
-                for (let value of VIDEO_DETAILS[key])
+                for (let value of CONTENT_DETAILS[key])
                 {
                     $(`#update${key.charAt(0).toUpperCase() + key.slice(1)}Select`).val(value.id).trigger("change");
                 }
             }
             else
             {
-                $(`#update${key.charAt(0).toUpperCase() + key.slice(1)}Select`).val(VIDEO_DETAILS[key].id).trigger("change");
+                $(`#update${key.charAt(0).toUpperCase() + key.slice(1)}Select`).val(CONTENT_DETAILS[key].id).trigger("change");
             }
         }
     }
-});
+}
 
 UPDATE_VIDEO_FORM.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const FORM_DATA = getElements(UPDATE_VIDEO_FORM);
 
-    await sendRequest("/update", "POST", FORM_DATA);
+    await sendRequest("/updateVideo", "POST", FORM_DATA);
 });
 
 DELETE_MEDIA_TYPE_SELECT.addEventListener("change", async (event) => {
@@ -568,9 +582,32 @@ DELETE_VIDEO_FORM.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const FORM_DATA = getElements(DELETE_VIDEO_FORM);
-    console.log(FORM_DATA);
 
-    await sendRequest("/delete", "POST", FORM_DATA);
+    await sendRequest("/deleteVideo", "POST", FORM_DATA);
+});
+
+CREATE_SERIES_FORM.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const FORM_DATA = getElements(CREATE_SERIES_FORM);
+
+    await sendRequest("/createSeries", "POST", FORM_DATA);
+});
+
+UPDATE_SERIES_FORM.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const FORM_DATA = getElements(UPDATE_SERIES_FORM);
+
+    await sendRequest("/updateSeries", "POST", FORM_DATA);
+}); 
+
+DELETE_SERIES_FORM.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const FORM_DATA = getElements(DELETE_SERIES_FORM);
+
+    await sendRequest("/deleteSeries", "POST", FORM_DATA);
 });
 
 function getElements(FORM)
@@ -629,8 +666,7 @@ async function sendRequest(PATH, METHOD, BODY)
     {
         const REQUEST = { method: METHOD };
         if (BODY) REQUEST["body"] = BODY;
-        console.log(PATH);
-        console.log(REQUEST);
+
         const RESPONSE = await fetch(PATH, REQUEST);
 
         if (RESPONSE.ok)

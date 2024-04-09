@@ -34,7 +34,7 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
-	res.sendFile(__dirname + '/public/mitus.html');
+	res.sendFile(__dirname + '/public/midas.html');
 });
 
 app.get('/api-paths', (req, res) => {
@@ -43,6 +43,20 @@ app.get('/api-paths', (req, res) => {
         .map(r => r.route.path);
 
     res.status(200).json(paths);
+});
+
+app.post('/asset-details', upload.none(), async (req, res) => {
+    try
+    {
+        console.log(req.body);
+        const ASSET_DETAILS = await NomadSDK.getAssetDetails(req.body.assetId);
+
+        res.status(200).json(ASSET_DETAILS);
+    }
+    catch (error)
+    {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 app.get('/content-ratings', async (req, res) => {
@@ -201,22 +215,7 @@ app.get('/video-types', async (req, res) => {
     }
 });
 
-app.get('/user-upload-media', async (req, res) => {
-    try
-    {
-        const EPISODES = await getGroups(EPISODE_CONTENT_DEFINITION_ID);
-        const VIDEOS = await getGroups(VIDEO_CONTENT_DEFINITION_ID);
-
-        res.status(200).json([EPISODES, VIDEOS]);
-    }
-    catch (error)
-    {
-        console.error(error);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-app.post('/upload', upload.fields([{ name: "mainVideo" }, { name: "thumbnail" }]), async (req, res) => {
+app.post('/uploadVideo', upload.fields([{ name: "mainVideo" }, { name: "thumbnail" }]), async (req, res) => {
     try
     {
         const MAIN_VIDEO = req.files["mainVideo"] ? req.files["mainVideo"][0] : null;
@@ -352,7 +351,7 @@ app.post('/upload', upload.fields([{ name: "mainVideo" }, { name: "thumbnail" }]
     }
 });
 
-app.post('/update', upload.fields([{ name: "updateMainVideo" }, { name: "updateThumbnail" }]), async (req, res) => {
+app.post('/updateVideo', upload.fields([{ name: "updateMainVideo" }, { name: "updateThumbnail" }]), async (req, res) => {
     try
     {
         const MAIN_VIDEO = req.files["mainVideo"] ? req.files["mainVideo"][0] : null;
@@ -460,7 +459,7 @@ app.post('/update', upload.fields([{ name: "updateMainVideo" }, { name: "updateT
                     featuredGroups: featuredGroups,
                     groupSequence: req.body.groupSequence,
                     mainVideo: videoId ? { id : videoId } : (UPDATE_INFO.properties.mainVideo ? { id : UPDATE_INFO.properties.mainVideo.id } : null),
-                    number: req.body.updateNumber,
+                    number: req.body.number,
                     languages: languages,
                     longDescription: req.body.longDescription,
                     performers: performers,
@@ -506,31 +505,196 @@ app.post('/update', upload.fields([{ name: "updateMainVideo" }, { name: "updateT
     }
 });
 
-app.post('/delete', async (req, res) => {
+app.post('/deleteVideo', upload.none(), async (req, res) => {
     try
     {
-        console.log(req.body);
-        return;
-
         let contentId = null;
         let contentDefinitionId = null;
         if (req.body.deleteMediaTypeSelect === "episode")
         {
-            contentId = req.body.deleteEpisodeSelect.id;
+            contentId = JSON.parse(req.body.deleteEpisodeSelect).id;
             contentDefinitionId = EPISODE_CONTENT_DEFINITION_ID;
         }
         else
         {
-            contentId = req.body.deleteVideoSelect.id;
+            contentId = JSON.parse(req.body.deleteVideoSelect).id;
             contentDefinitionId = VIDEO_CONTENT_DEFINITION_ID;
         }
 
         const DELETE_INFO = await NomadSDK.getContent(contentId, contentDefinitionId);
 
-        await NomadSDK.deleteAsset(DELETE_INFO.properties.mainVideo.id);
-        await NomadSDK.deleteAsset(DELETE_INFO.properties.thumbnailImage.id);
+        if (DELETE_INFO.properties.mainVideo) await NomadSDK.deleteAsset(DELETE_INFO.properties.mainVideo.id);
+        if (DELETE_INFO.properties.thumbnailImage) await NomadSDK.deleteAsset(DELETE_INFO.properties.thumbnailImage.id);
 
         await NomadSDK.deleteContent(contentId, contentDefinitionId);
+
+        res.status(200).json();
+    }
+    catch (error)
+    {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/createSeries', upload.fields([{ name: "createSeriesTitleIconFile" }, { name: "createSeriesThumbnailFile" }]), async (req, res) => {
+    try
+    {
+        const SERIES_TITLE_ICON = req.files["createSeriesTitleIconFile"] ? req.files["createSeriesTitleIconFile"][0] : null;
+        const SERIES_THUMBNAIL = req.files["createSeriesThumbnailFile"] ? req.files["createSeriesThumbnailFile"][0] : null;
+
+        let contentRatings = null;
+        if (req.body.createSeriesContentRatingsSelect)
+        {
+            const PARSED_CONTENT_RATINGS = JSON.parse(req.body.createSeriesContentRatingsSelect);
+            contentRatings = Array.isArray(PARSED_CONTENT_RATINGS) ? PARSED_CONTENT_RATINGS : [PARSED_CONTENT_RATINGS];
+        }
+
+        let featuredGroups = null;
+        if (req.body.createSeriesFeaturedGroupsSelect)
+        {
+            const PARSED_FEATURED_GROUP = JSON.parse(req.body.createSeriesFeaturedGroupsSelect);
+            featuredGroups = Array.isArray(PARSED_FEATURED_GROUP) ? PARSED_FEATURED_GROUP : [PARSED_FEATURED_GROUP];
+        }
+
+        let genres = null;
+        if (req.body.createSeriesGenresSelect)
+        {
+            const PARSED_GENRES = JSON.parse(req.body.createSeriesGenresSelect);
+            genres = Array.isArray(PARSED_GENRES) ? PARSED_GENRES : [PARSED_GENRES];
+        }
+        
+        let mediaAttributes = null;
+        if (req.body.createSeriesMediaAttributesSelect)
+        {
+            const PARSED_MEDIA_ATTRIBUTES = JSON.parse(req.body.createSeriesMediaAttributesSelect);
+            mediaAttributes = Array.isArray(PARSED_MEDIA_ATTRIBUTES) ? PARSED_MEDIA_ATTRIBUTES : [PARSED_MEDIA_ATTRIBUTES];
+        }
+
+        let performers = null;
+        if (req.body.createSeriesPerformersSelect)
+        {
+            const PARSED_PERFORMERS = JSON.parse(req.body.createSeriesPerformersSelect);
+            performers = Array.isArray(PARSED_PERFORMERS) ? PARSED_PERFORMERS : [PARSED_PERFORMERS];
+        }
+
+        let relatedSeries = null;
+        if (req.body.createSeriesRelatedSeriesSelect)
+        {
+            const PARSED_RELATED_SERIES = JSON.parse(req.body.createSeriesRelatedSeriesSelect);
+            relatedSeries = Array.isArray(PARSED_RELATED_SERIES) ? PARSED_RELATED_SERIES : [PARSED_RELATED_SERIES];
+        }
+
+        const SERIES_INFO = await NomadSDK.createContent(SERIES_CONTENT_DEFINITION_ID);
+        await NomadSDK.updateContent(SERIES_INFO.contentId, SERIES_CONTENT_DEFINITION_ID,
+            {
+                contentRatings: contentRatings,
+                disabled: req.body.isDisabledSelect === "true",
+                featuredGroups: featuredGroups,
+                genres: genres,
+                longDescription: req.body.description,
+                mediaAttributes: mediaAttributes,
+                name: req.body.name,
+                performers: performers,
+                relatedSeries: relatedSeries,
+                shortDescription: req.body.createSeriesShortDescription,
+                thumbnailImage: SERIES_THUMBNAIL ? { "id": await NomadSDK.uploadAsset(null, null, null, "replace",
+                    SERIES_THUMBNAIL, PARENT_FOLDER_ASSET_ID, null) } : null,
+                titleIcon: SERIES_TITLE_ICON ? { "id": await NomadSDK.uploadAsset(null, null, null, "replace",
+                    SERIES_TITLE_ICON, PARENT_FOLDER_ASSET_ID, null) } : null
+            });
+
+        res.status(200).json();
+    }
+    catch (error)
+    {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/updateSeries', upload.fields([{ name: "updateSeriesTitleIconFile" }, { name: "updateSeriesThumbnailFile" }]), async (req, res) => {
+    try
+    {
+        const SERIES_TITLE_ICON = req.files["updateSeriesTitleIconFile"] ? req.files["updateSeriesTitleIconFile"][0] : null;
+        const SERIES_THUMBNAIL = req.files["updateSeriesThumbnailFile"] ? req.files["updateSeriesThumbnailFile"][0] : null;
+
+        let contentRatings = null;
+        if (req.body.updateContentRatingsSelect)
+        {
+            const PARSED_CONTENT_RATINGS = JSON.parse(req.body.updateContentRatingsSelect);
+            contentRatings = Array.isArray(PARSED_CONTENT_RATINGS) ? PARSED_CONTENT_RATINGS : [PARSED_CONTENT_RATINGS];
+        }
+
+        let featuredGroups = null;
+        if (req.body.updateFeaturedGroupsSelect)
+        {
+            const PARSED_FEATURED_GROUP = JSON.parse(req.body.updateFeaturedGroupsSelect);
+            featuredGroups = Array.isArray(PARSED_FEATURED_GROUP) ? PARSED_FEATURED_GROUP : [PARSED_FEATURED_GROUP];
+        }
+
+        let genres = null;
+        if (req.body.updateGenresSelect)
+        {
+            const PARSED_GENRES = JSON.parse(req.body.updateGenresSelect);
+            genres = Array.isArray(PARSED_GENRES) ? PARSED_GENRES : [PARSED_GENRES];
+        }
+        
+        let mediaAttributes = null;
+        if (req.body.updateMediaAttributesSelect)
+        {
+            const PARSED_MEDIA_ATTRIBUTES = JSON.parse(req.body.updateMediaAttributesSelect);
+            mediaAttributes = Array.isArray(PARSED_MEDIA_ATTRIBUTES) ? PARSED_MEDIA_ATTRIBUTES : [PARSED_MEDIA_ATTRIBUTES];
+        }
+
+        let performers = null;
+        if (req.body.updatePerformersSelect)
+        {
+            const PARSED_PERFORMERS = JSON.parse(req.body.updatePerformersSelect);
+            performers = Array.isArray(PARSED_PERFORMERS) ? PARSED_PERFORMERS : [PARSED_PERFORMERS];
+        }
+
+        let relatedSeries = null;
+        if (req.body.updateRelatedSeriesSelect)
+        {
+            const PARSED_RELATED_SERIES = JSON.parse(req.body.updateRelatedSeriesSelect);
+            relatedSeries = Array.isArray(PARSED_RELATED_SERIES) ? PARSED_RELATED_SERIES : [PARSED_RELATED_SERIES];
+        }
+
+        const SERIES_INFO = await NomadSDK.getContent(JSON.parse(req.body.updateSeriesSelect).id, SERIES_CONTENT_DEFINITION_ID);
+        await NomadSDK.updateContent(SERIES_INFO.contentId, SERIES_CONTENT_DEFINITION_ID,
+            {
+                contentRatings: contentRatings,
+                disabled: req.body.isDisabledSelect === "true",
+                featuredGroups: featuredGroups,
+                genres: genres,
+                longDescription: req.body.description,
+                mediaAttributes: mediaAttributes,
+                name: JSON.parse(req.body.updateSeriesSelect).description,
+                performers: performers,
+                relatedSeries: relatedSeries,
+                shortDescription: req.body.updateSeriesShortDescription,
+                thumbnailImage: SERIES_THUMBNAIL ? { "id": await NomadSDK.uploadAsset(null, null, null, "replace",
+                    SERIES_THUMBNAIL, PARENT_FOLDER_ASSET_ID, null) } : (SERIES_INFO.properties.thumbnailImage ? { "id": SERIES_INFO.properties.thumbnailImage.id } : null),
+                titleIcon: SERIES_TITLE_ICON ? { "id": await NomadSDK.uploadAsset(null, null, null, "replace",
+                    SERIES_TITLE_ICON, PARENT_FOLDER_ASSET_ID, null) } : (SERIES_INFO.properties.titleIcon ? { "id": SERIES_INFO.properties.titleIcon.id } : null)
+            });
+
+        res.status(200).json();
+    }
+    catch (error)
+    {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/deleteSeries', upload.none(), async (req, res) => {
+    try
+    {
+        const SERIES_INFO = await NomadSDK.getContent(JSON.parse(req.body.deleteSeriesSelect).id, SERIES_CONTENT_DEFINITION_ID);
+
+        if (SERIES_INFO.properties.titleIcon) await NomadSDK.deleteAsset(SERIES_INFO.properties.titleIcon.id);
+        if (SERIES_INFO.properties.thumbnailImage) await NomadSDK.deleteAsset(SERIES_INFO.properties.thumbnailImage.id);
+
+        await NomadSDK.deleteContent(SERIES_INFO.contentId, SERIES_CONTENT_DEFINITION_ID);
 
         res.status(200).json();
     }
