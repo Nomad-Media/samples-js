@@ -330,14 +330,14 @@ async function createTable(CONTENT_DEFINITION, UPLOADS, CONTENT_DEFINITION_ID, K
                 td.classList.add("underline");
                 
                 td.addEventListener("click", () => {
+                    let dialog = document.createElement("dialog");
+                    dialog.id = `dialog${CONTENT_DEFINITION[0].toUpperCase() + CONTENT_DEFINITION.slice(1)}${key[0].toUpperCase() + key.slice(1)}`;
+
                     let form = document.createElement("form");
                     form.id = `form${CONTENT_DEFINITION[0].toUpperCase() + CONTENT_DEFINITION.slice(1)}${key[0].toUpperCase() + key.slice(1)}`;
 
                     let div = document.createElement("div");
                     div.id = `div${CONTENT_DEFINITION[0].toUpperCase() + CONTENT_DEFINITION.slice(1)}${key[0].toUpperCase() + key.slice(1)}`;
-
-                    let dialog = document.createElement("dialog");
-                    dialog.id = `dialog${CONTENT_DEFINITION[0].toUpperCase() + CONTENT_DEFINITION.slice(1)}${key[0].toUpperCase() + key.slice(1)}`;
 
                     let closeButton = document.createElement("button");
                     closeButton.textContent = "X";
@@ -345,7 +345,7 @@ async function createTable(CONTENT_DEFINITION, UPLOADS, CONTENT_DEFINITION_ID, K
                     closeButton.style.right = "0";
                     closeButton.style.top = "0";
                     closeButton.addEventListener("click", () => {
-                        dialog.close();
+                        dialog.remove();
                         clearFormFields(div);
                     });
 
@@ -358,7 +358,6 @@ async function createTable(CONTENT_DEFINITION, UPLOADS, CONTENT_DEFINITION_ID, K
 
                         const FORM_DATA = getElements(form);
                         FORM_DATA.append("id", upload.id);
-                        console.log(FORM_DATA);
 
                         await sendRequest(`/update${CONTENT_DEFINITION[0].toUpperCase() + CONTENT_DEFINITION.slice(1)}`, "POST", FORM_DATA);
                         location.reload();
@@ -416,9 +415,41 @@ function clearFormFields(div)
     }
 }
 
+function initializeSelect2InDialog(DIALOG_ID, select) {
+    let observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+                let $DIALOG_ID = $(`#${DIALOG_ID}`);
+                if ($DIALOG_ID.length > 0) {
+                    $(`#${select.id}`).select2({
+                        dropdownParent: $DIALOG_ID
+                    }).on('select2:open', function() {
+                        let $dropdown = $('.select2-dropdown');
+                        let $select2 = $('.select2-container--open');
+                        let offset = $select2.offset();
+                        let height = $select2.outerHeight(false);
+
+                        let top = offset.top + height - $(window).scrollTop();
+                        let left = offset.left - $(window).scrollLeft();
+                        
+                        $dropdown.css({
+                            position: 'fixed',
+                            top: top + 'px',
+                            left: left + 'px',
+                        });
+                    });
+
+                    observer.disconnect();
+                }
+            }
+        });
+    });
+
+    observer.observe(document, { childList: true, subtree: true });
+}
+
 async function updateDiv(CONTENTS, CONTENT_ID, DIALOG_ID, KEY_ORDER, DIV, ELEMS_NAME, IMAGE_VIDEO_NAMES = [], SUB_CALL_DICT = {})
 {
-    clearFormFields(DIV);
     const CONTENT = CONTENTS.find(content => content.id === CONTENT_ID);
     const CONTENT_DETAILS = CONTENT.identifiers;
 
@@ -485,7 +516,7 @@ async function updateDiv(CONTENTS, CONTENT_ID, DIALOG_ID, KEY_ORDER, DIV, ELEMS_
 
             let select = document.createElement("select");
             select.id = `update${ELEMS_NAME.charAt(0).toUpperCase() + ELEMS_NAME.slice(1)}${key.charAt(0).toUpperCase() + key.slice(1)}Select`;
-            console.log(select.id);
+
             if (Array.isArray(CONTENT_DETAILS[key]))
             {
                 select.multiple = true;
@@ -503,6 +534,11 @@ async function updateDiv(CONTENTS, CONTENT_ID, DIALOG_ID, KEY_ORDER, DIV, ELEMS_
             {
                 selectValues = await sendRequest(`/${formattedKeyHyphen}s`, "GET");
             }
+
+            let option = document.createElement("option");
+            option.value = "";
+            option.text = "Select";
+            select.appendChild(option);
             for (let value of selectValues)
             {
                 let option = document.createElement("option");
@@ -510,17 +546,14 @@ async function updateDiv(CONTENTS, CONTENT_ID, DIALOG_ID, KEY_ORDER, DIV, ELEMS_
                 option.text = value.description ? value.description : value.title;
                 select.appendChild(option);
             }
-            console.log(select);
+            
             let label = document.createElement("label");
             label.textContent = FORMATTED_KEY;
             DIV.appendChild(label);
             DIV.appendChild(select);
-            $(`#${select.id}`).select2({
-                dropdownParent: $(`#${DIALOG_ID}`),
-            });
-            console.log($(`#${DIALOG_ID}`));
-        
-            console.log($(`#${select.id}`).select2());
+
+            if (DIALOG_ID) initializeSelect2InDialog(DIALOG_ID, select);
+
             if (Array.isArray(CONTENT_DETAILS[key]))
             {
                 for (let value of CONTENT_DETAILS[key])
