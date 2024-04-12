@@ -24,9 +24,9 @@ Then open a webpage and go to localhost:4200.
 
 In the nomad-sdk/js directory there are two versions of the Nomad SDK. There is the sdk.min.js file which is a minified version of the sdk, and the sdk-debug.js file which is a concatenated version of the sdk. The sdk-debug file will show you all the parameter documentation and readable code.
 
-## Tabels
+## Tables
 
-There are tables for episodes, videos, and series. The tables contain information about the contnet and the thumbnail image.
+There are tables for episodes, videos, and series. The tables contain information about the content and the thumbnail image.
 
 ![](images/episode-table.png)
 
@@ -36,7 +36,7 @@ There are tables for episodes, videos, and series. The tables contain informatio
 
 ## Create Episode
 
-To create an episode, select the main video and, optionally, the thumbnail image. Then select `episode` for the media type and enter the informattion for the episode in the fields below. Then click the `Upload` button.
+To create an episode, select the main video and, optionally, the thumbnail image. Then select `episode` for the media type and enter the information for the episode in the fields below. Then click the `Upload` button.
 
 ![](images/create-episode.png)
 
@@ -48,7 +48,7 @@ To create an episode, select the main video and, optionally, the thumbnail image
 
 ## Create Video
 
-To create a video, select the main video and, optionally, the thumbnail image. Then select `video` for the media type and enter the informattion for the video in the fields below. Then click the `Upload` button.
+To create a video, select the main video and, optionally, the thumbnail image. Then select `video` for the media type and enter the information for the video in the fields below. Then click the `Upload` button.
 
 ![](images/create-video.png)
 
@@ -60,7 +60,7 @@ To create a video, select the main video and, optionally, the thumbnail image. T
 
 ## Update Episode
 
-To update an episode, select the episode you want to update. Then enter the information you want to update in the fields below. Then click the `Update` button.
+To update an episode, click on the title of the episode you want to update. Then enter the information you want to update in the dialog box. Then click the `Update` button.
 
 ![](images/update-episode.png)
 
@@ -70,11 +70,9 @@ To update an episode, select the episode you want to update. Then enter the info
 
 ## Update Video
 
-To update a video, select the video you want to update. Then enter the information you want to update in the fields below. Then click the `Update` button.
+To update a video, click on the title of the video you want to update. Then enter the information you want to update in the dialog box. Then click the `Update` button.
 
 ![](images/update-video.png)
-
-![](images/update-video-1.png)
 
 > 📘 Note
 >
@@ -82,7 +80,7 @@ To update a video, select the video you want to update. Then enter the informati
 
 ## Delete Episode
 
-To delete an episode, select the episode you want to delete. Then click the `Delete` button.
+To delete episode(s), select the checkbox for the episode you want to delete. Then click the `Delete` button below the table.
 
 ![](images/delete-episode.png)
 
@@ -92,7 +90,7 @@ To delete an episode, select the episode you want to delete. Then click the `Del
 
 ## Delete Video
 
-To delete a video, select the video you want to delete. Then click the `Delete` button.
+To delete video(s), select the checkbox for the video you want to delete. Then click the `Delete` button below the table.
 
 ![](images/delete-video.png)
 
@@ -102,7 +100,7 @@ To delete a video, select the video you want to delete. Then click the `Delete` 
 
 ## Create Series
 
-To create a series, select the thumbnail image. Then select `series` for the media type and enter the informattion for the series in the fields below. Then click the `Create` button.
+To create a series, select the thumbnail image. Then select `series` for the media type and enter the information for the series in the fields below. Then click the `Create` button.
 
 ![](images/create-series.png)
 
@@ -112,7 +110,7 @@ To create a series, select the thumbnail image. Then select `series` for the med
 
 ## Update Series
 
-To update a series, select the series you want to update. Then enter the information you want to update in the fields below. Then click the `Update` button.
+To update a series, click on the name of the series you want to update. Then enter the information you want to update in the dialog box. Then click the `Update` button.
 
 ![](images/update-series.png)
 
@@ -122,7 +120,7 @@ To update a series, select the series you want to update. Then enter the informa
 
 ## Delete Series
 
-To delete a series, select the series you want to delete. Then click the `Delete` button.
+To delete series(es), select the checkbox for the series you want to delete. Then click the `Delete` button below the table.
 
 ![](images/delete-series.png)
 
