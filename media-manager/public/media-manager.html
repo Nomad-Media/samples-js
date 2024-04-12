@@ -40,11 +40,11 @@
 
     <h3>Create Episode/Video</h3>
     <form id="uploadVideoForm">
-        <label for="mainVideoFile">Main Video</label>
+        <label for="mainVideo">Main Video</label>
         <input type="file" id="mainVideo">
 
-        <label for="thumbnailFile">Thumbnail</label>
-        <input type="file" id="thumbnail">
+        <label for="thumbnail">Thumbnail</label>
+        <input type="file" id="thumbnailImage">
 
         <label for="mediaType">Media Type</label>
         <select id="mediaTypeSelect">
@@ -120,79 +120,13 @@
         <button type="submit">Upload</button>
     </form>
 
-    <h3>Update Episode/Video</h3>
-    <form id="updateVideoForm">
-        <label for="mainVideoFile">Main Video</label>
-        <input type="file" id="updateMainVideo">
-
-        <label for="thumbnailFile">Thumbnail</label>
-        <input type="file" id="updateThumbnail">
-    
-        <label for="updateMediaType">Media Type</label>
-        <select id="updateMediaTypeSelect">
-            <option value="episode">Episode</option>
-            <option value="video">Video</option>
-        </select>
-
-        <div id="updateEpisodeDiv">
-            <label for="updateEpisodeSelect">Episode</label>
-            <select id="updateEpisodeSelect">
-                <option value="">Select Episode</option>
-            </select>
-        </div>
-
-        <div id="updateVideoDiv" hidden>
-            <label for="updateVideoSelect">Video</label>
-            <select id="updateVideoSelect">
-                <option value="">Select Video</option>
-            </select>
-        </div>
-
-        <div id="updateVideoPropertiesDiv"></div>
-
-        <label for="disabled">Disabled</label>
-        <select id="disabledSelect">
-            <option value="true">True</option>
-            <option value="false" selected>False</option>
-        </select>
-
-        <br><br>
-        <button type="submit">Update</button>
-    </form>
-
-    <h3>Delete Episode/Video</h3>
-    <form id="deleteVideoForm">
-        <label for="deleteMediaType">Media Type</label>
-        <select id="deleteMediaTypeSelect">
-            <option value="episode">Episode</option>
-            <option value="video">Video</option>
-        </select>
-
-        <div id="deleteEpisodeDiv">
-            <label for="deleteEpisodeSelect">Episode</label>
-            <select id="deleteEpisodeSelect">
-                <option value="">Select Episode</option>
-            </select>
-        </div>
-
-        <div id="deleteVideoDiv" hidden>
-            <label for="deleteVideoSelect">Video</label>
-            <select id="deleteVideoSelect">
-                <option value="">Select Video</option>
-            </select>
-        </div>
-
-        <br><br>
-        <button type="submit">Delete</button>
-    </form>
-
     <h3>Create Series</h3>
     <form id="createSeriesForm">
-        <label for="titleIconFile">Title Icon</label>
-        <input type="file" id="createSeriesTitleIconFile">
+        <label for="titleIcon">Title Icon</label>
+        <input type="file" id="titleIcon">
 
-        <label for="thumbnailFile">Thumbnail</label>
-        <input type="file" id="createSeriesThumbnailFile">
+        <label for="thumbnailImage">Thumbnail</label>
+        <input type="file" id="thumbnailImage">
 
         <label for="name">Name</label>
         <input type="text" id="name" required>
@@ -230,36 +164,3 @@
         <br><br>
         <button type="submit">Create</button>
     </form>
-
-    <h3>Update Series</h3>
-    <form id="updateSeriesForm">
-        <label for="titleIconFile">Title Icon</label>
-        <input type="file" id="updateSeriesTitleIconFile">
-        
-        <label for="thumbnailFile">Thumbnail</label>
-        <input type="file" id="updateSeriesThumbnail">
-
-        <label for="updateSeriesSelect">Series</label>
-        <select id="updateSeriesSelect">
-            <option value="">Select Series</option>
-        </select>
-
-        <div id="updateSeriesDiv"></div>
-
-        <br><br>
-        <button type="submit">Update</button>
-    </form>
-
-    <h3>Delete Series</h3>
-    <form id="deleteSeriesForm">
-        <label for="deleteSeriesSelect">Series</label>
-        <select id="deleteSeriesSelect">
-            <option value="">Select Series</option>
-        </select>
-
-        <br><br>
-        <button type="submit">Delete</button>
-    </form>
-</body>
-
-</html>

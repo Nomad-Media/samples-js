@@ -27,7 +27,7 @@ input[type="file"] {
     text-align: center;
 }
 
-button[type="submit"] {
+button {
     padding: 10px 20px;
     background-color: #4CAF50;
     color: white;
@@ -35,7 +35,7 @@ button[type="submit"] {
     cursor: pointer;
 }
 
-button[type="submit"]:hover {
+button:hover {
     background-color: #45a049;
 }
 
@@ -61,4 +61,12 @@ input[type="checkbox"]
     text-align: left;
     background-color: #4CAF50;
     color: white;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.underline {
+    text-decoration: underline;
 }
