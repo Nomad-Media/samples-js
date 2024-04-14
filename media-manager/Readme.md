@@ -36,11 +36,9 @@ There are tables for episodes, videos, and series. The tables contain informatio
 
 ## Create Episode
 
-To create an episode, select the main video and, optionally, the thumbnail image. Then select `episode` for the media type and enter the information for the episode in the fields below. Then click the `Upload` button.
+To create an episode, click on the `Create` button below the episode table. Then select the main video, thumbnail image, and enter the information for the episode in the fields below. Then click the `Upload` button.
 
 ![](images/create-episode.png)
-
-![](images/create-episode-1.png)
 
 > 📘 Note
 >
@@ -48,7 +46,7 @@ To create an episode, select the main video and, optionally, the thumbnail image
 
 ## Create Video
 
-To create a video, select the main video and, optionally, the thumbnail image. Then select `video` for the media type and enter the information for the video in the fields below. Then click the `Upload` button.
+To create a video, click on the `Create` button below the video table. Then select the main video, thumbnail image, and enter the information for the video in the fields below. Then click the `Upload` button.
 
 ![](images/create-video.png)
 
@@ -57,6 +55,16 @@ To create a video, select the main video and, optionally, the thumbnail image. T
 > 📘 Note
 >
 > For more information on the API calls used go to [Create Video](https://developer.nomad-cms.com/docs/create-content) [Update Content](https://developer.nomad-cms.com/docs/update-content) [Upload Asset](https://developer.nomad-cms.com/docs/upload-asset-sdk).
+
+## Create Series
+
+To create a series, click on the `Create` button below the series table. Then select the thumbnail image, the title icon, and enter the information for the series in the fields below. Then click the `Upload` button. 
+
+![](images/create-series.png)
+
+> 📘 Note
+>
+> For more information on the API call used go to [Create Series](https://developer.nomad-cms.com/docs/create-content) [Upload Asset](https://developer.nomad-cms.com/docs/upload-asset-sdk).
 
 ## Update Episode
 
@@ -78,6 +86,16 @@ To update a video, click on the title of the video you want to update. Then ente
 >
 > For more information on the API call used go to [Update Video](https://developer.nomad-cms.com/docs/update-content).
 
+## Update Series
+
+To update a series, click on the name of the series you want to update. Then enter the information you want to update in the dialog box. Then click the `Update` button.
+
+![](images/update-series.png)
+
+> 📘 Note
+>
+> For more information on the API call used go to [Update Series](https://developer.nomad-cms.com/docs/update-content).
+
 ## Delete Episode
 
 To delete episode(s), select the checkbox for the episode you want to delete. Then click the `Delete` button below the table.
@@ -97,26 +115,6 @@ To delete video(s), select the checkbox for the video you want to delete. Then c
 > 📘 Note
 >
 > For more information on the API call used go to [Delete Video](https://developer.nomad-cms.com/docs/delete-content).
-
-## Create Series
-
-To create a series, select the thumbnail image. Then select `series` for the media type and enter the information for the series in the fields below. Then click the `Create` button.
-
-![](images/create-series.png)
-
-> 📘 Note
->
-> For more information on the API call used go to [Create Series](https://developer.nomad-cms.com/docs/create-content).
-
-## Update Series
-
-To update a series, click on the name of the series you want to update. Then enter the information you want to update in the dialog box. Then click the `Update` button.
-
-![](images/update-series.png)
-
-> 📘 Note
->
-> For more information on the API call used go to [Update Series](https://developer.nomad-cms.com/docs/update-content).
 
 ## Delete Series
 

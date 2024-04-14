@@ -3,30 +3,6 @@ const MY_UPLOADS_DIV = document.getElementById("myUploadsDiv");
 const CREATE_SERIES_FORM = document.getElementById("createSeriesForm");
 const UPLOAD_VIDEO_FORM = document.getElementById("uploadVideoForm");
 
-const CONTENT_RATINGS_SELECT = document.getElementById("contentRatingsSelect");
-const FEATURED_GROUPS_SELECT = document.getElementById("featuredGroupsSelect");
-const GENRES_SELECT = document.getElementById("genresSelect");
-const LANGUAGES_SELECT = document.getElementById("languagesSelect");
-const MEDIA_ATTRIBUTES_SELECT = document.getElementById("mediaAttributesSelect");
-const PERFROMERS_SELECT = document.getElementById("performersSelect");
-const PRIMARY_PERFRORMER_SELECT = document.getElementById("primaryPerformerSelect");
-const SEASON_SELECT = document.getElementById("seasonSelect");
-const SERIES_SELECT = document.getElementById("seriesSelect");
-const TAGS_SELECT = document.getElementById("tagsSelect");
-const VIDEO_TYPE_SELECT = document.getElementById("videoTypeSelect");
-
-const MEDIA_TYPE_SELECT = document.getElementById("mediaTypeSelect");
-
-const EPISODE_DIV = document.getElementById("episodeDiv");
-const VIDEO_DIV = document.getElementById("videoDiv");
-
-const CREATE_SERIES_CONTENT_RATINGS_SELECT = document.getElementById("createSeriesContentRatingsSelect");
-const CREATE_SERIES_FEATURE_GROUPS_SELECT = document.getElementById("createSeriesFeaturedGroupsSelect");
-const CREATE_SERIES_GENRES_SELECT = document.getElementById("createSeriesGenresSelect");
-const CREATE_SERIES_MEDIA_ATTRIBUTES_SELECT = document.getElementById("createSeriesMediaAttributesSelect");
-const CREATE_SERIES_PERFORMERS_SELECT = document.getElementById("createSeriesPerformersSelect");
-const CREATE_SERIES_RELATED_SERIES_SELECT = document.getElementById("createSeriesRelatedSeriesSelect");
-
 const EPISODE_KEY_ORDER = ["title", "series", "season", "shortDescription", "longDescription", "featuredGroups", "contentRatings", "performers", "tags", "languages", "thumbnailImage"];
 const VIDEO_KEY_ORDER = ["title", "shortDescription", "longDescription", "genres", "featuredGroups", "contentRatings", "performers", "primaryPerformer", "mediaAttributes", "tags", "languages", "videoType", "thumbnailImage"];
 const SERIES_KEY_ORDER = ["name", "longDescription", "genres", "featuredGroups", "contentRatings", "performers", "mediaAttributes", "relatedSeries", "thumbnailImage", "titleIcon"];
@@ -41,180 +17,6 @@ const VIDEO_SUB_CALL_DICT = {
 
 const SERIES_SUB_CALL_DICT = {
     "related-series": "series"
-}
-
-await getContentRatings();
-
-async function getContentRatings()
-{
-    const CONTENT_RATINGS = await sendRequest("/content-ratings", "GET");
-    for (let contentRating of CONTENT_RATINGS)
-    {
-        const OPTION = document.createElement("option");
-        OPTION.value = contentRating.id;
-        OPTION.text = contentRating.title;
-        CONTENT_RATINGS_SELECT.appendChild(OPTION);
-        CREATE_SERIES_CONTENT_RATINGS_SELECT.appendChild(OPTION.cloneNode(true));
-    }
-
-    $(CONTENT_RATINGS_SELECT).select2();
-    $(CREATE_SERIES_CONTENT_RATINGS_SELECT).select2();
-}
-
-await getFeaturedGroups();
-
-async function getFeaturedGroups()
-{
-    const FEATURED_GROUPS = await sendRequest("/featured-groups", "GET");
-    for (let featuredGroup of FEATURED_GROUPS)
-    {
-        const OPTION = document.createElement("option");
-        OPTION.value = featuredGroup.id;
-        OPTION.text = featuredGroup.title;
-        FEATURED_GROUPS_SELECT.appendChild(OPTION);
-        CREATE_SERIES_FEATURE_GROUPS_SELECT.appendChild(OPTION.cloneNode(true));
-    }
-
-    $(FEATURED_GROUPS_SELECT).select2();
-    $(CREATE_SERIES_FEATURE_GROUPS_SELECT).select2();
-}
-
-await getGenres();
-
-async function getGenres()
-{
-    const GENRES = await sendRequest("/genres", "GET");
-    for (let genre of GENRES)
-    {
-        const OPTION = document.createElement("option");
-        OPTION.value = genre.id;
-        OPTION.text = genre.title;
-        GENRES_SELECT.appendChild(OPTION);
-        CREATE_SERIES_GENRES_SELECT.appendChild(OPTION.cloneNode(true));
-    }
-
-    $(GENRES_SELECT).select2();
-    $(CREATE_SERIES_GENRES_SELECT).select2();
-}
-
-await getLanguages();
-
-async function getLanguages()
-{
-    const LANGUAGES = await sendRequest("/languages", "GET");
-    for (let language of LANGUAGES)
-    {
-        const OPTION = document.createElement("option");
-        OPTION.value = language.id;
-        OPTION.text = language.title;
-        LANGUAGES_SELECT.appendChild(OPTION);
-    }
-
-    $(LANGUAGES_SELECT).select2();
-}
-
-await getMediaAttributes();
-
-async function getMediaAttributes()
-{
-    const MEDIA_ATTRIBUTES = await sendRequest("/media-attributes", "GET");
-    for (let mediaAttribute of MEDIA_ATTRIBUTES)
-    {
-        const OPTION = document.createElement("option");
-        OPTION.value = mediaAttribute.id;
-        OPTION.text = mediaAttribute.title;
-        MEDIA_ATTRIBUTES_SELECT.appendChild(OPTION);
-        CREATE_SERIES_MEDIA_ATTRIBUTES_SELECT.appendChild(OPTION.cloneNode(true));
-    }
-
-    $(MEDIA_ATTRIBUTES_SELECT).select2();
-    $(CREATE_SERIES_MEDIA_ATTRIBUTES_SELECT).select2();
-}
-
-await getPerformers();
-
-async function getPerformers()
-{
-    const PERFORMERS = await sendRequest("/performers", "GET");
-    for (let performer of PERFORMERS)
-    {
-        const OPTION = document.createElement("option");
-        OPTION.value = performer.id;
-        OPTION.text = performer.title;
-        PERFROMERS_SELECT.appendChild(OPTION);
-        PRIMARY_PERFRORMER_SELECT.appendChild(OPTION.cloneNode(true));
-        CREATE_SERIES_PERFORMERS_SELECT.appendChild(OPTION.cloneNode(true));
-    }
-
-    $(PERFROMERS_SELECT).select2();
-    $(PRIMARY_PERFRORMER_SELECT).select2();
-    $(CREATE_SERIES_PERFORMERS_SELECT).select2();
-}
-
-await getSeasons();
-
-async function getSeasons()
-{
-    const SEASONS = await sendRequest("/seasons", "GET");
-    for (let season of SEASONS)
-    {
-        const OPTION = document.createElement("option");
-        OPTION.value = season.id;
-        OPTION.text = season.title;
-        SEASON_SELECT.appendChild(OPTION);
-    }
-
-    $(SEASON_SELECT).select2();
-}
-
-await getSeries();
-
-async function getSeries()
-{
-    const SERIES = await sendRequest("/series", "GET");
-    for (let series of SERIES)
-    {
-        const OPTION = document.createElement("option");
-        OPTION.value = series.id;
-        OPTION.text = series.title;
-        SERIES_SELECT.appendChild(OPTION);
-        CREATE_SERIES_RELATED_SERIES_SELECT.appendChild(OPTION.cloneNode(true));
-    }
-
-    $(SERIES_SELECT).select2();
-    $(CREATE_SERIES_RELATED_SERIES_SELECT).select2();
-}
-
-await getTags();
-
-async function getTags()
-{
-    const TAGS = await sendRequest("/tags", "GET");
-    for (let tag of TAGS)
-    {
-        const OPTION = document.createElement("option");
-        OPTION.value = tag.id;
-        OPTION.text = tag.title;
-        TAGS_SELECT.appendChild(OPTION);
-    }
-
-    $(TAGS_SELECT).select2();
-}
-
-await getVideoTypes();
-
-async function getVideoTypes()
-{
-    const VIDEO_TYPES = await sendRequest("/video-types", "GET");
-    for (let videoType of VIDEO_TYPES)
-    {
-        const OPTION = document.createElement("option");
-        OPTION.value = videoType.id;
-        OPTION.text = videoType.title;
-        VIDEO_TYPE_SELECT.appendChild(OPTION);
-    }
-
-    $(VIDEO_TYPE_SELECT).select2();
 }
 
 await getUserUploadMedia();
@@ -385,8 +187,61 @@ async function createTable(CONTENT_DEFINITION, UPLOADS, CONTENT_DEFINITION_ID, K
 
     MY_UPLOADS_DIV.appendChild(table);
 
+    let createButton = document.createElement("button");
+    createButton.textContent = "Create";
+    createButton.style.marginRight = "10px";
+
+    createButton.addEventListener("click", () => {
+        let dialog = document.createElement("dialog");
+        dialog.id = `dialogCreate${CONTENT_DEFINITION[0].toUpperCase() + CONTENT_DEFINITION.slice(1)}`;
+
+        let form = document.createElement("form");
+        form.id = `formCreate${CONTENT_DEFINITION[0].toUpperCase() + CONTENT_DEFINITION.slice(1)}`;
+
+        let div = document.createElement("div");
+        div.id = `divCreate${CONTENT_DEFINITION[0].toUpperCase() + CONTENT_DEFINITION.slice(1)}`;
+
+        let closeButton = document.createElement("button");
+        closeButton.textContent = "X";
+        closeButton.style.position = "absolute";
+        closeButton.style.right = "0";
+        closeButton.style.top = "0";
+        closeButton.addEventListener("click", () => {
+            dialog.remove();
+            clearFormFields(div);
+        });
+
+        updateDiv(UPLOADS, "", dialog.id, KEY_ORDER, div, CONTENT_DEFINITION, IMAGE_VIDEO_NAMES, SUB_CALL_DICT);
+
+        let createButton = document.createElement("button");
+        createButton.textContent = "Create";
+        createButton.addEventListener("click", async () => {
+            event.preventDefault();
+            
+            const FORM_DATA = getElements(form);
+
+            await sendRequest(`/create${CONTENT_DEFINITION[0].toUpperCase() + CONTENT_DEFINITION.slice(1)}`, "POST", FORM_DATA);
+            location.reload();
+        });
+
+        form.appendChild(div);
+        form.appendChild(document.createElement("br"));
+        form.appendChild(document.createElement("br"));
+        form.appendChild(createButton);
+        dialog.appendChild(closeButton);
+        dialog.appendChild(form);
+        document.body.appendChild(dialog);
+
+        dialog.showModal();
+    });
+
+    MY_UPLOADS_DIV.appendChild(document.createElement("br"));
+    MY_UPLOADS_DIV.appendChild(document.createElement("br"));
+    MY_UPLOADS_DIV.appendChild(createButton);
+
     let deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
+
     deleteButton.addEventListener("click", async () => {
         event.preventDefault();
 
@@ -402,8 +257,6 @@ async function createTable(CONTENT_DEFINITION, UPLOADS, CONTENT_DEFINITION_ID, K
         location.reload();
     });
 
-    MY_UPLOADS_DIV.appendChild(document.createElement("br"));
-    MY_UPLOADS_DIV.appendChild(document.createElement("br"));
     MY_UPLOADS_DIV.appendChild(deleteButton);
 }
 
@@ -451,18 +304,28 @@ function initializeSelect2InDialog(DIALOG_ID, select) {
 async function updateDiv(CONTENTS, CONTENT_ID, DIALOG_ID, KEY_ORDER, DIV, ELEMS_NAME, IMAGE_VIDEO_NAMES = [], SUB_CALL_DICT = {})
 {
     const CONTENT = CONTENTS.find(content => content.id === CONTENT_ID);
-    const CONTENT_DETAILS = CONTENT.identifiers;
+    const CONTENT_DETAILS = CONTENT ? CONTENT.identifiers : {};
 
     let ranImageVideoNames = false;
+
+    let title = document.createElement("h3");
+    title.textContent = `${CONTENT_ID ? "Update" : "Create"} ${ELEMS_NAME[0].toUpperCase() + ELEMS_NAME.slice(1)}`;
+    DIV.appendChild(title);
 
     for (let key of KEY_ORDER)
     {
         const FORMATTED_KEY = key.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, str => str.toUpperCase());
         let formattedKeyHyphen = FORMATTED_KEY.replace(/\s+/g, '-').toLowerCase();
+
+        if (SUB_CALL_DICT && SUB_CALL_DICT[formattedKeyHyphen])
+        {
+            formattedKeyHyphen = SUB_CALL_DICT[formattedKeyHyphen];
+        }
+
         if (!CONTENT_DETAILS[key] && !IMAGE_VIDEO_NAMES.includes(key))
         {
             const REQUESTS = await sendRequest("/api-paths", "GET");
-            
+
             if (formattedKeyHyphen[formattedKeyHyphen.length - 1] === "s")
             {
                 if (REQUESTS.includes(`/${formattedKeyHyphen}`))
@@ -515,17 +378,14 @@ async function updateDiv(CONTENTS, CONTENT_ID, DIALOG_ID, KEY_ORDER, DIV, ELEMS_
             if (IMAGE_VIDEO_NAMES.includes(key)) continue;
 
             let select = document.createElement("select");
-            select.id = `update${ELEMS_NAME.charAt(0).toUpperCase() + ELEMS_NAME.slice(1)}${key.charAt(0).toUpperCase() + key.slice(1)}Select`;
+            select.id = `${key}Select`;
 
             if (Array.isArray(CONTENT_DETAILS[key]))
             {
                 select.multiple = true;
             }
+
             let selectValues = []
-            if (SUB_CALL_DICT && SUB_CALL_DICT[formattedKeyHyphen])
-            {
-                formattedKeyHyphen = SUB_CALL_DICT[formattedKeyHyphen];
-            }
             if (formattedKeyHyphen[formattedKeyHyphen.length - 1] === "s")
             {
                 selectValues = await sendRequest(`/${formattedKeyHyphen}`, "GET");
@@ -568,37 +428,6 @@ async function updateDiv(CONTENTS, CONTENT_ID, DIALOG_ID, KEY_ORDER, DIV, ELEMS_
         }
     }
 }
-
-MEDIA_TYPE_SELECT.addEventListener("change", async (event) => {
-    const MEDIA_TYPE = event.target.value;
-    
-    if (MEDIA_TYPE === "episode")
-    {
-        EPISODE_DIV.hidden = false;
-        VIDEO_DIV.hidden = true;
-    }
-    else if (MEDIA_TYPE === "video")
-    {
-        EPISODE_DIV.hidden = true;
-        VIDEO_DIV.hidden = false;
-    }
-});
-
-UPLOAD_VIDEO_FORM.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const FORM_DATA = getElements(UPLOAD_VIDEO_FORM);
-
-    await sendRequest("/uploadVideo", "POST", FORM_DATA);
-});
-
-CREATE_SERIES_FORM.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_SERIES_FORM);
-
-    await sendRequest("/createSeries", "POST", FORM_DATA);
-});
 
 function getElements(FORM)
 {
