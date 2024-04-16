@@ -240,13 +240,6 @@ app.post('/createEpisode', upload.fields([{ name: "mainVideo" }, { name: "thumbn
             const PARSED_LANGUAGES = JSON.parse(req.body.languagesSelect);
             languages = Array.isArray(PARSED_LANGUAGES) ? PARSED_LANGUAGES : [PARSED_LANGUAGES];
         }
-        
-        let mediaAttributes = null;
-        if (req.body.mediaAttributesSelect)
-        {
-            const PARSED_MEDIA_ATTRIBUTES = JSON.parse(req.body.mediaAttributesSelect);
-            mediaAttributes = Array.isArray(PARSED_MEDIA_ATTRIBUTES) ? PARSED_MEDIA_ATTRIBUTES : [PARSED_MEDIA_ATTRIBUTES];
-        }
 
         let performers = null;
         if (req.body.performersSelect)
@@ -870,6 +863,7 @@ app.listen(port, () => {
     console.log(`Sever is running on port ${port}`);
 });
 
+// Gets all the contents from a content definition
 async function getGroups(GROUP_CONTENT_DEFINITION_ID)
 {
     const GROUP_LIST = [];

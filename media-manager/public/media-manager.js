@@ -27,10 +27,12 @@ async function getUserUploadMedia()
     const SERIES_CONTENT_DEFINITION_ID = "9c1713ce-006c-4dc7-afb6-028df1fb3bf3";
     const VIDEO_CONTENT_DEFINITION_ID = "22470571-8d03-4b04-b8dc-4f7e91aa57d4";
 
+    // gets all the episodes, videos, and series that the user has uploaded
     const EPISODES = await sendRequest("/episodes", "GET");
     const VIDEOS = await sendRequest("/videos", "GET");
     const SERIES = await sendRequest("/series", "GET");
 
+    // creates a table for each type of media that the user has uploaded
     if (EPISODES.length > 0)
     {
         MY_UPLOADS_DIV.appendChild(document.createElement("h3")).textContent = "Episodes";
@@ -50,6 +52,7 @@ async function getUserUploadMedia()
     }
 }
 
+// creates a table for the media that the user has uploaded
 async function createTable(CONTENT_DEFINITION, UPLOADS, CONTENT_DEFINITION_ID, KEY_ORDER = [], IMAGE_VIDEO_NAMES = [], SUB_CALL_DICT = {})
 {
     let table = document.createElement("table");
@@ -61,6 +64,7 @@ async function createTable(CONTENT_DEFINITION, UPLOADS, CONTENT_DEFINITION_ID, K
     let th = document.createElement("th");
     tr.appendChild(th);
 
+    // creates the table headers
     for (let key of KEY_ORDER)
     {
         const FORMATTED_KEY = key.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, str => str.toUpperCase());
@@ -73,6 +77,7 @@ async function createTable(CONTENT_DEFINITION, UPLOADS, CONTENT_DEFINITION_ID, K
     thead.appendChild(tr);
     table.appendChild(thead);
 
+    // creates the table body
     let tbody = document.createElement("tbody");
 
     for (let upload of UPLOADS)
@@ -80,6 +85,7 @@ async function createTable(CONTENT_DEFINITION, UPLOADS, CONTENT_DEFINITION_ID, K
         let uploadIdentifiers = upload.identifiers;
         let tr = document.createElement("tr");
 
+        // creates a checkbox for each row
         let td = document.createElement("td");
         let checkbox = document.createElement("input");
         checkbox.type = "checkbox";
@@ -87,18 +93,19 @@ async function createTable(CONTENT_DEFINITION, UPLOADS, CONTENT_DEFINITION_ID, K
         td.appendChild(checkbox);
         tr.appendChild(td);
 
+        // creates the table data for each row
         for (let key of KEY_ORDER)
         {
             let td = document.createElement("td");
 
-            const values = [];
             if (Array.isArray(uploadIdentifiers[key]))
             {
+                const VALUES = [];
                 for (let value of uploadIdentifiers[key])
                 {
-                    values.push(value.description);
+                    VALUES.push(value.description);
                 }
-                td.textContent = values.join(", ");
+                td.textContent = VALUES.join(", ");
             }
             else if (Object.prototype.toString.call(uploadIdentifiers[key]) === '[object Object]' && !IMAGE_VIDEO_NAMES.includes(key))
             {
@@ -126,6 +133,7 @@ async function createTable(CONTENT_DEFINITION, UPLOADS, CONTENT_DEFINITION_ID, K
                 td.textContent = uploadIdentifiers[key];
             }
 
+            // creates a dialog for each row that allows the user to update the media
             if (key === KEY_ORDER[0])
             {
                 td.classList.add("pointer");
@@ -187,6 +195,7 @@ async function createTable(CONTENT_DEFINITION, UPLOADS, CONTENT_DEFINITION_ID, K
 
     MY_UPLOADS_DIV.appendChild(table);
 
+    // creates a button that allows the user to create new media
     let createButton = document.createElement("button");
     createButton.textContent = "Create";
     createButton.style.marginRight = "10px";
@@ -239,6 +248,7 @@ async function createTable(CONTENT_DEFINITION, UPLOADS, CONTENT_DEFINITION_ID, K
     MY_UPLOADS_DIV.appendChild(document.createElement("br"));
     MY_UPLOADS_DIV.appendChild(createButton);
 
+    // creates a button that allows the user to delete media
     let deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
 
@@ -268,6 +278,7 @@ function clearFormFields(div)
     }
 }
 
+// makes the select2 dropdowns work in the dialog
 function initializeSelect2InDialog(DIALOG_ID, select) {
     let observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
@@ -301,6 +312,7 @@ function initializeSelect2InDialog(DIALOG_ID, select) {
     observer.observe(document, { childList: true, subtree: true });
 }
 
+// creates the form for updating or creating media
 async function updateDiv(CONTENTS, CONTENT_ID, DIALOG_ID, KEY_ORDER, DIV, ELEMS_NAME, IMAGE_VIDEO_NAMES = [], SUB_CALL_DICT = {})
 {
     const CONTENT = CONTENTS.find(content => content.id === CONTENT_ID);
@@ -322,6 +334,7 @@ async function updateDiv(CONTENTS, CONTENT_ID, DIALOG_ID, KEY_ORDER, DIV, ELEMS_
             formattedKeyHyphen = SUB_CALL_DICT[formattedKeyHyphen];
         }
 
+        // checks if the key is a sub call
         if (!CONTENT_DETAILS[key] && !IMAGE_VIDEO_NAMES.includes(key))
         {
             const REQUESTS = await sendRequest("/api-paths", "GET");
@@ -342,6 +355,7 @@ async function updateDiv(CONTENTS, CONTENT_ID, DIALOG_ID, KEY_ORDER, DIV, ELEMS_
             }
         }
 
+        // creates the file inputs for the images and videos
         if (!ranImageVideoNames)
         {
             for (name of IMAGE_VIDEO_NAMES)
@@ -360,6 +374,7 @@ async function updateDiv(CONTENTS, CONTENT_ID, DIALOG_ID, KEY_ORDER, DIV, ELEMS_
             ranImageVideoNames = true;
         }
 
+        // creates the inputs for the rest of the form
         if (typeof(CONTENT_DETAILS[key]) === "string" || !CONTENT_DETAILS[key])
         {
             if (IMAGE_VIDEO_NAMES.includes(key)) continue;
@@ -385,6 +400,7 @@ async function updateDiv(CONTENTS, CONTENT_ID, DIALOG_ID, KEY_ORDER, DIV, ELEMS_
                 select.multiple = true;
             }
 
+            // gets the values for the select dropdown
             let selectValues = []
             if (formattedKeyHyphen[formattedKeyHyphen.length - 1] === "s")
             {
@@ -414,6 +430,7 @@ async function updateDiv(CONTENTS, CONTENT_ID, DIALOG_ID, KEY_ORDER, DIV, ELEMS_
 
             if (DIALOG_ID) initializeSelect2InDialog(DIALOG_ID, select);
 
+            // sets the selected values for the select dropdown
             if (Array.isArray(CONTENT_DETAILS[key]))
             {
                 for (let value of CONTENT_DETAILS[key])
@@ -429,6 +446,7 @@ async function updateDiv(CONTENTS, CONTENT_ID, DIALOG_ID, KEY_ORDER, DIV, ELEMS_
     }
 }
 
+// gets the values from the form
 function getElements(FORM)
 {
     const FORM_DATA = new FormData();
@@ -479,6 +497,7 @@ function getElements(FORM)
     return FORM_DATA;
 }
 
+// sends a request to the server
 async function sendRequest(PATH, METHOD, BODY)
 {
     try
