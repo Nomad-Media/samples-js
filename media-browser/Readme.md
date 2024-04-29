@@ -71,5 +71,3 @@ The `More Info` navigation bar item, located at the bottom of the page, will bri
 ## Other Navigation Bar Items
 
 The other navigation bar items will pop up a dialog box with the the information of the item you clicked on.
-
-![](images/nav-item-dialog.png)
