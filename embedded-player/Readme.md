@@ -1,4 +1,3 @@
-
 # How to use `wc-player`
 
 1. Put `wc-player` folder that contains `wc-player.js` along with `style.scss` and other necessary assets into `public` folder.
@@ -49,7 +48,7 @@ You can refer to some example screenshots in the `screenshots` folder.
   }
 ```
 
-Example usage of wc-player:
+Examples usage of wc-player:
 
 ```
 <wc-player 
@@ -89,6 +88,147 @@ Example usage of wc-player:
     }'></wc-player>
 ```
 
-<br/>
-<br/>
-<br/>
+```
+<wc-player 
+    ref={this.handleRef}
+    force-start={this.state.forceStart}
+    force-pause={this.state.forcePause}
+    force-mute={this.state.forceMute}
+    force-unmute={this.state.forceUnmute}
+    vep-config='{
+        "application": "Embedded",
+              "customer": "acme-customer",
+              "siteName": "Acme Main Site",
+              "hideSidebar": true,
+              "supportSharing": true,
+	      "shareUrl": "Nomad sharing HTML endpoint URL or website page URL goes here",
+              "bottomShareIcon": true,
+              "supportSharingFacebook": true,
+              "supportSharingTwitter": false,
+              "supportSharingLinkedin": true,
+              "supportSharingEmail": true,
+              "googleTagManager": "GTM-TAGGOESHERE",
+              "players": [{ "format": "hls", "player": "videojs" } ],
+              "liveMode": false,
+              "vepModules": [
+                {
+                  "moduleType": "streams",
+                  "isEnabled": true,
+                  "streams": [
+                    {
+                      "streamUrl": "stream URL goes here",
+                      "title": "stream title goes here",
+                      "autoplay": true
+                    }
+                  ]
+                }
+              ]
+    }'></wc-player>
+```
+
+```
+<wc-player 
+    ref={this.handleRef}
+    force-start={this.state.forceStart}
+    force-pause={this.state.forcePause}
+    force-mute={this.state.forceMute}
+    force-unmute={this.state.forceUnmute}
+    vep-config='{
+        "application": "Embedded",
+              "customer": "acme-customer",
+              "siteName": "Acme Main Site",
+              "hideSidebar": true,
+              "supportSharing": true,
+	      "shareUrl": "Nomad sharing HTML endpoint URL or website page URL goes here",
+              "bottomShareIcon": true,
+              "supportSharingFacebook": true,
+              "supportSharingTwitter": false,
+              "supportSharingLinkedin": true,
+              "supportSharingEmail": true,
+              "googleTagManager": "GTM-TAGGOESHERE",
+              "players": [{ "format": "hls", "player": "videojs" } ],
+              "liveMode": false,
+              "vepModules": [
+                {
+                  "moduleType": "streams",
+                  "isEnabled": true,
+                  "streams": [
+                    {
+                      "streamUrl": "stream URL goes here",
+                      "title": "stream title goes here",
+                      "autoplay": true
+                    }
+                  ]
+                }
+              ]
+    }'></wc-player>
+```
+
+```
+<wc-player 
+    ref={this.handleRef}
+    force-start={this.state.forceStart}
+    force-pause={this.state.forcePause}
+    force-mute={this.state.forceMute}
+    force-unmute={this.state.forceUnmute}
+    vep-config='{
+        "application": "Embedded",
+              "customer": "acme-customer",
+              "siteName": "Acme Main Site",
+              "hideSidebar": true,
+              "supportSharing": true,
+	      "shareUrl": "Nomad sharing HTML endpoint URL or website page URL goes here",
+              "bottomShareIcon": true,
+              "supportSharingFacebook": true,
+              "supportSharingTwitter": false,
+              "supportSharingLinkedin": true,
+              "supportSharingEmail": true,
+              "googleTagManager": "GTM-TAGGOESHERE",
+              "players": [{ "format": "hls", "player": "videojs" } ],
+              "liveMode": false,
+              "vepModules": [
+                {
+                  "moduleType": "streams",
+                  "isEnabled": true,
+                  "streams": [
+                    {
+                      "streamUrl": "stream URL goes here",
+                      "title": "stream title goes here",
+                      "autoplay": true
+                    }
+                  ]
+                }
+              ]
+    }'></wc-player>
+```
+
+## Attributes
+
+| Field | Type | Description |
+| --- | --- | --- |
+| configBasePath | string | |
+| googleMapsApiKey | string (optional) | |
+| googleTagManager | string (optional) | |
+| contentDefinitionId | string | |
+| logoImageUrl | string | |
+| lookupsUrl | string | |
+| vepModules | VepModule[] (optional) | |
+| rootFolderId | string | |
+| vepSettings | any | |
+| siteName | string | |
+| players | VideoPlayer[] (optional) | |
+| bitmovinLicenseKey | string | |
+| bitmovinAnalyticsLicenseKey | string | |
+| webRtcIceServer | string (optional) | |
+| applicationId | string | |
+| pingIntervalInSeconds | number | |
+| expiredSessionRedirectUrl | string | |
+| application | string | |
+| customer | string | |
+| hideSidebar | boolean | |
+| secureCookiesUrl | string | |
+| liveMode | boolean | |
+| webRtcApplication | string | |
+| shareUrl | string | |
+| bottomShareIcon | boolean (optional) | |
+| supportSharing | boolean (optional) | |
