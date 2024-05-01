@@ -70,7 +70,6 @@ class App extends Component {
   }
 
   onForceMute() {
-    debugger;
     this.setState({
       forceMute: true,
       forceUnmute: false
@@ -78,7 +77,6 @@ class App extends Component {
   }
 
   onForceUnmute() {
-    debugger;
     this.setState({
       forceUnmute: true,
       forceMute: false
