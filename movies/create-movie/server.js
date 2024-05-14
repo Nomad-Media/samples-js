@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-import NomadMediaSDK from "nomad-media-npm";
+import NomadMediaSDK from "@nomad-media/full";
 import config from "./config.js";
 const NomadSDK = new NomadMediaSDK(config);
 
