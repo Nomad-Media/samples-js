@@ -210,6 +210,18 @@ async function enterDialog(MEDIA_ITEM_ID)
         ITEM_INFO.tags ? TAGS.innerText = ITEM_INFO.tags.map(tag =>tag.name).join(', ') : null;
         dialogContent.appendChild(TAGS);
     }
+    
+    if (ITEM_INFO.video && ITEM_INFO.video.fullUrl)
+    {
+        const TITLE = document.createElement('h5');
+        TITLE.innerText = "Video Url";
+        dialogContent.appendChild(TITLE);
+
+        const VIDEO_URL = document.createElement('a');
+        VIDEO_URL.href = ITEM_INFO.video.fullUrl;
+        VIDEO_URL.innerText = ITEM_INFO.video.fullUrl;
+        dialogContent.appendChild(VIDEO_URL);
+    }
 
     if (ITEM_INFO.similarMediaItems && ITEM_INFO.similarMediaItems.length > 0)
     {
