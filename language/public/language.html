@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Event Scheduler</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fav Icon -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+     <!-- Google Fonts -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+ 
+     <!-- Sweet Alert 2 -->
+     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui@5.0.4/material-ui.min.css">
+
+    <!-- Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="language.css">
+
+    <!-- JS -->
+    <script type="module" src="language.js" defer></script>
+</head>
+
+<body>
+    <h1>Language</h1>
+
+    <h3>Create Content for Language</h3>
+    <form id="createForm">
+        <label for="contentDefinitionId">Content Definition Id:</label>
+        <input type="text" id="createContentContentDefinitionId" required>
+
+        <label for="contentId">Master Id:</label>
+        <input type="text" id="createContentMasterId" required>
+
+        <label for="language">Language:</label>
+        <select id="createContentLanguage" required></select>
+
+        <div id="createContentLanguagePropertiesDiv"></div>
+
+        <br><br>
+        <button type="button" id="createContentAddPropertiesButton">Add Properties</button>
+        <button type="submit" id="createContentSubmitButton" hidden>Submit</button>
+    </form>
+
+    <h3>Get Content for Language</h3>
+    <form id="getForm">
+        <label for="contentDefinitionId">Content Definition Id:</label>
+        <input type="text" id="contentDefinitionId" required>
+
+        <label for="masterId">Master Id:</label>
+        <input type="text" id="masterId" required>
+
+        <label for="language">Language:</label>
+        <select id="getContentLanguage" required></select>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Update Content for Language</h3>
+    <form id="updateForm">
+        <label for="contentDefinitionId">Content Definition Id:</label>
+        <input type="text" id="updateContentContentDefinitionId" required>
+
+        <label for="masterId">Master Id:</label>
+        <input type="text" id="updateContentMasterId" required>
+
+        <label for="languageId">Language:</label>
+        <select id="updateContentLanguage" required></select>
+
+        <div id="updateContentLanguagePropertiesDiv"></div>
+
+        <br><br>
+        <button type="button" id="updateContentAddPropertiesButton">Add Properties</button>
+        <button type="submit" id="updateContentSubmitButton" hidden>Submit</button>
+    </form>
+
+    <h3>Delete Content for Language</h3>
+    <form id="deleteForm">
+        <label for="contentDefinitionId">Content Definition Id:</label>
+        <input type="text" id="contentDefinitionId" required>
+
+        <label for="masterId">Master Id:</label>
+        <input type="text" id="masterId" required>
+
+        <label for="language">Language:</label>
+        <select id="deleteContentLanguage" required></select>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>
