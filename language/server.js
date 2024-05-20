@@ -139,6 +139,7 @@ app.post('/getContentData', upload.none(), async (req, res) => {
 app.post('/createContent', upload.none(), async (req, res) => {
     try
     {
+        console.log(req.body);
         const PROPERTIES = {};
         const GUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
@@ -176,6 +177,7 @@ app.post('/createContent', upload.none(), async (req, res) => {
         }
 
         req.body.properties = PROPERTIES;
+        console.log(req.body.properties);
 
         const ID = await NomadSDK.updateContent(req.body.masterId, req.body.contentDefinitionId, req.body.properties, req.body.language);
 

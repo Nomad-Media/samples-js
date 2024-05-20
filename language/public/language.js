@@ -116,6 +116,7 @@ async function addProperties(CONTENT_DEFINITION_ID, MASTER_ID, LANGUAGE_ID, DIV,
         PROPERTY_DIV.appendChild(LABEL);
 
         let camelPropertyTitle = PROPERTY.title.replace(/ /g, "");
+        if (camelPropertyTitle.slice(1) === camelPropertyTitle.slice(1).toUpperCase()) camelPropertyTitle = camelPropertyTitle.toLowerCase();
         camelPropertyTitle = camelPropertyTitle[0].toLowerCase() + camelPropertyTitle.slice(1);
 
         if ((PROPERTY.fieldId.description === "Short Text" || PROPERTY.fieldId.description === "Number") && contentField.isInEditorForm)
@@ -163,7 +164,6 @@ async function addProperties(CONTENT_DEFINITION_ID, MASTER_ID, LANGUAGE_ID, DIV,
 
                 if (CONTENT_DATA && CONTENT_DATA.properties[camelPropertyTitle]) 
                 {
-                    //debugger;
                     if (PROPERTY.fieldId.description === "Lookup Multi-Select Chip View")
                     {
                         for (let selectedOption of CONTENT_DATA.properties[camelPropertyTitle])
@@ -201,6 +201,55 @@ async function addProperties(CONTENT_DEFINITION_ID, MASTER_ID, LANGUAGE_ID, DIV,
             PROPERTY_DIV.appendChild(INPUT);
             PROPERTIES_DIV.appendChild(PROPERTY_DIV);
         }
+        else if (PROPERTY.fieldId.description === "Date" && contentField.isInEditorForm)
+        {
+            const INPUT = document.createElement("input");
+            INPUT.type = "datetime-local";
+            INPUT.id = camelPropertyTitle;
+
+            const DATE = new Date(CONTENT_DATA.properties[camelPropertyTitle]);
+            if (!isNaN(DATE))
+            {
+                const FROMATTED_DATE = DATE.toISOString().slice(0, -8);
+                if (CONTENT_DATA && CONTENT_DATA.properties[camelPropertyTitle]) INPUT.value = FROMATTED_DATE;
+            }
+
+            PROPERTY_DIV.appendChild(INPUT);
+            PROPERTIES_DIV.appendChild(PROPERTY_DIV);
+        }
+        else if (PROPERTY.fieldId.description === "Checkbox" && contentField.isInEditorForm)
+        {
+            const INPUT = document.createElement("select");
+            INPUT.id = camelPropertyTitle;
+
+            const TRUE_OPTION = document.createElement("option");
+            TRUE_OPTION.value = "true";
+            TRUE_OPTION.text = "True";
+
+            const FALSE_OPTION = document.createElement("option");
+            FALSE_OPTION.value = "false";
+            FALSE_OPTION.text = "False";
+
+            if (CONTENT_DATA && CONTENT_DATA.properties[camelPropertyTitle])
+            {
+                if (CONTENT_DATA.properties[camelPropertyTitle] === "true")
+                {
+                    TRUE_OPTION.selected = true;
+                }
+                else
+                {
+                    FALSE_OPTION.selected = true;
+                }
+            }
+
+            INPUT.appendChild(TRUE_OPTION);
+            INPUT.appendChild(FALSE_OPTION);
+
+            PROPERTY_DIV.appendChild(INPUT);
+            PROPERTIES_DIV.appendChild(PROPERTY_DIV);
+
+            $(INPUT).select2();
+        }
     }
     
     DIV.appendChild(PROPERTIES_DIV);
@@ -237,6 +286,7 @@ function getElements(FORM)
     const FORM_DATA = new FormData();
     for (let input of FORM)
     {
+        if (input.id === "") continue;
         if (input.tagName === "SELECT") {
             const SELECTED_OPTIONS = []
             for (let element of input) {
@@ -256,12 +306,12 @@ function getElements(FORM)
             {
                 FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS));
             }
-            else
+            else if (SELECTED_OPTIONS.length > 0)
             {
                 FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS[0]));
             }
         }
-        else if (input.tagName === "INPUT")
+        else if (input.tagName === "INPUT" || input.tagName === "TEXTAREA")
         {
             if (input.id) {
                 FORM_DATA.append(input.id, input.value);
@@ -283,8 +333,15 @@ async function sendRequest(PATH, METHOD, BODY)
 
         if (RESPONSE.ok)
         {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
+            try
+            {
+                const DATA = await RESPONSE.json();
+                if (DATA) return DATA;
+            }
+            catch (error)
+            {
+                console.log("No data returned");
+            }
         }
         else
         {
