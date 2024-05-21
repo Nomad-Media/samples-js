@@ -1,4 +1,4 @@
-# How to run the existing js `wc-player`
+# How to run the existing Embedded js `wc-player`
 
 ## VS Code
 To run the existing js `wc-player` in VS Code, follow these steps:
