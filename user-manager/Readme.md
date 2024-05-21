@@ -24,6 +24,10 @@ Then open a webpage and go to localhost:4200.
 
 In the nomad-sdk/js directory there are two versions of the Nomad SDK. There is the sdk.min.js file which is a minified version of the sdk, and the sdk-debug.js file which is a concatenated version of the sdk. The sdk-debug file will show you all the parameter documentation and readable code.
 
+## Content Definitions
+
+At the top of the server.js file, there are content definition ids. These ids different for each environment. Change the content definition ids to the content definition ids of the environment you are using.
+
 ## Create User
 
 To create a user, enter the email of the user you want to create. Then enter the properties of the user you want to create. Then click the `Create User` button.
