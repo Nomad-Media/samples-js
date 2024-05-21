@@ -138,7 +138,7 @@ app.post('/createUser', upload.none(), async (req, res) => {
         if (req.body.postalCode) PROPERTIES.postalCode = req.body.postalCode;
         if (securityGroup) PROPERTIES.assignedSecurityGroups = securityGroup;
 
-        const USER_INFO = await NomadSDK.updateContent(req.body.userId, USER_CONTENT_DEFINITION_ID, 
+        const USER_INFO = await NomadSDK.updateContent(USER_ID.id, USER_CONTENT_DEFINITION_ID, 
             PROPERTIES);
 
         res.status(200).json(USER_INFO);
