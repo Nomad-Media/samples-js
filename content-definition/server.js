@@ -38,7 +38,8 @@ app.post('/getContentDefinition', upload.none(), async (req, res) => {
 app.post('/getContentDefinitions', upload.none(), async (req, res) => {
     try
     {
-        const CONTENT_DEFINITIONS = await NomadSDK.getContentDefinitions();
+        const CONTENT_DEFINITIONS = await NomadSDK.getContentDefinitions(req.body.contentManagementType,
+            req.body.sortColumn, req.body.isDescending === "true", req.body.pageIndex, req.body.pageSize);
         
         res.status(200).json(CONTENT_DEFINITIONS);
     }

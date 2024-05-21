@@ -33,6 +33,29 @@
     <h1>Content Definition</h1>
     <h3>Get Content Definitions</h3>
     <form id="getContentDefinitionsForm">
+        <label for="contentManagementType">Content Management Type:</label>
+        <select id="contentManagementType">
+            <option value="1">None</option>
+            <option value="2">Data Selector</option>
+            <option value="3">Form Selector</option>
+        </select>
+
+        <label for="sortColumn">Sort Column:</label>
+        <input type="text" id="sortColumn">
+
+        <label for="isDescending">Is Descending:</label>
+        <select id="isDescending">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select>
+
+        <label for="pageIndex">Page Index:</label>
+        <input type="text" id="pageIndex">
+
+        <label for="pageSize">Page Size:</label>
+        <input type="text" id="pageSize">
+
+        <br><br>
         <button type="submit">Get Content Definitions</button>
     </form>
 

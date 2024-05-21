@@ -26,7 +26,7 @@ In the nomad-sdk/js directory there are two versions of the Nomad SDK. There is 
 
 ## Get Content Definitions
 
-To get all content definitions, click `submit` to get all content definitions.
+To get all content definitions, enter the content management type, sort column, sort order, page index, and/or page size. Then click `Get Content Definitions` to get all content definitions.
 
 ![](images/get-content-definitions.png)
 
@@ -36,7 +36,7 @@ To get all content definitions, click `submit` to get all content definitions.
 
 ## Get Content Definition
 
-To get a content definition, enter the content definition id and click `submit`.
+To get a content definition, enter the content definition id and click `Get Content Definition`.
 
 ![](images/get-content-definition.png)
 
