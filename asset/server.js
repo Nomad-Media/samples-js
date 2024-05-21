@@ -183,7 +183,7 @@ app.get('/get-tag-list', upload.none(), async (req, res) =>
         }
         else
         {
-            const TAGS = await getGroups(TAG_CONTENT_DEFINITION_ID);
+            const TAGS = await import NomadMediaSDK from "@nomad-media/full";roups(TAG_CONTENT_DEFINITION_ID);
 
             res.status(200).json(TAGS);
         }
