@@ -21,6 +21,31 @@ const DELETE_TAG_OR_COLLECTION = document.getElementById("deleteTagOrCollection"
 const DELETE_TAG_ID_LABEL = document.getElementById("deleteTagIdLabel");
 
 const TAG_ID_DIV = document.getElementById("tagIdDiv");
+const ADD_CUSTOM_PROPERTIES_DIV = document.getElementById("addCustomPropertiesDiv");
+
+const ADD_CUSTOM_PROPERTIES_BUTTON = document.getElementById("addCustomPropertiesButton");
+
+ADD_CUSTOM_PROPERTIES_BUTTON.addEventListener("click", async function (event)
+{
+    event.preventDefault();
+
+    const PROPERTY_NAME_LABEL = document.createElement('label');
+    PROPERTY_NAME_LABEL.textContent = "Property Name:"; 
+    const PROPERTY_NAME = document.createElement('input');
+    PROPERTY_NAME.type = "text";
+    PROPERTY_NAME.name = "propertyName";
+
+    const PROPERTY_VALUE_LABEL = document.createElement('label');
+    PROPERTY_VALUE_LABEL.textContent = "Property Value:";
+    const PROPERTY_VALUE = document.createElement('input');
+    PROPERTY_VALUE.type = "text";
+    PROPERTY_VALUE.name = "propertyValue";
+
+    ADD_CUSTOM_PROPERTIES_DIV.appendChild(PROPERTY_NAME_LABEL);
+    ADD_CUSTOM_PROPERTIES_DIV.appendChild(PROPERTY_NAME);
+    ADD_CUSTOM_PROPERTIES_DIV.appendChild(PROPERTY_VALUE_LABEL);
+    ADD_CUSTOM_PROPERTIES_DIV.appendChild(PROPERTY_VALUE);
+});
 
 CREATE_TAG_OR_COLLECTION.addEventListener("change", async function (event)
 {

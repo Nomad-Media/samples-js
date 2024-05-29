@@ -124,9 +124,15 @@ app.post('/delete-related-content', upload.none(), async (req, res) => {
 app.post('/add-custom-properties', upload.none(), async (req, res) => {
     try
     {
+        const PROPERTIES = {}
+
+        for (let i = 0; i < req.body.propertyName.length; i++)
+        {
+            PROPERTIES[req.body.propertyName[i]] = req.body.propertyValue[i];
+        }
+
         const CUSTOM_PROPERTIES = await NomadSDK.addCustomProperties(req.body.addCustomPropertiesAssetId, 
-            req.body.addCustomPropertiesName, req.body.addCustomPropertiesNames.split(','),
-            req.body.addCustomPropertiesValues.split(','));
+            req.body.name, req.body.date, PROPERTIES);
         res.status(200).json(CUSTOM_PROPERTIES);
     }
     catch (error)

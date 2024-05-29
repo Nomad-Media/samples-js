@@ -107,3 +107,13 @@ To update metadata in bulk enter the id(s) of the content(s) you want to update.
 > 📘 Note
 > 
 > For more information about the API call used go to [Bulk Update Metadata](https://developer.nomad-cms.com/docs/bulk-update-metadata)
+
+## Add Custom Properties
+
+To add custom properties to an asset, first enter the content id of the asset you want to add the custom properties to. Then enter the name and date of the custom property you want to add and the custom propteries. The properties will show up under `customAttributes` in the asset.
+
+![](images/add-custom-properties.png)
+
+> 📘 Note
+>
+> For more information about the API call used go to [Add Custom Properties](https://developer.nomad-cms.com/docs/add-custom-properties)
