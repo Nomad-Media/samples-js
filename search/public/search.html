@@ -82,6 +82,30 @@
         <br><br>
         <button type="button" id="addSortFieldsButton">Add Sort Field</button>
 
+        <label for="fullUrlNames">Full Url Names (separate by comma)</label>
+        <input type="text" id="fullUrlNames">
+
+        <label for="distinctOnFieldName">Distinct On Field Name:</label>
+        <input type="text" id="distinctOnFieldName">
+
+        <label for="includeVideoClips">Include Video Clips:</label>
+        <select id="includeVideoClips">
+            <option value="True" selected>True</option>
+            <option value="False">False</option>
+        </select>
+
+        <label for="useLlmSearch">Use Llm Search:</label>
+        <select id="useLlmSearch">
+            <option value="True" selected>True</option>
+            <option value="False">False</option>
+        </select>
+
+        <label for="includeInternalFieldsInResults">Include Internal Fields In Results:</label>
+        <select id="includeInternalFieldsInResults">
+            <option value="True" selected>True</option>
+            <option value="False">False</option>
+        </select>
+
         <br><br>
         <button type="submit">Submit</button>
     </form>

@@ -77,8 +77,10 @@ app.post('/search', upload.none(), async (req, res) =>
 
         const SEARCH_MOVIE_INFO = await NomadSDK.search(req.body.searchQuery,
             req.body.pageOffset, req.body.pageSize, FILTERS, SORT_FIELDS,
-            RESULT_FIELD_NAMES, req.body.similarAssetId, req.body.minScore, 
-            req.body.excludeTotalRecordCount, req.body.filterBinder);
+            RESULT_FIELD_NAMES, req.body.fullUrlNames.split(","), req.body.distinctOnFieldName,
+            req.body.includeVideoClips === "True", req.body.similarAssetId, req.body.minScore, 
+            req.body.excludeTotalRecordCount, req.body.filterBinder, req.body.useLlmSearch === "True",
+            req.body.includeInternalFieldsInResults === "True");
 
         res.status(200).json(SEARCH_MOVIE_INFO);
     }
