@@ -73,13 +73,20 @@ app.post('/search', upload.none(), async (req, res) =>
             }
         }
 
-        const RESULT_FIELD_NAMES = req.body.resultFieldNames.split(",").map(elem => ({ "name": elem }));
+        const RESULT_FIELD_NAMES = req.body.resultFieldNames !== "" 
+            ? req.body.resultFieldNames.split(",").map(elem => ({ "name": elem })) 
+            : null;
+
+        const FULL_URL_NAMES = req.body.fullUrlNames !== "" 
+            ? req.body.fullUrlNames.split(",") 
+            : null;
 
         const SEARCH_MOVIE_INFO = await NomadSDK.search(req.body.searchQuery,
-            req.body.pageOffset, req.body.pageSize, FILTERS, SORT_FIELDS,
-            RESULT_FIELD_NAMES, req.body.fullUrlNames.split(","), req.body.distinctOnFieldName,
-            req.body.includeVideoClips === "True", req.body.similarAssetId, req.body.minScore, 
-            req.body.excludeTotalRecordCount, req.body.filterBinder, req.body.useLlmSearch === "True",
+            req.body.pageOffset, req.body.pageSize, FILTERS.length !== 0 ? FILTERS : null, 
+            SORT_FIELDS.length !== 0 ? SORT_FIELDS : null, RESULT_FIELD_NAMES, 
+            FULL_URL_NAMES, req.body.distinctOnFieldName, req.body.includeVideoClips === "True", 
+            req.body.similarAssetId, req.body.minScore, req.body.excludeTotalRecordCount, 
+            req.body.filterBinder, req.body.useLlmSearch === "True",
             req.body.includeInternalFieldsInResults === "True");
 
         res.status(200).json(SEARCH_MOVIE_INFO);
