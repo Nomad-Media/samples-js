@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Media Viewer</title>
+    <base href="/archive/">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fav Icon -->
+    <link rel="shortcut icon" href="/favicon.7ead54c7.ico">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Zilla Slab" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+    <!-- Sweet Alert 2 -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui@5.0.4/material-ui.min.css">
+
+    <!-- Select2 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="/index.588a38b7.css">
+
+    <!-- JS -->
+    <script src="/index.c620ef52.js" defer=""></script>
+</head>
+<body>
+    <div class="flex container-viewport">
+        <div class="flex half-width pointer">
+            <a href="/index.html">
+                <div class="icon">  
+                    <img loading="lazy" src="/favicon.7ead54c7.ico" alt="Icon of nomad logo">
+                </div>
+                <div>
+                    <div class="first-word-viewport">Media Viewer</div>
+                    <h2 class="second-word-viewport">Find Your Media</h2>
+                    <div class="third-word-viewport">
+                        <p>Enter the title of a media item to find a record.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="flex half-width search">
+            <div class="search-items">
+                <select id="searchSelect" class="search-select">
+                    <option value="" selected="">All Media</option>   
+                    <option value="4d2f2f9c-4f6f-4888-92ee-abaaa0d9bd7e">Archive</option>
+                    <option value="caf634b0-b31e-42b4-97fa-794a742ebb6a">Download</option>
+                    <option value="90d5a4e1-3edb-457f-8227-27088b06460b">Public</option>
+                    <option value="5471c16d-f974-4302-9b5a-d1c642b234ac">Upload</option>
+                </select>
+
+                <script>$(document).ready(function() {
+    $("#searchSelect").select2();
+});
+
+</script>
+                    
+                <div class="third-word-viewport">
+                    <p>Media Item</p>
+                </div>
+                <input type="text" id="search" placeholder="Enter Search">
+                <button id="searchButton" class="nice-button">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="initialResults" class="initial-results">
+        <h4 class="recent-results-text">Recent Media</h4>
+        <p id="loadingInitialResults" style="text-indent: 5rem"> Please wait... retrieving results</p>
+        <div id="mostRecentResults" class="most-recent-results"></div>
+
+        <h4 class="recent-results-text tp-3rem">Media You May Be Interested in</h4>
+        <p id="loadingHighlightedResults" style="text-indent: 5rem"> Please wait... retrieving results</p>
+        <div id="highlightedResults" class="most-recent-results"></div>
+    </div>
+
+    <div id="results" class="initial-results" hidden="">
+        <div id="numResults" class="flex num-results half-width"></div>
+        <p id="loadingResults" style="text-indent: 5rem"> Please wait... retrieving results</p>
+        <div id="searchResults" class="results"></div>
+    </div>
+
+</body>
+</html>
