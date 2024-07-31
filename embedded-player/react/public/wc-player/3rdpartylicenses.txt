@@ -1152,8 +1152,6 @@ Apache-2.0
    limitations under the License.
 
 
-ngx-bootstrap/carousel
-
 ngx-bootstrap/component-loader
 
 ngx-bootstrap/popover
