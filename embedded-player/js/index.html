@@ -8,7 +8,6 @@
     />
     <title>Javascript App Consuming wc-player</title>
     <link rel="stylesheet" href="wc-player/styles.css"/>
-    <script src="wc-player/wc-player.js"></script>
   </head>
   <body style="height: 100%; margin: 0">
     <wc-player id="wcPlayer"></wc-player>
@@ -49,11 +48,10 @@
       }
     ]
   };
-  setTimeout(() => {
   var wcPlayer = document.getElementById('wcPlayer');
     console.log(wcPlayer)
     wcPlayer.setAttribute("vep-config", JSON.stringify(defaultVepConfig))
-  }, 1000);
     </script>
+    <script type="text/javascript" src="/wc-player/wc-player.js"></script>
   </body>
 </html>
