@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Job</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fav Icon -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+     <!-- Google Fonts -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+ 
+     <!-- Sweet Alert 2 -->
+     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui@5.0.4/material-ui.min.css">
+
+    <!-- Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="job.css">
+
+    <!-- JS -->
+    <script type="module" src="job.js" defer></script>
+</head>
+
+<body>
+    <h1>Job</h1>
+
+    <h3>Create Job</h3>
+    <form id="createForm">
+        <label for="bucketName">Bucket Name:</label>
+        <input type="text" id="bucketName" name="bucketName"><br><br>
+
+        <label for="objectKey">Object Key:</label>
+        <input type="text" id="objectKey" name="objectKey"><br><br>
+
+        <label for="notificationCallbackUrl">Notification Callback URL:</label>
+        <input type="text" id="notificationCallbackUrl" name="notificationCallbackUrl"><br><br>
+
+        <label for="replaceExistingJob">Replace Existing Job:</label>
+        <input type="text" id="replaceExistingJob" name="replaceExistingJob"><br><br>
+
+        <label for="requestedTasks">Requested Tasks:</label>
+        <input type="text" id="requestedTasks" name="requestedTasks"><br><br>
+
+        <label for="requestedTranscodeProfiles">Requested Transcode Profiles:</label>
+        <input type="text" id="requestedTranscodeProfiles" name="requestedTranscodeProfiles"><br><br>
+
+        <label for="externalId">External ID:</label>
+        <input type="text" id="externalId" name="externalId"><br><br>
+
+        <label for="assetUrl">Asset URL:</label>
+        <input type="text" id="assetUrl" name="assetUrl"><br><br>
+
+        <button type="submit" id="createJobSubmitButton">Submit</button>
+    </form>
+
+</body>
+</html>
