@@ -40,6 +40,7 @@ In the example below we support all media except for twitter which is set to `fa
 | cookiesForSecureContent | string (optional) | The cookies to set for iOS playback for secure content. |
 | liveMode | boolean (optional) | Determines if the player is presented in "live" mode which removes scrubbing capablilities and shows the live indicator |
 | debug-mode | boolean (optional) | Setting this to true will enable debug mode and see some internal logs about the player |
+| hideTitle | boolean (optional) | Setting this to true will hide the title in the top left of the player |
 | skipGtmSeek | boolean (optional) | Setting this property to true will disable the 'seek' GTM event tracking |
 | siteName | string | For GTM events, this is passed into the Analytics record |
 | application | string | For GTM events, this is passed into the Analytics record |
