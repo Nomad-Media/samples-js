@@ -25,9 +25,12 @@ app.get('/', (req, res) => {
 app.post('/createJob', upload.none(), async (req, res) => {
     try
     {
+        const requestedTasks = req.body.requestedTasks ? req.body.requestedTasks.split(", ") : null;
+        const requestedTranscodeProfiles = req.body.requestedTranscodeProfiles ? req.body.requestedTranscodeProfiles.split(", ") : null;
+        const replaceExistingJob = req.body.replaceExistingJob === "true" ? true : false;
+
         const response = await NomadSDK.createJob(req.body.bucketName, req.body.objectKey, req.body.notificationCallbackUrl,
-            req.body.replaceExistingJob, req.body.requestedTasks, req.body.requestedTranscodeProfiles, req.body.externalId,
-            req.body.assetUrl);
+            requestedTasks, req.body.externalId, requestedTranscodeProfiles, replaceExistingJob, req.body.assetUrl);
 
         return res.status(200).json(response);
     }

@@ -40,25 +40,28 @@
     <h3>Create Job</h3>
     <form id="createForm">
         <label for="bucketName">Bucket Name:</label>
-        <input type="text" id="bucketName" name="bucketName"><br><br>
+        <input type="text" id="bucketName" name="bucketName" required="true"><br><br>
 
         <label for="objectKey">Object Key:</label>
-        <input type="text" id="objectKey" name="objectKey"><br><br>
+        <input type="text" id="objectKey" name="objectKey" required="true"><br><br>
 
         <label for="notificationCallbackUrl">Notification Callback URL:</label>
-        <input type="text" id="notificationCallbackUrl" name="notificationCallbackUrl"><br><br>
+        <input type="text" id="notificationCallbackUrl" name="notificationCallbackUrl" required="true"><br><br>
+
+        <label for="externalId">External ID:</label>
+        <input type="text" id="externalId" name="externalId" required="true"><br><br>
 
         <label for="replaceExistingJob">Replace Existing Job:</label>
-        <input type="text" id="replaceExistingJob" name="replaceExistingJob"><br><br>
+        <select id="replaceExistingJob" name="replaceExistingJob">
+            <option value="false" selected>False</option>
+            <option value="true">True</option>
+        </select><br><br>
 
         <label for="requestedTasks">Requested Tasks:</label>
         <input type="text" id="requestedTasks" name="requestedTasks"><br><br>
 
         <label for="requestedTranscodeProfiles">Requested Transcode Profiles:</label>
         <input type="text" id="requestedTranscodeProfiles" name="requestedTranscodeProfiles"><br><br>
-
-        <label for="externalId">External ID:</label>
-        <input type="text" id="externalId" name="externalId"><br><br>
 
         <label for="assetUrl">Asset URL:</label>
         <input type="text" id="assetUrl" name="assetUrl"><br><br>
