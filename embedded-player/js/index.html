@@ -13,46 +13,60 @@
     <wc-player id="wcPlayer"></wc-player>
     <script>
       var defaultVepConfig = {
-    "application": "Embedded",
-    "customer": "Test Customer",
-    "siteName": "Test Site",
-    "hideSidebar": true,
-    "supportSharing": false,
-    "bottomShareIcon": false,
-    "googleTagManager": "GTM-0000000",
-    "players": [
-      {
-        "format": "hls",
-        "player": "bitmovin"
-      },
-      {
-        "format": "progressive",
-        "player": "bitmovin"
-      }
-    ],
-    "bitmovinLicenseKey": "000000000000000000000000000000000000000",
-    "liveMode": false,
-    "vepModules": [
-      {
-        "moduleType": "streams",
-        "isEnabled": true,
-        "showTileMode": false,
-        "streams": [
+        "application": "Embedded",
+        "customer": "Test Customer",
+        "siteName": "Test Site",
+        "hideSidebar": true,
+        "supportSharing": false,
+        "bottomShareIcon": false,
+        "googleTagManager": "GTM-0000000",
+        "players": [
           {
-            "id": "1",
-            "streamUrl": "https://content.dev-05.demos.media/Content/Public/the-joker.mp4",
-            "title": "Test Video 1",
-            "autoplay": true,
-            "hideTitle": true
+            "format": "hls",
+            "player": "bitmovin"
+          },
+          {
+            "format": "progressive",
+            "player": "bitmovin"
+          }
+        ],
+        "bitmovinLicenseKey": "000000000000000000000000000000000000000",
+        "liveMode": false,
+        "vepModules": [
+          {
+            "moduleType": "streams",
+            "isEnabled": true,
+            "showTileMode": false,
+            "streams": [
+              {
+                "id": "1",
+                "streamUrl": "https://content.dev-05.demos.media/Content/Public/the-joker.mp4",
+                "title": "Test Video 1",
+                "autoplay": true,
+                "hideTitle": true
+              }
+            ]
           }
         ]
-      }
-    ]
-  };
-  var wcPlayer = document.getElementById('wcPlayer');
-    console.log(wcPlayer)
-    wcPlayer.setAttribute("vep-config", JSON.stringify(defaultVepConfig))
+      };
+
+      var wcPlayer = document.getElementById('wcPlayer');
+      wcPlayer.setAttribute("vep-config", JSON.stringify(defaultVepConfig));
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var streams = defaultVepConfig.vepModules[0].streams;
+        streams.forEach(function(stream) {
+          if (stream.hideTitle) {
+            var titleElement = document.querySelector(".video-title.mt-2.ml-2");
+            console.log(`titleElement: ${titleElement}`);
+            if (titleElement) {
+              titleElement.style.display = 'none';
+            }
+          }
+        });
+      });
+
     </script>
-    <script type="text/javascript" src="/wc-player/wc-player.js"></script>
+    <script type="text/javascript" src="./wc-player/wc-player.js"></script>
   </body>
 </html>
