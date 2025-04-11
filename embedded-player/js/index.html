@@ -12,7 +12,12 @@
   <body style="height: 100%; margin: 0">
     <wc-player id="wcPlayer"></wc-player>
     <script>
-      var defaultVepConfig = {
+      function getQueryParam(param) {
+        let urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
+
+      let defaultVepConfig = {
         "application": "Embedded",
         "customer": "Test Customer",
         "siteName": "Test Site",
@@ -50,14 +55,19 @@
         ]
       };
 
-      var wcPlayer = document.getElementById('wcPlayer');
+      let queryStreamUrl = getQueryParam('streamUrl');
+      if (queryStreamUrl) {
+        defaultVepConfig.vepModules[0].streams[0].streamUrl = queryStreamUrl;
+      }
+
+      let wcPlayer = document.getElementById('wcPlayer');
       wcPlayer.setAttribute("vep-config", JSON.stringify(defaultVepConfig));
 
       document.addEventListener('DOMContentLoaded', function() {
-        var streams = defaultVepConfig.vepModules[0].streams;
+        let streams = defaultVepConfig.vepModules[0].streams;
         streams.forEach(function(stream) {
           if (stream.hideTitle) {
-            var titleElement = document.querySelector(".video-title.mt-2.ml-2");
+            let titleElement = document.querySelector(".video-title.mt-2.ml-2");
             console.log(`titleElement: ${titleElement}`);
             if (titleElement) {
               titleElement.style.display = 'none';
