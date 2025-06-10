@@ -1,721 +1,1042 @@
-const CREATE_INTELLIGENT_PLAYLIST_FORM = document.getElementById("createIntelligentPlaylistForm");
-const CREATE_INTELLIGENT_SCHEDULE_FORM = document.getElementById("createIntelligentScheduleForm");
-const CREATE_PLAYLIST_FORM = document.getElementById("createPlaylistForm");
-const CREATE_PLAYLIST_VIDEO_FORM = document.getElementById("createPlaylistVideoForm");
-const CREATE_SCHEDULE_ITEM_ASSET_FORM = document.getElementById("createScheduleItemAssetForm");
-const CREATE_SCHEDULE_ITEM_LIVE_CHANNEL_FORM = document.getElementById("createScheduleItemLiveChannelForm");
-const CREATE_SCHEDULE_ITEM_SEARCH_FILTER_FORM = document.getElementById("createScheduleItemSearchFilterForm");
-const CREATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULE_FORM = document.getElementById("createScheduleItemPlaylistScheduleForm");
-const DELETE_INTELLIGENT_PLAYLIST_FORM = document.getElementById("deleteIntelligentPlaylistForm");
-const DELETE_INTELLIGENT_SCHEDULE_FORM = document.getElementById("deleteIntelligentScheduleForm");
-const DELETE_PLAYLIST_FORM = document.getElementById("deletePlaylistForm");
-const DELETE_SCHEDULE_ITEM_FORM = document.getElementById("deleteScheduleItemForm");
-const GET_INTELLIGENT_PLAYLIST_FORM = document.getElementById("getIntelligentPlaylistForm");
-const GET_INTELLIGENT_SCHEDULE_FORM = document.getElementById("getIntelligentScheduleForm");
-const GET_PLAYLIST_FORM = document.getElementById("getPlaylistForm");
-const GET_SCHEDULE_ITEM_FORM = document.getElementById("getScheduleItemForm");
-const GET_SCHEDULE_ITEMS_FORM = document.getElementById("getScheduleItemsForm");
-const GET_SCHEDULE_PREVIEW_FORM = document.getElementById("getSchedulePreviewForm");
-const MOVE_SCHEDULE_ITEM_FORM = document.getElementById("moveScheduleItemForm");
-const PUBLISH_INTELLIGENT_SCHEDULE_FORM = document.getElementById("publishIntelligentScheduleForm");
-const START_SCHEDULE_FORM = document.getElementById("startScheduleForm");
-const STOP_SCHEDULE_FORM = document.getElementById("stopScheduleForm");
-const UPDATE_INTELLIGENT_PLAYLIST_FORM = document.getElementById("updateIntelligentPlaylistForm");
-const UPDATE_INTELLIGENT_SCHEDULE_FORM = document.getElementById("updateIntelligentScheduleForm");
-const UPDATE_PLAYLIST_FORM = document.getElementById("updatePlaylistForm");
-const UPDATE_PLAYLIST_VIDEO_FORM = document.getElementById("updatePlaylistVideoForm");
-const UPDATE_SCHEDULE_ITEM_ASSET_FORM = document.getElementById("updateScheduleItemAssetForm");
-const UPDATE_SCHEDULE_ITEM_LIVE_CHANNEL_FORM = document.getElementById("updateScheduleItemLiveChannelForm");
-const UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_FORM = document.getElementById("updateScheduleItemSearchFilterForm");
-const UPDATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULE_FORM = document.getElementById("updateScheduleItemPlaylistScheduleForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-const CREATE_INTELLIGENT_PLAYLIST_COLLECTIONS_SELECT = document.getElementById("createIntelligentPlaylistCollectionsSelect");
-const CREATE_INTELLIGENT_PLAYLIST_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT = document.getElementById("createIntelligentPlaylistRelatedContentsContentDefinitionsSelect");
-const CREATE_INTELLIGENT_PLAYLIST_RELATED_CONTENTS_SELECT = document.getElementById("createIntelligentPlaylistRelatedContentsSelect");
-const CREATE_INTELLIGENT_PLAYLIST_SEARCH_FILTER_TYPE_SELECT = document.getElementById("createIntelligentPlaylistSearchFilterTypeSelect");
-const CREATE_INTELLIGENT_PLAYLIST_TAGS_SELECT = document.getElementById("createIntelligentPlaylistTagsSelect");
-const CREATE_INTELLIGENT_SCHEDULE_TIME_ZONE_SELECT = document.getElementById("createIntelligentScheduleTimeZoneSelect");
-const CREATE_PLAYLIST_LOOP_PLAYLIST_SELECT = document.getElementById("createPlaylistLoopPlaylistSelect");
-const CREATE_SCHEDULE_ITEM_ASSET_DAYS = document.getElementById("createScheduleItemAssetDays");
-const CREATE_SCHEDULE_ITEM_LIVE_CHANNEL_DAYS = document.getElementById("createScheduleItemLiveChannelDays");
-const CREATE_SCHEDULE_ITEM_LIVE_CHANNELS_SELECT = document.getElementById("createScheduleItemLiveChannelsSelect");
-const CREATE_SCHEDULE_ITEM_SEARCH_FILTER_COLLECTIONS_SELECT = document.getElementById("createScheduleItemSearchFilterCollectionsSelect");
-const CREATE_SCHEDULE_ITEM_SEARCH_FILTER_DAYS = document.getElementById("createScheduleItemSearchFilterDays");
-const CREATE_SCHEDULE_ITEM_SEARCH_FILTER_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT = document.getElementById("createScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect");
-const CREATE_SCHEDULE_ITEM_SEARCH_FILTER_RELATED_CONTENTS_SELECT = document.getElementById("createScheduleItemSearchFilterRelatedContentsSelect");
-const CREATE_SCHEDULE_ITEM_SEARCH_FILTER_TYPE_SELECT = document.getElementById("createScheduleItemSearchFilterTypeSelect");
-const CREATE_SCHEDULE_ITEM_SEARCH_FILTER_TAGS_SELECT = document.getElementById("createScheduleItemSearchFilterTagsSelect");
-const CREATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULE_DAYS = document.getElementById("createScheduleItemPlaylistScheduleDays");
-const CREATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULES_SELECT = document.getElementById("createScheduleItemPlaylistSchedulesSelect");
-const UPDATE_INTELLIGENT_PLAYLIST_COLLECTIONS_SELECT = document.getElementById("updateIntelligentPlaylistCollectionsSelect");
-const UPDATE_INTELLIGENT_PLAYLIST_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT = document.getElementById("updateIntelligentPlaylistRelatedContentsContentDefinitionsSelect");
-const UPDATE_INTELLIGENT_PLAYLIST_RELATED_CONTENTS_SELECT = document.getElementById("updateIntelligentPlaylistRelatedContentsSelect");
-const UPDATE_INTELLIGENT_PLAYLIST_SEARCH_FILTER_TYPE_SELECT = document.getElementById("updateIntelligentPlaylistSearchFilterTypeSelect");
-const UPDATE_INTELLIGENT_PLAYLIST_TAGS_SELECT = document.getElementById("updateIntelligentPlaylistTagsSelect");
-const UPDATE_INTELLIGENT_SCHEDULE_TIME_ZONE_SELECT = document.getElementById("updateIntelligentScheduleTimeZoneSelect");
-const UPDATE_PLAYLIST_LOOP_PLAYLIST_SELECT = document.getElementById("updatePlaylistLoopPlaylistSelect");
-const UPDATE_SCHEDULE_ITEM_ASSET_DAYS = document.getElementById("updateScheduleItemAssetDays");
-const UPDATE_SCHEDULE_ITEM_LIVE_CHANNEL_DAYS = document.getElementById("updateScheduleItemLiveChannelDays");
-const UPDATE_SCHEDULE_ITEM_LIVE_CHANNELS_SELECT = document.getElementById("updateScheduleItemLiveChannelsSelect");
-const UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_COLLECTIONS_SELECT = document.getElementById("updateScheduleItemSearchFilterCollectionsSelect");
-const UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_DAYS = document.getElementById("updateScheduleItemSearchFilterDays");
-const UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT = document.getElementById("updateScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect");
-const UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_RELATED_CONTENTS_SELECT = document.getElementById("updateScheduleItemSearchFilterRelatedContentsSelect");
-const UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_TYPE_SELECT = document.getElementById("updateScheduleItemSearchFilterTypeSelect");
-const UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_TAGS_SELECT = document.getElementById("updateScheduleItemSearchFilterTagsSelect");
-const UPDATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULE_DAYS = document.getElementById("updateScheduleItemPlaylistScheduleDays");
-const UPDATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULES_SELECT = document.getElementById("updateScheduleItemPlaylistSchedulesSelect");
+const createIntelligentPlaylistForm = document.getElementById("createIntelligentPlaylistForm");
+const createIntelligentScheduleForm = document.getElementById("createIntelligentScheduleForm");
+const createPlaylistForm = document.getElementById("createPlaylistForm");
+const createPlaylistVideoForm = document.getElementById("createPlaylistVideoForm");
+const createScheduleItemAssetForm = document.getElementById("createScheduleItemAssetForm");
+const createScheduleItemLiveChannelForm = document.getElementById("createScheduleItemLiveChannelForm");
+const createScheduleItemSearchFilterForm = document.getElementById("createScheduleItemSearchFilterForm");
+const createScheduleItemPlaylistScheduleForm = document.getElementById("createScheduleItemPlaylistScheduleForm");
+const deleteIntelligentPlaylistForm = document.getElementById("deleteIntelligentPlaylistForm");
+const deleteIntelligentScheduleForm = document.getElementById("deleteIntelligentScheduleForm");
+const deletePlaylistForm = document.getElementById("deletePlaylistForm");
+const deleteScheduleItemForm = document.getElementById("deleteScheduleItemForm");
+const getIntelligentPlaylistForm = document.getElementById("getIntelligentPlaylistForm");
+const getIntelligentScheduleForm = document.getElementById("getIntelligentScheduleForm");
+const getPlaylistForm = document.getElementById("getPlaylistForm");
+const getScheduleItemForm = document.getElementById("getScheduleItemForm");
+const getScheduleItemsForm = document.getElementById("getScheduleItemsForm");
+const getSchedulePreviewForm = document.getElementById("getSchedulePreviewForm");
+const moveScheduleItemForm = document.getElementById("moveScheduleItemForm");
+const publishIntelligentScheduleForm = document.getElementById("publishIntelligentScheduleForm");
+const startScheduleForm = document.getElementById("startScheduleForm");
+const stopScheduleForm = document.getElementById("stopScheduleForm");
+const updateIntelligentPlaylistForm = document.getElementById("updateIntelligentPlaylistForm");
+const updateIntelligentScheduleForm = document.getElementById("updateIntelligentScheduleForm");
+const updatePlaylistForm = document.getElementById("updatePlaylistForm");
+const updatePlaylistVideoForm = document.getElementById("updatePlaylistVideoForm");
+const updateScheduleItemAssetForm = document.getElementById("updateScheduleItemAssetForm");
+const updateScheduleItemLiveChannelForm = document.getElementById("updateScheduleItemLiveChannelForm");
+const updateScheduleItemSearchFilterForm = document.getElementById("updateScheduleItemSearchFilterForm");
+const updateScheduleItemPlaylistScheduleForm = document.getElementById("updateScheduleItemPlaylistScheduleForm");
 
-const CREATE_INTELLIGENT_PLAYLIST_SEARCH_FILTER_TYPE_DIV = document.getElementById("createIntelligentPlaylistSearchFilterTypeDiv");
-const CREATE_PLAYLIST_DEFAULT_VIDEO_ASSET_ID_DIV = document.getElementById("createPlaylistDefaultVideoAssetIdDiv");
-const CREATE_SCHEDULE_ITEM_SEARCH_FILTER_SEARCH_FILTER_TYPE_DIV = document.getElementById("createScheduleItemSearchFilterSearchFilterTypeDiv");
-const UPDATE_INTELLIGENT_PLAYLIST_SEARCH_FILTER_TYPE_DIV = document.getElementById("updateIntelligentPlaylistSearchFilterTypeDiv");
-const UPDATE_PLAYLIST_DEFAULT_VIDEO_ASSET_ID_DIV = document.getElementById("updatePlaylistDefaultVideoAssetIdDiv");
-const UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_SEARCH_FILTER_TYPE_DIV = document.getElementById("updateScheduleItemSearchFilterSearchFilterTypeDiv");
+const createIntelligentPlaylistCollectionsSelect = document.getElementById("createIntelligentPlaylistCollectionsSelect");
+const createIntelligentPlaylistRelatedContentsContentDefinitionsSelect = document.getElementById("createIntelligentPlaylistRelatedContentsContentDefinitionsSelect");
+const createIntelligentPlaylistRelatedContentsSelect = document.getElementById("createIntelligentPlaylistRelatedContentsSelect");
+const createIntelligentPlaylistSearchFilterTypeSelect = document.getElementById("createIntelligentPlaylistSearchFilterTypeSelect");
+const createIntelligentPlaylistTagsSelect = document.getElementById("createIntelligentPlaylistTagsSelect");
+const createIntelligentScheduleTimeZoneSelect = document.getElementById("createIntelligentScheduleTimeZoneSelect");
+const createPlaylistLoopPlaylistSelect = document.getElementById("createPlaylistLoopPlaylistSelect");
+const createScheduleItemAssetDays = document.getElementById("createScheduleItemAssetDays");
+const createScheduleItemLiveChannelDays = document.getElementById("createScheduleItemLiveChannelDays");
+const createScheduleItemLiveChannelsSelect = document.getElementById("createScheduleItemLiveChannelsSelect");
+const createScheduleItemSearchFilterCollectionsSelect = document.getElementById("createScheduleItemSearchFilterCollectionsSelect");
+const createScheduleItemSearchFilterDays = document.getElementById("createScheduleItemSearchFilterDays");
+const createScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect = document.getElementById("createScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect");
+const createScheduleItemSearchFilterRelatedContentsSelect = document.getElementById("createScheduleItemSearchFilterRelatedContentsSelect");
+const createScheduleItemSearchFilterTypeSelect = document.getElementById("createScheduleItemSearchFilterTypeSelect");
+const createScheduleItemSearchFilterTagsSelect = document.getElementById("createScheduleItemSearchFilterTagsSelect");
+const createScheduleItemPlaylistScheduleDays = document.getElementById("createScheduleItemPlaylistScheduleDays");
+const createScheduleItemPlaylistSchedulesSelect = document.getElementById("createScheduleItemPlaylistSchedulesSelect");
+const updateIntelligentPlaylistCollectionsSelect = document.getElementById("updateIntelligentPlaylistCollectionsSelect");
+const updateIntelligentPlaylistRelatedContentsContentDefinitionsSelect = document.getElementById("updateIntelligentPlaylistRelatedContentsContentDefinitionsSelect");
+const updateIntelligentPlaylistRelatedContentsSelect = document.getElementById("updateIntelligentPlaylistRelatedContentsSelect");
+const updateIntelligentPlaylistSearchFilterTypeSelect = document.getElementById("updateIntelligentPlaylistSearchFilterTypeSelect");
+const updateIntelligentPlaylistTagsSelect = document.getElementById("updateIntelligentPlaylistTagsSelect");
+const updateIntelligentScheduleTimeZoneSelect = document.getElementById("updateIntelligentScheduleTimeZoneSelect");
+const updatePlaylistLoopPlaylistSelect = document.getElementById("updatePlaylistLoopPlaylistSelect");
+const updateScheduleItemAssetDays = document.getElementById("updateScheduleItemAssetDays");
+const updateScheduleItemLiveChannelDays = document.getElementById("updateScheduleItemLiveChannelDays");
+const updateScheduleItemLiveChannelsSelect = document.getElementById("updateScheduleItemLiveChannelsSelect");
+const updateScheduleItemSearchFilterCollectionsSelect = document.getElementById("updateScheduleItemSearchFilterCollectionsSelect");
+const updateScheduleItemSearchFilterDays = document.getElementById("updateScheduleItemSearchFilterDays");
+const updateScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect = document.getElementById("updateScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect");
+const updateScheduleItemSearchFilterRelatedContentsSelect = document.getElementById("updateScheduleItemSearchFilterRelatedContentsSelect");
+const updateScheduleItemSearchFilterTypeSelect = document.getElementById("updateScheduleItemSearchFilterTypeSelect");
+const updateScheduleItemSearchFilterTagsSelect = document.getElementById("updateScheduleItemSearchFilterTagsSelect");
+const updateScheduleItemPlaylistScheduleDays = document.getElementById("updateScheduleItemPlaylistScheduleDays");
+const updateScheduleItemPlaylistSchedulesSelect = document.getElementById("updateScheduleItemPlaylistSchedulesSelect");
 
+const createIntelligentPlaylistSearchFilterTypeDiv = document.getElementById("createIntelligentPlaylistSearchFilterTypeDiv");
+const createPlaylistDefaultVideoAssetIdDiv = document.getElementById("createPlaylistDefaultVideoAssetIdDiv");
+const createScheduleItemSearchFilterSearchFilterTypeDiv = document.getElementById("createScheduleItemSearchFilterSearchFilterTypeDiv");
+const updateIntelligentPlaylistSearchFilterTypeDiv = document.getElementById("updateIntelligentPlaylistSearchFilterTypeDiv");
+const updatePlaylistDefaultVideoAssetIdDiv = document.getElementById("updatePlaylistDefaultVideoAssetIdDiv");
+const updateScheduleItemSearchFilterSearchFilterTypeDiv = document.getElementById("updateScheduleItemSearchFilterSearchFilterTypeDiv");
 
-CREATE_INTELLIGENT_PLAYLIST_SEARCH_FILTER_TYPE_SELECT.addEventListener("change", async function (event)
+const COLLECTION_CONTENT_DEFINITION_ID = "20352932-05d2-4a7a-8821-06fcf4438ced";
+const DAY_CONTENT_DEFINITION_ID = "fc8042c1-1ade-400d-b0aa-02937e658ae6";
+const INTELLIGENT_PROGRAMMING_CONTENT_DEFINITION_ID = "d77bf165-33e7-4002-9c58-3c9874acf187";
+const TAG_CONTENT_DEFINITION_ID = "c806783c-f127-48ae-90c9-32175f4e1fff";
+const TIMEZONE_CONTENT_DEFINITION_ID = "6ffc9376-af95-4f70-864e-1b00b8f8a283";
+
+createIntelligentPlaylistSearchFilterTypeSelect.addEventListener("change", async function (event)
 {
     event.preventDefault();
 
-    CREATE_INTELLIGENT_PLAYLIST_SEARCH_FILTER_TYPE_DIV.hidden = (CREATE_INTELLIGENT_PLAYLIST_SEARCH_FILTER_TYPE_SELECT.value !== "2")
+    createIntelligentPlaylistSearchFilterTypeDiv.hidden = (createIntelligentPlaylistSearchFilterTypeSelect.value !== "2")
 });
 
-CREATE_PLAYLIST_LOOP_PLAYLIST_SELECT.addEventListener("change", async function (event)
+createPlaylistLoopPlaylistSelect.addEventListener("change", async function (event)
 {
     event.preventDefault();
 
-    CREATE_PLAYLIST_DEFAULT_VIDEO_ASSET_ID_DIV.hidden = (CREATE_PLAYLIST_LOOP_PLAYLIST_SELECT.value === "True")
+    createPlaylistDefaultVideoAssetIdDiv.hidden = (createPlaylistLoopPlaylistSelect.value === "True")
 });
 
-CREATE_SCHEDULE_ITEM_SEARCH_FILTER_TYPE_SELECT.addEventListener("change", async function (event)
+createScheduleItemSearchFilterTypeSelect.addEventListener("change", async function (event)
 {
     event.preventDefault();
 
-    CREATE_SCHEDULE_ITEM_SEARCH_FILTER_SEARCH_FILTER_TYPE_DIV.hidden = false;
+    createScheduleItemSearchFilterSearchFilterTypeDiv.hidden = false;
 
-    CREATE_SCHEDULE_ITEM_SEARCH_FILTER_SEARCH_FILTER_TYPE_DIV.hidden = (CREATE_SCHEDULE_ITEM_SEARCH_FILTER_TYPE_SELECT.value !== "2")
+    createScheduleItemSearchFilterSearchFilterTypeDiv.hidden = (createScheduleItemSearchFilterTypeSelect.value !== "2")
 });
 
-UPDATE_INTELLIGENT_PLAYLIST_SEARCH_FILTER_TYPE_SELECT.addEventListener("change", async function (event)
+updateIntelligentPlaylistSearchFilterTypeSelect.addEventListener("change", async function (event)
 {
     event.preventDefault();
 
-    UPDATE_INTELLIGENT_PLAYLIST_SEARCH_FILTER_TYPE_DIV.hidden = false;
+    updateIntelligentPlaylistSearchFilterTypeDiv.hidden = false;
 
-    UPDATE_INTELLIGENT_PLAYLIST_SEARCH_FILTER_TYPE_DIV.hidden = (UPDATE_INTELLIGENT_PLAYLIST_SEARCH_FILTER_TYPE_SELECT.value !== "2")
+    updateIntelligentPlaylistSearchFilterTypeDiv.hidden = (updateIntelligentPlaylistSearchFilterTypeSelect.value !== "2")
 });
 
-UPDATE_PLAYLIST_LOOP_PLAYLIST_SELECT.addEventListener("change", async function (event)
+updatePlaylistLoopPlaylistSelect.addEventListener("change", async function (event)
 {
     event.preventDefault();
 
-    UPDATE_PLAYLIST_DEFAULT_VIDEO_ASSET_ID_DIV.hidden = (UPDATE_PLAYLIST_LOOP_PLAYLIST_SELECT.value === "True")
+    updatePlaylistDefaultVideoAssetIdDiv.hidden = (updatePlaylistLoopPlaylistSelect.value === "True")
 });
 
-UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_TYPE_SELECT.addEventListener("change", async function (event)
+updateScheduleItemSearchFilterTypeSelect.addEventListener("change", async function (event)
 {
     event.preventDefault();
 
-    UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_SEARCH_FILTER_TYPE_DIV.hidden = false;
+    updateScheduleItemSearchFilterSearchFilterTypeDiv.hidden = false;
 
-    UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_SEARCH_FILTER_TYPE_DIV.hidden = (UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_TYPE_SELECT.value !== "2")
+    updateScheduleItemSearchFilterSearchFilterTypeDiv.hidden = (updateScheduleItemSearchFilterTypeSelect.value !== "2")
 });
 
-await getCollections();
-
+getCollections();
 async function getCollections()
 {
-    const COLLECTIONS = await sendRequest("/get-collection-list", "GET");
-
-    for (let collection of COLLECTIONS)
+    const collections = await getGroups(COLLECTION_CONTENT_DEFINITION_ID);
+    for (let collection of collections)
     {
-        const OPTION = document.createElement("option");
-        OPTION.value = collection.id;
-        OPTION.textContent = collection.title;
-        CREATE_INTELLIGENT_PLAYLIST_COLLECTIONS_SELECT.appendChild(OPTION);
-        CREATE_SCHEDULE_ITEM_SEARCH_FILTER_COLLECTIONS_SELECT.appendChild(OPTION.cloneNode(true));
-        UPDATE_INTELLIGENT_PLAYLIST_COLLECTIONS_SELECT.appendChild(OPTION.cloneNode(true));
-        UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_COLLECTIONS_SELECT.appendChild(OPTION.cloneNode(true));
+        const option = document.createElement("option");
+        option.value = collection.id;
+        option.textContent = collection.title;
+        createIntelligentPlaylistCollectionsSelect.appendChild(option);
+        createScheduleItemSearchFilterCollectionsSelect.appendChild(option.cloneNode(true));
+        updateIntelligentPlaylistCollectionsSelect.appendChild(option.cloneNode(true));
+        updateScheduleItemSearchFilterCollectionsSelect.appendChild(option.cloneNode(true));
     }
-
-    $(CREATE_INTELLIGENT_PLAYLIST_COLLECTIONS_SELECT).select2();
-    $(CREATE_SCHEDULE_ITEM_SEARCH_FILTER_COLLECTIONS_SELECT).select2();
-    $(UPDATE_INTELLIGENT_PLAYLIST_COLLECTIONS_SELECT).select2();
-    $(UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_COLLECTIONS_SELECT).select2();
+    $(createIntelligentPlaylistCollectionsSelect).select2();
+    $(createScheduleItemSearchFilterCollectionsSelect).select2();
+    $(updateIntelligentPlaylistCollectionsSelect).select2();
+    $(updateScheduleItemSearchFilterCollectionsSelect).select2();
 }
 
-await getContentDefinitions();
-
+getContentDefinitions();
 async function getContentDefinitions()
 {
-    const CONTENT_DEFINITIONS = await sendRequest("/get-content-definition-list", "GET");
-
-    for (let contentDefinition of CONTENT_DEFINITIONS)
+    const contentDefinitions = await nomadSdk.miscFunctions("contentDefinition", "GET");
+    for (let contentDefinition of contentDefinitions.items)
     {
-        const OPTION = document.createElement("option");
-        OPTION.value = contentDefinition.contentDefinitionId;
-        OPTION.textContent = contentDefinition.properties.title;
-        CREATE_INTELLIGENT_PLAYLIST_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT.appendChild(OPTION);
+        const option = document.createElement("option");
+        option.value = contentDefinition.contentDefinitionId;
+        option.textContent = contentDefinition.properties.title;
+        createIntelligentPlaylistRelatedContentsContentDefinitionsSelect.appendChild(option);
 
-        const OPTION_2 = document.createElement("option");
-        OPTION_2.value = contentDefinition.contentDefinitionId;
-        OPTION_2.textContent = contentDefinition.properties.title;
-        CREATE_SCHEDULE_ITEM_SEARCH_FILTER_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT.appendChild(OPTION_2);
+        const option2 = document.createElement("option");
+        option2.value = contentDefinition.contentDefinitionId;
+        option2.textContent = contentDefinition.properties.title;
+        createScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect.appendChild(option2);
 
-        const OPTION_3 = document.createElement("option");
-        OPTION_3.value = contentDefinition.contentDefinitionId;
-        OPTION_3.textContent = contentDefinition.properties.title;
-        UPDATE_INTELLIGENT_PLAYLIST_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT.appendChild(OPTION_3);
+        const option3 = document.createElement("option");
+        option3.value = contentDefinition.contentDefinitionId;
+        option3.textContent = contentDefinition.properties.title;
+        updateIntelligentPlaylistRelatedContentsContentDefinitionsSelect.appendChild(option3);
 
-        const OPTION_4 = document.createElement("option");
-        OPTION_4.value = contentDefinition.contentDefinitionId;
-        OPTION_4.textContent = contentDefinition.properties.title;
-        UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT.appendChild(OPTION_4);
+        const option4 = document.createElement("option");
+        option4.value = contentDefinition.contentDefinitionId;
+        option4.textContent = contentDefinition.properties.title;
+        updateScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect.appendChild(option4);
     }
-
-    $(CREATE_INTELLIGENT_PLAYLIST_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT).select2();
-    $(CREATE_SCHEDULE_ITEM_SEARCH_FILTER_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT).select2();
-    $(UPDATE_INTELLIGENT_PLAYLIST_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT).select2();
-    $(UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT).select2();
+    $(createIntelligentPlaylistRelatedContentsContentDefinitionsSelect).select2();
+    $(createScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect).select2();
+    $(updateIntelligentPlaylistRelatedContentsContentDefinitionsSelect).select2();
+    $(updateScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect).select2();
 }
 
-await getDays();
-
+getDays();
 async function getDays()
 {
-    const DAYS = await sendRequest("/get-day-list", "GET");
-
+    const days = await getGroups(DAY_CONTENT_DEFINITION_ID);
     const ORDERED_DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-    DAYS.sort((a, b) => ORDERED_DAYS.indexOf(a.title) - ORDERED_DAYS.indexOf(b.title));
-
-    for (let day of DAYS)
+    days.sort((a, b) => ORDERED_DAYS.indexOf(a.title) - ORDERED_DAYS.indexOf(b.title));
+    for (let day of days)
     {
-        const OPTION = document.createElement("option");
-        OPTION.value = day.id;
-        OPTION.textContent = day.title;
-        CREATE_SCHEDULE_ITEM_ASSET_DAYS.appendChild(OPTION);
-        CREATE_SCHEDULE_ITEM_LIVE_CHANNEL_DAYS.appendChild(OPTION.cloneNode(true));
-        CREATE_SCHEDULE_ITEM_SEARCH_FILTER_DAYS.appendChild(OPTION.cloneNode(true));
-        CREATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULE_DAYS.appendChild(OPTION.cloneNode(true));
-        UPDATE_SCHEDULE_ITEM_ASSET_DAYS.appendChild(OPTION.cloneNode(true));
-        UPDATE_SCHEDULE_ITEM_LIVE_CHANNEL_DAYS.appendChild(OPTION.cloneNode(true));
-        UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_DAYS.appendChild(OPTION.cloneNode(true));
-        UPDATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULE_DAYS.appendChild(OPTION.cloneNode(true));
+        const option = document.createElement("option");
+        option.value = day.id;
+        option.textContent = day.title;
+        createScheduleItemAssetDays.appendChild(option);
+        createScheduleItemLiveChannelDays.appendChild(option.cloneNode(true));
+        createScheduleItemSearchFilterDays.appendChild(option.cloneNode(true));
+        createScheduleItemPlaylistScheduleDays.appendChild(option.cloneNode(true));
+        updateScheduleItemAssetDays.appendChild(option.cloneNode(true));
+        updateScheduleItemLiveChannelDays.appendChild(option.cloneNode(true));
+        updateScheduleItemSearchFilterDays.appendChild(option.cloneNode(true));
+        updateScheduleItemPlaylistScheduleDays.appendChild(option.cloneNode(true));
     }
-
-    $(CREATE_SCHEDULE_ITEM_ASSET_DAYS).select2();
-    $(CREATE_SCHEDULE_ITEM_LIVE_CHANNEL_DAYS).select2();
-    $(CREATE_SCHEDULE_ITEM_SEARCH_FILTER_DAYS).select2();
-    $(CREATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULE_DAYS).select2();
-    $(UPDATE_SCHEDULE_ITEM_ASSET_DAYS).select2();
-    $(UPDATE_SCHEDULE_ITEM_LIVE_CHANNEL_DAYS).select2();
-    $(UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_DAYS).select2();
-    $(UPDATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULE_DAYS).select2();
+    $(createScheduleItemAssetDays).select2();
+    $(createScheduleItemLiveChannelDays).select2();
+    $(createScheduleItemSearchFilterDays).select2();
+    $(createScheduleItemPlaylistScheduleDays).select2();
+    $(updateScheduleItemAssetDays).select2();
+    $(updateScheduleItemLiveChannelDays).select2();
+    $(updateScheduleItemSearchFilterDays).select2();
+    $(updateScheduleItemPlaylistScheduleDays).select2();
 }
 
-await getLiveChannels();
-
+getLiveChannels();
 async function getLiveChannels()
 {
-    const LIVE_CHANNELS = await sendRequest("/get-live-channel-list", "GET");
-
-    for (let liveChannel of LIVE_CHANNELS)
+    const liveChannels = await nomadSdk.getLiveChannels();
+    for (let liveChannel of liveChannels)
     {
-        const OPTION = document.createElement("option");
-        OPTION.value = liveChannel.id;
-        OPTION.textContent = liveChannel.name;
-        CREATE_SCHEDULE_ITEM_LIVE_CHANNELS_SELECT.appendChild(OPTION);
-        UPDATE_SCHEDULE_ITEM_LIVE_CHANNELS_SELECT.appendChild(OPTION.cloneNode(true));
+        const option = document.createElement("option");
+        option.value = liveChannel.id;
+        option.textContent = liveChannel.name;
+        createScheduleItemLiveChannelsSelect.appendChild(option);
+        updateScheduleItemLiveChannelsSelect.appendChild(option.cloneNode(true));
     }
-
-    $(CREATE_SCHEDULE_ITEM_LIVE_CHANNELS_SELECT).select2();
-    $(UPDATE_SCHEDULE_ITEM_LIVE_CHANNELS_SELECT).select2();
+    $(createScheduleItemLiveChannelsSelect).select2();
+    $(updateScheduleItemLiveChannelsSelect).select2();
 }
 
-await getPlaylistSchedules();
-
+getPlaylistSchedules();
 async function getPlaylistSchedules()
 {
-    const PLAYLIST_SCHEDULES = await sendRequest("/get-playlist-schedule-list", "GET");
-
-    for (let playlistSchedule of PLAYLIST_SCHEDULES)
+    const playlistSchedules = await getGroups(INTELLIGENT_PROGRAMMING_CONTENT_DEFINITION_ID);
+    const playlists = playlistSchedules.filter(item => item.identifiers.scheduleType === 4);
+    for (let playlistSchedule of playlists)
     {
-        const OPTION = document.createElement("option");
-        OPTION.value = playlistSchedule.id;
-        OPTION.textContent = playlistSchedule.title;
-        CREATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULES_SELECT.appendChild(OPTION);
-        UPDATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULES_SELECT.appendChild(OPTION.cloneNode(true));
+        const option = document.createElement("option");
+        option.value = playlistSchedule.id;
+        option.textContent = playlistSchedule.title;
+        createScheduleItemPlaylistSchedulesSelect.appendChild(option);
+        updateScheduleItemPlaylistSchedulesSelect.appendChild(option.cloneNode(true));
     }
-
-    $(CREATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULES_SELECT).select2();
-    $(UPDATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULES_SELECT).select2();
+    $(createScheduleItemPlaylistSchedulesSelect).select2();
+    $(updateScheduleItemPlaylistSchedulesSelect).select2();
 }
 
 $("#createIntelligentPlaylistRelatedContentsContentDefinitionsSelect").on("select2:select", async function (event)
 {
     $("#createIntelligentPlaylistRelatedContentsSelect").empty();
-
     event.preventDefault();
-
-    const FORM_DATA = new FormData();
-    FORM_DATA.append("contentDefinitionId", event.params.data.id);
-
-    const RELATED_CONTENTS = await sendRequest("/get-related-content-list", "POST", FORM_DATA);
-
-    for (let relatedContent of RELATED_CONTENTS)
+    const relatedContents = await getGroups(event.params.data.id);
+    for (let relatedContent of relatedContents)
     {
-        const OPTION = document.createElement("option");
-        OPTION.value = relatedContent.id;
-        OPTION.textContent = relatedContent.title;
-        CREATE_INTELLIGENT_PLAYLIST_RELATED_CONTENTS_SELECT.appendChild(OPTION);
+        const option = document.createElement("option");
+        option.value = relatedContent.id;
+        option.textContent = relatedContent.title;
+        createIntelligentPlaylistRelatedContentsSelect.appendChild(option);
     }
-
-    $(CREATE_INTELLIGENT_PLAYLIST_RELATED_CONTENTS_SELECT).select2();
+    $(createIntelligentPlaylistRelatedContentsSelect).select2();
 });
 
 $("#createScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect").on("select2:select", async function (event)
 {
     $("#createScheduleItemSearchFilterRelatedContentsSelect").empty();
-
     event.preventDefault();
-
-    const FORM_DATA = new FormData();
-    FORM_DATA.append("contentDefinitionId", event.params.data.id);
-
-    const RELATED_CONTENTS = await sendRequest("/get-related-content-list", "POST", FORM_DATA);
-
-    for (let relatedContent of RELATED_CONTENTS)
+    const relatedContents = await getGroups(event.params.data.id);
+    for (let relatedContent of relatedContents)
     {
-        const OPTION = document.createElement("option");
-        OPTION.value = relatedContent.id;
-        OPTION.textContent = relatedContent.title;
-        CREATE_SCHEDULE_ITEM_SEARCH_FILTER_RELATED_CONTENTS_SELECT.appendChild(OPTION);
+        const option = document.createElement("option");
+        option.value = relatedContent.id;
+        option.textContent = relatedContent.title;
+        createScheduleItemSearchFilterRelatedContentsSelect.appendChild(option);
     }
-
-    $(CREATE_SCHEDULE_ITEM_SEARCH_FILTER_RELATED_CONTENTS_SELECT).select2();
+    $(createScheduleItemSearchFilterRelatedContentsSelect).select2();
 });
 
 $("#updateIntelligentPlaylistRelatedContentsContentDefinitionsSelect").on("select2:select", async function (event)
 {
     $("#updateIntelligentPlaylistRelatedContentsSelect").empty();
-
     event.preventDefault();
-
-    const FORM_DATA = new FormData();
-    FORM_DATA.append("contentDefinitionId", event.params.data.id);
-
-    const RELATED_CONTENTS = await sendRequest("/get-related-content-list", "POST", FORM_DATA);
-
-    for (let relatedContent of RELATED_CONTENTS)
+    const relatedContents = await getGroups(event.params.data.id);
+    for (let relatedContent of relatedContents)
     {
-        const OPTION = document.createElement("option");
-        OPTION.value = relatedContent.id;
-        OPTION.textContent = relatedContent.title;
-        UPDATE_INTELLIGENT_PLAYLIST_RELATED_CONTENTS_SELECT.appendChild(OPTION);
+        const option = document.createElement("option");
+        option.value = relatedContent.id;
+        option.textContent = relatedContent.title;
+        updateIntelligentPlaylistRelatedContentsSelect.appendChild(option);
     }
-
-    $(UPDATE_INTELLIGENT_PLAYLIST_RELATED_CONTENTS_SELECT).select2();
+    $(updateIntelligentPlaylistRelatedContentsSelect).select2();
 });
 
 $("#updateScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect").on("select2:select", async function (event)
 {
     $("#updateScheduleItemSearchFilterRelatedContentsSelect").empty();
-
     event.preventDefault();
-
-    const FORM_DATA = new FormData();
-    FORM_DATA.append("contentDefinitionId", event.params.data.id);
-
-    const RELATED_CONTENTS = await sendRequest("/get-related-content-list", "POST", FORM_DATA);
-
-    for (let relatedContent of RELATED_CONTENTS)
+    const relatedContents = await getGroups(event.params.data.id);
+    for (let relatedContent of relatedContents)
     {
-        const OPTION = document.createElement("option");
-        OPTION.value = relatedContent.id;
-        OPTION.textContent = relatedContent.title;
-        UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_RELATED_CONTENTS_SELECT.appendChild(OPTION);
+        const option = document.createElement("option");
+        option.value = relatedContent.id;
+        option.textContent = relatedContent.title;
+        updateScheduleItemSearchFilterRelatedContentsSelect.appendChild(option);
     }
-
-    $(UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_RELATED_CONTENTS_SELECT).select2();
+    $(updateScheduleItemSearchFilterRelatedContentsSelect).select2();
 });
 
-await getTags();
-
+getTags();
 async function getTags()
 {
-    const TAGS = await sendRequest("/get-tag-list", "GET");
-
-    for (let tag of TAGS)
+    const tags = await getGroups(TAG_CONTENT_DEFINITION_ID);
+    for (let tag of tags)
     {
-        const OPTION = document.createElement("option");
-        OPTION.value = tag.id;
-        OPTION.textContent = tag.title;
-        CREATE_INTELLIGENT_PLAYLIST_TAGS_SELECT.appendChild(OPTION);
-        CREATE_SCHEDULE_ITEM_SEARCH_FILTER_TAGS_SELECT.appendChild(OPTION.cloneNode(true));
-        UPDATE_INTELLIGENT_PLAYLIST_TAGS_SELECT.appendChild(OPTION.cloneNode(true));
-        UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_TAGS_SELECT.appendChild(OPTION.cloneNode(true));
+        const option = document.createElement("option");
+        option.value = tag.id;
+        option.textContent = tag.title;
+        createIntelligentPlaylistTagsSelect.appendChild(option);
+        createScheduleItemSearchFilterTagsSelect.appendChild(option.cloneNode(true));
+        updateIntelligentPlaylistTagsSelect.appendChild(option.cloneNode(true));
+        updateScheduleItemSearchFilterTagsSelect.appendChild(option.cloneNode(true));
     }
-
-    $(CREATE_INTELLIGENT_PLAYLIST_TAGS_SELECT).select2();
-    $(CREATE_SCHEDULE_ITEM_SEARCH_FILTER_TAGS_SELECT).select2();
-    $(UPDATE_INTELLIGENT_PLAYLIST_TAGS_SELECT).select2();
-    $(UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_TAGS_SELECT).select2();
+    $(createIntelligentPlaylistTagsSelect).select2();
+    $(createScheduleItemSearchFilterTagsSelect).select2();
+    $(updateIntelligentPlaylistTagsSelect).select2();
+    $(updateScheduleItemSearchFilterTagsSelect).select2();
 }
 
-await getTimeZones();
-
+getTimeZones();
 async function getTimeZones()
 {
-    const TIME_ZONES = await sendRequest("/get-timezone-list", "GET");
-
-    for (let timeZone of TIME_ZONES)
+    const timeZones = await getGroups(TIMEZONE_CONTENT_DEFINITION_ID);
+    for (let timeZone of timeZones)
     {
-        const OPTION = document.createElement("option");
-        OPTION.value = timeZone.id;
-        OPTION.textContent = timeZone.title;
-        CREATE_INTELLIGENT_SCHEDULE_TIME_ZONE_SELECT.appendChild(OPTION);
-        UPDATE_INTELLIGENT_SCHEDULE_TIME_ZONE_SELECT.appendChild(OPTION.cloneNode(true));
+        const option = document.createElement("option");
+        option.value = timeZone.id;
+        option.textContent = timeZone.title;
+        createIntelligentScheduleTimeZoneSelect.appendChild(option);
+        updateIntelligentScheduleTimeZoneSelect.appendChild(option.cloneNode(true));
     }
-
-    $(CREATE_INTELLIGENT_SCHEDULE_TIME_ZONE_SELECT).select2();
-    $(UPDATE_INTELLIGENT_SCHEDULE_TIME_ZONE_SELECT).select2();
+    $(createIntelligentScheduleTimeZoneSelect).select2();
+    $(updateIntelligentScheduleTimeZoneSelect).select2();
 }
 
-CREATE_INTELLIGENT_PLAYLIST_FORM.addEventListener("submit", async function (event)
+async function getGroups(contentDefinitionId)
 {
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_INTELLIGENT_PLAYLIST_FORM);
-
-    console.log(await sendRequest("/create-intelligent-playlist", "POST", FORM_DATA));
-});
-
-CREATE_INTELLIGENT_SCHEDULE_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_INTELLIGENT_SCHEDULE_FORM);
-
-    console.log(await sendRequest("/create-intelligent-schedule", "POST", FORM_DATA));
-});
-
-CREATE_PLAYLIST_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_PLAYLIST_FORM);
-
-    console.log(await sendRequest("/create-playlist", "POST", FORM_DATA));
-});
-
-CREATE_PLAYLIST_VIDEO_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_PLAYLIST_VIDEO_FORM);
-
-    console.log(await sendRequest("/create-playlist-video", "POST", FORM_DATA));
-});
-
-CREATE_SCHEDULE_ITEM_ASSET_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_SCHEDULE_ITEM_ASSET_FORM);
-
-    console.log(await sendRequest("/create-schedule-item-asset", "POST", FORM_DATA));
-});
-
-CREATE_SCHEDULE_ITEM_LIVE_CHANNEL_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_SCHEDULE_ITEM_LIVE_CHANNEL_FORM);
-
-    console.log(await sendRequest("/create-schedule-item-live-channel", "POST", FORM_DATA));
-});
-
-CREATE_SCHEDULE_ITEM_SEARCH_FILTER_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_SCHEDULE_ITEM_SEARCH_FILTER_FORM);
-
-    console.log(await sendRequest("/create-schedule-item-search-filter", "POST", FORM_DATA));
-});
-
-CREATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULE_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULE_FORM);
-
-    console.log(await sendRequest("/create-schedule-item-playlist-schedule", "POST", FORM_DATA));
-});
-
-DELETE_INTELLIGENT_PLAYLIST_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(DELETE_INTELLIGENT_PLAYLIST_FORM);
-
-    await sendRequest("/delete-intelligent-playlist", "POST", FORM_DATA);
-});
-
-DELETE_INTELLIGENT_SCHEDULE_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(DELETE_INTELLIGENT_SCHEDULE_FORM);
-
-    await sendRequest("/delete-intelligent-schedule", "POST", FORM_DATA);
-});
-
-DELETE_PLAYLIST_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(DELETE_PLAYLIST_FORM);
-
-    await sendRequest("/delete-playlist", "POST", FORM_DATA);
-});
-
-DELETE_SCHEDULE_ITEM_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(DELETE_SCHEDULE_ITEM_FORM);
-
-    await sendRequest("/delete-schedule-item", "POST", FORM_DATA);
-});
-
-GET_PLAYLIST_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_PLAYLIST_FORM);
-
-    console.log(await sendRequest("/get-playlist", "POST", FORM_DATA));
-});
-
-GET_INTELLIGENT_PLAYLIST_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_INTELLIGENT_PLAYLIST_FORM);
-
-    console.log(await sendRequest("/get-intelligent-playlist", "POST", FORM_DATA));
-});
-
-GET_INTELLIGENT_SCHEDULE_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_INTELLIGENT_SCHEDULE_FORM);
-
-    console.log(await sendRequest("/get-intelligent-schedule", "POST", FORM_DATA));
-});
-
-GET_SCHEDULE_ITEM_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_SCHEDULE_ITEM_FORM);
-
-    console.log(await sendRequest("/get-schedule-item", "POST", FORM_DATA));
-});
-
-GET_SCHEDULE_ITEMS_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_SCHEDULE_ITEMS_FORM);
-
-    console.log(await sendRequest("/get-schedule-items", "POST", FORM_DATA));
-});
-
-GET_SCHEDULE_PREVIEW_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_SCHEDULE_PREVIEW_FORM);
-
-    console.log(await sendRequest("/get-schedule-preview", "POST", FORM_DATA));
-});
-
-MOVE_SCHEDULE_ITEM_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(MOVE_SCHEDULE_ITEM_FORM);
-
-    console.log(await sendRequest("/move-schedule-item", "POST", FORM_DATA));
-});
-
-PUBLISH_INTELLIGENT_SCHEDULE_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(PUBLISH_INTELLIGENT_SCHEDULE_FORM);
-
-    console.log(await sendRequest("/publish-intelligent-schedule", "POST", FORM_DATA));
-});
-
-START_SCHEDULE_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(START_SCHEDULE_FORM);
-
-    console.log(await sendRequest("/start-schedule", "POST", FORM_DATA));
-});
-
-STOP_SCHEDULE_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(STOP_SCHEDULE_FORM);
-
-    console.log(await sendRequest("/stop-schedule", "POST", FORM_DATA));
-});
-
-UPDATE_INTELLIGENT_PLAYLIST_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(UPDATE_INTELLIGENT_PLAYLIST_FORM);
-
-    console.log(await sendRequest("/update-intelligent-playlist", "POST", FORM_DATA));
-});
-
-UPDATE_INTELLIGENT_SCHEDULE_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(UPDATE_INTELLIGENT_SCHEDULE_FORM);
-
-    console.log(await sendRequest("/update-intelligent-schedule", "POST", FORM_DATA));
-});
-
-UPDATE_PLAYLIST_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(UPDATE_PLAYLIST_FORM);
-
-    console.log(await sendRequest("/update-playlist", "POST", FORM_DATA));
-});
-
-UPDATE_PLAYLIST_VIDEO_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(UPDATE_PLAYLIST_VIDEO_FORM);
-
-    console.log(await sendRequest("/update-playlist-video", "POST", FORM_DATA));
-});
-
-UPDATE_SCHEDULE_ITEM_ASSET_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(UPDATE_SCHEDULE_ITEM_ASSET_FORM);
-
-    console.log(await sendRequest("/update-schedule-item-asset", "POST", FORM_DATA));
-});
-
-UPDATE_SCHEDULE_ITEM_LIVE_CHANNEL_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(UPDATE_SCHEDULE_ITEM_LIVE_CHANNEL_FORM);
-
-    console.log(await sendRequest("/update-schedule-item-live-channel", "POST", FORM_DATA));
-});
-
-UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(UPDATE_SCHEDULE_ITEM_SEARCH_FILTER_FORM);
-
-    console.log(await sendRequest("/update-schedule-item-search-filter", "POST", FORM_DATA));
-});
-
-UPDATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULE_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(UPDATE_SCHEDULE_ITEM_PLAYLIST_SCHEDULE_FORM);
-
-    console.log(await sendRequest("/update-schedule-item-playlist-schedule", "POST", FORM_DATA));
-});
-
-function getElements(FORM)
-{
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    const groupList = [];
+    let offset = 0;
+    while (true)
     {
-        if (input.tagName === "SELECT") {
-            const SELECTED_OPTIONS = []
-            for (let element of input) {
-                if (element.selected) {
-                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase()) {
-                        if (input.id) {
-                            FORM_DATA.append(input.id, element.value);
-                        } else {
-                            FORM_DATA.append(input.name, element.value);
-                        }
-                    } else {
-                        SELECTED_OPTIONS.push({ id: element.value, description: element.label });
+        const searchInfo = await nomadSdk.search(
+            null, offset, null,
+            [
+                {
+                    fieldName: "contentDefinitionId",
+                    operator: "Equals",
+                    values: contentDefinitionId,
+                },
+                {
+                    fieldName: "languageId",
+                    operator: "Equals",
+                    values: "c66131cd-27fc-4f83-9b89-b57575ac0ed8"
+                }
+            ], null, null, null, null, true, null
+        );
+        if (!searchInfo) return [];
+        groupList.push(...searchInfo.items);
+        ++offset;
+        if (searchInfo.items.length < 100) break;
+    }
+    return groupList;
+}
+
+createIntelligentPlaylistForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(createIntelligentPlaylistForm);
+
+    let collections = null;
+    if (formData.get("createIntelligentPlaylistCollectionsSelect"))
+    {
+        const parsed = JSON.parse(formData.get("createIntelligentPlaylistCollectionsSelect"));
+        collections = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    let relatedContents = null;
+    if (formData.get("createIntelligentPlaylistRelatedContentsSelect"))
+    {
+        const parsed = JSON.parse(formData.get("createIntelligentPlaylistRelatedContentsSelect"));
+        relatedContents = Array.isArray(parsed) ? parsed : [parsed];
+        relatedContents.forEach(item => {
+            item["type"] = formData.get("createIntelligentPlaylistRelatedContentsContentDefinitionsSelect");
+        });
+    }
+
+    let tags = null;
+    if (formData.get("createIntelligentPlaylistTagsSelect"))
+    {
+        const parsed = JSON.parse(formData.get("createIntelligentPlaylistTagsSelect"));
+        tags = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    const thumbnailAsset = formData.get("thumbnailAssetId") ? { id: formData.get("thumbnailAssetId") } : null;
+
+    const result = await nomadSdk.createIntelligentPlaylist(
+        collections,
+        formData.get("endSearchDate"),
+        formData.get("endSearchDurationInMinutes"),
+        formData.get("name"),
+        relatedContents,
+        formData.get("searchDate"),
+        formData.get("searchDurationInMinutes"),
+        formData.get("createIntelligentPlaylistSearchFilterTypeSelect"),
+        tags,
+        thumbnailAsset
+    );
+    console.log(result);
+});
+
+createIntelligentScheduleForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(createIntelligentScheduleForm);
+
+    const defaultVideoAsset = formData.get("defaultVideoAssetId") ? { id: formData.get("defaultVideoAssetId") } : null;
+    const thumbnailAsset = formData.get("thumbnailAssetId") ? { id: formData.get("thumbnailAssetId") } : null;
+
+    const result = await nomadSdk.createIntelligentSchedule(
+        defaultVideoAsset,
+        formData.get("name"),
+        thumbnailAsset,
+        formData.get("createIntelligentScheduleTimeZoneSelect")
+    );
+    console.log(result);
+});
+
+createPlaylistForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(createPlaylistForm);
+
+    const defaultVideoAsset = (formData.get("defaultVideoAssetId") && formData.get("createPlaylistLoopPlaylistSelect") === "False")
+        ? { id: formData.get("defaultVideoAssetId") }
+        : null;
+    const thumbnailAsset = formData.get("thumbnailAssetId") ? { id: formData.get("thumbnailAssetId") } : null;
+
+    const result = await nomadSdk.createPlaylist(
+        formData.get("name"),
+        thumbnailAsset,
+        formData.get("createPlaylistLoopPlaylistSelect") === "True",
+        defaultVideoAsset
+    );
+    console.log(result);
+});
+
+createPlaylistVideoForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(createPlaylistVideoForm);
+
+    const result = await nomadSdk.createPlaylistVideo(
+        formData.get("playlistId"),
+        { id: formData.get("assetId") },
+        formData.get("previousItem")
+    );
+    console.log(result);
+});
+
+createScheduleItemAssetForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(createScheduleItemAssetForm);
+
+    let days = null;
+    if (formData.get("createScheduleItemAssetDays"))
+    {
+        const parsed = JSON.parse(formData.get("createScheduleItemAssetDays"));
+        days = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    const result = await nomadSdk.createScheduleItemAsset(
+        formData.get("scheduleId"),
+        { id: formData.get("assetId") },
+        days,
+        formData.get("durationTimeCode"),
+        formData.get("endTimeCode"),
+        formData.get("previousItem"),
+        formData.get("timeCode")
+    );
+    console.log(result);
+});
+
+createScheduleItemLiveChannelForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(createScheduleItemLiveChannelForm);
+
+    let days = null;
+    if (formData.get("createScheduleItemLiveChannelDays"))
+    {
+        const parsed = JSON.parse(formData.get("createScheduleItemLiveChannelDays"));
+        days = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    const liveChannel = JSON.parse(formData.get("createScheduleItemLiveChannelsSelect"));
+
+    const result = await nomadSdk.createScheduleItemLiveChannel(
+        formData.get("scheduleId"),
+        days,
+        formData.get("durationTimeCode"),
+        formData.get("endTimeCode"),
+        liveChannel,
+        formData.get("previousItem"),
+        formData.get("timeCode")
+    );
+    console.log(result);
+});
+
+createScheduleItemSearchFilterForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(createScheduleItemSearchFilterForm);
+
+    let collections = null;
+    if (formData.get("createScheduleItemSearchFilterCollectionsSelect"))
+    {
+        const parsed = JSON.parse(formData.get("createScheduleItemSearchFilterCollectionsSelect"));
+        collections = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    let days = null;
+    if (formData.get("createScheduleItemSearchFilterDays"))
+    {
+        const parsed = JSON.parse(formData.get("createScheduleItemSearchFilterDays"));
+        days = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    let relatedContents = null;
+    if (formData.get("createScheduleItemSearchFilterRelatedContentsSelect"))
+    {
+        const parsed = JSON.parse(formData.get("createScheduleItemSearchFilterRelatedContentsSelect"));
+        relatedContents = Array.isArray(parsed) ? parsed : [parsed];
+        relatedContents.forEach(item => {
+            item["type"] = formData.get("createScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect");
+        });
+    }
+
+    let tags = null;
+    if (formData.get("createScheduleItemSearchFilterTagsSelect"))
+    {
+        const parsed = JSON.parse(formData.get("createScheduleItemSearchFilterTagsSelect"));
+        tags = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    const result = await nomadSdk.createScheduleItemSearchFilter(
+        formData.get("scheduleId"),
+        collections,
+        days,
+        formData.get("durationTimeCode"),
+        formData.get("endSearchDate"),
+        formData.get("endSearchDurationInMinutes"),
+        formData.get("endTimeCode"),
+        formData.get("previousItem"),
+        relatedContents,
+        formData.get("searchDate"),
+        formData.get("searchDurationInMinutes"),
+        formData.get("createScheduleItemSearchFilterTypeSelect"),
+        tags,
+        formData.get("timeCode")
+    );
+    console.log(result);
+});
+
+createScheduleItemPlaylistScheduleForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(createScheduleItemPlaylistScheduleForm);
+
+    let days = null;
+    if (formData.get("createScheduleItemPlaylistScheduleDays"))
+    {
+        const parsed = JSON.parse(formData.get("createScheduleItemPlaylistScheduleDays"));
+        days = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    const playlistSchedule = JSON.parse(formData.get("createScheduleItemPlaylistSchedulesSelect"));
+
+    const result = await nomadSdk.createScheduleItemPlaylistSchedule(
+        formData.get("scheduleId"),
+        days,
+        formData.get("durationTimeCode"),
+        formData.get("endTimeCode"),
+        playlistSchedule,
+        formData.get("previousItem"),
+        formData.get("timeCode")
+    );
+    console.log(result);
+});
+
+deleteIntelligentPlaylistForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(deleteIntelligentPlaylistForm);
+
+    await nomadSdk.deleteIntelligentPlaylist(formData.get("scheduleId"));
+    console.log("Deleted intelligent playlist");
+});
+
+deleteIntelligentScheduleForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(deleteIntelligentScheduleForm);
+
+    await nomadSdk.deleteIntelligentSchedule(formData.get("scheduleId"));
+    console.log("Deleted intelligent schedule");
+});
+
+deletePlaylistForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(deletePlaylistForm);
+
+    await nomadSdk.deletePlaylist(formData.get("scheduleId"));
+    console.log("Deleted playlist");
+});
+
+deleteScheduleItemForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(deleteScheduleItemForm);
+
+    await nomadSdk.deleteScheduleItem(formData.get("scheduleId"), formData.get("itemId"));
+    console.log("Deleted schedule item");
+});
+
+getPlaylistForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(getPlaylistForm);
+
+    const result = await nomadSdk.getPlaylist(formData.get("scheduleId"));
+    console.log(result);
+});
+
+getIntelligentPlaylistForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(getIntelligentPlaylistForm);
+
+    const result = await nomadSdk.getIntelligentPlaylist(formData.get("scheduleId"));
+    console.log(result);
+});
+
+getIntelligentScheduleForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(getIntelligentScheduleForm);
+
+    const result = await nomadSdk.getIntelligentSchedule(formData.get("scheduleId"));
+    console.log(result);
+});
+
+getScheduleItemForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(getScheduleItemForm);
+
+    const result = await nomadSdk.getScheduleItem(formData.get("scheduleId"), formData.get("itemId"));
+    console.log(result);
+});
+
+getScheduleItemsForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(getScheduleItemsForm);
+
+    const result = await nomadSdk.getScheduleItems(formData.get("scheduleId"));
+    console.log(result);
+});
+
+getSchedulePreviewForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(getSchedulePreviewForm);
+
+    const result = await nomadSdk.getSchedulePreview(formData.get("scheduleId"));
+    console.log(result);
+});
+
+moveScheduleItemForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(moveScheduleItemForm);
+
+    const result = await nomadSdk.moveScheduleItem(
+        formData.get("scheduleId"),
+        formData.get("itemId"),
+        formData.get("previousItem")
+    );
+    console.log(result);
+});
+
+publishIntelligentScheduleForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(publishIntelligentScheduleForm);
+
+    const result = await nomadSdk.publishIntelligentSchedule(
+        formData.get("scheduleId"),
+        formData.get("numberOfLockedDays")
+    );
+    console.log(result);
+});
+
+startScheduleForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(startScheduleForm);
+
+    const result = await nomadSdk.startSchedule(
+        formData.get("scheduleId"),
+        formData.get("skipCleanupOnFailure") === "True"
+    );
+    console.log(result);
+});
+
+stopScheduleForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(stopScheduleForm);
+
+    const result = await nomadSdk.stopSchedule(
+        formData.get("scheduleId"),
+        formData.get("forceStop") === "True"
+    );
+    console.log(result);
+});
+
+updateIntelligentPlaylistForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(updateIntelligentPlaylistForm);
+
+    let collections = null;
+    if (formData.get("updateIntelligentPlaylistCollectionsSelect"))
+    {
+        const parsed = JSON.parse(formData.get("updateIntelligentPlaylistCollectionsSelect"));
+        collections = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    let relatedContents = null;
+    if (formData.get("updateIntelligentPlaylistRelatedContentsSelect"))
+    {
+        const parsed = JSON.parse(formData.get("updateIntelligentPlaylistRelatedContentsSelect"));
+        relatedContents = Array.isArray(parsed) ? parsed : [parsed];
+        relatedContents.forEach(item => {
+            item["type"] = formData.get("updateIntelligentPlaylistRelatedContentsContentDefinitionsSelect");
+        });
+    }
+
+    let tags = null;
+    if (formData.get("updateIntelligentPlaylistTagsSelect"))
+    {
+        const parsed = JSON.parse(formData.get("updateIntelligentPlaylistTagsSelect"));
+        tags = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    const thumbnailAsset = formData.get("thumbnailAssetId") ? { id: formData.get("thumbnailAssetId") } : null;
+
+    const result = await nomadSdk.updateIntelligentPlaylist(
+        formData.get("scheduleId"),
+        collections,
+        formData.get("endSearchDate"),
+        formData.get("endSearchDurationInMinutes"),
+        formData.get("name"),
+        relatedContents,
+        formData.get("searchDate"),
+        formData.get("searchDurationInMinutes"),
+        formData.get("updateIntelligentPlaylistSearchFilterTypeSelect"),
+        tags,
+        thumbnailAsset
+    );
+    console.log(result);
+});
+
+updateIntelligentScheduleForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(updateIntelligentScheduleForm);
+
+    const defaultVideoAsset = formData.get("defaultVideoAssetId") ? { id: formData.get("defaultVideoAssetId") } : null;
+    const thumbnailAsset = formData.get("thumbnailAssetId") ? { id: formData.get("thumbnailAssetId") } : null;
+
+    const result = await nomadSdk.updateIntelligentSchedule(
+        formData.get("scheduleId"),
+        defaultVideoAsset,
+        formData.get("name"),
+        thumbnailAsset,
+        formData.get("updateIntelligentScheduleTimeZoneSelect")
+    );
+    console.log(result);
+});
+
+updatePlaylistForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(updatePlaylistForm);
+
+    const defaultVideoAsset = (formData.get("defaultVideoAssetId") && formData.get("updatePlaylistLoopPlaylistSelect") === "False")
+        ? { id: formData.get("defaultVideoAssetId") }
+        : null;
+    const thumbnailAsset = formData.get("thumbnailAssetId") ? { id: formData.get("thumbnailAssetId") } : null;
+
+    const result = await nomadSdk.updatePlaylist(
+        formData.get("scheduleId"),
+        defaultVideoAsset,
+        formData.get("updatePlaylistLoopPlaylistSelect") === "True",
+        formData.get("name"),
+        thumbnailAsset
+    );
+    console.log(result);
+});
+
+updatePlaylistVideoForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(updatePlaylistVideoForm);
+
+    const result = await nomadSdk.updatePlaylistVideo(
+        formData.get("playlistId"),
+        formData.get("itemId"),
+        { id: formData.get("assetId") }
+    );
+    console.log(result);
+});
+
+updateScheduleItemAssetForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(updateScheduleItemAssetForm);
+
+    let days = null;
+    if (formData.get("updateScheduleItemAssetDays"))
+    {
+        const parsed = JSON.parse(formData.get("updateScheduleItemAssetDays"));
+        days = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    const result = await nomadSdk.updateScheduleItemAsset(
+        formData.get("scheduleId"),
+        formData.get("itemId"),
+        { id: formData.get("assetId") },
+        days,
+        formData.get("durationTimeCode"),
+        formData.get("endTimeCode"),
+        formData.get("timeCode")
+    );
+    console.log(result);
+});
+
+updateScheduleItemLiveChannelForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(updateScheduleItemLiveChannelForm);
+
+    let days = null;
+    if (formData.get("updateScheduleItemLiveChannelDays"))
+    {
+        const parsed = JSON.parse(formData.get("updateScheduleItemLiveChannelDays"));
+        days = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    const liveChannel = JSON.parse(formData.get("updateScheduleItemLiveChannelsSelect"));
+
+    const result = await nomadSdk.updateScheduleItemLiveChannel(
+        formData.get("scheduleId"),
+        formData.get("itemId"),
+        days,
+        formData.get("durationTimeCode"),
+        formData.get("endTimeCode"),
+        liveChannel,
+        formData.get("timeCode")
+    );
+    console.log(result);
+});
+
+updateScheduleItemSearchFilterForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(updateScheduleItemSearchFilterForm);
+
+    let collections = null;
+    if (formData.get("updateScheduleItemSearchFilterCollectionsSelect"))
+    {
+        const parsed = JSON.parse(formData.get("updateScheduleItemSearchFilterCollectionsSelect"));
+        collections = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    let days = null;
+    if (formData.get("updateScheduleItemSearchFilterDays"))
+    {
+        const parsed = JSON.parse(formData.get("updateScheduleItemSearchFilterDays"));
+        days = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    let relatedContents = null;
+    if (formData.get("updateScheduleItemSearchFilterRelatedContentsSelect"))
+    {
+        const parsed = JSON.parse(formData.get("updateScheduleItemSearchFilterRelatedContentsSelect"));
+        relatedContents = Array.isArray(parsed) ? parsed : [parsed];
+        relatedContents.forEach(item => {
+            item["type"] = formData.get("updateScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect");
+        });
+    }
+
+    let tags = null;
+    if (formData.get("updateScheduleItemSearchFilterTagsSelect"))
+    {
+        const parsed = JSON.parse(formData.get("updateScheduleItemSearchFilterTagsSelect"));
+        tags = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    const result = await nomadSdk.updateScheduleItemSearchFilter(
+        formData.get("scheduleId"),
+        formData.get("itemId"),
+        collections,
+        days,
+        formData.get("durationTimeCode"),
+        formData.get("endSearchDate"),
+        formData.get("endSearchDurationInMinutes"),
+        formData.get("endTimeCode"),
+        relatedContents,
+        formData.get("searchDate"),
+        formData.get("searchDurationInMinutes"),
+        formData.get("updateScheduleItemSearchFilterTypeSelect"),
+        tags,
+        formData.get("timeCode")
+    );
+    console.log(result);
+});
+
+updateScheduleItemPlaylistScheduleForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(updateScheduleItemPlaylistScheduleForm);
+
+    let days = null;
+    if (formData.get("updateScheduleItemPlaylistScheduleDays"))
+    {
+        const parsed = JSON.parse(formData.get("updateScheduleItemPlaylistScheduleDays"));
+        days = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    const playlistSchedule = JSON.parse(formData.get("updateScheduleItemPlaylistSchedulesSelect"));
+
+    const result = await nomadSdk.updateScheduleItemPlaylistSchedule(
+        formData.get("scheduleId"),
+        formData.get("itemId"),
+        days,
+        formData.get("durationTimeCode"),
+        formData.get("endTimeCode"),
+        playlistSchedule,
+        formData.get("timeCode")
+    );
+    console.log(result);
+});
+
+function getElements(form)
+{
+    const formData = new FormData();
+    for (let input of form)
+    {
+        if (input.tagName === "SELECT")
+        {
+            const selectedOptions = [];
+            for (let element of input)
+            {
+                if (element.selected)
+                {
+                    if (input.id)
+                    {
+                        formData.append(input.id, element.value);
+                    }
+                    else
+                    {
+                        formData.append(input.name, element.value);
                     }
                 }
             }
-            if (SELECTED_OPTIONS.length > 1)
+            if (selectedOptions.length > 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS));
+                formData.append(input.id, JSON.stringify(selectedOptions));
             }
-            else if (SELECTED_OPTIONS.length === 1)
+            else if (selectedOptions.length === 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS[0]));
+                formData.append(input.id, JSON.stringify(selectedOptions[0]));
             }
         }
         else if (input.tagName === "INPUT")
         {
-            if (input.id) {
-                FORM_DATA.append(input.id, input.value);
-            } else {
-                FORM_DATA.append(input.name, input.value);
+            if (input.id)
+            {
+                formData.append(input.id, input.value);
+            }
+            else
+            {
+                formData.append(input.name, input.value);
             }
         }
     }
-    return FORM_DATA;
-}
-
-async function sendRequest(PATH, METHOD, BODY)
-{
-    try
-    {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
-        {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
+    return formData;
 }

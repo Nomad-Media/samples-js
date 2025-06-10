@@ -1,131 +1,104 @@
-const GET_GROUP_FORM = document.getElementById("getGroupForm");
-const GET_GROUPS_FORM = document.getElementById("getGroupsForm");
-const CREATE_FORM = document.getElementById("createForm");
-const ADD_FORM = document.getElementById("addForm");
-const REMOVE_FORM = document.getElementById("removeForm");
-const RENAME_FORM = document.getElementById("renameForm");
-const SHARE_FORM = document.getElementById("shareForm");
-const STOP_SHARE_FORM = document.getElementById("stopShareForm");
-const DELETE_FORM = document.getElementById("deleteForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-GET_GROUP_FORM.addEventListener("submit", async function (event)
+const getGroupForm = document.getElementById("getGroupForm");
+const getGroupsForm = document.getElementById("getGroupsForm");
+const createForm = document.getElementById("createForm");
+const addForm = document.getElementById("addForm");
+const removeForm = document.getElementById("removeForm");
+const renameForm = document.getElementById("renameForm");
+const shareForm = document.getElementById("shareForm");
+const stopShareForm = document.getElementById("stopShareForm");
+const deleteForm = document.getElementById("deleteForm");
+
+getGroupForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(GET_GROUP_FORM);
-
-    console.log(await sendRequest("/get-movie-group", "POST", FORM_DATA));
+    const formData = getElements(getGroupForm);
+    const groupId = formData.get("getGroupId");
+    console.log(await nomadSdk.getContentGroup(groupId));
 });
 
-GET_GROUPS_FORM.addEventListener("submit", async function (event)
+getGroupsForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-    
-    console.log(await sendRequest("/get-movie-groups", "GET"));
+    console.log(await nomadSdk.getContentGroups());
 });
 
-CREATE_FORM.addEventListener("submit", async function (event)
+createForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_FORM);
-
-    console.log(await sendRequest("/create-movie-group", "POST", FORM_DATA));
+    const formData = getElements(createForm);
+    const name = formData.get("createName");
+    console.log(await nomadSdk.createContentGroup(name));
 });
 
-ADD_FORM.addEventListener("submit", async function (event)
+addForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(ADD_FORM);
-
-    console.log(await sendRequest("/add-movie-to-movie-group", "POST", FORM_DATA));
+    const formData = getElements(addForm);
+    const groupId = formData.get("addGroupId");
+    const contentIds = formData.get("addContentIds").split(",");
+    console.log(await nomadSdk.addContentsToContentGroup(groupId, contentIds));
 });
 
-REMOVE_FORM.addEventListener("submit", async function (event)
+removeForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(REMOVE_FORM);
-
-    console.log(await sendRequest("/remove-movie-from-movie-group", "POST", FORM_DATA));
+    const formData = getElements(removeForm);
+    const groupId = formData.get("removeGroupId");
+    const contentIds = formData.get("removeContentIds").split(",");
+    console.log(await nomadSdk.removeContentsFromContentGroup(groupId, contentIds));
 });
 
-RENAME_FORM.addEventListener("submit", async function (event)
+renameForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(RENAME_FORM);
-
-    console.log(await sendRequest("/rename-movie-group", "POST", FORM_DATA));
+    const formData = getElements(renameForm);
+    const groupId = formData.get("renameGroupId");
+    const newName = formData.get("renameGroup");
+    console.log(await nomadSdk.renameContentGroup(groupId, newName));
 });
 
-SHARE_FORM.addEventListener("submit", async function (event)
+shareForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(SHARE_FORM);
-
-    console.log(await sendRequest("/share-movie-group", "POST", FORM_DATA));
+    const formData = getElements(shareForm);
+    const groupId = formData.get("shareGroupId");
+    const userIds = formData.get("shareUserIds").split(",");
+    console.log(await nomadSdk.shareContentGroup(groupId, userIds));
 });
 
-STOP_SHARE_FORM.addEventListener("submit", async function (event)
+stopShareForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(STOP_SHARE_FORM);
-
-    console.log(await sendRequest("/stop-sharing-movie-group", "POST", FORM_DATA));
+    const formData = getElements(stopShareForm);
+    const groupId = formData.get("stopsSharingGroupId");
+    const userIds = formData.get("removeSharedUserIds").split(",");
+    console.log(await nomadSdk.stopSharingContentGroupWithUsers(groupId, userIds));
 });
 
-DELETE_FORM.addEventListener("submit", async function (event)
+deleteForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(DELETE_FORM);
-
-    console.log(await sendRequest("/delete-movie-group", "POST", FORM_DATA));
+    const formData = getElements(deleteForm);
+    const groupId = formData.get("deleteGroupId");
+    console.log(await nomadSdk.deleteContentGroup(groupId));
 });
 
-function getElements(FORM)
+function getElements(form)
 {
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    const formData = new FormData();
+    for (let input of form)
     {
         if (input.tagName === "INPUT" || input.tagName === "SELECT")
         {
-            if (input.type !== "checkbox" || input.type === "checkbox" && input.checked)
+            if (input.type !== "checkbox" || (input.type === "checkbox" && input.checked))
             {
-                input.id ? FORM_DATA.append(input.id, input.value) : FORM_DATA.append(input.name, input.value);
+                input.id ? formData.append(input.id, input.value) : formData.append(input.name, input.value);
             }
         }
     }
-    return FORM_DATA;
+    return formData;
 }
-
-async function sendRequest(PATH, METHOD, BODY)
-{
-    try
-    {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
-        {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
-}
-

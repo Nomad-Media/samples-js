@@ -1,129 +1,97 @@
-const UPDATE_FORM = document.getElementById("updateForm");
-const EMAIL_FORM = document.getElementById("changeEmailForm");
-const PASSWORD_FORM = document.getElementById("changePassForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSDK = new NomadMediaSDK(config);
 
-const COUNTRY = document.getElementById("country");
-const STATE = document.getElementById("state");
+const updateForm = document.getElementById("updateForm");
+const emailForm = document.getElementById("changeEmailForm");
+const passwordForm = document.getElementById("changePassForm");
+
+const country = document.getElementById("country");
+const state = document.getElementById("state");
 
 async function getOptions()
 {
-    const OPTIONS = await sendRequest("/get-info", "GET");
+    const path = `config/ea1d7060-6291-46b8-9468-135e7b94021b/lookups.json`;
+    const options = await nomadSDK.miscFunctions(path, "GET", null, true);
 
-    const COUNTRIES = OPTIONS[5].children;
-    const STATES = OPTIONS[6].children;
-    
-    for (let countryIdx = 0; countryIdx < COUNTRIES.length; ++countryIdx)
+    const countries = options[5].children;
+    const states = options[6].children;
+
+    for (let countryIdx = 0; countryIdx < countries.length; ++countryIdx)
     {
         let option = document.createElement("option");
-        option.value = COUNTRIES[countryIdx].label;
-        option.text = COUNTRIES[countryIdx].label;
-        COUNTRY.appendChild(option);
+        option.value = countries[countryIdx].label;
+        option.text = countries[countryIdx].label;
+        country.appendChild(option);
     }
 
-    for (let stateIdx = 0; stateIdx < STATES.length; ++stateIdx)
+    for (let stateIdx = 0; stateIdx < states.length; ++stateIdx)
     {
         let option = document.createElement("option");
-        option.value = STATES[stateIdx].label;
-        option.text = STATES[stateIdx].label;
-        STATE.appendChild(option);
+        option.value = states[stateIdx].label;
+        option.text = states[stateIdx].label;
+        state.appendChild(option);
     }
 }
-await getOptions();
 
-UPDATE_FORM.addEventListener("submit", async function (event) 
+getOptions();
+
+updateForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-    
-    const FORM_DATA = getElements(UPDATE_FORM);
-
-    console.log(await sendRequest("/update-user", "POST", FORM_DATA));
+    const formData = getElements(updateForm);
+    await nomadSDK.updateUser(
+        formData.address1,
+        formData.address2,
+        formData.city,
+        formData.country,
+        formData.firstName,
+        formData.lastName,
+        formData.organization,
+        formData.phoneNumber,
+        formData.phoneExt,
+        formData.postalCode,
+        formData.state
+    );
 });
 
-EMAIL_FORM.addEventListener("submit", async function (event)
+emailForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-    
-    const FORM_DATA = getElements(EMAIL_FORM);
-
-    console.log(await sendRequest("/change-email", "POST", FORM_DATA));
+    const formData = getElements(emailForm);
+    await nomadSDK.changeEmail(formData.changeEmail, formData.password);
 });
 
-PASSWORD_FORM.addEventListener("submit", async function (event)
+passwordForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-    
-    const FORM_DATA = getElements(PASSWORD_FORM);
-
-    console.log(await sendRequest("/change-password", "POST", FORM_DATA));
+    const formData = getElements(passwordForm);
+    await nomadSDK.changePassword(formData.currentPassword, formData.newPassword);
 });
 
-function getElements(FORM)
+function getElements(form)
 {
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    const formData = {};
+    for (let input of form)
     {
-        if (input.tagName === "SELECT") {
-            const SELECTED_OPTIONS = []
-            for (let element of input) {
-                if (element.selected) {
-                    if (element.value === element.label) {
-                        if (input.id) {
-                            FORM_DATA.append(input.id, element.value);
-                        } else {
-                            FORM_DATA.append(input.name, element.value);
-                        }
-                    } else {
-                        SELECTED_OPTIONS.push({ id: element.value, description: element.label });
-                    }
-                }
-            }
-            if (SELECTED_OPTIONS.length > 1)
+        if (input.tagName === "SELECT")
+        {
+            if (input.selectedOptions && input.selectedOptions.length > 0)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS));
-            }
-            else if (SELECTED_OPTIONS.length === 1)
-            {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS[0]));
+                formData[input.id || input.name] = input.selectedOptions[0].value;
             }
         }
         else if (input.tagName === "INPUT")
         {
-            if (input.type === "file") {
-                FORM_DATA.append(input.id, input.files[0]);
-            } else {
-                if (input.id) {
-                    FORM_DATA.append(input.id, input.value);
-                } else {
-                    FORM_DATA.append(input.name, input.value);
-                }
+            if (input.type === "file")
+            {
+                formData[input.id || input.name] = input.files[0];
+            }
+            else if (input.type !== "checkbox" || input.checked)
+            {
+                formData[input.id || input.name] = input.value;
             }
         }
     }
-    return FORM_DATA;
-}
-
-async function sendRequest(PATH, METHOD, BODY)
-{
-    try
-    {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
-        {
-            const DATA = await RESPONSE.json();
-            return DATA;
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
+    return formData;
 }

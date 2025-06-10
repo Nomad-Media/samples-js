@@ -1,51 +1,55 @@
-const ADD_SAVED_SEARCH_FORM = document.getElementById("addSavedSearchForm");
-const DELETE_SAVED_SEARCH_FORM = document.getElementById("deleteSavedSearchForm");
-const GET_SAVED_SEARCH_FORM = document.getElementById("getSavedSearchForm");
-const GET_SAVED_SEARCHES_FORM = document.getElementById("getSavedSearchesForm");
-const PATCH_SAVED_SEARCH_FORM = document.getElementById("patchSavedSearchForm");
-const UPDATE_SAVED_SEARCH_FORM = document.getElementById("updateSavedSearchForm");
-const GET_SEARCH_SAVED_FORM = document.getElementById("getSearchSavedForm");
-const GET_SEARCH_SAVED_BY_ID_FORM = document.getElementById("getSearchSavedByIdForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-const ADD_FILTERS_DIV = document.getElementById("addFiltersDiv");
-const ADD_SORT_FIELDS_DIV = document.getElementById("addSortFieldsDiv");
-const ADD_SEARCH_RESULT_FIELDS_DIV = document.getElementById("addSearchResultFieldsDiv");
-const UPDATE_FILTERS_DIV = document.getElementById("updateFiltersDiv");
-const UPDATE_SORT_FIELDS_DIV = document.getElementById("updateSortFieldsDiv");
-const UPDATE_SEARCH_RESULT_FIELDS_DIV = document.getElementById("updateSearchResultFieldsDiv");
-const GET_FILTERS_DIV = document.getElementById("getFiltersDiv");
-const GET_SORT_FIELDS_DIV = document.getElementById("getSortFieldsDiv");
-const GET_SEARCH_RESULT_FIELDS_DIV = document.getElementById("getSearchResultFieldsDiv");
+const addSavedSearchForm = document.getElementById("addSavedSearchForm");
+const deleteSavedSearchForm = document.getElementById("deleteSavedSearchForm");
+const getSavedSearchForm = document.getElementById("getSavedSearchForm");
+const getSavedSearchesForm = document.getElementById("getSavedSearchesForm");
+const patchSavedSearchForm = document.getElementById("patchSavedSearchForm");
+const updateSavedSearchForm = document.getElementById("updateSavedSearchForm");
+const getSearchSavedForm = document.getElementById("getSearchSavedForm");
+const getSearchSavedByIdForm = document.getElementById("getSearchSavedByIdForm");
 
-const ADD_ADD_FILTER_BUTTON = document.getElementById("addAddFilterButton");
-const ADD_ADD_SORT_FIELD_BUTTON = document.getElementById("addAddSortFieldButton");
-const ADD_ADD_SEARCH_RESULT_FIELD_BUTTON = document.getElementById("addAddSearchResultFieldButton");
-const UPDATE_ADD_FILTER_BUTTON = document.getElementById("updateAddFilterButton");
-const UPDATE_ADD_SORT_FIELD_BUTTON = document.getElementById("updateAddSortFieldButton");
-const UPDATE_ADD_SEARCH_RESULT_FIELD_BUTTON = document.getElementById("updateAddSearchResultFieldButton");
-const GET_ADD_FILTER_BUTTON = document.getElementById("getAddFilterButton");
-const GET_ADD_SORT_FIELD_BUTTON = document.getElementById("getAddSortFieldButton");
-const GET_ADD_SEARCH_RESULT_FIELD_BUTTON = document.getElementById("getAddSearchResultFieldButton");
+const addFiltersDiv = document.getElementById("addFiltersDiv");
+const addSortFieldsDiv = document.getElementById("addSortFieldsDiv");
+const addSearchResultFieldsDiv = document.getElementById("addSearchResultFieldsDiv");
+const updateFiltersDiv = document.getElementById("updateFiltersDiv");
+const updateSortFieldsDiv = document.getElementById("updateSortFieldsDiv");
+const updateSearchResultFieldsDiv = document.getElementById("updateSearchResultFieldsDiv");
+const getFiltersDiv = document.getElementById("getFiltersDiv");
+const getSortFieldsDiv = document.getElementById("getSortFieldsDiv");
+const getSearchResultFieldsDiv = document.getElementById("getSearchResultFieldsDiv");
 
-ADD_ADD_FILTER_BUTTON.addEventListener('click', function(event)
+const addAddFilterButton = document.getElementById("addAddFilterButton");
+const addAddSortFieldButton = document.getElementById("addAddSortFieldButton");
+const addAddSearchResultFieldButton = document.getElementById("addAddSearchResultFieldButton");
+const updateAddFilterButton = document.getElementById("updateAddFilterButton");
+const updateAddSortFieldButton = document.getElementById("updateAddSortFieldButton");
+const updateAddSearchResultFieldButton = document.getElementById("updateAddSearchResultFieldButton");
+const getAddFilterButton = document.getElementById("getAddFilterButton");
+const getAddSortFieldButton = document.getElementById("getAddSortFieldButton");
+const getAddSearchResultFieldButton = document.getElementById("getAddSearchResultFieldButton");
+
+addAddFilterButton.addEventListener('click', function(event)
 {
     event.preventDefault();
-    addFilterFields(ADD_FILTERS_DIV);
+    addFilterFields(addFiltersDiv);
 });
 
-UPDATE_ADD_FILTER_BUTTON.addEventListener('click', function(event)
+updateAddFilterButton.addEventListener('click', function(event)
 {
     event.preventDefault();
-    addFilterFields(UPDATE_FILTERS_DIV);
+    addFilterFields(updateFiltersDiv);
 });
 
-GET_ADD_FILTER_BUTTON.addEventListener('click', function(event)
+getAddFilterButton.addEventListener('click', function(event)
 {
     event.preventDefault();
-    addFilterFields(GET_FILTERS_DIV);
+    addFilterFields(getFiltersDiv);
 });
 
-function addFilterFields(DIV) 
+function addFilterFields(div) 
 {
     let fieldNameLabel = document.createElement('label');
     fieldNameLabel.setAttribute("for", "fieldName");
@@ -81,49 +85,49 @@ function addFilterFields(DIV)
     removeButton.textContent = "Remove Filter";
     removeButton.addEventListener("click", function(event) {
         event.preventDefault();
-        DIV.removeChild(br1);
-        DIV.removeChild(br2);
-        DIV.removeChild(fieldNameLabel);
-        DIV.removeChild(fieldName);
-        DIV.removeChild(operationLabel);
-        DIV.removeChild(operator);
-        DIV.removeChild(valueLabel);
-        DIV.removeChild(value);
-        DIV.removeChild(removeButton);
+        div.removeChild(br1);
+        div.removeChild(br2);
+        div.removeChild(fieldNameLabel);
+        div.removeChild(fieldName);
+        div.removeChild(operationLabel);
+        div.removeChild(operator);
+        div.removeChild(valueLabel);
+        div.removeChild(value);
+        div.removeChild(removeButton);
     });
 
-    DIV.appendChild(fieldNameLabel);
-    DIV.appendChild(fieldName);
-    DIV.appendChild(operationLabel);
-    DIV.appendChild(operator);
-    DIV.appendChild(valueLabel);
-    DIV.appendChild(value);
+    div.appendChild(fieldNameLabel);
+    div.appendChild(fieldName);
+    div.appendChild(operationLabel);
+    div.appendChild(operator);
+    div.appendChild(valueLabel);
+    div.appendChild(value);
 
-    DIV.appendChild(br1);
-    DIV.appendChild(br2);
+    div.appendChild(br1);
+    div.appendChild(br2);
 
-    DIV.appendChild(removeButton);
+    div.appendChild(removeButton);
 }
 
-ADD_ADD_SORT_FIELD_BUTTON.addEventListener('click', function(event)
+addAddSortFieldButton.addEventListener('click', function(event)
 {
     event.preventDefault();
-    addSortFields(ADD_SORT_FIELDS_DIV);
+    addSortFields(addSortFieldsDiv);
 });
 
-UPDATE_ADD_SORT_FIELD_BUTTON.addEventListener('click', function(event)
+updateAddSortFieldButton.addEventListener('click', function(event)
 {
     event.preventDefault();
-    addSortFields(UPDATE_SORT_FIELDS_DIV);
+    addSortFields(updateSortFieldsDiv);
 });
 
-GET_ADD_SORT_FIELD_BUTTON.addEventListener('click', function(event)
+getAddSortFieldButton.addEventListener('click', function(event)
 {
     event.preventDefault();
-    addSortFields(GET_SORT_FIELDS_DIV);
+    addSortFields(getSortFieldsDiv);
 });
 
-function addSortFields(DIV)
+function addSortFields(div)
 {
     let fieldNameLabel = document.createElement('label');
     fieldNameLabel.setAttribute("for", "sortFieldName");
@@ -159,42 +163,42 @@ function addSortFields(DIV)
     removeButton.textContent = "Remove Sort Field";
     removeButton.addEventListener("click", function(event) {
         event.preventDefault();
-        DIV.removeChild(br1);
-        DIV.removeChild(br2);
-        DIV.removeChild(fieldNameLabel);
-        DIV.removeChild(fieldName);
-        DIV.removeChild(sortTypeLabel);
-        DIV.removeChild(sortType);
-        DIV.removeChild(removeButton);
+        div.removeChild(br1);
+        div.removeChild(br2);
+        div.removeChild(fieldNameLabel);
+        div.removeChild(fieldName);
+        div.removeChild(sortTypeLabel);
+        div.removeChild(sortType);
+        div.removeChild(removeButton);
     });
 
-    DIV.appendChild(fieldNameLabel);
-    DIV.appendChild(fieldName);
-    DIV.appendChild(sortTypeLabel);
-    DIV.appendChild(sortType);
+    div.appendChild(fieldNameLabel);
+    div.appendChild(fieldName);
+    div.appendChild(sortTypeLabel);
+    div.appendChild(sortType);
 
-    DIV.appendChild(br1);
-    DIV.appendChild(br2);
+    div.appendChild(br1);
+    div.appendChild(br2);
 
-    DIV.appendChild(removeButton);
+    div.appendChild(removeButton);
 }
 
-ADD_ADD_SEARCH_RESULT_FIELD_BUTTON.addEventListener('click', function(event) {
+addAddSearchResultFieldButton.addEventListener('click', function(event) {
     event.preventDefault();
-    addSearchResultFields(ADD_SEARCH_RESULT_FIELDS_DIV);
+    addSearchResultFields(addSearchResultFieldsDiv);
 });
 
-UPDATE_ADD_SEARCH_RESULT_FIELD_BUTTON.addEventListener('click', function(event) {
+updateAddSearchResultFieldButton.addEventListener('click', function(event) {
     event.preventDefault();
-    addSearchResultFields(UPDATE_SEARCH_RESULT_FIELDS_DIV);
+    addSearchResultFields(updateSearchResultFieldsDiv);
 });
 
-GET_ADD_SEARCH_RESULT_FIELD_BUTTON.addEventListener('click', function(event) {
+getAddSearchResultFieldButton.addEventListener('click', function(event) {
     event.preventDefault();
-    addSearchResultFields(GET_SEARCH_RESULT_FIELDS_DIV);
+    addSearchResultFields(getSearchResultFieldsDiv);
 });
 
-function addSearchResultFields(DIV) {
+function addSearchResultFields(div) {
     let fieldDiv = document.createElement("div");
 
     let fieldNameLabel = document.createElement('label');
@@ -224,7 +228,7 @@ function addSearchResultFields(DIV) {
 
     removeButton.addEventListener("click", function(event) {
         event.preventDefault();
-        DIV.removeChild(fieldDiv);
+        div.removeChild(fieldDiv);
     });
 
     fieldDiv.appendChild(fieldNameLabel);
@@ -236,163 +240,300 @@ function addSearchResultFields(DIV) {
     fieldDiv.appendChild(br4);
     fieldDiv.appendChild(removeButton);
 
-    DIV.appendChild(fieldDiv);
+    div.appendChild(fieldDiv);
 }
 
-ADD_SAVED_SEARCH_FORM.addEventListener('submit', async function(event)
+addSavedSearchForm.addEventListener('submit', async function(event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(ADD_SAVED_SEARCH_FORM);
+    const formData = getElements(addSavedSearchForm);
 
-    let searchResultFields = getSearchResultFieldsData(ADD_SEARCH_RESULT_FIELDS_DIV);
+    let searchResultFields = getSearchResultFieldsData(addSearchResultFieldsDiv);
 
-    FORM_DATA.append('searchResultFields', JSON.stringify(searchResultFields));
-
-    console.log(await sendRequest("/add-saved-search", "POST", FORM_DATA));
-});
-
-DELETE_SAVED_SEARCH_FORM.addEventListener('submit', async function(event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(DELETE_SAVED_SEARCH_FORM);
-
-    console.log(await sendRequest("/delete-saved-search", "POST", FORM_DATA));
-});
-
-GET_SAVED_SEARCH_FORM.addEventListener('submit', async function(event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_SAVED_SEARCH_FORM);
-
-    console.log(await sendRequest("/get-saved-search", "POST", FORM_DATA));
-});
-
-GET_SAVED_SEARCHES_FORM.addEventListener('submit', async function(event)
-{
-    event.preventDefault();
-
-    console.log(await sendRequest("/get-saved-searches", "GET"));
-});
-
-PATCH_SAVED_SEARCH_FORM.addEventListener('submit', async function(event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(PATCH_SAVED_SEARCH_FORM);
-
-    console.log(await sendRequest("/patch-saved-search", "POST", FORM_DATA));
-});
-
-UPDATE_SAVED_SEARCH_FORM.addEventListener('submit', async function(event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(UPDATE_SAVED_SEARCH_FORM);
-
-    let searchResultFields = getSearchResultFieldsData(UPDATE_SEARCH_RESULT_FIELDS_DIV);
-
-    FORM_DATA.append('searchResultFields', JSON.stringify(searchResultFields));
-
-    console.log(await sendRequest("/update-saved-search", "POST", FORM_DATA));
-});
-
-GET_SEARCH_SAVED_FORM.addEventListener('submit', async function(event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_SEARCH_SAVED_FORM);
-
-    let searchResultFields = getSearchResultFieldsData(GET_SEARCH_RESULT_FIELDS_DIV);
-
-    FORM_DATA.append('searchResultFields', JSON.stringify(searchResultFields));
-
-    console.log(await sendRequest("/get-search-saved", "POST", FORM_DATA));
-});
-
-GET_SEARCH_SAVED_BY_ID_FORM.addEventListener('submit', async function(event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_SEARCH_SAVED_BY_ID_FORM);
-
-    console.log(await sendRequest("/get-search-saved-by-id", "POST", FORM_DATA));
-});
-
-function getElements(FORM)
-{
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    // Build filters
+    const filters = [];
+    const fieldNames = formData.getAll("fieldName");
+    const operators = formData.getAll("operator");
+    const values = formData.getAll("value");
+    for (let i = 0; i < fieldNames.length; ++i)
     {
-        if (input.tagName === "SELECT") {
-            const SELECTED_OPTIONS = []
-            for (let element of input) {
-                if (element.selected) {
-                    if (input.id) {
-                        FORM_DATA.append(input.id, element.value);
-                    } else {
-                        FORM_DATA.append(input.name, element.value);
+        filters.push({
+            fieldName: fieldNames[i],
+            operator: operators[i],
+            values: values[i].split(",")
+        });
+    }
+
+    // Build sort fields
+    const sortFields = [];
+    const sortFieldNames = formData.getAll("sortFieldName");
+    const sortTypes = formData.getAll("sortType");
+    for (let i = 0; i < sortFieldNames.length; ++i)
+    {
+        sortFields.push({
+            fieldName: sortFieldNames[i],
+            sortType: sortTypes[i]
+        });
+    }
+
+    // Parse searchResultFields
+    formData.append('searchResultFields', JSON.stringify(searchResultFields));
+
+    const result = await nomadSdk.addSavedSearch(
+        formData.get("name"),
+        formData.get("featured") === "true",
+        formData.get("bookmarked") === "true",
+        formData.get("public") === "true",
+        formData.get("sequence"),
+        formData.get("type"),
+        formData.get("query"),
+        formData.get("offset"),
+        formData.get("size"),
+        filters,
+        sortFields,
+        searchResultFields,
+        formData.get("similarAssetId"),
+        formData.get("minScore"),
+        formData.get("excludeTotalRecordCount") === "true",
+        formData.get("filterBinder")
+    );
+    console.log(result);
+});
+
+deleteSavedSearchForm.addEventListener('submit', async function(event)
+{
+    event.preventDefault();
+
+    const formData = getElements(deleteSavedSearchForm);
+
+    const result = await nomadSdk.deleteSavedSearch(formData.get("id"));
+    console.log(result);
+});
+
+getSavedSearchForm.addEventListener('submit', async function(event)
+{
+    event.preventDefault();
+
+    const formData = getElements(getSavedSearchForm);
+
+    const result = await nomadSdk.getSavedSearch(formData.get("id"));
+    console.log(result);
+});
+
+getSavedSearchesForm.addEventListener('submit', async function(event)
+{
+    event.preventDefault();
+
+    const result = await nomadSdk.getSavedSearches();
+    console.log(result);
+});
+
+patchSavedSearchForm.addEventListener('submit', async function(event)
+{
+    event.preventDefault();
+
+    const formData = getElements(patchSavedSearchForm);
+
+    const result = await nomadSdk.patchSavedSearch(
+        formData.get("id"),
+        formData.get("name"),
+        formData.get("featured") === "true",
+        formData.get("bookmarked") === "true",
+        formData.get("public") === "true",
+        formData.get("sequence"),
+        formData.get("type"),
+        formData.get("query"),
+        formData.get("offset"),
+        formData.get("size"),
+        formData.get("similarAssetId"),
+        formData.get("minScore"),
+        formData.get("excludeTotalRecordCount") === "true",
+        formData.get("filterBinder")
+    );
+    console.log(result);
+});
+
+updateSavedSearchForm.addEventListener('submit', async function(event)
+{
+    event.preventDefault();
+
+    const formData = getElements(updateSavedSearchForm);
+
+    let searchResultFields = getSearchResultFieldsData(updateSearchResultFieldsDiv);
+
+    // Build filters
+    const filters = [];
+    const fieldNames = formData.getAll("fieldName");
+    const operators = formData.getAll("operator");
+    const values = formData.getAll("value");
+    for (let i = 0; i < fieldNames.length; ++i)
+    {
+        filters.push({
+            fieldName: fieldNames[i],
+            operator: operators[i],
+            values: values[i].split(",")
+        });
+    }
+
+    // Build sort fields
+    const sortFields = [];
+    const sortFieldNames = formData.getAll("sortFieldName");
+    const sortTypes = formData.getAll("sortType");
+    for (let i = 0; i < sortFieldNames.length; ++i)
+    {
+        sortFields.push({
+            fieldName: sortFieldNames[i],
+            sortType: sortTypes[i]
+        });
+    }
+
+    // Parse searchResultFields
+    formData.append('searchResultFields', JSON.stringify(searchResultFields));
+
+    const result = await nomadSdk.updateSavedSearch(
+        formData.get("id"),
+        formData.get("name"),
+        formData.get("featured") === "true",
+        formData.get("bookmarked") === "true",
+        formData.get("public") === "true",
+        formData.get("sequence"),
+        formData.get("type"),
+        formData.get("query"),
+        formData.get("offset"),
+        formData.get("size"),
+        filters,
+        sortFields,
+        searchResultFields,
+        formData.get("similarAssetId"),
+        formData.get("minScore"),
+        formData.get("excludeTotalRecordCount") === "true",
+        formData.get("filterBinder")
+    );
+    console.log(result);
+});
+
+getSearchSavedForm.addEventListener('submit', async function(event)
+{
+    event.preventDefault();
+
+    const formData = getElements(getSearchSavedForm);
+
+    let searchResultFields = getSearchResultFieldsData(getSearchResultFieldsDiv);
+
+    // Build filters
+    const filters = [];
+    const fieldNames = formData.getAll("fieldName");
+    const operators = formData.getAll("operator");
+    const values = formData.getAll("value");
+    for (let i = 0; i < fieldNames.length; ++i)
+    {
+        filters.push({
+            fieldName: fieldNames[i],
+            operator: operators[i],
+            values: values[i].split(",")
+        });
+    }
+
+    // Build sort fields
+    const sortFields = [];
+    const sortFieldNames = formData.getAll("sortFieldName");
+    const sortTypes = formData.getAll("sortType");
+    for (let i = 0; i < sortFieldNames.length; ++i)
+    {
+        sortFields.push({
+            fieldName: sortFieldNames[i],
+            sortType: sortTypes[i]
+        });
+    }
+
+    // Parse searchResultFields
+    formData.append('searchResultFields', JSON.stringify(searchResultFields));
+
+    const result = await nomadSdk.getSearchSaved(
+        formData.get("query"),
+        formData.get("offset"),
+        formData.get("size"),
+        filters,
+        sortFields,
+        searchResultFields,
+        formData.get("similarAssetId"),
+        formData.get("minScore"),
+        formData.get("excludeTotalRecordCount") === "true",
+        formData.get("filterBinder")
+    );
+    console.log(result);
+});
+
+getSearchSavedByIdForm.addEventListener('submit', async function(event)
+{
+    event.preventDefault();
+
+    const formData = getElements(getSearchSavedByIdForm);
+
+    const result = await nomadSdk.getSearchSavedById(formData.get("id"));
+    console.log(result);
+});
+
+function getElements(form)
+{
+    const formData = new FormData();
+    for (let input of form)
+    {
+        if (input.tagName === "SELECT") 
+        {
+            const selectedOptions = []
+            for (let element of input) 
+            {
+                if (element.selected) 
+                {
+                    if (input.id) 
+                    {
+                        formData.append(input.id, element.value);
+                    } 
+                    else 
+                    {
+                        formData.append(input.name, element.value);
                     }
                 }
             }
-            if (SELECTED_OPTIONS.length > 1)
+            if (selectedOptions.length > 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS));
+                formData.append(input.id, JSON.stringify(selectedOptions));
             }
-            else if (SELECTED_OPTIONS.length === 1)
+            else if (selectedOptions.length === 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS[0]));
+                formData.append(input.id, JSON.stringify(selectedOptions[0]));
             }
         }
         else if (input.tagName === "INPUT")
         {
-            if (input.type === "file") {
-                FORM_DATA.append(input.id, input.files[0]);
-            } else {
-                if (input.id) {
-                    FORM_DATA.append(input.id, input.value);
-                } else {
-                    FORM_DATA.append(input.name, input.value);
+            if (input.type === "file") 
+            {
+                formData.append(input.id, input.files[0]);
+            } 
+            else 
+            {
+                if (input.id) 
+                {
+                    formData.append(input.id, input.value);
+                }
+                else 
+                {
+                    formData.append(input.name, input.value);
                 }
             }
         }
     }
-    return FORM_DATA;
+    return formData;
 }
 
-async function sendRequest(PATH, METHOD, BODY)
+function getSearchResultFieldsData(div) 
 {
-    try
-    {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
-        {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
-}
-
-function getSearchResultFieldsData(div) {
     let fieldDivs = Array.from(div.children).filter(child => child.tagName === 'DIV');
 
     let searchResultFields = fieldDivs.map(fieldDiv => 
-        {
+    {
         let nameInput = fieldDiv.querySelector('input[name="subSearchResultFieldName"]');
 
         let name = nameInput.value;

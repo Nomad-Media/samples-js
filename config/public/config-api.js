@@ -1,68 +1,73 @@
-const GET_CONFIG_FORM = document.getElementById("getConfigForm");
-const GET_SERVER_TIME_FORM = document.getElementById("getServerTimeForm");
-const CLEAR_SERVER_CACHE_FORM = document.getElementById("clearServerCacheForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-GET_CONFIG_FORM.addEventListener("submit", async (event) =>
+const getConfigForm = document.getElementById("getConfigForm");
+const getServerTimeForm = document.getElementById("getServerTimeForm");
+const clearServerCacheForm = document.getElementById("clearServerCacheForm");
+
+getConfigForm.addEventListener("submit", async (event) =>
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(GET_CONFIG_FORM);
-
-    console.log(await sendRequest("/get-config", "POST", FORM_DATA));
-});
-
-GET_SERVER_TIME_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    console.log(await sendRequest("/get-server-time", "GET"));
-});
-
-CLEAR_SERVER_CACHE_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    console.log(await sendRequest("/clear-server-cache", "GET"));
-});
-
-function getElements(FORM)
-{
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
-    {
-        if (input.tagName === "INPUT" || input.tagName === "SELECT")
-        {
-            if (input.type !== "checkbox" || input.type === "checkbox" && input.checked)
-            {
-                input.id ? FORM_DATA.append(input.id, input.value) : FORM_DATA.append(input.name, input.value);
-            }
-        }
-    }
-    return FORM_DATA;
-}
-
-async function sendRequest(PATH, METHOD, BODY)
-{
+    const formData = getElements(getConfigForm);
     try
     {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
-        {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
+        const result = await nomadSdk.getConfig(formData.get("configKey"));
+        console.log(result);
     }
     catch (error)
     {
         console.error(error);
     }
+});
+
+getServerTimeForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    try
+    {
+        const result = await nomadSdk.getServerTime();
+        console.log(result);
+    }
+    catch (error)
+    {
+        console.error(error);
+    }
+});
+
+clearServerCacheForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    try
+    {
+        const result = await nomadSdk.clearServerCache();
+        console.log(result);
+    }
+    catch (error)
+    {
+        console.error(error);
+    }
+});
+
+function getElements(form)
+{
+    const formData = new FormData();
+    for (let input of form)
+    {
+        if (input.tagName === "INPUT" || input.tagName === "SELECT")
+        {
+            if (input.type !== "checkbox" || (input.type === "checkbox" && input.checked))
+            {
+                if (input.id)
+                {
+                    formData.append(input.id, input.value);
+                }
+                else
+                {
+                    formData.append(input.name, input.value);
+                }
+            }
+        }
+    }
+    return formData;
 }

@@ -1,12 +1,16 @@
-const SEARCH_FORM = document.getElementById("searchForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-const FILTERS_DIV = document.getElementById("filtersDiv");
-const SORT_FIELDS_DIV = document.getElementById("sortFieldsDiv");
+const searchForm = document.getElementById("searchForm");
 
-const ADD_FILTER_BUTTON = document.getElementById("addFilterButton");
-const ADD_SORT_FIELDS_BUTTON = document.getElementById("addSortFieldsButton");
+const filtersDiv = document.getElementById("filtersDiv");
+const sortFieldsDiv = document.getElementById("sortFieldsDiv");
 
-ADD_FILTER_BUTTON.addEventListener('click', function(event)
+const addFilterButton = document.getElementById("addFilterButton");
+const addSortFieldsButton = document.getElementById("addSortFieldsButton");
+
+addFilterButton.addEventListener('click', function(event)
 {
     event.preventDefault();
 
@@ -44,31 +48,31 @@ ADD_FILTER_BUTTON.addEventListener('click', function(event)
     removeButton.textContent = "Remove Filter";
     removeButton.addEventListener("click", function(event) {
         event.preventDefault();
-        FILTERS_DIV.removeChild(br1);
-        FILTERS_DIV.removeChild(br2);
-        FILTERS_DIV.removeChild(fieldNameLabel);
-        FILTERS_DIV.removeChild(fieldName);
-        FILTERS_DIV.removeChild(operationLabel);
-        FILTERS_DIV.removeChild(operator);
-        FILTERS_DIV.removeChild(valueLabel);
-        FILTERS_DIV.removeChild(value);
-        FILTERS_DIV.removeChild(removeButton);
+        filtersDiv.removeChild(br1);
+        filtersDiv.removeChild(br2);
+        filtersDiv.removeChild(fieldNameLabel);
+        filtersDiv.removeChild(fieldName);
+        filtersDiv.removeChild(operationLabel);
+        filtersDiv.removeChild(operator);
+        filtersDiv.removeChild(valueLabel);
+        filtersDiv.removeChild(value);
+        filtersDiv.removeChild(removeButton);
     });
 
-    FILTERS_DIV.appendChild(fieldNameLabel);
-    FILTERS_DIV.appendChild(fieldName);
-    FILTERS_DIV.appendChild(operationLabel);
-    FILTERS_DIV.appendChild(operator);
-    FILTERS_DIV.appendChild(valueLabel);
-    FILTERS_DIV.appendChild(value);
+    filtersDiv.appendChild(fieldNameLabel);
+    filtersDiv.appendChild(fieldName);
+    filtersDiv.appendChild(operationLabel);
+    filtersDiv.appendChild(operator);
+    filtersDiv.appendChild(valueLabel);
+    filtersDiv.appendChild(value);
 
-    FILTERS_DIV.appendChild(br1);
-    FILTERS_DIV.appendChild(br2);
+    filtersDiv.appendChild(br1);
+    filtersDiv.appendChild(br2);
 
-    FILTERS_DIV.appendChild(removeButton);
+    filtersDiv.appendChild(removeButton);
 });
 
-ADD_SORT_FIELDS_BUTTON.addEventListener('click', function(event)
+addSortFieldsButton.addEventListener('click', function(event)
 {
     event.preventDefault();
 
@@ -106,102 +110,126 @@ ADD_SORT_FIELDS_BUTTON.addEventListener('click', function(event)
     removeButton.textContent = "Remove Sort Field";
     removeButton.addEventListener("click", function(event) {
         event.preventDefault();
-        SORT_FIELDS_DIV.removeChild(br1);
-        SORT_FIELDS_DIV.removeChild(br2);
-        SORT_FIELDS_DIV.removeChild(fieldNameLabel);
-        SORT_FIELDS_DIV.removeChild(fieldName);
-        SORT_FIELDS_DIV.removeChild(sortTypeLabel);
-        SORT_FIELDS_DIV.removeChild(sortType);
-        SORT_FIELDS_DIV.removeChild(removeButton);
+        sortFieldsDiv.removeChild(br1);
+        sortFieldsDiv.removeChild(br2);
+        sortFieldsDiv.removeChild(fieldNameLabel);
+        sortFieldsDiv.removeChild(fieldName);
+        sortFieldsDiv.removeChild(sortTypeLabel);
+        sortFieldsDiv.removeChild(sortType);
+        sortFieldsDiv.removeChild(removeButton);
     });
 
-    SORT_FIELDS_DIV.appendChild(fieldNameLabel);
-    SORT_FIELDS_DIV.appendChild(fieldName);
-    SORT_FIELDS_DIV.appendChild(sortTypeLabel);
-    SORT_FIELDS_DIV.appendChild(sortType);
+    sortFieldsDiv.appendChild(fieldNameLabel);
+    sortFieldsDiv.appendChild(fieldName);
+    sortFieldsDiv.appendChild(sortTypeLabel);
+    sortFieldsDiv.appendChild(sortType);
 
-    SORT_FIELDS_DIV.appendChild(br1);
-    SORT_FIELDS_DIV.appendChild(br2);
+    sortFieldsDiv.appendChild(br1);
+    sortFieldsDiv.appendChild(br2);
 
-    SORT_FIELDS_DIV.appendChild(removeButton);
+    sortFieldsDiv.appendChild(removeButton);
 });
 
-SEARCH_FORM.addEventListener("submit", async function (event)
+searchForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(SEARCH_FORM);
+    const formData = getElements(searchForm);
 
-    console.log(await sendRequest("/search", "POST", FORM_DATA));
+    const filters = [];
+    const fieldNames = formData.getAll("fieldName");
+    const operators = formData.getAll("operator");
+    const values = formData.getAll("value");
+    for (let i = 0; i < fieldNames.length; ++i)
+    {
+        filters.push({
+            fieldName: fieldNames[i],
+            operator: operators[i],
+            values: values[i]
+        });
+    }
+
+    const sortFields = [];
+    const sortFieldNames = formData.getAll("sortFieldName");
+    const sortTypes = formData.getAll("sortType");
+    for (let i = 0; i < sortFieldNames.length; ++i)
+    {
+        sortFields.push({
+            fieldName: sortFieldNames[i],
+            sortType: sortTypes[i]
+        });
+    }
+
+    const resultFieldNames = formData.get("resultFieldNames") !== "" && formData.get("resultFieldNames") !== null
+        ? formData.get("resultFieldNames").split(",").map(elem => ({ name: elem }))
+        : null;
+
+    const fullUrlNames = formData.get("fullUrlNames") !== "" && formData.get("fullUrlNames") !== null
+        ? formData.get("fullUrlNames").split(",")
+        : null;
+
+    const searchMovieInfo = await nomadSdk.search(
+        formData.get("searchQuery"),
+        formData.get("pageOffset"),
+        formData.get("pageSize"),
+        filters.length !== 0 ? filters : null,
+        sortFields.length !== 0 ? sortFields : null,
+        resultFieldNames,
+        fullUrlNames,
+        formData.get("distinctOnFieldName"),
+        formData.get("includeVideoClips") === "True",
+        formData.get("similarAssetId"),
+        formData.get("minScore"),
+        formData.get("excludeTotalRecordCount"),
+        formData.get("filterBinder"),
+        formData.get("useLlmSearch") === "True",
+        formData.get("includeInternalFieldsInResults") === "True"
+    );
+
+    console.log(searchMovieInfo);
 });
 
-function getElements(FORM)
+function getElements(form)
 {
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    const formData = new FormData();
+    for (let input of form)
     {
         if (input.tagName === "SELECT") {
-            const SELECTED_OPTIONS = []
+            const selectedOptions = []
             for (let element of input) {
                 if (element.selected) {
                     if (element.value === element.label) {
                         if (input.id) {
-                            FORM_DATA.append(input.id, element.value);
+                            formData.append(input.id, element.value);
                         } else {
-                            FORM_DATA.append(input.name, element.value);
+                            formData.append(input.name, element.value);
                         }
                     } else {
-                        SELECTED_OPTIONS.push({ id: element.value, description: element.label });
+                        selectedOptions.push({ id: element.value, description: element.label });
                     }
                 }
             }
-            if (SELECTED_OPTIONS.length > 1)
+            if (selectedOptions.length > 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS));
+                formData.append(input.id, JSON.stringify(selectedOptions));
             }
-            else if (SELECTED_OPTIONS.length === 1)
+            else if (selectedOptions.length === 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS[0]));
+                formData.append(input.id, JSON.stringify(selectedOptions[0]));
             }
         }
         else if (input.tagName === "INPUT")
         {
             if (input.type === "file") {
-                FORM_DATA.append(input.id, input.files[0]);
+                formData.append(input.id, input.files[0]);
             } else {
                 if (input.id) {
-                    FORM_DATA.append(input.id, input.value);
+                    formData.append(input.id, input.value);
                 } else {
-                    FORM_DATA.append(input.name, input.value);
+                    formData.append(input.name, input.value);
                 }
             }
         }
     }
-    return FORM_DATA;
-}
-
-async function sendRequest(PATH, METHOD, BODY)
-{
-    try
-    {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
-        {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
+    return formData;
 }

@@ -1,5 +1,5 @@
 {
-  "name": "asset-upload",
+  "name": "media-browser",
   "main": "server.js",
   "type": "module",
   "scripts": {

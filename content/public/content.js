@@ -1,113 +1,127 @@
-const GET_CONTENT_FORM = document.getElementById("getContentForm");
-const CREATE_FORM = document.getElementById("createForm");
-const UPDATE_FORM = document.getElementById("updateForm");
-const DEACTIVATE_FORM = document.getElementById("deactivateForm");
-const GET_CONTENT_USER_TRACK_FORM = document.getElementById("getContentUserTrackForm");
-const GET_CONTENT_USER_TRACK_TOUCH_FORM = document.getElementById("getContentUserTrackTouchForm");
-const DELETE_FORM = document.getElementById("deleteForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-GET_CONTENT_FORM.addEventListener("submit", async function (event)
+const getContentForm = document.getElementById("getContentForm");
+const createForm = document.getElementById("createForm");
+const updateForm = document.getElementById("updateForm");
+const deactivateForm = document.getElementById("deactivateForm");
+const getContentUserTrackForm = document.getElementById("getContentUserTrackForm");
+const getContentUserTrackTouchForm = document.getElementById("getContentUserTrackTouchForm");
+const deleteForm = document.getElementById("deleteForm");
+
+getContentForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(GET_CONTENT_FORM);
+    const formData = getElements(getContentForm);
 
-    await sendRequest("/get-content", "POST", FORM_DATA);
+    await nomadSdk.getContent(
+        formData.get("getContentContentId"),
+        formData.get("getContentContentDefinitionId"),
+        formData.get("isRevision")
+    );
 });
 
-CREATE_FORM.addEventListener("submit", async function (event)
+createForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(CREATE_FORM);
+    const formData = getElements(createForm);
 
-    await sendRequest("/create-content", "POST", FORM_DATA);
+    await nomadSdk.createContent(
+        formData.get("createContentContentDefinitionId"),
+        formData.get("createContentLanguageId")
+    );
 });
 
-UPDATE_FORM.addEventListener("submit", async function (event)
+updateForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(UPDATE_FORM);
+    const formData = getElements(updateForm);
 
-    await sendRequest("/update-content", "POST", FORM_DATA);
+    await nomadSdk.updateContent(
+        formData.get("updateContentContentId"),
+        formData.get("updateContentContentDefinitionId"),
+        formData.get("updateContentProperties"),
+        formData.get("updateContentLanguageId")
+    );
 });
 
-DEACTIVATE_FORM.addEventListener("submit", async function (event)
+deactivateForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(DEACTIVATE_FORM);
+    const formData = getElements(deactivateForm);
 
-    await sendRequest("/deactivate-content", "POST", FORM_DATA);
+    await nomadSdk.deactivateContentUserTrack(
+        formData.get("sessionId"),
+        formData.get("contentId"),
+        formData.get("contentDefinitionId"),
+        formData.get("deactivate") === "True"
+    );
 });
 
-GET_CONTENT_USER_TRACK_FORM.addEventListener("submit", async function (event)
+getContentUserTrackForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(GET_CONTENT_USER_TRACK_FORM);
+    const formData = getElements(getContentUserTrackForm);
 
-    await sendRequest("/get-content-user-track", "POST", FORM_DATA);
+    await nomadSdk.getContentUserTrack(
+        formData.get("contentId"),
+        formData.get("contentDefinitionId"),
+        formData.get("sortColumn"),
+        formData.get("isDescending") === "True",
+        formData.get("pageIndex"),
+        formData.get("pageSize")
+    );
 });
 
-GET_CONTENT_USER_TRACK_TOUCH_FORM.addEventListener("submit", async function (event)
+getContentUserTrackTouchForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(GET_CONTENT_USER_TRACK_TOUCH_FORM);
+    const formData = getElements(getContentUserTrackTouchForm);
 
-    await sendRequest("/get-content-user-track-touch", "POST", FORM_DATA);
+    await nomadSdk.getContentUserTrackTouch(
+        formData.get("contentId"),
+        formData.get("contentDefinitionId")
+    );
 });
 
-DELETE_FORM.addEventListener("submit", async function (event)
+deleteForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(DELETE_FORM);
+    const formData = getElements(deleteForm);
 
-    await sendRequest("/delete-content", "POST", FORM_DATA);
+    await nomadSdk.deleteContent(
+        formData.get("deleteContentContentId"),
+        formData.get("deleteContentContentDefinitionId")
+    );
 });
 
-
-function getElements(FORM)
+function getElements(form)
 {
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    const formData = new FormData();
+    for (let input of form)
     {
         if (input.tagName === "INPUT" || input.tagName === "SELECT")
         {
-            if (input.type !== "checkbox" || input.type === "checkbox" && input.checked)
+            if (input.type !== "checkbox" || (input.type === "checkbox" && input.checked))
             {
-                input.id ? FORM_DATA.append(input.id, input.value) : FORM_DATA.append(input.name, input.value);
+                if (input.id)
+                {
+                    formData.append(input.id, input.value);
+                }
+                else
+                {
+                    formData.append(input.name, input.value);
+                }
             }
         }
     }
-    return FORM_DATA;
-}
-
-async function sendRequest(PATH, METHOD, BODY)
-{
-    try
-    {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
-        {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
+    return formData;
 }

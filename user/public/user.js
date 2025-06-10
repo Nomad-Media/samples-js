@@ -1,152 +1,131 @@
-const DELETE_USER_FORM = document.getElementById("deleteUserForm");
-const DELETE_USER_DATA_FORM = document.getElementById("deleteUserDataForm");
-const DELETE_USER_CONTENT_ATTRIBUTE_DATA_FORM = document.getElementById("deleteUserContentAttributeDataForm");
-const DELETE_USER_CONTENT_GROUP_DATA_FORM = document.getElementById("deleteUserContentGroupDataForm");
-const DELETE_USER_DISLIKES_DATA_FORM = document.getElementById("deleteUserDislikesDataForm");
-const DELETE_USER_LIKES_DATA_FORM = document.getElementById("deleteUserLikesDataForm");
-const DELETE_USER_FAVORITES_DATA_FORM = document.getElementById("deleteUserFavoritesDataForm");
-const DELETE_USER_SAVED_SEARCH_DATA_FORM = document.getElementById("deleteUserSavedSearchDataForm");
-const DELETE_USER_SESSION_DATA_FORM = document.getElementById("deleteUserSessionDataForm");
-const DELETE_USER_CONTENT_SECURITY_DATA_FORM = document.getElementById("deleteUserContentSecurityDataForm");
-const DELETE_USER_VIDEO_TRACKING_DATA_FORM = document.getElementById("deleteUserVideoTrackingDataForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-DELETE_USER_FORM.addEventListener("submit", async function (event)
+const deleteUserForm = document.getElementById("deleteUserForm");
+const deleteUserDataForm = document.getElementById("deleteUserDataForm");
+const deleteUserContentAttributeDataForm = document.getElementById("deleteUserContentAttributeDataForm");
+const deleteUserContentGroupDataForm = document.getElementById("deleteUserContentGroupDataForm");
+const deleteUserDislikesDataForm = document.getElementById("deleteUserDislikesDataForm");
+const deleteUserLikesDataForm = document.getElementById("deleteUserLikesDataForm");
+const deleteUserFavoritesDataForm = document.getElementById("deleteUserFavoritesDataForm");
+const deleteUserSavedSearchDataForm = document.getElementById("deleteUserSavedSearchDataForm");
+const deleteUserSessionDataForm = document.getElementById("deleteUserSessionDataForm");
+const deleteUserContentSecurityDataForm = document.getElementById("deleteUserContentSecurityDataForm");
+const deleteUserVideoTrackingDataForm = document.getElementById("deleteUserVideoTrackingDataForm");
+
+deleteUserForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const USER_DATA = getElements(DELETE_USER_FORM);
-
-    await sendRequest("/delete-user", "POST", USER_DATA);
+    const userData = getElements(deleteUserForm);
+    await nomadSdk.deleteUser(userData.get("userId"));
 });
 
-DELETE_USER_DATA_FORM.addEventListener("submit", async function (event)
+deleteUserDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const USER_DATA = getElements(DELETE_USER_DATA_FORM);
-
-    await sendRequest("/delete-user-data", "POST", USER_DATA);
+    const userData = getElements(deleteUserDataForm);
+    await nomadSdk.deleteUserData(userData.get("userId"));
 });
 
-DELETE_USER_CONTENT_ATTRIBUTE_DATA_FORM.addEventListener("submit", async function (event)
+deleteUserContentAttributeDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const USER_DATA = getElements(DELETE_USER_CONTENT_ATTRIBUTE_DATA_FORM);
-
-    await sendRequest("/delete-user-content-attribute-data", "POST", USER_DATA);
+    const userData = getElements(deleteUserContentAttributeDataForm);
+    await nomadSdk.deleteUserContentAttributeData(userData.get("userId"));
 });
 
-DELETE_USER_CONTENT_GROUP_DATA_FORM.addEventListener("submit", async function (event)
+deleteUserContentGroupDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const USER_DATA = getElements(DELETE_USER_CONTENT_GROUP_DATA_FORM);
-
-    await sendRequest("/delete-user-content-group-data", "POST", USER_DATA);
+    const userData = getElements(deleteUserContentGroupDataForm);
+    await nomadSdk.deleteUserContentGroupData(userData.get("userId"));
 });
 
-DELETE_USER_DISLIKES_DATA_FORM.addEventListener("submit", async function (event)
+deleteUserDislikesDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const USER_DATA = getElements(DELETE_USER_DISLIKES_DATA_FORM);
-
-    await sendRequest("/delete-user-dislikes-data", "POST", USER_DATA);
+    const userData = getElements(deleteUserDislikesDataForm);
+    await nomadSdk.deleteUserDislikesData(userData.get("userId"));
 });
 
-DELETE_USER_LIKES_DATA_FORM.addEventListener("submit", async function (event)
+deleteUserLikesDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const USER_DATA = getElements(DELETE_USER_LIKES_DATA_FORM);
-
-    await sendRequest("/delete-user-likes-data", "POST", USER_DATA);
+    const userData = getElements(deleteUserLikesDataForm);
+    await nomadSdk.deleteUserLikesData(userData.get("userId"));
 });
 
-DELETE_USER_FAVORITES_DATA_FORM.addEventListener("submit", async function (event)
+deleteUserFavoritesDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const USER_DATA = getElements(DELETE_USER_FAVORITES_DATA_FORM);
-
-    await sendRequest("/delete-user-favorites-data", "POST", USER_DATA);
+    const userData = getElements(deleteUserFavoritesDataForm);
+    await nomadSdk.deleteUserFavoritesData(userData.get("userId"));
 });
 
-DELETE_USER_SAVED_SEARCH_DATA_FORM.addEventListener("submit", async function (event)
+deleteUserSavedSearchDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const USER_DATA = getElements(DELETE_USER_SAVED_SEARCH_DATA_FORM);
-
-    await sendRequest("/delete-user-saved-search-data", "POST", USER_DATA);
+    const userData = getElements(deleteUserSavedSearchDataForm);
+    await nomadSdk.deleteUserSavedSearchData(userData.get("userId"));
 });
 
-DELETE_USER_SESSION_DATA_FORM.addEventListener("submit", async function (event)
+deleteUserSessionDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const USER_DATA = getElements(DELETE_USER_SESSION_DATA_FORM);
-
-    await sendRequest("/delete-user-session-data", "POST", USER_DATA);
+    const userData = getElements(deleteUserSessionDataForm);
+    await nomadSdk.deleteUserSessionData(userData.get("userId"));
 });
 
-DELETE_USER_CONTENT_SECURITY_DATA_FORM.addEventListener("submit", async function (event)
+deleteUserContentSecurityDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const USER_DATA = getElements(DELETE_USER_CONTENT_SECURITY_DATA_FORM);
-
-    await sendRequest("/delete-user-content-security-data", "POST", USER_DATA);
+    const userData = getElements(deleteUserContentSecurityDataForm);
+    await nomadSdk.deleteUserContentSecurityData(
+        userData.get("contentId"),
+        userData.get("contentDefinitionId"),
+        userData.get("email"),
+        userData.get("id"),
+        userData.get("keyName"),
+        `${userData.get("expirationDate")}Z`
+    );
 });
 
-DELETE_USER_VIDEO_TRACKING_DATA_FORM.addEventListener("submit", async function (event)
+deleteUserVideoTrackingDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const USER_DATA = getElements(DELETE_USER_VIDEO_TRACKING_DATA_FORM);
-
-    await sendRequest("/delete-user-video-tracking-data", "POST", USER_DATA);
+    const userData = getElements(deleteUserVideoTrackingDataForm);
+    await nomadSdk.deleteUserVideoTrackingData(
+        userData.get("assetId"),
+        userData.get("contentId"),
+        userData.get("videoTrackingAttribute"),
+        userData.get("id"),
+        userData.get("isFirstQuartile") === "true",
+        userData.get("isMidpoint") === "true",
+        userData.get("isThirdQuartile") === "true",
+        userData.get("isComplete") === "true",
+        userData.get("isHidden") === "true",
+        userData.get("isLiveStream") === "true",
+        userData.get("maxSeconds"),
+        userData.get("lastSeconds"),
+        userData.get("totalSeconds"),
+        userData.get("lastBeaconDate"),
+        userData.get("keyName")
+    );
 });
 
-function getElements(FORM)
+function getElements(form)
 {
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    const formData = new FormData();
+    for (let input of form)
     {
         if (input.tagName === "INPUT" || input.tagName === "SELECT")
         {
-            if (input.type !== "checkbox" || input.type === "checkbox" && input.checked)
+            if (input.type !== "checkbox" || (input.type === "checkbox" && input.checked))
             {
-                input.id ? FORM_DATA.append(input.id, input.value) : FORM_DATA.append(input.name, input.value);
+                input.id ? formData.append(input.id, input.value) : formData.append(input.name, input.value);
             }
         }
     }
-    return FORM_DATA;
-}
-
-async function sendRequest(PATH, METHOD, BODY)
-{
-    try
-    {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
-        {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
+    return formData;
 }

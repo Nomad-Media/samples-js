@@ -1,169 +1,187 @@
-const GET_GROUP_FORM = document.getElementById("getGroupForm");
-const GET_GROUPS_FORM = document.getElementById("getGroupsForm");
-const CREATE_FORM = document.getElementById("createForm");
-const ADD_FORM = document.getElementById("addForm");
-const REMOVE_FORM = document.getElementById("removeForm");
-const RENAME_FORM = document.getElementById("renameForm");
-const SHARE_FORM = document.getElementById("shareForm");
-const STOP_SHARING_FORM = document.getElementById("stopSharingForm");
-const PORTAL_FORM = document.getElementById("portalForm");
-const DELETE_FORM = document.getElementById("deleteForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-GET_GROUP_FORM.addEventListener("submit", async function (event)
+const getGroupForm = document.getElementById("getGroupForm");
+const getGroupsForm = document.getElementById("getGroupsForm");
+const createForm = document.getElementById("createForm");
+const addForm = document.getElementById("addForm");
+const removeForm = document.getElementById("removeForm");
+const renameForm = document.getElementById("renameForm");
+const shareForm = document.getElementById("shareForm");
+const stopSharingForm = document.getElementById("stopSharingForm");
+const portalForm = document.getElementById("portalForm");
+const deleteForm = document.getElementById("deleteForm");
+
+getGroupForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(GET_GROUP_FORM);
+    const formData = getElements(getGroupForm);
 
-    console.log(await sendRequest("/get-group", "POST", FORM_DATA));
+    const groupId = formData.get("groupId");
+    const result = await nomadSdk.getContentGroup(groupId);
+    console.log(result);
 });
 
-GET_GROUPS_FORM.addEventListener("submit", async function (event)
+getGroupsForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    console.log(await sendRequest("/get-groups", "GET"));
+    const result = await nomadSdk.getContentGroups();
+    console.log(result);
 });
 
-CREATE_FORM.addEventListener("submit", async function (event)
+createForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(CREATE_FORM);
+    const formData = getElements(createForm);
 
-    console.log(await sendRequest("/create-group", "POST", FORM_DATA));
+    const name = formData.get("name");
+    const result = await nomadSdk.createContentGroup(name);
+    console.log(result);
 });
 
-ADD_FORM.addEventListener("submit", async function (event)
+addForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(ADD_FORM);
+    const formData = getElements(addForm);
 
-    console.log(await sendRequest("/add-content", "POST", FORM_DATA));
+    const groupId = formData.get("groupId");
+    const contentIds = formData.get("contentIds")?.split(",") || [];
+    const result = await nomadSdk.addContentsToContentGroup(groupId, contentIds);
+    console.log(result);
 });
 
-REMOVE_FORM.addEventListener("submit", async function (event)
+removeForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(REMOVE_FORM);
+    const formData = getElements(removeForm);
 
-    console.log(await sendRequest("/remove-content", "POST", FORM_DATA));
+    const groupId = formData.get("groupId");
+    const contentIds = formData.get("contentIds")?.split(",") || [];
+    const result = await nomadSdk.removeContentsFromContentGroup(groupId, contentIds);
+    console.log(result);
 });
 
-RENAME_FORM.addEventListener("submit", async function (event)
+renameForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(RENAME_FORM);
+    const formData = getElements(renameForm);
 
-    console.log(await sendRequest("/rename-group", "POST", FORM_DATA));
+    const groupId = formData.get("groupId");
+    const renameGroup = formData.get("renameGroup");
+    const result = await nomadSdk.renameContentGroup(groupId, renameGroup);
+    console.log(result);
 });
 
-SHARE_FORM.addEventListener("submit", async function (event)
+shareForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(SHARE_FORM);
+    const formData = getElements(shareForm);
 
-    console.log(await sendRequest("/share-group", "POST", FORM_DATA));
+    const groupId = formData.get("groupId");
+    const userIds = formData.get("userIds")?.split(",") || [];
+    const result = await nomadSdk.shareContentGroupWithUsers(groupId, userIds);
+    console.log(result);
 });
 
-STOP_SHARING_FORM.addEventListener("submit", async function (event)
+stopSharingForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(STOP_SHARING_FORM);
+    const formData = getElements(stopSharingForm);
 
-    console.log(await sendRequest("/stop-sharing-group", "POST", FORM_DATA));
+    const groupId = formData.get("groupId");
+    const userIds = formData.get("userIds")?.split(",") || [];
+    const result = await nomadSdk.stopSharingContentGroupWithUsers(groupId, userIds);
+    console.log(result);
 });
 
-PORTAL_FORM.addEventListener("submit", async function (event)
+portalForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(PORTAL_FORM);
+    const formData = getElements(portalForm);
 
-    console.log(await sendRequest("/portal", "POST", FORM_DATA));
+    const groupNames = formData.get("groupNames")?.split(",") || [];
+    const portalId = formData.get("portalId");
+    const result = await nomadSdk.getPortalGroups(groupNames, portalId);
+    console.log(result);
 });
 
-DELETE_FORM.addEventListener("submit", async function (event)
+deleteForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(DELETE_FORM);
+    const formData = getElements(deleteForm);
 
-    console.log(await sendRequest("/delete-group", "POST", FORM_DATA));
+    const groupId = formData.get("groupId");
+    const result = await nomadSdk.deleteContentGroup(groupId);
+    console.log(result);
 });
 
-function getElements(FORM)
+function getElements(form)
 {
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    const formData = new FormData();
+    for (let input of form)
     {
-        if (input.tagName === "SELECT") {
-            const SELECTED_OPTIONS = []
-            for (let element of input) {
-                if (element.selected) {
-                    if (element.value === element.label) {
-                        if (input.id) {
-                            FORM_DATA.append(input.id, element.value);
-                        } else {
-                            FORM_DATA.append(input.name, element.value);
+        if (input.tagName === "SELECT")
+        {
+            const selectedOptions = [];
+            for (let element of input)
+            {
+                if (element.selected)
+                {
+                    if (element.value === element.label)
+                    {
+                        if (input.id)
+                        {
+                            formData.append(input.id, element.value);
                         }
-                    } else {
-                        SELECTED_OPTIONS.push({ id: element.value, description: element.label });
+                        else
+                        {
+                            formData.append(input.name, element.value);
+                        }
+                    }
+                    else
+                    {
+                        selectedOptions.push({ id: element.value, description: element.label });
                     }
                 }
             }
-            if (SELECTED_OPTIONS.length > 1)
+            if (selectedOptions.length > 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS));
+                formData.append(input.id, JSON.stringify(selectedOptions));
             }
-            else if (SELECTED_OPTIONS.length === 1)
+            else if (selectedOptions.length === 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS[0]));
+                formData.append(input.id, JSON.stringify(selectedOptions[0]));
             }
         }
         else if (input.tagName === "INPUT")
         {
-            if (input.type === "file") {
-                FORM_DATA.append(input.id, input.files[0]);
-            } else {
-                if (input.id) {
-                    FORM_DATA.append(input.id, input.value);
-                } else {
-                    FORM_DATA.append(input.name, input.value);
+            if (input.type === "file")
+            {
+                formData.append(input.id, input.files[0]);
+            }
+            else
+            {
+                if (input.id)
+                {
+                    formData.append(input.id, input.value);
+                }
+                else
+                {
+                    formData.append(input.name, input.value);
                 }
             }
         }
     }
-    return FORM_DATA;
-}
-
-async function sendRequest(PATH, METHOD, BODY)
-{
-    try
-    {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
-        {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
+    return formData;
 }

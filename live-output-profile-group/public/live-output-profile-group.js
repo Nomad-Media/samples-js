@@ -1,161 +1,216 @@
-const CREATE_LIVE_OUTPUT_PROFILE_GROUP_FORM = document.getElementById("createLiveOutputProfileGroupForm");
-const DELETE_LIVE_OUTPUT_PROFILE_GROUP_FORM = document.getElementById("deleteLiveOutputProfileGroupForm");
-const GET_LIVE_OUTPUT_PROFILE_GROUP_FORM = document.getElementById("getLiveOutputProfileGroupForm");
-const GET_LIVE_OUTPUT_PROFILE_GROUPS_FORM = document.getElementById("getLiveOutputProfileGroupsForm");
-const UPDATE_LIVE_OUTPUT_PROFILE_GROUP_FORM = document.getElementById("updateLiveOutputProfileGroupForm");
+const createLiveOutputProfileGroupForm = document.getElementById("createLiveOutputProfileGroupForm");
+const deleteLiveOutputProfileGroupForm = document.getElementById("deleteLiveOutputProfileGroupForm");
+const getLiveOutputProfileGroupForm = document.getElementById("getLiveOutputProfileGroupForm");
+const getLiveOutputProfileGroupsForm = document.getElementById("getLiveOutputProfileGroupsForm");
+const updateLiveOutputProfileGroupForm = document.getElementById("updateLiveOutputProfileGroupForm");
 
-const CREATE_LIVE_OUTPUT_GROUP_OUTPUT_TYPE_SELECT = document.getElementById("createLiveOutputGroupOutputTypeSelect");
-const CREATE_LIVE_OUTPUT_GROUP_ARCHIVE_LIVE_OUTPUT_PROFILE_SELECT = document.getElementById("createLiveOutputGroupArchiveLiveOutputProfileSelect");
-const CREATE_LIVE_OUTPUT_GROUP_LIVE_OUTPUT_PROFILES_SELECT = document.getElementById("createLiveOutputGroupLiveOutputProfilesSelect");
-const UPDATE_LIVE_OUTPUT_GROUP_OUTPUT_TYPE_SELECT = document.getElementById("updateLiveOutputGroupOutputTypeSelect");
-const UPDATE_LIVE_OUTPUT_GROUP_ARCHIVE_LIVE_OUTPUT_PROFILE_SELECT = document.getElementById("updateLiveOutputGroupArchiveLiveOutputProfileSelect");
-const UPDATE_LIVE_OUTPUT_GROUP_LIVE_OUTPUT_PROFILES_SELECT = document.getElementById("updateLiveOutputGroupLiveOutputProfilesSelect");
+const createLiveOutputGroupOutputTypeSelect = document.getElementById("createLiveOutputGroupOutputTypeSelect");
+const createLiveOutputGroupArchiveLiveOutputProfileSelect = document.getElementById("createLiveOutputGroupArchiveLiveOutputProfileSelect");
+const createLiveOutputGroupLiveOutputProfilesSelect = document.getElementById("createLiveOutputGroupLiveOutputProfilesSelect");
+const updateLiveOutputGroupOutputTypeSelect = document.getElementById("updateLiveOutputGroupOutputTypeSelect");
+const updateLiveOutputGroupArchiveLiveOutputProfileSelect = document.getElementById("updateLiveOutputGroupArchiveLiveOutputProfileSelect");
+const updateLiveOutputGroupLiveOutputProfilesSelect = document.getElementById("updateLiveOutputGroupLiveOutputProfilesSelect");
 
-await getLiveOutputTypes();
+getLiveOutputTypes();
 
 async function getLiveOutputTypes()
 {
-    const RESPONSE = await sendRequest("/get-live-output-types", "GET");
-    const LIVE_OUTPUT_TYPES = RESPONSE.items;
+    const response = await sendRequest("/get-live-output-types", "GET");
+    const liveOutputTypes = response.items;
 
-    for(let liveOutputTypeIdx = 0; liveOutputTypeIdx < LIVE_OUTPUT_TYPES.length; ++liveOutputTypeIdx)
+    for (let liveOutputTypeIdx = 0; liveOutputTypeIdx < liveOutputTypes.length; ++liveOutputTypeIdx)
     {
         let option = document.createElement("option");
-        option.value = LIVE_OUTPUT_TYPES[liveOutputTypeIdx].id;
-        option.text = LIVE_OUTPUT_TYPES[liveOutputTypeIdx].description;
-        CREATE_LIVE_OUTPUT_GROUP_OUTPUT_TYPE_SELECT.appendChild(option);
-        UPDATE_LIVE_OUTPUT_GROUP_OUTPUT_TYPE_SELECT.appendChild(option.cloneNode(true));
+        option.value = liveOutputTypes[liveOutputTypeIdx].id;
+        option.text = liveOutputTypes[liveOutputTypeIdx].description;
+        createLiveOutputGroupOutputTypeSelect.appendChild(option);
+        updateLiveOutputGroupOutputTypeSelect.appendChild(option.cloneNode(true));
     }
 
-    $(CREATE_LIVE_OUTPUT_GROUP_OUTPUT_TYPE_SELECT).select2();
-    $(UPDATE_LIVE_OUTPUT_GROUP_OUTPUT_TYPE_SELECT).select2();
+    $(createLiveOutputGroupOutputTypeSelect).select2();
+    $(updateLiveOutputGroupOutputTypeSelect).select2();
 }
 
-await getLiveOutputProfile();
+getLiveOutputProfile();
 
 async function getLiveOutputProfile()
 {
-    const LIVE_OUTPUT_PROFILES = await sendRequest("/get-live-output-profiles", "GET");
+    const liveOutputProfiles = await sendRequest("/get-live-output-profiles", "GET");
 
-    for(let liveOutputProfileIdx = 0; liveOutputProfileIdx < LIVE_OUTPUT_PROFILES.length; ++liveOutputProfileIdx)
+    for (let liveOutputProfileIdx = 0; liveOutputProfileIdx < liveOutputProfiles.length; ++liveOutputProfileIdx)
     {
         let option = document.createElement("option");
-        option.value = LIVE_OUTPUT_PROFILES[liveOutputProfileIdx].id;
-        option.text = LIVE_OUTPUT_PROFILES[liveOutputProfileIdx].name;
-        CREATE_LIVE_OUTPUT_GROUP_ARCHIVE_LIVE_OUTPUT_PROFILE_SELECT.appendChild(option);
-        CREATE_LIVE_OUTPUT_GROUP_LIVE_OUTPUT_PROFILES_SELECT.appendChild(option.cloneNode(true));
-        UPDATE_LIVE_OUTPUT_GROUP_ARCHIVE_LIVE_OUTPUT_PROFILE_SELECT.appendChild(option.cloneNode(true));
-        UPDATE_LIVE_OUTPUT_GROUP_LIVE_OUTPUT_PROFILES_SELECT.appendChild(option.cloneNode(true));
+        option.value = liveOutputProfiles[liveOutputProfileIdx].id;
+        option.text = liveOutputProfiles[liveOutputProfileIdx].name;
+        createLiveOutputGroupArchiveLiveOutputProfileSelect.appendChild(option);
+        createLiveOutputGroupLiveOutputProfilesSelect.appendChild(option.cloneNode(true));
+        updateLiveOutputGroupArchiveLiveOutputProfileSelect.appendChild(option.cloneNode(true));
+        updateLiveOutputGroupLiveOutputProfilesSelect.appendChild(option.cloneNode(true));
     }
 
-    $(CREATE_LIVE_OUTPUT_GROUP_ARCHIVE_LIVE_OUTPUT_PROFILE_SELECT).select2();
-    $(CREATE_LIVE_OUTPUT_GROUP_LIVE_OUTPUT_PROFILES_SELECT).select2();
-    $(UPDATE_LIVE_OUTPUT_GROUP_ARCHIVE_LIVE_OUTPUT_PROFILE_SELECT).select2();
-    $(UPDATE_LIVE_OUTPUT_GROUP_LIVE_OUTPUT_PROFILES_SELECT).select2();
+    $(createLiveOutputGroupArchiveLiveOutputProfileSelect).select2();
+    $(createLiveOutputGroupLiveOutputProfilesSelect).select2();
+    $(updateLiveOutputGroupArchiveLiveOutputProfileSelect).select2();
+    $(updateLiveOutputGroupLiveOutputProfilesSelect).select2();
 }
 
-CREATE_LIVE_OUTPUT_PROFILE_GROUP_FORM.addEventListener("submit", async function(event)
+createLiveOutputProfileGroupForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(CREATE_LIVE_OUTPUT_PROFILE_GROUP_FORM);
+    const formData = getElements(createLiveOutputProfileGroupForm);
 
-    await sendRequest("/create-live-output-profile-group", "POST", FORM_DATA);
+    let type = formData.get("createLiveOutputGroupOutputTypeSelect") ? JSON.parse(formData.get("createLiveOutputGroupOutputTypeSelect")) : null;
+    type = type && type.id === "" ? null : type;
+
+    let archiveOutputProfiles = formData.get("createLiveOutputGroupArchiveLiveOutputProfileSelect") ? JSON.parse(formData.get("createLiveOutputGroupArchiveLiveOutputProfileSelect")) : null;
+    archiveOutputProfiles = archiveOutputProfiles && archiveOutputProfiles.id === "" ? null : archiveOutputProfiles;
+
+    let outputProfiles = formData.get("createLiveOutputGroupLiveOutputProfilesSelect") ? JSON.parse(formData.get("createLiveOutputGroupLiveOutputProfilesSelect")) : null;
+    outputProfiles = outputProfiles && outputProfiles.id === "" ? null : outputProfiles;
+
+    await sendRequest("/create-live-output-profile-group", "POST", {
+        name: formData.get("name"),
+        isEnabled: formData.get("isEnabled") === "true",
+        manifestType: formData.get("manifestType"),
+        isDefaultGroup: formData.get("isDefaultGroup") === "true",
+        type,
+        archiveOutputProfiles,
+        outputProfiles
+    });
 });
 
-DELETE_LIVE_OUTPUT_PROFILE_GROUP_FORM.addEventListener("submit", async function(event)
+deleteLiveOutputProfileGroupForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(DELETE_LIVE_OUTPUT_PROFILE_GROUP_FORM);
+    const formData = getElements(deleteLiveOutputProfileGroupForm);
 
-    await sendRequest("/delete-live-output-profile-group", "POST", FORM_DATA);
+    await sendRequest("/delete-live-output-profile-group", "POST", {
+        id: formData.get("id")
+    });
 });
 
-GET_LIVE_OUTPUT_PROFILE_GROUP_FORM.addEventListener("submit", async function(event)
+getLiveOutputProfileGroupForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(GET_LIVE_OUTPUT_PROFILE_GROUP_FORM);
+    const formData = getElements(getLiveOutputProfileGroupForm);
 
-    await sendRequest("/get-live-output-profile-group", "POST", FORM_DATA);
+    await sendRequest("/get-live-output-profile-group", "POST", {
+        id: formData.get("id")
+    });
 });
 
-GET_LIVE_OUTPUT_PROFILE_GROUPS_FORM.addEventListener("submit", async function(event)
+getLiveOutputProfileGroupsForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
     await sendRequest("/get-live-output-profile-groups", "GET");
 });
 
-UPDATE_LIVE_OUTPUT_PROFILE_GROUP_FORM.addEventListener("submit", async function(event)
+updateLiveOutputProfileGroupForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(UPDATE_LIVE_OUTPUT_PROFILE_GROUP_FORM);
+    const formData = getElements(updateLiveOutputProfileGroupForm);
 
-    await sendRequest("/update-live-output-profile-group", "PUT", FORM_DATA);
+    let type = formData.get("updateLiveOutputGroupOutputTypeSelect") ? JSON.parse(formData.get("updateLiveOutputGroupOutputTypeSelect")) : null;
+    type = type && type.id === "" ? null : type;
+
+    let archiveOutputProfiles = formData.get("updateLiveOutputGroupArchiveLiveOutputProfileSelect") ? JSON.parse(formData.get("updateLiveOutputGroupArchiveLiveOutputProfileSelect")) : null;
+    archiveOutputProfiles = archiveOutputProfiles && archiveOutputProfiles.id === "" ? null : archiveOutputProfiles;
+
+    let outputProfiles = formData.get("updateLiveOutputGroupLiveOutputProfilesSelect") ? JSON.parse(formData.get("updateLiveOutputGroupLiveOutputProfilesSelect")) : null;
+    outputProfiles = outputProfiles && outputProfiles.id === "" ? null : outputProfiles;
+
+    await sendRequest("/update-live-output-profile-group", "PUT", {
+        id: formData.get("id"),
+        name: formData.get("name"),
+        isEnabled: formData.get("isEnabled") === "true",
+        manifestType: formData.get("manifestType"),
+        isDefaultGroup: formData.get("isDefaultGroup") === "true",
+        type,
+        archiveOutputProfiles,
+        outputProfiles
+    });
 });
 
-function getElements(FORM)
+function getElements(form)
 {
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    const formData = new FormData();
+    for (let input of form)
     {
-        if (input.tagName === "SELECT") {
-            const SELECTED_OPTIONS = []
-            for (let element of input) {
-                if (element.selected) {
-                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase()) {
-                        if (input.id) {
-                            FORM_DATA.append(input.id, element.value);
-                        } else {
-                            FORM_DATA.append(input.name, element.value);
+        if (input.tagName === "SELECT")
+        {
+            const selectedOptions = [];
+            for (let element of input)
+            {
+                if (element.selected)
+                {
+                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase())
+                    {
+                        if (input.id)
+                        {
+                            formData.append(input.id, element.value);
                         }
-                    } else {
-                        SELECTED_OPTIONS.push({ id: element.value, description: element.label });
+                        else
+                        {
+                            formData.append(input.name, element.value);
+                        }
+                    }
+                    else
+                    {
+                        selectedOptions.push({ id: element.value, description: element.label });
                     }
                 }
             }
-            if (SELECTED_OPTIONS.length > 1)
+            if (selectedOptions.length > 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS));
+                formData.append(input.id, JSON.stringify(selectedOptions));
             }
-            else if (SELECTED_OPTIONS.length === 1)
+            else if (selectedOptions.length === 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS[0]));
+                formData.append(input.id, JSON.stringify(selectedOptions[0]));
             }
         }
         else if (input.tagName === "INPUT")
         {
-            if (input.id) {
-                FORM_DATA.append(input.id, input.value);
-            } else {
-                FORM_DATA.append(input.name, input.value);
+            if (input.id)
+            {
+                formData.append(input.id, input.value);
+            }
+            else
+            {
+                formData.append(input.name, input.value);
             }
         }
     }
-    return FORM_DATA;
+    return formData;
 }
 
-async function sendRequest(PATH, METHOD, BODY)
+async function sendRequest(path, method, body)
 {
     try
     {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
+        const request = { method: method };
+        if (body)
         {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
+            request.headers = { "Content-Type": "application/json" };
+            request.body = JSON.stringify(body);
+        }
+        const response = await fetch(path, request);
+
+        if (response.ok)
+        {
+            const data = await response.json();
+            if (data) return data;
         }
         else
         {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
+            const info = await response.json();
+            console.error(JSON.stringify(info, null, 4));
+            console.error("HTTP-Error: " + response.status);
         }
     }
     catch (error)

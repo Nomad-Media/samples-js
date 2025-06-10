@@ -1,784 +1,913 @@
-const GET_CHANNELS_FORM = document.getElementById("getChannelsForm");
-const GET_CHANNEL_FORM = document.getElementById("getChannelForm");
-const CREATE_CHANNEL_FORM = document.getElementById("createChannelForm");
-const UPDATE_CHANNEL_FORM = document.getElementById("updateChannelForm");
-const CLIP_LIVE_CHANNEL_FORM = document.getElementById("clipLiveChannelForm");
-const REFRESH_CHANNELS_FORM = document.getElementById("refreshChannelsForm");
-const NEXT_EVENT_FORM = document.getElementById("nextEventForm");
-const START_OUTPUT_TRACKING_FORM = document.getElementById("startOutputTrackingForm");
-const MOVE_SCHEDULE_EVENT_FORM = document.getElementById("moveScheduleEventForm");
-const ADD_ASSET_SCHEDULE_EVENT_FORM = document.getElementById("addAssetScheduleEventForm");
-const GET_ASSET_SCHEDULE_EVENT_FORM = document.getElementById("getAssetScheduleEventForm");
-const UPDATE_ASSET_SCHEDULE_EVENT_FORM = document.getElementById("updateAssetScheduleEventForm");
-const REMOVE_ASSET_SCHEDULE_EVENT_FORM = document.getElementById("removeAssetScheduleEventForm");
-const GET_INPUTS_FORM = document.getElementById("getInputsForm");
-const GET_INPUT_FORM = document.getElementById("getInputForm");
-const CREATE_INPUT_FORM = document.getElementById("createInputForm");
-const UPDATE_INPUT_FORM = document.getElementById("updateInputForm");
-const ADD_INPUT_SCHEDULE_EVENT_FORM = document.getElementById("addInputScheduleEventForm");
-const GET_INPUT_SCHEDULE_EVENT_FORM = document.getElementById("getInputScheduleEventForm");
-const UPDATE_INPUT_SCHEDULE_EVENT_FORM = document.getElementById("updateInputScheduleEventForm");
-const REMOVE_INPUT_SCHEDULE_EVENT_FORM = document.getElementById("removeInputScheduleEventForm");
-const START_CHANNEL_FORM = document.getElementById("startChannelForm");
-const STOP_CHANNEL_FORM = document.getElementById("stopChannelForm");
-const DELETE_CHANNEL_FORM = document.getElementById("deleteChannelForm");
-const DELETE_INPUT_FORM = document.getElementById("deleteInputForm");
-const GET_OUTPUTS_FORM = document.getElementById("getOutputsForm");
-const GET_OUTPUT_FORM = document.getElementById("getOutputForm");
-const GET_OUTPUT_TYPES_FORM = document.getElementById("getOutputTypesForm");
-const CREATE_OUTPUT_FORM = document.getElementById("createOutputForm");
-const UPDATE_OUTPUT_FORM = document.getElementById("updateOutputForm");
-const DELETE_OUTPUT_FORM = document.getElementById("deleteOutputForm");
-const GET_OUTPUT_GROUPS_FORM = document.getElementById("getOutputGroupsForm");
-const GET_OUTPUT_GROUP_FORM = document.getElementById("getOutputGroupForm");
-const CREATE_OUTPUT_GROUP_FORM = document.getElementById("createOutputGroupForm");
-const UPDATE_OUTPUT_GROUP_FORM = document.getElementById("updateOutputGroupForm");
-const DELETE_OUTPUT_GROUP_FORM = document.getElementById("deleteOutputGroupForm");
-const GET_OPERATORS_FORM = document.getElementById("getOperatorsForm");
-const GET_OPERATOR_FORM = document.getElementById("getOperatorForm");
-const START_BROADCAST_FORM = document.getElementById("startBroadcastForm");
-const CANCEL_BROADCAST_FORM = document.getElementById("cancelBroadcastForm");
-const STOP_BROADCAST_FORM = document.getElementById("stopBroadcastForm");
-const GET_COMPLETED_SEGMENTS_FORM = document.getElementById("getCompletedSegmentsForm");
-const START_SEGMENT_FORM = document.getElementById("startSegmentForm");
-const CANCEL_SEGMENT_FORM = document.getElementById("cancelSegmentForm");
-const COMPLETE_SEGMENT_FORM = document.getElementById("completeSegmentForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-const CREATE_CHANNEL_TYPE = document.getElementById("createChannelType");
-const UPDATE_CHANNEL_TYPE = document.getElementById("updateChannelType");
-const CREATE_INPUT_SOURCE_TYPE = document.getElementById("createInputSourceType");
-const UPDATE_INPUT_SOURCE_TYPE = document.getElementById("updateInputSourceType");
+const getChannelsForm = document.getElementById("getChannelsForm");
+const getChannelForm = document.getElementById("getChannelForm");
+const createChannelForm = document.getElementById("createChannelForm");
+const updateChannelForm = document.getElementById("updateChannelForm");
+const clipLiveChannelForm = document.getElementById("clipLiveChannelForm");
+const refreshChannelsForm = document.getElementById("refreshChannelsForm");
+const nextEventForm = document.getElementById("nextEventForm");
+const startOutputTrackingForm = document.getElementById("startOutputTrackingForm");
+const moveScheduleEventForm = document.getElementById("moveScheduleEventForm");
+const addAssetScheduleEventForm = document.getElementById("addAssetScheduleEventForm");
+const getAssetScheduleEventForm = document.getElementById("getAssetScheduleEventForm");
+const updateAssetScheduleEventForm = document.getElementById("updateAssetScheduleEventForm");
+const removeAssetScheduleEventForm = document.getElementById("removeAssetScheduleEventForm");
+const getInputsForm = document.getElementById("getInputsForm");
+const getInputForm = document.getElementById("getInputForm");
+const createInputForm = document.getElementById("createInputForm");
+const updateInputForm = document.getElementById("updateInputForm");
+const addInputScheduleEventForm = document.getElementById("addInputScheduleEventForm");
+const getInputScheduleEventForm = document.getElementById("getInputScheduleEventForm");
+const updateInputScheduleEventForm = document.getElementById("updateInputScheduleEventForm");
+const removeInputScheduleEventForm = document.getElementById("removeInputScheduleEventForm");
+const startChannelForm = document.getElementById("startChannelForm");
+const stopChannelForm = document.getElementById("stopChannelForm");
+const deleteChannelForm = document.getElementById("deleteChannelForm");
+const deleteInputForm = document.getElementById("deleteInputForm");
+const getOutputsForm = document.getElementById("getOutputsForm");
+const getOutputForm = document.getElementById("getOutputForm");
+const getOutputTypesForm = document.getElementById("getOutputTypesForm");
+const createOutputForm = document.getElementById("createOutputForm");
+const updateOutputForm = document.getElementById("updateOutputForm");
+const deleteOutputForm = document.getElementById("deleteOutputForm");
+const getOutputGroupsForm = document.getElementById("getOutputGroupsForm");
+const getOutputGroupForm = document.getElementById("getOutputGroupForm");
+const createOutputGroupForm = document.getElementById("createOutputGroupForm");
+const updateOutputGroupForm = document.getElementById("updateOutputGroupForm");
+const deleteOutputGroupForm = document.getElementById("deleteOutputGroupForm");
+const getOperatorsForm = document.getElementById("getOperatorsForm");
+const getOperatorForm = document.getElementById("getOperatorForm");
+const startBroadcastForm = document.getElementById("startBroadcastForm");
+const cancelBroadcastForm = document.getElementById("cancelBroadcastForm");
+const stopBroadcastForm = document.getElementById("stopBroadcastForm");
+const getCompletedSegmentsForm = document.getElementById("getCompletedSegmentsForm");
+const startSegmentForm = document.getElementById("startSegmentForm");
+const cancelSegmentForm = document.getElementById("cancelSegmentForm");
+const completeSegmentForm = document.getElementById("completeSegmentForm");
 
-const CREATE_CHANNEL_URL_DIV = document.getElementById("createChannelUrlDiv");
-const UPDATE_CHANNEL_URL_DIV = document.getElementById("updateChannelUrlDiv");
-const CREATE_INPUT_SOURCE_URL_DIV = document.getElementById("createSourceUrlDiv");
-const CREATE_INPUT_SOURCES_DIV = document.getElementById("createInputSourcesDiv");
-const UPDATE_INPUT_SOURCE_URL_DIV = document.getElementById("updateSourceUrlDiv");
+const createChannelType = document.getElementById("createChannelType");
+const updateChannelType = document.getElementById("updateChannelType");
+const createInputSourceType = document.getElementById("createInputSourceType");
+const updateInputSourceType = document.getElementById("updateInputSourceType");
 
-const CREATE_INPUT_SOURCE_URL_LABEL = document.getElementById("createSourceUrlLabel");
-const UPDATE_INPUT_SOURCE_URL_LABEL = document.getElementById("updateSourceUrlLabel");
+const createChannelUrlDiv = document.getElementById("createChannelUrlDiv");
+const updateChannelUrlDiv = document.getElementById("updateChannelUrlDiv");
+const createInputSourceUrlDiv = document.getElementById("createSourceUrlDiv");
+const createInputSourcesDiv = document.getElementById("createInputSourcesDiv");
+const updateInputSourceUrlDiv = document.getElementById("updateSourceUrlDiv");
 
-const CREATE_INPUT_ADD_SOURCES_BUTTON = document.getElementById("createInputAddSourcesButton");
+const createInputSourceUrlLabel = document.getElementById("createSourceUrlLabel");
+const updateInputSourceUrlLabel = document.getElementById("updateSourceUrlLabel");
 
-const CLIP_LIVE_CHANNEL_COLLECTIONS_SELECT = document.getElementById("clipLiveChannelCollectionsSelect");
-const CLIP_LIVE_CHANNEL_CONTENT_DEFINITIONS_SELECT = document.getElementById("clipLiveChannelContentDefinitionsSelect");
-const CLIP_LIVE_CHANNEL_RELATED_CONTENTS_SELECT = document.getElementById("clipLiveChannelRelatedContentsSelect");
-const CLIP_LIVE_CHANNEL_SELECT = document.getElementById("clipLiveChannelSelect");
-const CLIP_LIVE_CHANNEL_TAGS_SELECT = document.getElementById("clipLiveChannelTagsSelect");
-const UPDATE_CHANNEL_SELECT = document.getElementById("updateChannelSelect");
-const CREATE_OUTPUT_TYPE_SELECT = document.getElementById("createOutputTypeSelect");
-const UPDATE_OUTPUT_TYPE_SELECT = document.getElementById("updateOutputTypeSelect");
-const CREATE_OUTPUT_GROUP_TYPE_SELECT = document.getElementById("createOutputGroupTypeSelect");
-const CREATE_OUTPUT_GROUP_ARCHIVE_OUTPUT_PROFILE = document.getElementById("createOutputGroupArchiveOutputProfile");
-const CREATE_OUTPUT_GROUP_OUTPUT_PROFILES = document.getElementById("createOutputGroupOutputProfiles");
-const UPDATE_OUTPUT_GROUP_TYPE_SELECT = document.getElementById("updateOutputGroupTypeSelect");
-const UPDATE_OUTPUT_GROUP_ARCHIVE_OUTPUT_PROFILE = document.getElementById("updateOutputGroupArchiveOutputProfile");
-const UPDATE_OUTPUT_GROUP_OUTPUT_PROFILES = document.getElementById("updateOutputGroupOutputProfiles");
+const createInputAddSourcesButton = document.getElementById("createInputAddSourcesButton");
 
-await getContentDefinitions();
+const clipLiveChannelCollectionsSelect = document.getElementById("clipLiveChannelCollectionsSelect");
+const clipLiveChannelContentDefinitionsSelect = document.getElementById("clipLiveChannelContentDefinitionsSelect");
+const clipLiveChannelRelatedContentsSelect = document.getElementById("clipLiveChannelRelatedContentsSelect");
+const clipLiveChannelSelect = document.getElementById("clipLiveChannelSelect");
+const clipLiveChannelTagsSelect = document.getElementById("clipLiveChannelTagsSelect");
+const updateChannelSelect = document.getElementById("updateChannelSelect");
+const createOutputTypeSelect = document.getElementById("createOutputTypeSelect");
+const updateOutputTypeSelect = document.getElementById("updateOutputTypeSelect");
+const createOutputGroupTypeSelect = document.getElementById("createOutputGroupTypeSelect");
+const createOutputGroupArchiveOutputProfile = document.getElementById("createOutputGroupArchiveOutputProfile");
+const createOutputGroupOutputProfiles = document.getElementById("createOutputGroupOutputProfiles");
+const updateOutputGroupTypeSelect = document.getElementById("updateOutputGroupTypeSelect");
+const updateOutputGroupArchiveOutputProfile = document.getElementById("updateOutputGroupArchiveOutputProfile");
+const updateOutputGroupOutputProfiles = document.getElementById("updateOutputGroupOutputProfiles");
 
-await getCollectionList();
+getCollectionList();
+getContentDefinitions();
+getLiveChannels();
+getLiveOutputProfiles();
+getTagList();
+getOutputTypes();
 
 async function getCollectionList()
 {
-    const COLLECTION_LIST = await sendRequest("/get-collection-list", "GET");
-
-    if (COLLECTION_LIST)
+    const collections = await getGroups("20352932-05d2-4a7a-8821-06fcf4438ced");
+    if (collections)
     {
-        for(let collectionIdx = 0; collectionIdx < COLLECTION_LIST.length; ++collectionIdx)
+        for (let collection of collections)
         {
             let option = document.createElement("option");
-            option.value = COLLECTION_LIST[collectionIdx].id;
-            option.text = COLLECTION_LIST[collectionIdx].title;
-            CLIP_LIVE_CHANNEL_COLLECTIONS_SELECT.appendChild(option);
+            option.value = collection.id;
+            option.text = collection.title;
+            clipLiveChannelCollectionsSelect.appendChild(option);
         }
-
-        $(CLIP_LIVE_CHANNEL_COLLECTIONS_SELECT).select2();
+        $(clipLiveChannelCollectionsSelect).select2();
     }
 }
 
 async function getContentDefinitions()
 {
-    const CONTENT_DEFINITIONS = await sendRequest("/get-content-definition-list", "GET");
-
-    if (CONTENT_DEFINITIONS)
+    const contentDefinitions = await nomadSdk.miscFunctions("contentDefinition", "GET");
+    if (contentDefinitions && contentDefinitions.items)
     {
-        for (let contentDefinition of CONTENT_DEFINITIONS)
+        for (let contentDefinition of contentDefinitions.items)
         {
-            const OPTION = document.createElement("option");
-            OPTION.value = contentDefinition.contentDefinitionId;
-            OPTION.textContent = contentDefinition.properties.title;
-            CLIP_LIVE_CHANNEL_CONTENT_DEFINITIONS_SELECT.appendChild(OPTION);
+            const option = document.createElement("option");
+            option.value = contentDefinition.contentDefinitionId;
+            option.textContent = contentDefinition.properties.title;
+            clipLiveChannelContentDefinitionsSelect.appendChild(option);
         }
-
-        $(CLIP_LIVE_CHANNEL_CONTENT_DEFINITIONS_SELECT).select2();
+        $(clipLiveChannelContentDefinitionsSelect).select2();
     }
 }
-
-await getLiveChannels();
 
 async function getLiveChannels()
 {
-    const LIVE_CHANNELS = await sendRequest("/get-live-channel-list", "GET");
-
-    if (LIVE_CHANNELS)
+    const liveChannels = await nomadSdk.getLiveChannels();
+    if (liveChannels)
     {
-        for (let liveChannel of LIVE_CHANNELS)
+        for (let liveChannel of liveChannels)
         {
-            const OPTION = document.createElement("option");
-            OPTION.value = liveChannel.id;
-            OPTION.textContent = liveChannel.name;
-            CLIP_LIVE_CHANNEL_SELECT.appendChild(OPTION);
-            UPDATE_CHANNEL_SELECT.appendChild(OPTION.cloneNode(true));
+            const option = document.createElement("option");
+            option.value = liveChannel.id;
+            option.textContent = liveChannel.name;
+            clipLiveChannelSelect.appendChild(option);
+            updateChannelSelect.appendChild(option.cloneNode(true));
         }
-
-        $(CLIP_LIVE_CHANNEL_SELECT).select2();
-        $(UPDATE_CHANNEL_SELECT).select2();
+        $(clipLiveChannelSelect).select2();
+        $(updateChannelSelect).select2();
     }
 }
-
-await getLiveOutputProfiles();
 
 async function getLiveOutputProfiles()
 {
-    const LIVE_OUTPUT_PROFILES = await sendRequest("/getLiveOutputs", "GET");
-
-    if (LIVE_OUTPUT_PROFILES)
+    const liveOutputProfiles = await nomadSdk.getLiveOutputProfiles();
+    if (liveOutputProfiles)
     {
-        for (let liveOutputProfile of LIVE_OUTPUT_PROFILES)
+        for (let liveOutputProfile of liveOutputProfiles)
         {
-            const OPTION = document.createElement("option");
-            OPTION.value = liveOutputProfile.id;
-            OPTION.textContent = liveOutputProfile.name;
-            CREATE_OUTPUT_GROUP_ARCHIVE_OUTPUT_PROFILE.appendChild(OPTION);
-            CREATE_OUTPUT_GROUP_OUTPUT_PROFILES.appendChild(OPTION.cloneNode(true));
-            UPDATE_OUTPUT_GROUP_ARCHIVE_OUTPUT_PROFILE.appendChild(OPTION.cloneNode(true));
-            UPDATE_OUTPUT_GROUP_OUTPUT_PROFILES.appendChild(OPTION.cloneNode(true));
+            const option = document.createElement("option");
+            option.value = liveOutputProfile.id;
+            option.textContent = liveOutputProfile.name;
+            createOutputGroupArchiveOutputProfile.appendChild(option);
+            createOutputGroupOutputProfiles.appendChild(option.cloneNode(true));
+            updateOutputGroupArchiveOutputProfile.appendChild(option.cloneNode(true));
+            updateOutputGroupOutputProfiles.appendChild(option.cloneNode(true));
         }
-
-        $(CREATE_OUTPUT_GROUP_ARCHIVE_OUTPUT_PROFILE).select2();
-        $(CREATE_OUTPUT_GROUP_OUTPUT_PROFILES).select2();
-        $(UPDATE_OUTPUT_GROUP_ARCHIVE_OUTPUT_PROFILE).select2();
-        $(UPDATE_OUTPUT_GROUP_OUTPUT_PROFILES).select2();
+        $(createOutputGroupArchiveOutputProfile).select2();
+        $(createOutputGroupOutputProfiles).select2();
+        $(updateOutputGroupArchiveOutputProfile).select2();
+        $(updateOutputGroupOutputProfiles).select2();
     }
 }
-
-await getTagList();
 
 async function getTagList()
 {
-    const TAG_LIST = await sendRequest("/get-tag-list", "GET");
-
-    if (TAG_LIST)
+    const tags = await getGroups("c806783c-f127-48ae-90c9-32175f4e1fff");
+    if (tags)
     {
-        for(let tagIdx = 0; tagIdx < TAG_LIST.length; ++tagIdx)
+        for (let tag of tags)
         {
             let option = document.createElement("option");
-            option.value = TAG_LIST[tagIdx].id;
-            option.text = TAG_LIST[tagIdx].title;
-            CLIP_LIVE_CHANNEL_TAGS_SELECT.appendChild(option);
+            option.value = tag.id;
+            option.text = tag.title;
+            clipLiveChannelTagsSelect.appendChild(option);
         }
-
-        $(CLIP_LIVE_CHANNEL_TAGS_SELECT).select2();
+        $(clipLiveChannelTagsSelect).select2();
     }
 }
 
-await getOutputTypes();
-
 async function getOutputTypes()
 {
-    const OUTPUT_TYPES = await sendRequest("/get-output-types", "GET");
-    
-    if (OUTPUT_TYPES)
+    const outputTypes = await nomadSdk.miscFunctions("lookup/117", "GET");
+    if (outputTypes && outputTypes.items)
     {
-        for (let outputTypeIdx = 0; outputTypeIdx < OUTPUT_TYPES.length; ++outputTypeIdx)
+        for (let outputType of outputTypes.items)
         {
-            const OPTION = document.createElement("option");
-            OPTION.value = OUTPUT_TYPES[outputTypeIdx].id;
-            OPTION.textContent = OUTPUT_TYPES[outputTypeIdx].description;
-            CREATE_OUTPUT_TYPE_SELECT.appendChild(OPTION);
-            UPDATE_OUTPUT_TYPE_SELECT.appendChild(OPTION.cloneNode(true));
-            CREATE_OUTPUT_GROUP_TYPE_SELECT.appendChild(OPTION.cloneNode(true));
-            UPDATE_OUTPUT_GROUP_TYPE_SELECT.appendChild(OPTION.cloneNode(true));
+            const option = document.createElement("option");
+            option.value = outputType.id;
+            option.textContent = outputType.description;
+            createOutputTypeSelect.appendChild(option);
+            updateOutputTypeSelect.appendChild(option.cloneNode(true));
+            createOutputGroupTypeSelect.appendChild(option.cloneNode(true));
+            updateOutputGroupTypeSelect.appendChild(option.cloneNode(true));
         }
-
-        $(CREATE_OUTPUT_TYPE_SELECT).select2();
-        $(UPDATE_OUTPUT_TYPE_SELECT).select2();
-        $(CREATE_OUTPUT_GROUP_TYPE_SELECT).select2();
-        $(UPDATE_OUTPUT_GROUP_TYPE_SELECT).select2();
+        $(createOutputTypeSelect).select2();
+        $(updateOutputTypeSelect).select2();
+        $(createOutputGroupTypeSelect).select2();
+        $(updateOutputGroupTypeSelect).select2();
     }
 }
 
 $("#clipLiveChannelContentDefinitionsSelect").on("select2:select", async function (event)
 {
-    await populateRelatedContentSelect(event.params.data.id, CLIP_LIVE_CHANNEL_RELATED_CONTENTS_SELECT);
+    await populateRelatedContentSelect(event.params.data.id, clipLiveChannelRelatedContentsSelect);
 });
 
-GET_CHANNELS_FORM.addEventListener("submit", async function (event)
+getChannelsForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    console.log(await sendRequest("/getLiveChannels", "GET"));
+    console.log(await nomadSdk.getLiveChannels());
 });
 
-GET_CHANNEL_FORM.addEventListener("submit", async function (event)
+getChannelForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-    
-    const FORM_DATA = getElements(GET_CHANNEL_FORM);
-
-    console.log(await sendRequest("/getLiveChannel", "POST", FORM_DATA));
+    const formData = getElements(getChannelForm);
+    console.log(await nomadSdk.getLiveChannel(formData.get("channelId")));
 });
 
-CREATE_CHANNEL_TYPE.addEventListener("change", async function (event)
+createChannelType.addEventListener("change", function (event)
 {
     event.preventDefault();
-
-    let createChannelType = CREATE_CHANNEL_TYPE.value;
-    CREATE_CHANNEL_URL_DIV.hidden = !(createChannelType === "External");
+    let createChannelTypeValue = createChannelType.value;
+    createChannelUrlDiv.hidden = !(createChannelTypeValue === "External");
 });
 
-CREATE_CHANNEL_FORM.addEventListener("submit", async function (event) 
+createChannelForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-    
-    const FORM_DATA = getElements(CREATE_CHANNEL_FORM);
-
-    console.log(await sendRequest("/createLiveChannel", "POST", FORM_DATA));
+    const formData = getElements(createChannelForm);
+    const securityGroups = formData.get("createSecurityGroups") ? formData.get("createSecurityGroups").split(",") : [];
+    console.log(await nomadSdk.createLiveChannel(
+        formData.get("createChannelName"),
+        formData.get("createChannelThumbnailImage"),
+        formData.get("createChannelArchiveFolderAssetId"),
+        formData.get("createChannelEnableHighAvailability") === "true",
+        formData.get("createChannelEnableLiveClipping") === "true",
+        formData.get("createChannelIsSecureOutput") === "true",
+        formData.get("createChannelIsOutputScreenshots") === "true",
+        formData.get("createChannelType"),
+        formData.get("createChannelUrl"),
+        securityGroups
+    ));
 });
 
-
-UPDATE_CHANNEL_TYPE.addEventListener("change", async function (event)
+updateChannelType.addEventListener("change", function (event)
 {
     event.preventDefault();
-
-    let channelType = UPDATE_CHANNEL_TYPE.value;
-    UPDATE_CHANNEL_URL_DIV.hidden = !(channelType === "External");
+    let updateChannelTypeValue = updateChannelType.value;
+    updateChannelUrlDiv.hidden = !(updateChannelTypeValue === "External");
 });
 
-UPDATE_CHANNEL_FORM.addEventListener("submit", async function (event)
+updateChannelForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(UPDATE_CHANNEL_FORM);
-
-    console.log(await sendRequest("/updateLiveChannel", "POST", FORM_DATA));
-
+    const formData = getElements(updateChannelForm);
+    const channel = JSON.parse(formData.get("updateChannelSelect"));
+    const securityGroups = formData.get("updateSecurityGroups") ? formData.get("updateSecurityGroups").split(",") : [];
+    console.log(await nomadSdk.updateLiveChannel(
+        channel.id,
+        formData.get("updateChannelName"),
+        formData.get("updateChannelThumbnailImage"),
+        formData.get("updateChannelArchiveFolderAssetId"),
+        formData.get("updateChannelEnableHighAvailability") === "true",
+        formData.get("updateChannelEnableLiveClipping") === "true",
+        formData.get("updateChannelIsSecureOutput") === "true",
+        formData.get("updateChannelIsOutputScreenshots") === "true",
+        formData.get("updateChannelType"),
+        formData.get("updateChannelUrl"),
+        securityGroups
+    ));
 });
 
-CLIP_LIVE_CHANNEL_FORM.addEventListener("submit", async function (event)
+clipLiveChannelForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(CLIP_LIVE_CHANNEL_FORM);
-
-    console.log(await sendRequest("/clipLiveChannel", "POST", FORM_DATA));
+    const formData = getElements(clipLiveChannelForm);
+    const liveChannel = JSON.parse(formData.get("clipLiveChannelSelect"));
+    let collections = null;
+    if (formData.get("clipLiveChannelCollectionsSelect"))
+    {
+        const parsedCollections = JSON.parse(formData.get("clipLiveChannelCollectionsSelect"));
+        collections = Array.isArray(parsedCollections) ? parsedCollections : [parsedCollections];
+    }
+    let relatedContent = null;
+    if (formData.get("clipLiveChannelRelatedContentsSelect"))
+    {
+        const parsedRelatedContent = JSON.parse(formData.get("clipLiveChannelRelatedContentsSelect"));
+        relatedContent = Array.isArray(parsedRelatedContent) ? parsedRelatedContent : [parsedRelatedContent];
+    }
+    let tags = null;
+    if (formData.get("clipLiveChannelTagsSelect"))
+    {
+        const parsedTags = JSON.parse(formData.get("clipLiveChannelTagsSelect"));
+        tags = Array.isArray(parsedTags) ? parsedTags : [parsedTags];
+    }
+    console.log(await nomadSdk.clipLiveChannel(
+        liveChannel.id,
+        formData.get("startTimeCode"),
+        formData.get("endTimeCode"),
+        formData.get("title"),
+        formData.get("outputFolderAssetId"),
+        tags,
+        collections,
+        relatedContent,
+        formData.get("videoBitrate"),
+        formData.get("audioTracks")
+    ));
 });
 
-REFRESH_CHANNELS_FORM.addEventListener("submit", async function (event)
+refreshChannelsForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    console.log(await sendRequest("/refreshLiveChannels", "GET"));
+    console.log(await nomadSdk.liveChannelRefresh());
 });
 
-NEXT_EVENT_FORM.addEventListener("submit", async function (event)
+nextEventForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(NEXT_EVENT_FORM);
-
-    console.log(await sendRequest("/nextEvent", "POST", FORM_DATA));
+    const formData = getElements(nextEventForm);
+    console.log(await nomadSdk.nextEvent(formData.get("channelId")));
 });
 
-START_OUTPUT_TRACKING_FORM.addEventListener("submit", async function (event)
+startOutputTrackingForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(START_OUTPUT_TRACKING_FORM);
-
-    console.log(await sendRequest("/startOutputTracking", "POST", FORM_DATA));
+    const formData = getElements(startOutputTrackingForm);
+    console.log(await nomadSdk.startOutputTracking(formData.get("channelId")));
 });
 
-MOVE_SCHEDULE_EVENT_FORM.addEventListener("submit", async function (event)
+moveScheduleEventForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(MOVE_SCHEDULE_EVENT_FORM);
-
-    console.log(await sendRequest("/moveScheduleEvent", "POST", FORM_DATA));
+    const formData = getElements(moveScheduleEventForm);
+    console.log(await nomadSdk.moveScheduleEvent(
+        formData.get("channelId"),
+        formData.get("scheduleEventId"),
+        formData.get("previousScheduleEventId")
+    ));
 });
 
-GET_INPUTS_FORM.addEventListener("submit", async function (event)
+getInputsForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    console.log(await sendRequest("/getLiveInputs", "GET"));
+    console.log(await nomadSdk.getLiveInputs());
 });
 
-GET_INPUT_FORM.addEventListener("submit", async function (event)
+getInputForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(GET_INPUT_FORM);
-
-    console.log(await sendRequest("/getLiveInput", "POST", FORM_DATA));
+    const formData = getElements(getInputForm);
+    console.log(await nomadSdk.getLiveInput(formData.get("getInputId")));
 });
 
-CREATE_INPUT_SOURCE_TYPE.addEventListener("change", async function (event) 
+createInputSourceType.addEventListener("change", function (event)
 {
     event.preventDefault();
-
-    let sourceType = CREATE_INPUT_SOURCE_TYPE.value;
-    CREATE_INPUT_SOURCE_URL_DIV.hidden = !(sourceType !== "UDP_PUSH");
-
+    let sourceType = createInputSourceType.value;
+    createInputSourceUrlDiv.hidden = !(sourceType !== "UDP_PUSH");
     if (sourceType === "RTMP_PUSH")
     {
-        CREATE_INPUT_SOURCE_URL_LABEL.innerHTML = "Enter Source Video IP/CIDR Address<br>\
-                                                   Please use the following format: ###.###.###.###/##";
+        createInputSourceUrlLabel.innerHTML = "Enter Source Video IP/CIDR Address<br>\
+                                               Please use the following format: ###.###.###.###/##";
     }
     else if (sourceType !== "UDP_PUSH")
     {
-        CREATE_INPUT_SOURCE_URL_LABEL.innerHTML = "Enter Source Video URL<br>\
-                                                   Must start with http or rtmp";
-        
-        CREATE_INPUT_SOURCES_DIV.hidden = sourceType === "RTMP_PULL";
+        createInputSourceUrlLabel.innerHTML = "Enter Source Video URL<br>\
+                                               Must start with http or rtmp";
+        createInputSourcesDiv.hidden = sourceType === "RTMP_PULL";
     }
 });
 
-CREATE_INPUT_ADD_SOURCES_BUTTON.addEventListener("click", async function (event)
+createInputAddSourcesButton.addEventListener("click", function (event)
 {
     event.preventDefault();
-
     let ipLabel = document.createElement("label");
     ipLabel.setAttribute("for", "ipInput");
     ipLabel.textContent = "Ip:";
-    CREATE_INPUT_SOURCES_DIV.appendChild(ipLabel);
+    createInputSourcesDiv.appendChild(ipLabel);
 
     let ipInput = document.createElement("input");
     ipInput.setAttribute("type", "createInputSources");
     ipInput.setAttribute("name", "ipInputName");
-    CREATE_INPUT_SOURCES_DIV.appendChild(ipInput);
+    createInputSourcesDiv.appendChild(ipInput);
 
     let portLabel = document.createElement("label");
     portLabel.setAttribute("for", "portInput");
     portLabel.textContent = "Port:";
-    CREATE_INPUT_SOURCES_DIV.appendChild(portLabel);
+    createInputSourcesDiv.appendChild(portLabel);
 
-    let portInput = document.createElement("label");
+    let portInput = document.createElement("input");
     portInput.setAttribute("type", "createInputSources");
     portInput.setAttribute("name", "portInputName");
-    CREATE_INPUT_SOURCES_DIV.appendChild(portInput);
+    createInputSourcesDiv.appendChild(portInput);
 
     let urlLabel = document.createElement("label");
     urlLabel.setAttribute("for", "urlInput");
     urlLabel.textContent = "Url:";
-    CREATE_INPUT_SOURCES_DIV.appendChild(urlLabel);
+    createInputSourcesDiv.appendChild(urlLabel);
 
     let urlInput = document.createElement("input");
     urlInput.setAttribute("type", "createInputSources");
     urlInput.setAttribute("name", "urlInputName");
-    CREATE_INPUT_SOURCES_DIV.appendChild(urlInput);
+    createInputSourcesDiv.appendChild(urlInput);
 });
 
-CREATE_INPUT_FORM.addEventListener("submit", async function (event)
+createInputForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_INPUT_FORM);
-
-    console.log(await sendRequest("/createLiveInput", "POST", FORM_DATA));
+    const formData = getElements(createInputForm);
+    console.log(await nomadSdk.createLiveInput(
+        formData.get("createInputName"),
+        formData.get("createInputSource"),
+        formData.get("createInputType"),
+        formData.get("createInputIsStandard") === "true",
+        formData.get("createInputVideoAssetId"),
+        formData.get("createInputDestinations") ? formData.get("createInputDestinations").split(",") : [],
+        formData.get("createInputSources") ? formData.get("createInputSources").split(",") : []
+    ));
 });
 
-UPDATE_INPUT_SOURCE_TYPE.addEventListener("change", async function (event)
+updateInputSourceType.addEventListener("change", function (event)
 {
     event.preventDefault();
-
-    let sourceType = UPDATE_INPUT_SOURCE_TYPE.value;
-    UPDATE_INPUT_SOURCE_URL_DIV.hidden = !(sourceType !== "UDP_PUSH");
-
+    let sourceType = updateInputSourceType.value;
+    updateInputSourceUrlDiv.hidden = !(sourceType !== "UDP_PUSH");
     if (sourceType === "RTMP_PUSH")
     {
-        UPDATE_INPUT_SOURCE_URL_LABEL.innerHTML = "Enter Source Video IP/CIDR Address<br>\
-                                                   Please use the following format: ###.###.###.###/##";
+        updateInputSourceUrlLabel.innerHTML = "Enter Source Video IP/CIDR Address<br>\
+                                               Please use the following format: ###.###.###.###/##";
     }
     else if (sourceType !== "UDP_PUSH")
     {
-        UPDATE_INPUT_SOURCE_URL_LABEL.innerHTML = "Enter Source Video URL<br>\
-                                                   Must start with http or rtmp";
+        updateInputSourceUrlLabel.innerHTML = "Enter Source Video URL<br>\
+                                               Must start with http or rtmp";
     }
 });
 
-UPDATE_INPUT_FORM.addEventListener("submit", async function (event)
+updateInputForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(UPDATE_FORM);
-
-    console.log(await sendRequest("/updateLiveInput", "POST", FORM_DATA));
+    const formData = getElements(updateInputForm);
+    console.log(await nomadSdk.updateLiveInput(
+        formData.get("updateInputId"),
+        formData.get("updateInputName"),
+        formData.get("updateInputSource"),
+        formData.get("updateInputType"),
+        formData.get("updateInputIsStandard") === "true",
+        formData.get("updateInputVideoAssetId"),
+        formData.get("updateInputDestinations") ? formData.get("updateInputDestinations").split(",") : [],
+        formData.get("updateInputSources") ? formData.get("updateInputSources").split(",") : []
+    ));
 });
 
-ADD_ASSET_SCHEDULE_EVENT_FORM.addEventListener("submit", async function (event)
+addAssetScheduleEventForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(ADD_ASSET_SCHEDULE_EVENT_FORM);
-
-    console.log(await sendRequest("/addAssetScheduleEvent", "POST", FORM_DATA));
+    const formData = getElements(addAssetScheduleEventForm);
+    console.log(await nomadSdk.addAssetScheduleEvent(
+        formData.get("addAssetScheduleEventChannelId"),
+        {
+            id: formData.get("addAssetScheduleEventAssetId"),
+            name: formData.get("addAssetScheduleEventAssetName")
+        },
+        formData.get("addAssetScheduleEventIsLoop") === "true",
+        formData.get("addAssetScheduleEventDurationTimeCode"),
+        formData.get("addAssetScheduleEventPreviousId")
+    ));
 });
 
-GET_ASSET_SCHEDULE_EVENT_FORM.addEventListener("submit", async function (event)
+getAssetScheduleEventForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(GET_ASSET_SCHEDULE_EVENT_FORM);
-
-    console.log(await sendRequest("/getAssetScheduleEvent", "POST", FORM_DATA));
+    const formData = getElements(getAssetScheduleEventForm);
+    console.log(await nomadSdk.getAssetScheduleEvent(
+        formData.get("channelId"),
+        formData.get("scheduleEventId")
+    ));
 });
 
-UPDATE_ASSET_SCHEDULE_EVENT_FORM.addEventListener("submit", async function (event)
+updateAssetScheduleEventForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(UPDATE_ASSET_SCHEDULE_EVENT_FORM);
-
-    console.log(await sendRequest("/updateAssetScheduleEvent", "POST", FORM_DATA));
+    const formData = getElements(updateAssetScheduleEventForm);
+    console.log(await nomadSdk.updateAssetScheduleEvent(
+        formData.get("scheduleEventId"),
+        formData.get("channelId"),
+        formData.get("assetId"),
+        formData.get("assetName"),
+        formData.get("IsLoop") === "true",
+        formData.get("DurationTimeCode"),
+        formData.get("previousId")
+    ));
 });
 
-REMOVE_ASSET_SCHEDULE_EVENT_FORM.addEventListener("submit", async function (event)
+removeAssetScheduleEventForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(REMOVE_ASSET_SCHEDULE_EVENT_FORM);
-
-    console.log(await sendRequest("/removeAssetScheduleEvent", "POST", FORM_DATA));
+    const formData = getElements(removeAssetScheduleEventForm);
+    console.log(await nomadSdk.removeAssetScheduleEvent(
+        formData.get("removeAssetScheduleEventChannelId"),
+        formData.get("removeAssetScheduleEventScheduleEventId")
+    ));
 });
 
-ADD_INPUT_SCHEDULE_EVENT_FORM.addEventListener("submit", async function (event)
+addInputScheduleEventForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
-
-    const FORM_DATA = getElements(ADD_INPUT_SCHEDULE_EVENT_FORM);
-
-    console.log(await sendRequest("/addInputScheduleEvent", "POST", FORM_DATA));
-});
-
-GET_INPUT_SCHEDULE_EVENT_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_INPUT_SCHEDULE_EVENT_FORM);
-
-    console.log(await sendRequest("/getInputScheduleEvent", "POST", FORM_DATA));
-});
-
-UPDATE_INPUT_SCHEDULE_EVENT_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(UPDATE_INPUT_SCHEDULE_EVENT_FORM);
-
-    console.log(await sendRequest("/updateInputScheduleEvent", "POST", FORM_DATA));
-});
-
-REMOVE_INPUT_SCHEDULE_EVENT_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(REMOVE_INPUT_SCHEDULE_EVENT_FORM);
-
-    console.log(await sendRequest("/removeInputScheduleEvent", "POST", FORM_DATA));
-});
-
-START_CHANNEL_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(START_CHANNEL_FORM);
-
-    await sendRequest("/startLiveChannel", "POST", FORM_DATA);
-});
-
-STOP_CHANNEL_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(STOP_CHANNEL_FORM);
-
-    await sendRequest("/stopLiveChannel", "POST", FORM_DATA);
-});
-
-DELETE_CHANNEL_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(DELETE_CHANNEL_FORM);
-
-    await sendRequest("/deleteLiveChannel", "POST", FORM_DATA);
-});
-
-DELETE_INPUT_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(DELETE_INPUT_FORM);
-
-    await sendRequest("/deleteLiveInput", "POST", FORM_DATA);
-});
-
-GET_OUTPUTS_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    console.log(await sendRequest("/getLiveOutputs", "GET"));
-});
-
-GET_OUTPUT_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_OUTPUT_FORM);
-
-    console.log(await sendRequest("/getLiveOutput", "POST", FORM_DATA));
-});
-
-GET_OUTPUT_TYPES_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    console.log(await sendRequest("/get-output-types", "GET"));
-});
-
-CREATE_OUTPUT_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_OUTPUT_FORM);
-
-    console.log(await sendRequest("/createLiveOutput", "POST", FORM_DATA));
-});
-
-UPDATE_OUTPUT_TYPE_SELECT.addEventListener("change", async function (event)
-{
-    event.preventDefault();
-
-    let outputType = UPDATE_OUTPUT_TYPE_SELECT.value;
-    UPDATE_OUTPUT_URL_DIV.hidden = !(outputType === "External");
-});
-
-DELETE_OUTPUT_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(DELETE_OUTPUT_FORM);
-
-    console.log(await sendRequest("/deleteLiveOutput", "POST", FORM_DATA));
-});
-
-GET_OUTPUT_GROUPS_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    console.log(await sendRequest("/getLiveOutputGroups", "GET"));
-});
-
-GET_OUTPUT_GROUP_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_OUTPUT_GROUP_FORM);
-
-    console.log(await sendRequest("/getLiveOutputGroup", "POST", FORM_DATA));
-});
-
-CREATE_OUTPUT_GROUP_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_OUTPUT_GROUP_FORM);
-
-    console.log(await sendRequest("/createLiveOutputGroup", "POST", FORM_DATA));
-});
-
-UPDATE_OUTPUT_GROUP_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(UPDATE_OUTPUT_GROUP_FORM);
-
-    console.log(await sendRequest("/updateLiveOutputGroup", "POST", FORM_DATA));
-});
-
-DELETE_OUTPUT_GROUP_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(DELETE_OUTPUT_GROUP_FORM);
-
-    console.log(await sendRequest("/deleteLiveOutputGroup", "POST", FORM_DATA));
-});
-
-GET_OPERATORS_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    console.log(await sendRequest("/getLiveOperators", "GET"));
-});
-
-GET_OPERATOR_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_OPERATOR_FORM);
-
-    console.log(await sendRequest("/getLiveOperator", "POST", FORM_DATA));
-});
-
-START_BROADCAST_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(START_BROADCAST_FORM);
-
-    await sendRequest("/startBroadcast", "POST", FORM_DATA);
-});
-
-CANCEL_BROADCAST_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    let liveOperatorId = CANCEL_BROADCAST_CHANNEL_ID.value;
-
-    cancelBroadcastMain(liveOperatorId);
-});
-
-STOP_BROADCAST_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(STOP_BROADCAST_FORM);
-
-    await sendRequest("/stopBroadcast", "POST", FORM_DATA);
-});
-
-GET_COMPLETED_SEGMENTS_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_COMPLETED_SEGMENTS_FORM);
-
-    console.log(await sendRequest("/getCompletedSegments", "POST", FORM_DATA));
-});
-
-START_SEGMENT_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(START_SEGMENT_FORM);
-
-    await sendRequest("/startSegment", "POST", FORM_DATA);
-});
-
-CANCEL_SEGMENT_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CANCEL_SEGMENT_FORM);
-
-    console.log(await sendRequest("/cancelSegment", "POST", FORM_DATA));
-});
-
-COMPLETE_SEGMENT_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(COMPLETE_SEGMENT_FORM);
-
-    await sendRequest("/completeSegment", "POST", FORM_DATA);
-});
-
-function getElements(FORM)
-{
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    const formData = getElements(addInputScheduleEventForm);
+    let backupInput = null;
+    if (formData.get("addInputScheduleEventBackupInputId"))
     {
-        if (input.tagName === "SELECT") {
-            const SELECTED_OPTIONS = []
-            for (let element of input) {
-                if (element.selected) {
-                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase()) {
-                        if (input.id) {
-                            FORM_DATA.append(input.id, element.value);
-                        } else {
-                            FORM_DATA.append(input.name, element.value);
+        backupInput = {
+            id: formData.get("addInputScheduleEventBackupInputId"),
+            name: formData.get("addInputScheduleEventBackupInputName")
+        };
+    }
+    console.log(await nomadSdk.addInputScheduleEvent(
+        formData.get("addInputScheduleEventChannelId"),
+        {
+            id: formData.get("addInputScheduleEventInputId"),
+            name: formData.get("addInputScheduleEventInputName")
+        },
+        backupInput,
+        formData.get("addInputScheduleEventFixedOnAirTimeUTC"),
+        formData.get("addInputScheduleEventPreviousId")
+    ));
+});
+
+getInputScheduleEventForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(getInputScheduleEventForm);
+    console.log(await nomadSdk.getInputScheduleEvent(
+        formData.get("channelId"),
+        formData.get("scheduleEventId")
+    ));
+});
+
+updateInputScheduleEventForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(updateInputScheduleEventForm);
+    const input = formData.get("inputId") ? { id: formData.get("inputId"), name: formData.get("inputName") } : null;
+    const backupInput = formData.get("backupInputId") ? { id: formData.get("backupInputId"), name: formData.get("backupInputName") } : null;
+    const fixedOnAirTimeUTC = formData.get("fixedOnAirTimeUTC") || null;
+    console.log(await nomadSdk.updateInputScheduleEvent(
+        formData.get("scheduleEventId"),
+        formData.get("channelId"),
+        input,
+        backupInput,
+        fixedOnAirTimeUTC
+    ));
+});
+
+removeInputScheduleEventForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(removeInputScheduleEventForm);
+    console.log(await nomadSdk.removeInputScheduleEvent(
+        formData.get("removeInputScheduleEventChannelId"),
+        formData.get("removeInputScheduleEventScheduleEventId")
+    ));
+});
+
+startChannelForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(startChannelForm);
+    await nomadSdk.startLiveChannel(formData.get("startLiveChannelId"));
+});
+
+stopChannelForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(stopChannelForm);
+    await nomadSdk.stopLiveChannel(formData.get("stopLiveChannelId"));
+});
+
+deleteChannelForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(deleteChannelForm);
+    await nomadSdk.deleteLiveChannel(
+        formData.get("deleteChannelId"),
+        formData.get("deleteLiveInputs") === "true"
+    );
+});
+
+deleteInputForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(deleteInputForm);
+    await nomadSdk.deleteLiveInput(formData.get("deleteInputId"));
+});
+
+getOutputsForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    console.log(await nomadSdk.getLiveOutputProfiles());
+});
+
+getOutputForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(getOutputForm);
+    console.log(await nomadSdk.getLiveOutputProfile(formData.get("id")));
+});
+
+getOutputTypesForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    console.log(await nomadSdk.miscFunctions("lookup/117", "GET"));
+});
+
+createOutputForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(createOutputForm);
+    const outputType = formData.get("createOutputTypeSelect") ? JSON.parse(formData.get("createOutputTypeSelect")) : {};
+    console.log(await nomadSdk.createLiveOutputProfile(
+        formData.get("name"),
+        outputType,
+        formData.get("isActive") === "true",
+        formData.get("audioBitrate"),
+        formData.get("outputStreamKey"),
+        formData.get("outputUrl"),
+        formData.get("secondaryOutputStreamKey"),
+        formData.get("secondaryOutputUrl"),
+        formData.get("videoBitrate"),
+        formData.get("videoBitrateMode"),
+        formData.get("videoCodec"),
+        formData.get("videoFramesPerSecond")
+    ));
+});
+
+updateOutputTypeSelect.addEventListener("change", function (event)
+{
+    event.preventDefault();
+    let outputType = updateOutputTypeSelect.value;
+    updateChannelUrlDiv.hidden = !(outputType === "External");
+});
+
+updateOutputForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(updateOutputForm);
+    const outputType = formData.get("updateOutputTypeSelect") ? JSON.parse(formData.get("updateOutputTypeSelect")) : {};
+    console.log(await nomadSdk.updateLiveOutputProfile(
+        formData.get("id"),
+        formData.get("name"),
+        outputType,
+        formData.get("isActive") === "true",
+        formData.get("audioBitrate"),
+        formData.get("outputStreamKey"),
+        formData.get("outputUrl"),
+        formData.get("secondaryOutputStreamKey"),
+        formData.get("secondaryOutputUrl"),
+        formData.get("videoBitrate"),
+        formData.get("videoBitrateMode"),
+        formData.get("videoCodec"),
+        formData.get("videoFramesPerSecond")
+    ));
+});
+
+deleteOutputForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(deleteOutputForm);
+    console.log(await nomadSdk.deleteLiveOutputProfile(formData.get("id")));
+});
+
+getOutputGroupsForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    console.log(await nomadSdk.getLiveOutputProfileGroups());
+});
+
+getOutputGroupForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(getOutputGroupForm);
+    console.log(await nomadSdk.getLiveOutputProfileGroup(formData.get("id")));
+});
+
+createOutputGroupForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(createOutputGroupForm);
+    const manifestType = formData.get("manifestType") || "both";
+    const createOutputGroupType = formData.get("createOutputGroupTypeSelect") ? JSON.parse(formData.get("createOutputGroupTypeSelect")) : null;
+    let createOutputGroupArchiveOutputProfileValue = formData.get("createOutputGroupArchiveOutputProfile") ? JSON.parse(formData.get("createOutputGroupArchiveOutputProfile")) : null;
+    if (createOutputGroupArchiveOutputProfileValue && createOutputGroupArchiveOutputProfileValue.id === "null") createOutputGroupArchiveOutputProfileValue = null;
+    const createOutputGroupOutputProfiles = formData.get("createOutputGroupOutputProfiles") ? JSON.parse(formData.get("createOutputGroupOutputProfiles")) : null;
+    console.log(await nomadSdk.createLiveOutputProfileGroup(
+        formData.get("name"),
+        formData.get("isEnabled") === "true",
+        manifestType,
+        formData.get("isDefaultGroup") === "true",
+        createOutputGroupType,
+        createOutputGroupArchiveOutputProfileValue,
+        createOutputGroupOutputProfiles
+    ));
+});
+
+updateOutputGroupForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(updateOutputGroupForm);
+    let manifestType = formData.get("manifestType");
+    if (manifestType !== "")
+    {
+        manifestType = typeof manifestType === "string" ? manifestType : "both";
+    }
+    const updateOutputGroupType = formData.get("updateOutputGroupTypeSelect") ? JSON.parse(formData.get("updateOutputGroupTypeSelect")) : null;
+    let updateOutputGroupArchiveOutputProfileValue = formData.get("updateOutputGroupArchiveOutputProfile") ? JSON.parse(formData.get("updateOutputGroupArchiveOutputProfile")) : null;
+    if (updateOutputGroupArchiveOutputProfileValue && updateOutputGroupArchiveOutputProfileValue.id === "null") updateOutputGroupArchiveOutputProfileValue = null;
+    let updateOutputGroupOutputProfiles = formData.get("updateOutputGroupOutputProfiles");
+    updateOutputGroupOutputProfiles = updateOutputGroupOutputProfiles ? JSON.parse(updateOutputGroupOutputProfiles) : null;
+    console.log(await nomadSdk.updateLiveOutputProfileGroup(
+        formData.get("id"),
+        formData.get("name"),
+        formData.get("isEnabled") === "true",
+        manifestType,
+        formData.get("isDefaultGroup") === "true",
+        updateOutputGroupType,
+        updateOutputGroupArchiveOutputProfileValue,
+        updateOutputGroupOutputProfiles
+    ));
+});
+
+deleteOutputGroupForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(deleteOutputGroupForm);
+    console.log(await nomadSdk.deleteLiveOutputProfileGroup(formData.get("id")));
+});
+
+getOperatorsForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    console.log(await nomadSdk.getLiveOperators());
+});
+
+getOperatorForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(getOperatorForm);
+    console.log(await nomadSdk.getLiveOperator(formData.get("getOperatorId")));
+});
+
+startBroadcastForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(startBroadcastForm);
+    await nomadSdk.startBroadcast(
+        formData.get("startBroadcastChannelId"),
+        formData.get("startBroadcastPrerollAssetId"),
+        formData.get("startBroadcastPostrollAssetId"),
+        formData.get("startBroadcastLiveInputId"),
+        formData.get("startBroadcastRelatedAssetIds") ? formData.get("startBroadcastRelatedAssetIds").split(",") : [],
+        formData.get("startBroadcastTagIds") ? formData.get("startBroadcastTagIds").split(",") : []
+    );
+});
+
+cancelBroadcastForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(cancelBroadcastForm);
+    await nomadSdk.cancelBroadcast(formData.get("cancelBroadcastChannelId"));
+});
+
+stopBroadcastForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(stopBroadcastForm);
+    await nomadSdk.stopBroadcast(formData.get("stopBroadcastChannelId"));
+});
+
+getCompletedSegmentsForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(getCompletedSegmentsForm);
+    console.log(await nomadSdk.getCompletedSegments(formData.get("getCompletedSegmentsChannelId")));
+});
+
+startSegmentForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(startSegmentForm);
+    await nomadSdk.startSegments(formData.get("startSegmentChannelId"));
+});
+
+cancelSegmentForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(cancelSegmentForm);
+    console.log(await nomadSdk.cancelSegments(formData.get("cancelSegmentChannelId")));
+});
+
+completeSegmentForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(completeSegmentForm);
+    await nomadSdk.completeSegments(
+        formData.get("completeSegmentChannelId"),
+        formData.get("completeSegmentRelatedAssetIds") ? formData.get("completeSegmentRelatedAssetIds").split(",") : [],
+        formData.get("completeSegmentTagIds") ? formData.get("completeSegmentTagIds").split(",") : []
+    );
+});
+
+function getElements(form)
+{
+    const formData = new FormData();
+    for (let input of form)
+    {
+        if (input.tagName === "SELECT")
+        {
+            const selectedOptions = [];
+            for (let element of input)
+            {
+                if (element.selected)
+                {
+                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase())
+                    {
+                        if (input.id)
+                        {
+                            formData.append(input.id, element.value);
                         }
-                    } else {
-                        SELECTED_OPTIONS.push({ id: element.value, description: element.label });
+                        else
+                        {
+                            formData.append(input.name, element.value);
+                        }
+                    }
+                    else
+                    {
+                        selectedOptions.push({ id: element.value, description: element.label });
                     }
                 }
             }
-            if (SELECTED_OPTIONS.length > 1)
+            if (selectedOptions.length > 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS));
+                formData.append(input.id, JSON.stringify(selectedOptions));
             }
-            else if (SELECTED_OPTIONS.length === 1)
+            else if (selectedOptions.length === 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS[0]));
+                formData.append(input.id, JSON.stringify(selectedOptions[0]));
             }
         }
         else if (input.tagName === "INPUT")
         {
-            if (input.id) {
-                FORM_DATA.append(input.id, input.value);
-            } else {
-                FORM_DATA.append(input.name, input.value);
+            if (input.id)
+            {
+                formData.append(input.id, input.value);
+            }
+            else
+            {
+                formData.append(input.name, input.value);
             }
         }
     }
-    return FORM_DATA;
+    return formData;
 }
 
-async function sendRequest(PATH, METHOD, BODY)
+async function getGroups(contentDefinitionId)
 {
-    try
+    const groupList = [];
+    let offset = 0;
+    while (true)
     {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
+        const searchInfo = await nomadSdk.search(
+            null, offset, null,
+            [
+                { 
+                    fieldName: "contentDefinitionId", 
+                    operator: "Equals", 
+                    values: contentDefinitionId 
+                },
+                { 
+                    fieldName: "languageId", 
+                    operator: "Equals", 
+                    values: "c66131cd-27fc-4f83-9b89-b57575ac0ed8" 
+                }
+            ],
+            null, null, null, null, true, null
+        );
+        if (!searchInfo)
         {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
+            return [];
         }
-        else
+        groupList.push(...searchInfo.items);
+        ++offset;
+        if (searchInfo.items.length < 100)
         {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
+            break;
         }
     }
-    catch (error)
-    {
-        console.error(error);
-    }
+    return groupList;
 }
 
-async function populateRelatedContentSelect(CONTENT_DEFINITION_ID, RELATED_CONTENTS_SELECT)
+async function populateRelatedContentSelect(contentDefinitionId, relatedContentsSelect)
 {
-    const FORM_DATA = new FormData();
-    FORM_DATA.append("contentDefinitionId", CONTENT_DEFINITION_ID);
-    const RELATED_CONTENT_LIST = await sendRequest("/get-related-content-list", "POST", FORM_DATA);
+    const relatedContentList = await getGroups(contentDefinitionId);
 
-    RELATED_CONTENTS_SELECT.innerHTML = "";
+    relatedContentsSelect.innerHTML = "";
 
-    for(let relatedContentIdx = 0; relatedContentIdx < RELATED_CONTENT_LIST.length; ++relatedContentIdx)
+    for (let relatedContent of relatedContentList)
     {
         let option = document.createElement("option");
-        option.value = RELATED_CONTENT_LIST[relatedContentIdx].id;
-        option.text = RELATED_CONTENT_LIST[relatedContentIdx].title;
-        RELATED_CONTENTS_SELECT.appendChild(option);
+        option.value = relatedContent.id;
+        option.text = relatedContent.title;
+        relatedContentsSelect.appendChild(option);
     }
 
-    $(RELATED_CONTENTS_SELECT).select2();
+    $(relatedContentsSelect).select2();
 }

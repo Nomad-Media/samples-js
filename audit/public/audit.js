@@ -1,52 +1,46 @@
-const GET_AUDIT_FORM = document.getElementById("getAuditForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-GET_AUDIT_FORM.addEventListener("submit", async (event) =>
+const getAuditForm = document.getElementById("getAuditForm");
+
+getAuditForm.addEventListener("submit", async (event) => 
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(GET_AUDIT_FORM);
+    const formData = getElements(getAuditForm);
+    const contentId = formData.get("contentId");
 
-    console.log(await sendRequest("/get-audit", "POST", FORM_DATA));
-});
-
-function getElements(FORM)
-{
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    try 
     {
-        if (input.tagName === "INPUT" || input.tagName === "SELECT")
-        {
-            if (input.type !== "checkbox" || input.type === "checkbox" && input.checked)
-            {
-                input.id ? FORM_DATA.append(input.id, input.value) : FORM_DATA.append(input.name, input.value);
-            }
-        }
-    }
-    return FORM_DATA;
-}
-
-async function sendRequest(PATH, METHOD, BODY)
-{
-    try
-    {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
-        {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
-    }
-    catch (error)
+        const audit = await nomadSdk.getAudit(contentId);
+        console.log(audit);
+    } 
+    catch (error) 
     {
         console.error(error);
     }
+});
+
+function getElements(form) 
+{
+    const formData = new FormData();
+    for (let input of form) 
+    {
+        if (input.tagName === "INPUT" || input.tagName === "SELECT") 
+        {
+            if (input.type !== "checkbox" || (input.type === "checkbox" && input.checked)) 
+            {
+                if (input.id) 
+                {
+                    formData.append(input.id, input.value);
+                }   
+                else 
+                {
+                    formData.append(input.name, input.value);
+                }
+            }
+        }
+    }
+    return formData;
 }

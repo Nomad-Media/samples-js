@@ -1,22 +1,25 @@
-const MEDIA_SEARCH_FORM = document.getElementById("mediaSearchForm");
-const GET_DYNAMIC_CONTENT_FORM = document.getElementById("getDynamicContentForm");
-const GET_DYNAMIC_CONTENTS_FORM = document.getElementById("getDynamicContentsForm");
-const GET_MEDIA_GROUP_FORM = document.getElementById("getMediaGroupForm");
-const GET_MEDIA_ITEM_FORM = document.getElementById("getMediaItemForm");
-const GET_DEFAULT_SITE_CONFIG_FORM = document.getElementById("getDefaultSiteConfigForm");
-const GET_SITE_CONFIG_FORM = document.getElementById("getSiteConfigForm");
-const GET_MY_CONTENT_FORM = document.getElementById("getMyContentForm");
-const GET_MY_GROUP_FORM = document.getElementById("getMyGroupForm");
-const CLEAR_WATCHLIST_FORM = document.getElementById("clearWatchlistForm");
-const CLEAR_CONTINUE_WATCHING_FORM = document.getElementById("clearContinueWatchingForm");
-const GET_CONTENT_COOKIES_FORM = document.getElementById("getContentCookiesForm");
-const FORM_FORM = document.getElementById("formForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-const SORT_FIELDS_DIV = document.getElementById("sortFieldsDiv");
+const mediaSearchForm = document.getElementById("mediaSearchForm");
+const getDynamicContentForm = document.getElementById("getDynamicContentForm");
+const getDynamicContentsForm = document.getElementById("getDynamicContentsForm");
+const getMediaGroupForm = document.getElementById("getMediaGroupForm");
+const getMediaItemForm = document.getElementById("getMediaItemForm");
+const getDefaultSiteConfigForm = document.getElementById("getDefaultSiteConfigForm");
+const getSiteConfigForm = document.getElementById("getSiteConfigForm");
+const getMyContentForm = document.getElementById("getMyContentForm");
+const getMyGroupForm = document.getElementById("getMyGroupForm");
+const clearWatchlistForm = document.getElementById("clearWatchlistForm");
+const clearContinueWatchingForm = document.getElementById("clearContinueWatchingForm");
+const getContentCookiesForm = document.getElementById("getContentCookiesForm");
+const formForm = document.getElementById("formForm");
 
-const ADD_SORT_FIELDS_BUTTON = document.getElementById("addSortFieldsButton");
+const sortFieldsDiv = document.getElementById("sortFieldsDiv");
+const addSortFieldsButton = document.getElementById("addSortFieldsButton");
 
-ADD_SORT_FIELDS_BUTTON.addEventListener('click', function(event)
+addSortFieldsButton.addEventListener('click', function (event)
 {
     event.preventDefault();
 
@@ -52,204 +55,243 @@ ADD_SORT_FIELDS_BUTTON.addEventListener('click', function(event)
 
     let removeButton = document.createElement("button");
     removeButton.textContent = "Remove Sort Field";
-    removeButton.addEventListener("click", function(event) {
+    removeButton.addEventListener("click", function (event)
+    {
         event.preventDefault();
-        SORT_FIELDS_DIV.removeChild(br1);
-        SORT_FIELDS_DIV.removeChild(br2);
-        SORT_FIELDS_DIV.removeChild(fieldNameLabel);
-        SORT_FIELDS_DIV.removeChild(fieldName);
-        SORT_FIELDS_DIV.removeChild(sortTypeLabel);
-        SORT_FIELDS_DIV.removeChild(sortType);
-        SORT_FIELDS_DIV.removeChild(removeButton);
+        sortFieldsDiv.removeChild(br1);
+        sortFieldsDiv.removeChild(br2);
+        sortFieldsDiv.removeChild(fieldNameLabel);
+        sortFieldsDiv.removeChild(fieldName);
+        sortFieldsDiv.removeChild(sortTypeLabel);
+        sortFieldsDiv.removeChild(sortType);
+        sortFieldsDiv.removeChild(removeButton);
     });
 
-    SORT_FIELDS_DIV.appendChild(fieldNameLabel);
-    SORT_FIELDS_DIV.appendChild(fieldName);
-    SORT_FIELDS_DIV.appendChild(sortTypeLabel);
-    SORT_FIELDS_DIV.appendChild(sortType);
+    sortFieldsDiv.appendChild(fieldNameLabel);
+    sortFieldsDiv.appendChild(fieldName);
+    sortFieldsDiv.appendChild(sortTypeLabel);
+    sortFieldsDiv.appendChild(sortType);
 
-    SORT_FIELDS_DIV.appendChild(br1);
-    SORT_FIELDS_DIV.appendChild(br2);
+    sortFieldsDiv.appendChild(br1);
+    sortFieldsDiv.appendChild(br2);
 
-    SORT_FIELDS_DIV.appendChild(removeButton);
+    sortFieldsDiv.appendChild(removeButton);
 });
 
-MEDIA_SEARCH_FORM.addEventListener("submit", async function (event)
+mediaSearchForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(MEDIA_SEARCH_FORM);
+    const formData = getElements(mediaSearchForm);
 
-    console.log(await sendRequest("/search", "POST", FORM_DATA));
-});
+    const ids = formData.get("ids") === "" ? [] : formData.get("ids").split(',');
 
-GET_DYNAMIC_CONTENT_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_DYNAMIC_CONTENT_FORM);
-
-    console.log(await sendRequest("/get-dynamic-content", "POST", FORM_DATA));
-});
-
-GET_DYNAMIC_CONTENTS_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    console.log(await sendRequest("/get-dynamic-contents", "GET"));
-});
-
-GET_MEDIA_GROUP_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_MEDIA_GROUP_FORM);
-
-    console.log(await sendRequest("/get-media-group", "POST", FORM_DATA));
-});
-
-GET_MEDIA_ITEM_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_MEDIA_ITEM_FORM);
-
-    console.log(await sendRequest("/get-media-item", "POST", FORM_DATA));
-});
-
-GET_DEFAULT_SITE_CONFIG_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    console.log(await sendRequest("/get-default-site-config", "GET"));
-});
-
-GET_SITE_CONFIG_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_SITE_CONFIG_FORM);
-
-    console.log(await sendRequest("/get-site-config", "POST", FORM_DATA));
-});
-
-GET_MY_CONTENT_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    console.log(await sendRequest("/get-my-content", "GET"));
-});
-
-GET_MY_GROUP_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_MY_GROUP_FORM);
-
-    console.log(await sendRequest("/get-my-group", "POST", FORM_DATA));
-});
-
-CLEAR_WATCHLIST_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    console.log(await sendRequest("/clear-watchlist", "GET"));
-});
-
-CLEAR_CONTINUE_WATCHING_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CLEAR_CONTINUE_WATCHING_FORM);
-
-    console.log(await sendRequest("/clear-continue-watching", "POST", FORM_DATA));
-});
-
-GET_CONTENT_COOKIES_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_CONTENT_COOKIES_FORM);
-
-    console.log(await sendRequest("/get-content-cookies", "POST", FORM_DATA));
-});
-
-FORM_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(FORM_FORM);
-
-    console.log(await sendRequest("/form", "POST", FORM_DATA));
-});
-
-function getElements(FORM)
-{
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    const sortFields = [];
+    const sortFieldNames = formData.getAll("sortFieldName");
+    const sortTypes = formData.getAll("sortType");
+    for (let i = 0; i < sortFieldNames.length; ++i)
     {
-        if (input.tagName === "SELECT") {
-            const SELECTED_OPTIONS = []
-            for (let element of input) {
-                if (element.selected) {
-                    if (element.value === element.label) {
-                        if (input.id) {
-                            FORM_DATA.append(input.id, element.value);
-                        } else {
-                            FORM_DATA.append(input.name, element.value);
+        sortFields.push({
+            fieldName: sortFieldNames[i],
+            sortType: sortTypes[i]
+        });
+    }
+
+    const searchQuery = formData.get("searchQuery");
+    const pageOffset = formData.get("pageOffset");
+    const pageSize = formData.get("pageSize");
+
+    const result = await nomadSdk.mediaSearch(
+        searchQuery, ids, sortFields, pageOffset, pageSize
+    );
+    console.log(result);
+});
+
+getDynamicContentForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(getDynamicContentForm);
+
+    const dynamicContentId = formData.get("dynamicContentId");
+    const result = await nomadSdk.getDynamicContent(dynamicContentId);
+    console.log(result);
+});
+
+getDynamicContentsForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const result = await nomadSdk.getDynamicContents();
+    console.log(result);
+});
+
+getMediaGroupForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(getMediaGroupForm);
+
+    const mediaGroupId = formData.get("mediaGroupId");
+    const result = await nomadSdk.getMediaGroup(mediaGroupId);
+    console.log(result);
+});
+
+getMediaItemForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(getMediaItemForm);
+
+    const mediaItemId = formData.get("mediaItemId");
+    const result = await nomadSdk.getMediaItem(mediaItemId);
+    console.log(result);
+});
+
+getDefaultSiteConfigForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const result = await nomadSdk.getDefaultSiteConfig();
+    console.log(result);
+});
+
+getSiteConfigForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(getSiteConfigForm);
+
+    const siteConfigId = formData.get("siteConfigId");
+    const result = await nomadSdk.getSiteConfig(siteConfigId);
+    console.log(result);
+});
+
+getMyContentForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const result = await nomadSdk.getMyContent();
+    console.log(result);
+});
+
+getMyGroupForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(getMyGroupForm);
+
+    const myGroupId = formData.get("myGroupId");
+    const result = await nomadSdk.getMyGroup(myGroupId);
+    console.log(result);
+});
+
+clearWatchlistForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const result = await nomadSdk.clearWatchlist();
+    console.log(result);
+});
+
+clearContinueWatchingForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(clearContinueWatchingForm);
+
+    const userId = formData.get("userId");
+    const assetId = formData.get("assetId");
+    const result = await nomadSdk.clearContinueWatching(userId, assetId);
+    console.log(result);
+});
+
+getContentCookiesForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(getContentCookiesForm);
+
+    const contentId = formData.get("contentId");
+    const result = await nomadSdk.getContentCookies(contentId);
+    console.log(result);
+});
+
+formForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(formForm);
+
+    const contentDefinitionId = formData.get("contentDefinitionId");
+    const firstName = formData.get("firstName");
+    const lastName = formData.get("lastName");
+    const active = formData.get("active");
+    const startDate = formData.get("startDate");
+    const lookupId = formData.get("lookupId");
+    const description = formData.get("description");
+
+    const result = await nomadSdk.createForm(contentDefinitionId, {
+        firstName, lastName, active, startDate, lookupId, description
+    });
+    console.log(result);
+});
+
+function getElements(form)
+{
+    const formData = new FormData();
+    for (let input of form)
+    {
+        if (input.tagName === "SELECT")
+        {
+            const selectedOptions = [];
+            for (let element of input)
+            {
+                if (element.selected)
+                {
+                    if (element.value === element.label)
+                    {
+                        if (input.id)
+                        {
+                            formData.append(input.id, element.value);
                         }
-                    } else {
-                        SELECTED_OPTIONS.push({ id: element.value, description: element.label });
+                        else
+                        {
+                            formData.append(input.name, element.value);
+                        }
+                    }
+                    else
+                    {
+                        selectedOptions.push({ id: element.value, description: element.label });
                     }
                 }
             }
-            if (SELECTED_OPTIONS.length > 1)
+            if (selectedOptions.length > 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS));
+                formData.append(input.id, JSON.stringify(selectedOptions));
             }
-            else if (SELECTED_OPTIONS.length === 1)
+            else if (selectedOptions.length === 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS[0]));
+                formData.append(input.id, JSON.stringify(selectedOptions[0]));
             }
         }
         else if (input.tagName === "INPUT")
         {
-            if (input.type === "file") {
-                FORM_DATA.append(input.id, input.files[0]);
-            } else {
-                if (input.id) {
-                    FORM_DATA.append(input.id, input.value);
-                } else {
-                    FORM_DATA.append(input.name, input.value);
+            if (input.type === "file")
+            {
+                formData.append(input.id, input.files[0]);
+            }
+            else
+            {
+                if (input.id)
+                {
+                    formData.append(input.id, input.value);
+                }
+                else
+                {
+                    formData.append(input.name, input.value);
                 }
             }
         }
-    }
-    return FORM_DATA;
-}
-
-async function sendRequest(PATH, METHOD, BODY)
-{
-    try
-    {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
-        {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
-    }
-    catch (error)
-    {
-        console.error(error);
     }
 }

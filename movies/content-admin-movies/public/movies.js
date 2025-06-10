@@ -1,143 +1,155 @@
-const ADD_TAG_FORM = document.getElementById("addTagOrCollectionForm");
-const REMOVE_TAG_FORM = document.getElementById("removeTagOrCollectionForm");
-const DELETE_TAG_FORM = document.getElementById("deleteTagOrCollectionForm");
-const ADD_RELATED_CONTENT_FORM = document.getElementById("addRelatedContentForm");
-const DELETE_RELATED_CONTENT_FORM = document.getElementById("deleteRelatedContentForm");
-const ADD_CUSTOM_PROPERTIES_FORM = document.getElementById("addCustomProperties");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-const ADD_TAG_OR_COLLECTION = document.getElementById("addTagOrCollection");
-const ADD_TAG_NAME_LABEL = document.getElementById("addTagNameLabel");
-const CREATE_NEW = document.getElementById("createNew");
-const ADD_TAG_ID_LABEL = document.getElementById("addTagIdLabel");
-const REMOVE_TAG_OR_COLLECTION = document.getElementById("removeTagOrCollection");
-const REMOVE_TAG_ID_LABEL = document.getElementById("removeTagIdLabel");
-const DELETE_TAG_OR_COLLECTION = document.getElementById("deleteTagOrCollection");
-const DELETE_TAG_ID_LABEL = document.getElementById("deleteTagIdLabel");
+const addTagForm = document.getElementById("addTagOrCollectionForm");
+const removeTagForm = document.getElementById("removeTagOrCollectionForm");
+const deleteTagForm = document.getElementById("deleteTagOrCollectionForm");
+const addRelatedContentForm = document.getElementById("addRelatedContentForm");
+const deleteRelatedContentForm = document.getElementById("deleteRelatedContentForm");
+const addCustomPropertiesForm = document.getElementById("addCustomProperties");
 
-const TAG_ID_DIV = document.getElementById("tagIdDiv");
+const addTagOrCollection = document.getElementById("addTagOrCollection");
+const addTagNameLabel = document.getElementById("addTagNameLabel");
+const createNew = document.getElementById("createNew");
+const addTagIdLabel = document.getElementById("addTagIdLabel");
+const removeTagOrCollection = document.getElementById("removeTagOrCollection");
+const removeTagIdLabel = document.getElementById("removeTagIdLabel");
+const deleteTagOrCollection = document.getElementById("deleteTagOrCollection");
+const deleteTagIdLabel = document.getElementById("deleteTagIdLabel");
 
-ADD_TAG_OR_COLLECTION.addEventListener("change", async function (event)
-{
-    event.preventDefault();
-    
-    ADD_TAG_OR_COLLECTION.value === "tag" ? ADD_TAG_NAME_LABEL.textContent = "Tag Name:" : ADD_TAG_NAME_LABEL.textContent = "Collection Name:";
+const tagIdDiv = document.getElementById("tagIdDiv");
 
-    ADD_TAG_OR_COLLECTION.value === "tag" ? ADD_TAG_ID_LABEL.textContent = "Tag Id:" : ADD_TAG_ID_LABEL.textContent = "Collection Id:";
-});
-
-CREATE_NEW.addEventListener("change", async function (event)
+addTagOrCollection.addEventListener("change", function (event)
 {
     event.preventDefault();
 
-    CREATE_NEW.value === "true" ? TAG_ID_DIV.hidden = true : TAG_ID_DIV.hidden = false; 
+    addTagOrCollection.value === "tag" ? addTagNameLabel.textContent = "Tag Name:" : addTagNameLabel.textContent = "Collection Name:";
+
+    addTagOrCollection.value === "tag" ? addTagIdLabel.textContent = "Tag Id:" : addTagIdLabel.textContent = "Collection Id:";
 });
 
-ADD_TAG_FORM.addEventListener("submit", async function (event)
+createNew.addEventListener("change", function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(ADD_TAG_FORM);
-
-    console.log(await sendRequest("/add-tag-or-collection", "POST", FORM_DATA));
+    createNew.value === "true" ? tagIdDiv.hidden = true : tagIdDiv.hidden = false;
 });
 
-REMOVE_TAG_OR_COLLECTION.addEventListener("change", async function (event)
-{
-    event.preventDefault();
-    
-    REMOVE_TAG_OR_COLLECTION.value === "tag" ? REMOVE_TAG_ID_LABEL.textContent = "Tag Id:" : REMOVE_TAG_ID_LABEL.textContent = "Collection Id:";
-});
-
-REMOVE_TAG_FORM.addEventListener("submit", async function (event)
+addTagForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(REMOVE_TAG_FORM);
+    const formData = getElements(addTagForm);
 
-    console.log(await sendRequest("/remove-tag-or-collection", "POST", FORM_DATA));
+    const result = await nomadSdk.addTagOrCollection(
+        formData.get("addTagOrCollection"),
+        formData.get("addTagContentId"),
+        formData.get("addTagContentDefinition"),
+        formData.get("addTagName"),
+        formData.get("addTagId"),
+        formData.get("createNew")
+    );
+    console.log(result);
 });
 
-DELETE_TAG_OR_COLLECTION.addEventListener("change", async function (event)
+removeTagOrCollection.addEventListener("change", function (event)
 {
     event.preventDefault();
 
-    DELETE_TAG_OR_COLLECTION.value === "tag" ? DELETE_TAG_ID_LABEL.textContent = "Tag Id:" : DELETE_TAG_ID_LABEL.textContent = "Collection Id:";
+    removeTagOrCollection.value === "tag" ? removeTagIdLabel.textContent = "Tag Id:" : removeTagIdLabel.textContent = "Collection Id:";
 });
 
-DELETE_TAG_FORM.addEventListener("submit", async function (event)
-{
-    event.preventDefault();
-    
-    const FORM_DATA = getElements(DELETE_TAG_FORM);
-
-    console.log(await sendRequest("/delete-tag-or-collection", "POST", FORM_DATA));
-});
-
-ADD_RELATED_CONTENT_FORM.addEventListener("submit", async function (event)
+removeTagForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(ADD_RELATED_CONTENT_FORM);
+    const formData = getElements(removeTagForm);
 
-    console.log(await sendRequest("/add-related-content", "POST", FORM_DATA));
+    const result = await nomadSdk.removeTagOrCollection(
+        formData.get("removeTagOrCollection"),
+        formData.get("removeTagContentId"),
+        formData.get("removeTagContentDefinition"),
+        formData.get("removeTagId")
+    );
+    console.log(result);
 });
 
-DELETE_RELATED_CONTENT_FORM.addEventListener("submit", async function (event)
+deleteTagOrCollection.addEventListener("change", function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(DELETE_RELATED_CONTENT_FORM);
-
-    console.log(await sendRequest("/delete-related-content", "POST", FORM_DATA));
+    deleteTagOrCollection.value === "tag" ? deleteTagIdLabel.textContent = "Tag Id:" : deleteTagIdLabel.textContent = "Collection Id:";
 });
 
-ADD_CUSTOM_PROPERTIES_FORM.addEventListener("submit", async function (event)
+deleteTagForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(ADD_CUSTOM_PROPERTIES_FORM);
+    const formData = getElements(deleteTagForm);
 
-    console.log(await sendRequest("/add-custom-properties", "POST", FORM_DATA));
+    const result = await nomadSdk.deleteTagOrCollection(
+        formData.get("deleteTagOrCollection"),
+        formData.get("deleteTagId")
+    );
+    console.log(result);
 });
 
-function getElements(FORM)
+addRelatedContentForm.addEventListener("submit", async function (event)
 {
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    event.preventDefault();
+
+    const formData = getElements(addRelatedContentForm);
+
+    const result = await nomadSdk.addRelatedContent(
+        formData.get("addRelatedContentId"),
+        formData.get("addRelatedRelatedContentId"),
+        formData.get("addRelatedContentDefinition")
+    );
+    console.log(result);
+});
+
+deleteRelatedContentForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(deleteRelatedContentForm);
+
+    const result = await nomadSdk.deleteRelatedContent(
+        formData.get("deleteRelatedContentId"),
+        formData.get("deleteRelatedRelatedContentId"),
+        formData.get("deleteRelatedContentDefinition")
+    );
+    console.log(result);
+});
+
+addCustomPropertiesForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(addCustomPropertiesForm);
+
+    const result = await nomadSdk.addCustomProperties(
+        formData.get("addCustomPropertiesAssetId"),
+        formData.get("addCustomPropertiesName"),
+        formData.get("addCustomPropertiesNames").split(','),
+        formData.get("addCustomPropertiesValues").split(',')
+    );
+    console.log(result);
+});
+
+function getElements(form)
+{
+    const formData = new FormData();
+    for (let input of form)
     {
         if (input.tagName === "INPUT" || input.tagName === "SELECT")
         {
             if (input.type !== "checkbox" || input.type === "checkbox" && input.checked)
             {
-                input.id ? FORM_DATA.append(input.id, input.value) : FORM_DATA.append(input.name, input.value);
+                input.id ? formData.append(input.id, input.value) : formData.append(input.name, input.value);
             }
         }
     }
-    return FORM_DATA;
-}
-
-async function sendRequest(PATH, METHOD, BODY)
-{
-    try
-    {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
-        {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
+    return formData;
 }

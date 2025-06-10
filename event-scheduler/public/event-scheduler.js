@@ -1,112 +1,122 @@
-const CREATE_FORM = document.getElementById("createForm");
-const ADD_FORM = document.getElementById("addForm");
-const EXTEND_FORM = document.getElementById("extendForm");
-const GET_FORM = document.getElementById("getForm");
-const START_FORM = document.getElementById("startForm");
-const STOP_FORM = document.getElementById("stopForm");
-const DELETE_FORM = document.getElementById("deleteForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-const CREATE_OR_UPDATE_EVENT_DIV = document.getElementById("createOrUpdateEventDiv");
-const NAME_DIV = document.getElementById("nameDiv");
-const ADD_PROPERTIES_DIV = document.getElementById("addPropertiesDiv");
-const PROPERTIES_DIV = document.getElementById("propertiesDiv");
+const createForm = document.getElementById("createForm");
+const addForm = document.getElementById("addForm");
+const extendForm = document.getElementById("extendForm");
+const getForm = document.getElementById("getForm");
+const startForm = document.getElementById("startForm");
+const stopForm = document.getElementById("stopForm");
+const deleteForm = document.getElementById("deleteForm");
 
-const CREATE_OR_UPDATE_EVENT_SELECT = document.getElementById("createOrUpdateEventSelect");
-const EVENT_TYPE_SELECT = document.getElementById("eventTypeSelect");
-const SERIES_SELECT = document.getElementById("seriesSelect");
-const OVERRIDE_SERIES_DETAILS_SELECT = document.getElementById("overrideSeriesDetailsSelect");
-const PRIMARY_LIVESTREAM_INPUT_SELECT = document.getElementById("primaryLivestreamInputSelect");
-const BACKUP_LIVESTREAM_INPUT_SELECT = document.getElementById("backupLivestreamInputSelect");
-const EXTERNAL_OUTPUT_PROFILES_SELECT = document.getElementById("externalOutputProfilesSelect");
-const DAYS_OF_THE_WEEK_SELECT = document.getElementById("daysOfTheWeekSelect");
+const createOrUpdateEventDiv = document.getElementById("createOrUpdateEventDiv");
+const nameDiv = document.getElementById("nameDiv");
+const addPropertiesDiv = document.getElementById("addPropertiesDiv");
+const propertiesDiv = document.getElementById("propertiesDiv");
 
-const ADD_PROPERTY_BUTTON = document.getElementById("addPropertyButton");
+const createOrUpdateEventSelect = document.getElementById("createOrUpdateEventSelect");
+const eventTypeSelect = document.getElementById("eventTypeSelect");
+const seriesSelect = document.getElementById("seriesSelect");
+const overrideSeriesDetailsSelect = document.getElementById("overrideSeriesDetailsSelect");
+const primaryLivestreamInputSelect = document.getElementById("primaryLivestreamInputSelect");
+const backupLivestreamInputSelect = document.getElementById("backupLivestreamInputSelect");
+const externalOutputProfilesSelect = document.getElementById("externalOutputProfilesSelect");
+const daysOfTheWeekSelect = document.getElementById("daysOfTheWeekSelect");
 
-CREATE_OR_UPDATE_EVENT_SELECT.addEventListener("change", async function (event)
+const addPropertyButton = document.getElementById("addPropertyButton");
+
+const seriesContentDefinitionId = "9c1713ce-006c-4dc7-afb6-028df1fb3bf3";
+const eventTypeContentDefinitionId = "0ee492a3-7875-4288-8690-f9895a44cb43";
+const eventContentDefinitionId = "412a30e3-73ee-4eae-b739-e1fc87601c7d";
+const inputContentDefinitionId = "4ce6e254-01e9-44b8-9f20-4691140db3ce";
+const externalOutputProfilesPath = "lookup/33?lookupKey=99e8767a-00ba-4758-b9c2-e07b52c47021";
+const daysContentDefinitionId = "fc8042c1-1ade-400d-b0aa-02937e658ae6"
+
+createOrUpdateEventSelect.addEventListener("change", function (event)
 {
     event.preventDefault();
 
-    CREATE_OR_UPDATE_EVENT_SELECT.value === "create" 
-        ? CREATE_OR_UPDATE_EVENT_DIV.hidden = true 
-        : CREATE_OR_UPDATE_EVENT_DIV.hidden = false;
+    createOrUpdateEventSelect.value === "create"
+        ? createOrUpdateEventDiv.hidden = true
+        : createOrUpdateEventDiv.hidden = false;
 });
 
-await getEventList();
+getEventList();
 
 async function getEventList()
 {
-    const EVENT_LIST = await sendRequest("/get-event-list", "GET");
+    const eventList = await getGroups(eventTypeContentDefinitionId);
 
-    for(let eventIdx = 0; eventIdx < EVENT_LIST.length; ++eventIdx)
+    for (let eventIdx = 0; eventIdx < eventList.length; ++eventIdx)
     {
         let option = document.createElement("option");
-        option.value = EVENT_LIST[eventIdx].id;
-        option.text = EVENT_LIST[eventIdx].title;
-        EVENT_TYPE_SELECT.appendChild(option);
+        option.value = eventList[eventIdx].id;
+        option.text = eventList[eventIdx].title;
+        eventTypeSelect.appendChild(option);
     }
 
-    $(EVENT_TYPE_SELECT).select2();
-    
+    $(eventTypeSelect).select2();
 }
 
-await getSeriesList();
+getSeriesList();
 
 async function getSeriesList()
 {
-    const SERIES_LIST = await sendRequest("/get-series-list", "GET");
+    const seriesList = await getGroups(seriesContentDefinitionId);
 
-    for(let seriesIdx = 0; seriesIdx < SERIES_LIST.length; ++seriesIdx)
+    for (let seriesIdx = 0; seriesIdx < seriesList.length; ++seriesIdx)
     {
         let option = document.createElement("option");
-        option.value = SERIES_LIST[seriesIdx].id;
-        option.text = SERIES_LIST[seriesIdx].title;
-        SERIES_SELECT.appendChild(option);
+        option.value = seriesList[seriesIdx].id;
+        option.text = seriesList[seriesIdx].title;
+        seriesSelect.appendChild(option);
     }
 
-    $(SERIES_SELECT).select2({
+    $(seriesSelect).select2({
         placeholder: "Select a series",
         allowClear: true
     });
 }
 
-await getDaysOfTheWeekList();
+getDaysOfTheWeekList();
 
 async function getDaysOfTheWeekList()
 {
-    const DAYS = await sendRequest("/get-days-list", "GET");
+    const days = await getGroups(daysContentDefinitionId);
 
-    const ORDERED_DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const orderedDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-    DAYS.sort((a, b) => ORDERED_DAYS.indexOf(a.title) - ORDERED_DAYS.indexOf(b.title));
+    days.sort((a, b) => orderedDays.indexOf(a.title) - orderedDays.indexOf(b.title));
 
-    for(let daysOfTheWeekIdx = 0; daysOfTheWeekIdx < DAYS.length; ++daysOfTheWeekIdx)
+    for (let daysOfTheWeekIdx = 0; daysOfTheWeekIdx < days.length; ++daysOfTheWeekIdx)
     {
         let option = document.createElement("option");
-        option.value = DAYS[daysOfTheWeekIdx].id;
-        option.text = DAYS[daysOfTheWeekIdx].title;
-        DAYS_OF_THE_WEEK_SELECT.appendChild(option);
+        option.value = days[daysOfTheWeekIdx].id;
+        option.text = days[daysOfTheWeekIdx].title;
+        daysOfTheWeekSelect.appendChild(option);
     }
 
-    $(DAYS_OF_THE_WEEK_SELECT).select2();
+    $(daysOfTheWeekSelect).select2();
 }
 
-OVERRIDE_SERIES_DETAILS_SELECT.addEventListener("change", async function (event)
+overrideSeriesDetailsSelect.addEventListener("change", function (event)
 {
     event.preventDefault();
 
-    if (OVERRIDE_SERIES_DETAILS_SELECT.value === "true")
+    if (overrideSeriesDetailsSelect.value === "true")
     {
-        ADD_PROPERTIES_DIV.hidden = false;
-        NAME_DIV.hidden = false;
+        addPropertiesDiv.hidden = false;
+        nameDiv.hidden = false;
     }
     else
     {
-        ADD_PROPERTIES_DIV.hidden = true;
-        NAME_DIV.hidden = true;
+        addPropertiesDiv.hidden = true;
+        nameDiv.hidden = true;
     }
 });
 
-ADD_PROPERTY_BUTTON.addEventListener("click", async function (event)
+addPropertyButton.addEventListener("click", function (event)
 {
     event.preventDefault();
 
@@ -126,10 +136,10 @@ ADD_PROPERTY_BUTTON.addEventListener("click", async function (event)
     let br3 = document.createElement("br");
     let br4 = document.createElement("br");
 
-    PROPERTIES_DIV.appendChild(keyInput);
-    PROPERTIES_DIV.appendChild(valueInput);
-    PROPERTIES_DIV.appendChild(br1);
-    PROPERTIES_DIV.appendChild(br2);
+    propertiesDiv.appendChild(keyInput);
+    propertiesDiv.appendChild(valueInput);
+    propertiesDiv.appendChild(br1);
+    propertiesDiv.appendChild(br2);
 
     let removeButton = document.createElement("button");
     removeButton.type = "button";
@@ -138,186 +148,259 @@ ADD_PROPERTY_BUTTON.addEventListener("click", async function (event)
     {
         event.preventDefault();
 
-        PROPERTIES_DIV.removeChild(keyInput);
-        PROPERTIES_DIV.removeChild(valueInput);
-        PROPERTIES_DIV.removeChild(removeButton);
-        PROPERTIES_DIV.removeChild(br1);
-        PROPERTIES_DIV.removeChild(br2);
-        PROPERTIES_DIV.removeChild(br3);
-        PROPERTIES_DIV.removeChild(br4);
+        propertiesDiv.removeChild(keyInput);
+        propertiesDiv.removeChild(valueInput);
+        propertiesDiv.removeChild(br1);
+        propertiesDiv.removeChild(br2);
+        propertiesDiv.removeChild(br3);
+        propertiesDiv.removeChild(br4);
     });
 
-    PROPERTIES_DIV.appendChild(removeButton);
-    PROPERTIES_DIV.appendChild(br3);
-    PROPERTIES_DIV.appendChild(br4);
+    propertiesDiv.appendChild(removeButton);
+    propertiesDiv.appendChild(br3);
+    propertiesDiv.appendChild(br4);
 });
 
-CREATE_FORM.addEventListener("submit", async function (event)
+createForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(CREATE_FORM);
+    const formData = getElements(createForm);
 
-    console.log(await sendRequest("/create-event", "POST", FORM_DATA));
+    let contentId = formData.get("createOrUpdateEventSelect") === "update" ? formData.get("contnetId") : null;
+
+    let name = null;
+    if (formData.get("seriesSelect"))
+    {
+        if (formData.get("name") === "")
+        {
+            name = formData.get("seriesSelect").description;
+        }
+        else
+        {
+            name = formData.get("name");
+        }
+    }
+
+    const eventType = JSON.parse(formData.get("eventTypeSelect"));
+    const series = formData.get("seriesSelect") ? JSON.parse(formData.get("seriesSelect")) : null;
+
+    const properties = {};
+    const keys = formData.getAll("key");
+    const values = formData.getAll("value");
+    for (let i = 0; i < keys.length; ++i)
+    {
+        let value = values[i];
+        try
+        {
+            value = JSON.parse(value);
+        }
+        catch (error) {}
+        properties[keys[i]] = value;
+    }
+
+    const eventId = await nomadSdk.createAndUpdateEvent(
+        contentId, eventContentDefinitionId, name, formData.get("startDatetime"), formData.get("endDatetime"),
+        eventType, series, formData.get("isDisabled") === "true", formData.get("overrideSeriesDetailsSelect") === "true",
+        properties
+    );
+
+    console.log(eventId);
 });
 
-await primaryLiveInputList();
+primaryLiveInputList();
 
 async function primaryLiveInputList()
 {
-    const PRIMARY_LIVESTREAM_INPUT_LIST = await sendRequest("/get-livestream-input-list", "GET");
+    const inputList = await getGroups(inputContentDefinitionId);
 
-    for(let primaryLiveInputIdx = 0; primaryLiveInputIdx < PRIMARY_LIVESTREAM_INPUT_LIST.length; ++primaryLiveInputIdx)
+    for (let idx = 0; idx < inputList.length; ++idx)
     {
         let option = document.createElement("option");
-        option.value = PRIMARY_LIVESTREAM_INPUT_LIST[primaryLiveInputIdx].id;
-        option.text = PRIMARY_LIVESTREAM_INPUT_LIST[primaryLiveInputIdx].title;
-        PRIMARY_LIVESTREAM_INPUT_SELECT.appendChild(option);
+        option.value = inputList[idx].id;
+        option.text = inputList[idx].title;
+        primaryLivestreamInputSelect.appendChild(option);
 
         let option2 = document.createElement("option");
-        option2.value = PRIMARY_LIVESTREAM_INPUT_LIST[primaryLiveInputIdx].id;
-        option2.text = PRIMARY_LIVESTREAM_INPUT_LIST[primaryLiveInputIdx].title;
-        BACKUP_LIVESTREAM_INPUT_SELECT.appendChild(option2);
+        option2.value = inputList[idx].id;
+        option2.text = inputList[idx].title;
+        backupLivestreamInputSelect.appendChild(option2);
     }
 
-    $(PRIMARY_LIVESTREAM_INPUT_SELECT).select2();
-    $(BACKUP_LIVESTREAM_INPUT_SELECT).select2();
+    $(primaryLivestreamInputSelect).select2();
+    $(backupLivestreamInputSelect).select2();
 }
 
-await externalOutputProfilesList();
+externalOutputProfilesList();
 
 async function externalOutputProfilesList()
 {
-    const EXTERNAL_OUTPUT_PROFILES_LIST = await sendRequest("/get-external-output-profiles-list", "GET");
+    const externalOutputProfilesList = await nomadSdk.miscFunctions(
+        externalOutputProfilesPath, "GET"
+    );
 
-    for(let externalOutputProfilesIdx = 0; externalOutputProfilesIdx < EXTERNAL_OUTPUT_PROFILES_LIST.length; ++externalOutputProfilesIdx)
+    for (let idx = 0; idx < externalOutputProfilesList.items.length; ++idx)
     {
         let option = document.createElement("option");
-        option.value = EXTERNAL_OUTPUT_PROFILES_LIST[externalOutputProfilesIdx].id;
-        option.text = EXTERNAL_OUTPUT_PROFILES_LIST[externalOutputProfilesIdx].description;
-        EXTERNAL_OUTPUT_PROFILES_SELECT.appendChild(option);
+        option.value = externalOutputProfilesList.items[idx].id;
+        option.text = externalOutputProfilesList.items[idx].description;
+        externalOutputProfilesSelect.appendChild(option);
     }
 
-    $(EXTERNAL_OUTPUT_PROFILES_SELECT).select2();
+    $(externalOutputProfilesSelect).select2();
 }
 
-ADD_FORM.addEventListener("submit", async function (event)
+addForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(ADD_FORM);
+    const formData = getElements(addForm);
 
-    await sendRequest("/add-event", "POST", FORM_DATA);
+    const slateVideo = formData.get("slateVideoId") === ""
+        ? null : { id: formData.get("slateVideoId"), description: formData.get("slateVideoName") };
+    const prerollVideo = formData.get("prerollVideoId") === ""
+        ? null : { id: formData.get("prerollVideoId"), description: formData.get("prerollVideoName") };
+    const postrollVideo = formData.get("postrollVideoId") === ""
+        ? null : { id: formData.get("postrollVideoId"), description: formData.get("postrollVideoName") };
+    const archiveFolder = formData.get("archiveFolderId") === ""
+        ? null : { id: formData.get("archiveFolderId"), description: formData.get("archiveFolderName") };
+    const primaryLivestreamInput = formData.get("primaryLivestreamInputSelect")
+        ? JSON.parse(formData.get("primaryLivestreamInputSelect")) : null;
+    const backupLivestreamInput = formData.get("backupLivestreamInputSelect")
+        ? JSON.parse(formData.get("backupLivestreamInputSelect")) : null;
+    const externalOutputProfiles = formData.get("externalOutputProfilesSelect")
+        ? Array.isArray(JSON.parse(formData.get("externalOutputProfilesSelect")))
+            ? JSON.parse(formData.get("externalOutputProfilesSelect"))
+            : [JSON.parse(formData.get("externalOutputProfilesSelect"))]
+        : null;
+
+    await nomadSdk.addLiveScheduleToEvent(
+        formData.get("addEventId"), slateVideo, prerollVideo, postrollVideo, formData.get("isSecureOutput") === "true",
+        archiveFolder, primaryLivestreamInput, backupLivestreamInput, formData.get("primaryLivesteamInputUrl"),
+        formData.get("backupLivestreamInputUrl"), externalOutputProfiles
+    );
 });
 
-EXTEND_FORM.addEventListener("submit", async function (event)
+extendForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(EXTEND_FORM);
+    const formData = getElements(extendForm);
 
-    await sendRequest("/extend-event", "POST", FORM_DATA);
+    await nomadSdk.extendLiveSchedule(
+        formData.get("extendEventId"), JSON.parse(formData.get("daysOfTheWeekSelect")), formData.get("recurringWeeks"),
+        formData.get("endDatetime"), formData.get("timeZoneOffsetSeconds")
+    );
 });
 
-GET_FORM.addEventListener("submit", async function (event)
+getForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(GET_FORM);
+    const formData = getElements(getForm);
 
-    console.log(await sendRequest("/get-event", "POST", FORM_DATA));
+    const eventInfo = await nomadSdk.getLiveSchedule(formData.get("getEventId"));
+    console.log(eventInfo);
 });
 
-START_FORM.addEventListener("submit", async function (event)
+startForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(START_FORM);
+    const formData = getElements(startForm);
 
-    await sendRequest("/start-event", "POST", FORM_DATA);
+    await nomadSdk.startLiveSchedule(formData.get("startEventId"));
 });
 
-STOP_FORM.addEventListener("submit", async function (event)
+stopForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(STOP_FORM);
+    const formData = getElements(stopForm);
 
-    await sendRequest("/stop-event", "POST", FORM_DATA);
+    await nomadSdk.stopLiveSchedule(formData.get("stopEventId"));
 });
 
-DELETE_FORM.addEventListener("submit", function (event)
+deleteForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(DELETE_FORM);
+    const formData = getElements(deleteForm);
 
-    sendRequest("/delete-event", "POST", FORM_DATA);
+    await nomadSdk.deleteEvent(formData.get("deleteId"), formData.get("deleteContentDefinitionId"));
 });
 
-function getElements(FORM)
+function getElements(form)
 {
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    const formData = new FormData();
+    for (let input of form)
     {
-        if (input.tagName === "SELECT") {
-            const SELECTED_OPTIONS = []
-            for (let element of input) {
-                if (element.selected) {
-                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase()) {
-                        if (input.id) {
-                            FORM_DATA.append(input.id, element.value);
-                        } else {
-                            FORM_DATA.append(input.name, element.value);
+        if (input.tagName === "SELECT")
+        {
+            const selectedOptions = [];
+            for (let element of input)
+            {
+                if (element.selected)
+                {
+                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase())
+                    {
+                        if (input.id)
+                        {
+                            formData.append(input.id, element.value);
                         }
-                    } else {
-                        SELECTED_OPTIONS.push({ id: element.value, description: element.label });
+                        else
+                        {
+                            formData.append(input.name, element.value);
+                        }
+                    }
+                    else
+                    {
+                        selectedOptions.push({ id: element.value, description: element.label });
                     }
                 }
             }
-            if (SELECTED_OPTIONS.length > 1)
+            if (selectedOptions.length > 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS));
+                formData.append(input.id, JSON.stringify(selectedOptions));
             }
-            else if (SELECTED_OPTIONS.length === 1)
+            else if (selectedOptions.length === 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS[0]));
+                formData.append(input.id, JSON.stringify(selectedOptions[0]));
             }
         }
         else if (input.tagName === "INPUT")
         {
-            if (input.id) {
-                FORM_DATA.append(input.id, input.value);
-            } else {
-                FORM_DATA.append(input.name, input.value);
+            if (input.id)
+            {
+                formData.append(input.id, input.value);
+            }
+            else
+            {
+                formData.append(input.name, input.value);
             }
         }
     }
-    return FORM_DATA;
+    return formData;
 }
 
-async function sendRequest(PATH, METHOD, BODY)
+async function getGroups(contentDefinitionId)
 {
-    try
+    const groupList = [];
+    let offset = 0;
+    while (true)
     {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
+        const searchInfo = await nomadSdk.search(
+            null, offset, null,
+            [
+                { fieldName: "contentDefinitionId", operator: "Equals", values: contentDefinitionId },
+                { fieldName: "languageId", operator: "Equals", values: "c66131cd-27fc-4f83-9b89-b57575ac0ed8" }
+            ], null, null, null, null, true, null
+        );
+        if (!searchInfo) return [];
 
-        if (RESPONSE.ok)
-        {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
+        groupList.push(...searchInfo.items);
+        ++offset;
+        if (searchInfo.items.length < 100) break;
     }
-    catch (error)
-    {
-        console.error(error);
-    }
+    return groupList;
 }

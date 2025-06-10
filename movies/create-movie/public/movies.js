@@ -1,115 +1,236 @@
-const CREATE_FORM = document.getElementById("createForm");
-const SEARCH_MOVIES_FORM = document.getElementById("searchMoviesForm");
-const GET_MOVIE_FORM = document.getElementById("getMovieForm");
-const DELETE_MOVIE_FORM = document.getElementById("deleteMovieForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-const TYPE_SELECT = document.getElementById("typeSelect");
-const GENRE_SELECT = document.getElementById("genreSelect");
-const GENRE_INPUT = document.getElementById("genre");
-const PERFORMER_SELECT = document.getElementById("performerSelect");
-const PERFORMER_INPUT = document.getElementById("performer");
-const TAG_SELECT = document.getElementById("tagSelect");
-const TAG_INPUT = document.getElementById("tag");
-const RATING_SELECT = document.getElementById("ratingSelect");
-const FILTERS_DIV = document.getElementById("filtersDiv");
-const ADD_FILTER_BUTTON = document.getElementById("addFilterButton");
-const SORT_FIELDS_DIV = document.getElementById("sortFieldsDiv");
-const ADD_SORT_FIELDS_BUTTON = document.getElementById("addSortFieldsButton");
+const GENRE_CONTENT_DEFINITION_ID = "dbbace1f-ddb1-462b-9cae-c9be7d5990ac";
+const PERFORMER_CONTENT_DEFINITION_ID = "33cec5ca-6170-4237-842b-78bf1ef17932";
+const RATING_CONTENT_DEFINITION_ID = "dd72aac1-a5a2-4b68-a59c-9f57e5858517";
+const TAG_CONTENT_DEFINITION_ID = "c806783c-f127-48ae-90c9-32175f4e1fff";
+const MOVIE_CONTENT_DEFINITION_ID = "eb710e28-7c44-492e-91f9-8acd0cd9331c";
+const LANGUAGE_ID = "c66131cd-27fc-4f83-9b89-b57575ac0ed8";
 
-const UPDATE_ID_DIV = document.getElementById("updateIdDiv");
-const GENRE_DIV = document.getElementById("genreDiv");
-const TAG_DIV = document.getElementById("tagDiv");
-const PERFORMER_DIV = document.getElementById("performerDiv");
-const RATING_DIV = document.getElementById("ratingDiv");
+const createForm = document.getElementById("createForm");
+const searchMoviesForm = document.getElementById("searchMoviesForm");
+const getMovieForm = document.getElementById("getMovieForm");
+const deleteMovieForm = document.getElementById("deleteMovieForm");
 
-TYPE_SELECT.addEventListener("change", function (event)
+const typeSelect = document.getElementById("typeSelect");
+const genreSelect = document.getElementById("genreSelect");
+const genreInput = document.getElementById("genre");
+const performerSelect = document.getElementById("performerSelect");
+const performerInput = document.getElementById("performer");
+const tagSelect = document.getElementById("tagSelect");
+const tagInput = document.getElementById("tag");
+const ratingSelect = document.getElementById("ratingSelect");
+const filtersDiv = document.getElementById("filtersDiv");
+const addFilterButton = document.getElementById("addFilterButton");
+const sortFieldsDiv = document.getElementById("sortFieldsDiv");
+const addSortFieldsButton = document.getElementById("addSortFieldsButton");
+
+const updateIdDiv = document.getElementById("updateIdDiv");
+const genreDiv = document.getElementById("genreDiv");
+const tagDiv = document.getElementById("tagDiv");
+const performerDiv = document.getElementById("performerDiv");
+const ratingDiv = document.getElementById("ratingDiv");
+
+typeSelect.addEventListener("change", function (event)
 {
     event.preventDefault();
-
-    TYPE_SELECT.value === "create" ? UPDATE_ID_DIV.hidden = true : UPDATE_ID_DIV.hidden = false;
+    typeSelect.value === "create" ? updateIdDiv.hidden = true : updateIdDiv.hidden = false;
 });
 
-await getGenreList();
+getGenreList();
+getPerformerList();
+getTagList();
+getRatingList();
 
 async function getGenreList()
 {
-    const GENRE_LIST = await sendRequest("/get-genre-list", "POST");
-
-    for(let genreIdx = 0; genreIdx < GENRE_LIST.length; ++genreIdx)
+    const genreList = await nomadSdk.search(
+        null, null, null,
+        [
+            {
+                fieldName: "contentDefinitionId",
+                operator: "Equals",
+                values: GENRE_CONTENT_DEFINITION_ID,
+            }
+        ],
+        null, null, null, null, true, null
+    );
+    for(let genreIdx = 0; genreIdx < genreList.items.length; ++genreIdx)
     {
         let option = document.createElement("option");
-        option.value = GENRE_LIST[genreIdx].id;
-        option.text = GENRE_LIST[genreIdx].title;
-        GENRE_SELECT.appendChild(option);
+        option.value = genreList.items[genreIdx].id;
+        option.text = genreList.items[genreIdx].title;
+        genreSelect.appendChild(option);
     }
-
-    $(GENRE_SELECT).select2();
-    return GENRE_LIST;
+    $(genreSelect).select2();
+    return genreList.items;
 }
-
-await getPerformerList();
 
 async function getPerformerList()
 {
-    const PERFORMER_LIST = await sendRequest("/get-performer-list", "POST");
-
-    for(let performerIdx = 0; performerIdx < PERFORMER_LIST.length; ++performerIdx)
+    const performerList = await nomadSdk.search(
+        null, null, null,
+        [
+            {
+                fieldName: "contentDefinitionId",
+                operator: "Equals",
+                values: PERFORMER_CONTENT_DEFINITION_ID,
+            }
+        ],
+        null, null, null, null, true, null
+    );
+    for(let performerIdx = 0; performerIdx < performerList.items.length; ++performerIdx)
     {
         let option = document.createElement("option");
-        option.value = PERFORMER_LIST[performerIdx].id;
-        option.text = PERFORMER_LIST[performerIdx].title;
-        PERFORMER_SELECT.appendChild(option);
+        option.value = performerList.items[performerIdx].id;
+        option.text = performerList.items[performerIdx].title;
+        performerSelect.appendChild(option);
     }
-
-    $(PERFORMER_SELECT).select2();
-    return PERFORMER_LIST;
+    $(performerSelect).select2();
+    return performerList.items;
 }
-
-await getTagList();
 
 async function getTagList()
 {
-    const TAG_LIST = await sendRequest("/get-tag-list", "POST");
-
-    for(let tagIdx = 0; tagIdx < TAG_LIST.length; ++tagIdx)
+    const tagList = await nomadSdk.search(
+        null, null, null,
+        [
+            {
+                fieldName: "contentDefinitionId",
+                operator: "Equals",
+                values: TAG_CONTENT_DEFINITION_ID,
+            }
+        ],
+        null, null, null, null, true, null
+    );
+    for(let tagIdx = 0; tagIdx < tagList.items.length; ++tagIdx)
     {
         let option = document.createElement("option");
-        option.value = TAG_LIST[tagIdx].id;
-        option.text = TAG_LIST[tagIdx].title;
-        TAG_SELECT.appendChild(option);
+        option.value = tagList.items[tagIdx].id;
+        option.text = tagList.items[tagIdx].title;
+        tagSelect.appendChild(option);
     }
-
-    $(TAG_SELECT).select2();
-    return TAG_LIST;
+    $(tagSelect).select2();
+    return tagList.items;
 }
-
-await getRatingList();
 
 async function getRatingList()
 {
-    const RATING_LIST = await sendRequest("/get-rating-list", "POST");
-    for(let ratingIdx = 0; ratingIdx < RATING_LIST.length; ++ratingIdx)
+    const ratingList = await nomadSdk.search(
+        null, null, null,
+        [
+            {
+                fieldName: "contentDefinitionId",
+                operator: "Equals",
+                values: RATING_CONTENT_DEFINITION_ID,
+            },
+            {
+                fieldName: "languageId",
+                operator: "Equals",
+                values: LANGUAGE_ID
+            }
+        ],
+        null, null, null, null, true, null
+    );
+    for(let ratingIdx = 0; ratingIdx < ratingList.items.length; ++ratingIdx)
     {
         let option = document.createElement("option");
-        option.value = RATING_LIST[ratingIdx].id;
-        option.text = RATING_LIST[ratingIdx].title;
-        RATING_SELECT.appendChild(option);
+        option.value = ratingList.items[ratingIdx].id;
+        option.text = ratingList.items[ratingIdx].title;
+        ratingSelect.appendChild(option);
     }
-
-    $(RATING_SELECT).select2();
-    return RATING_LIST;
+    $(ratingSelect).select2();
+    return ratingList.items;
 }
 
-CREATE_FORM.addEventListener("submit", function (event)
+createForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
+    const formData = getElements(createForm);
 
-    const FORM_DATA = getElements(CREATE_FORM);
+    let contentId = null;
+    if (formData.get("typeSelect") === "create") {
+        const createMovieInfo = await nomadSdk.createContent(MOVIE_CONTENT_DEFINITION_ID);
+        contentId = createMovieInfo.contentId;
+    } else {
+        contentId = formData.get("updateId");
+    }
 
-    console.log(sendRequest("/create-movie", "POST", FORM_DATA));
+    // Handle image file
+    let image = null;
+    if (formData.get("imageFile") && !formData.get("imageId")) {
+        const imageId = await nomadSdk.uploadAsset(
+            null, null, null, "replace",
+            formData.get("imageFile"),
+            null,
+            null
+        );
+        image = { description: formData.get("imageFile").name, id: imageId };
+    } else if (formData.get("imageId")) {
+        const imageInfo = await nomadSdk.getAssetDetails(formData.get("imageId"));
+        if (imageInfo) {
+            image = { description: imageInfo.properties.displayName, id: formData.get("imageId") };
+        }
+    }
+
+    // Handle video file
+    let video = null;
+    if (formData.get("videoFile") && !formData.get("videoId")) {
+        const videoId = await nomadSdk.uploadAsset(
+            null, null, null, "replace",
+            formData.get("videoFile"),
+            null,
+            null
+        );
+        video = { description: formData.get("videoFile").name, id: videoId };
+    } else if (formData.get("videoId")) {
+        const videoInfo = await nomadSdk.getAssetDetails(formData.get("videoId"));
+        if (videoInfo) {
+            video = { description: videoInfo.properties.displayName, id: formData.get("videoId") };
+        }
+    }
+
+    let genres = null;
+    if (formData.get("genreSelect")) {
+        const genresParsed = JSON.parse(formData.get("genreSelect"));
+        genres = Array.isArray(genresParsed) ? genresParsed : [genresParsed];
+    }
+
+    let performers = null;
+    if (formData.get("performerSelect")) {
+        const performersParsed = JSON.parse(formData.get("performerSelect"));
+        performers = Array.isArray(performersParsed) ? performersParsed : [performersParsed];
+    }
+
+    let tags = null;
+    if (formData.get("tagSelect")) {
+        const tagsParsed = JSON.parse(formData.get("tagSelect"));
+        tags = Array.isArray(tagsParsed) ? tagsParsed : [tagsParsed];
+    }
+
+    let ratings = null;
+    if (formData.get("ratingSelect")) {
+        ratings = JSON.parse(formData.get("ratingSelect"));
+    }
+
+    const movieInfo = await nomadSdk.updateContent(contentId, MOVIE_CONTENT_DEFINITION_ID, {
+        ...(formData.get("title") && { title: formData.get("title") }),
+        ...(formData.get("plot") && { plot: formData.get("plot") }),
+        ...(formData.get("date") && { releaseDate: `${formData.get("date")}T00:00:00Z` }),
+        ...(genres && { genres }),
+        ...(performers && { performers }),
+        ...(tags && { tags }),
+        ...(ratings && { ratings }),
+        ...(image && { image }),
+        ...(video && { movieFile: video }),
+    });
+
+    console.log(movieInfo);
 });
 
-ADD_FILTER_BUTTON.addEventListener('click', function(event)
+addFilterButton.addEventListener('click', function(event)
 {
     event.preventDefault();
 
@@ -147,31 +268,31 @@ ADD_FILTER_BUTTON.addEventListener('click', function(event)
     removeButton.textContent = "Remove Filter";
     removeButton.addEventListener("click", function(event) {
         event.preventDefault();
-        FILTERS_DIV.removeChild(br1);
-        FILTERS_DIV.removeChild(br2);
-        FILTERS_DIV.removeChild(fieldNameLabel);
-        FILTERS_DIV.removeChild(fieldName);
-        FILTERS_DIV.removeChild(operationLabel);
-        FILTERS_DIV.removeChild(operator);
-        FILTERS_DIV.removeChild(valueLabel);
-        FILTERS_DIV.removeChild(value);
-        FILTERS_DIV.removeChild(removeButton);
+        filtersDiv.removeChild(br1);
+        filtersDiv.removeChild(br2);
+        filtersDiv.removeChild(fieldNameLabel);
+        filtersDiv.removeChild(fieldName);
+        filtersDiv.removeChild(operationLabel);
+        filtersDiv.removeChild(operator);
+        filtersDiv.removeChild(valueLabel);
+        filtersDiv.removeChild(value);
+        filtersDiv.removeChild(removeButton);
     });
 
-    FILTERS_DIV.appendChild(fieldNameLabel);
-    FILTERS_DIV.appendChild(fieldName);
-    FILTERS_DIV.appendChild(operationLabel);
-    FILTERS_DIV.appendChild(operator);
-    FILTERS_DIV.appendChild(valueLabel);
-    FILTERS_DIV.appendChild(value);
+    filtersDiv.appendChild(fieldNameLabel);
+    filtersDiv.appendChild(fieldName);
+    filtersDiv.appendChild(operationLabel);
+    filtersDiv.appendChild(operator);
+    filtersDiv.appendChild(valueLabel);
+    filtersDiv.appendChild(value);
 
-    FILTERS_DIV.appendChild(br1);
-    FILTERS_DIV.appendChild(br2);
+    filtersDiv.appendChild(br1);
+    filtersDiv.appendChild(br2);
 
-    FILTERS_DIV.appendChild(removeButton);
+    filtersDiv.appendChild(removeButton);
 });
 
-ADD_SORT_FIELDS_BUTTON.addEventListener('click', function(event)
+addSortFieldsButton.addEventListener('click', function(event)
 {
     event.preventDefault();
 
@@ -209,120 +330,131 @@ ADD_SORT_FIELDS_BUTTON.addEventListener('click', function(event)
     removeButton.textContent = "Remove Sort Field";
     removeButton.addEventListener("click", function(event) {
         event.preventDefault();
-        SORT_FIELDS_DIV.removeChild(br1);
-        SORT_FIELDS_DIV.removeChild(br2);
-        SORT_FIELDS_DIV.removeChild(fieldNameLabel);
-        SORT_FIELDS_DIV.removeChild(fieldName);
-        SORT_FIELDS_DIV.removeChild(sortTypeLabel);
-        SORT_FIELDS_DIV.removeChild(sortType);
-        SORT_FIELDS_DIV.removeChild(removeButton);
+        sortFieldsDiv.removeChild(br1);
+        sortFieldsDiv.removeChild(br2);
+        sortFieldsDiv.removeChild(fieldNameLabel);
+        sortFieldsDiv.removeChild(fieldName);
+        sortFieldsDiv.removeChild(sortTypeLabel);
+        sortFieldsDiv.removeChild(sortType);
+        sortFieldsDiv.removeChild(removeButton);
     });
 
-    SORT_FIELDS_DIV.appendChild(fieldNameLabel);
-    SORT_FIELDS_DIV.appendChild(fieldName);
-    SORT_FIELDS_DIV.appendChild(sortTypeLabel);
-    SORT_FIELDS_DIV.appendChild(sortType);
+    sortFieldsDiv.appendChild(fieldNameLabel);
+    sortFieldsDiv.appendChild(fieldName);
+    sortFieldsDiv.appendChild(sortTypeLabel);
+    sortFieldsDiv.appendChild(sortType);
 
-    SORT_FIELDS_DIV.appendChild(br1);
-    SORT_FIELDS_DIV.appendChild(br2);
+    sortFieldsDiv.appendChild(br1);
+    sortFieldsDiv.appendChild(br2);
 
-    SORT_FIELDS_DIV.appendChild(removeButton);
+    sortFieldsDiv.appendChild(removeButton);
 });
 
-SEARCH_MOVIES_FORM.addEventListener("submit", async function (event)
+searchMoviesForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
+    const formData = getElements(searchMoviesForm);
 
-    const FORM_DATA = getElements(SEARCH_MOVIES_FORM);
+    const filters = [{
+        fieldName: "contentDefinitionId",
+        operator: "Equals",
+        values: MOVIE_CONTENT_DEFINITION_ID
+    }];
 
-    console.log(await sendRequest("/search-movies", "POST", FORM_DATA));
+    const fieldNames = formData.getAll("fieldName");
+    const operators = formData.getAll("operator");
+    const values = formData.getAll("value");
+    for (let i = 0; i < fieldNames.length; ++i) {
+        filters.push({
+            fieldName: fieldNames[i],
+            operator: operators[i],
+            values: values[i]
+        });
+    }
+
+    const sortFields = [];
+    const sortFieldNames = formData.getAll("sortFieldName");
+    const sortTypes = formData.getAll("sortType");
+    for (let i = 0; i < sortFieldNames.length; ++i) {
+        sortFields.push({
+            fieldName: sortFieldNames[i],
+            sortType: sortTypes[i]
+        });
+    }
+
+    const searchQuery = formData.get("searchQuery") || null;
+    const pageOffset = formData.get("pageOffset") || null;
+    const pageSize = formData.get("pageSize") || null;
+
+    const result = await nomadSdk.search(
+        searchQuery,
+        pageOffset,
+        pageSize,
+        filters,
+        sortFields.length > 0 ? sortFields : null
+    );
+    console.log(result);
 });
 
-GET_MOVIE_FORM.addEventListener("submit", async function (event)
+getMovieForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
+    const formData = getElements(getMovieForm);
 
-    const FORM_DATA = getElements(GET_MOVIE_FORM);
-
-    console.log(await sendRequest("/get-movie", "POST", FORM_DATA));
+    const result = await nomadSdk.getContent(formData.get("getId"), MOVIE_CONTENT_DEFINITION_ID);
+    console.log(result);
 });
 
-DELETE_MOVIE_FORM.addEventListener("submit", async function(event)
+deleteMovieForm.addEventListener("submit", async function(event)
 {
     event.preventDefault();
+    const formData = getElements(deleteMovieForm);
 
-    const FORM_DATA = getElements(DELETE_MOVIE_FORM);
-
-    console.log(await sendRequest("/delete-movie", "POST", FORM_DATA));
+    const result = await nomadSdk.deleteContent(formData.get("deleteId"));
+    console.log(result);
 });
 
-function getElements(FORM)
+function getElements(form)
 {
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    const formData = new FormData();
+    for (let input of form)
     {
         if (input.tagName === "SELECT") {
-            const SELECTED_OPTIONS = []
+            const selectedOptions = []
             for (let element of input) {
                 if (element.selected) {
                     if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase()) {
                         if (input.id) {
-                            FORM_DATA.append(input.id, element.value);
+                            formData.append(input.id, element.value);
                         } else {
-                            FORM_DATA.append(input.name, element.value);
+                            formData.append(input.name, element.value);
                         }
                     } else {
-                        SELECTED_OPTIONS.push({ id: element.value, description: element.label });
+                        selectedOptions.push({ id: element.value, description: element.label });
                     }
                 }
             }
-            if (SELECTED_OPTIONS.length > 1)
+            if (selectedOptions.length > 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS));
+                formData.append(input.id, JSON.stringify(selectedOptions));
             }
-            else if (SELECTED_OPTIONS.length === 1)
+            else if (selectedOptions.length === 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS[0]));
+                formData.append(input.id, JSON.stringify(selectedOptions[0]));
             }
         }
         else if (input.tagName === "INPUT")
         {
             if (input.type === "file") {
-                FORM_DATA.append(input.id, input.files[0]);
+                formData.append(input.id, input.files[0]);
             } else {
                 if (input.id) {
-                    FORM_DATA.append(input.id, input.value);
+                    formData.append(input.id, input.value);
                 } else {
-                    FORM_DATA.append(input.name, input.value);
+                    formData.append(input.name, input.value);
                 }
             }
         }
     }
-    return FORM_DATA;
-}
-
-async function sendRequest(PATH, METHOD, BODY)
-{
-    try
-    {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
-        {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
+    return formData;
 }

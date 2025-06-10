@@ -1,357 +1,489 @@
-const CREATE_FORM = document.getElementById("createForm");
-const GET_FORM = document.getElementById("getForm");
-const UPDATE_FORM = document.getElementById("updateForm");
-const DELETE_FORM = document.getElementById("deleteForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-const CREATE_CONTENT_LANGUAGE_PROPERTIES_DIV = document.getElementById("createContentLanguagePropertiesDiv");
-const UPDATE_CONTENT_LANGUAGE_PROPERTIES_DIV = document.getElementById("updateContentLanguagePropertiesDiv");
+const createForm = document.getElementById("createForm");
+const getForm = document.getElementById("getForm");
+const updateForm = document.getElementById("updateForm");
+const deleteForm = document.getElementById("deleteForm");
 
-const CREATE_CONTENT_CONTENT_DEFINITION_ID = document.getElementById("createContentContentDefinitionId");
-const CREATE_CONTENT_MASTER_ID = document.getElementById("createContentMasterId");
-const CREATE_CONTENT_LANGUAGE_ID = document.getElementById("createContentLanguageId");
-const UPDATE_CONTENT_CONTENT_DEFINITION_ID = document.getElementById("updateContentContentDefinitionId");
-const UPDATE_CONTENT_MASTER_ID = document.getElementById("updateContentMasterId");
-const UPDATE_CONTENT_LANGUAGE_ID = document.getElementById("updateContentLanguageId");
+const createContentLanguagePropertiesDiv = document.getElementById("createContentLanguagePropertiesDiv");
+const updateContentLanguagePropertiesDiv = document.getElementById("updateContentLanguagePropertiesDiv");
 
-const CREATE_CONTENT_ADD_PROPERTIES_BUTTON = document.getElementById("createContentAddPropertiesButton");
-const CREATE_CONTENT_SUBMIT_BUTTON = document.getElementById("createContentSubmitButton");
-const UPDATE_CONTENT_ADD_PROPERTIES_BUTTON = document.getElementById("updateContentAddPropertiesButton");
-const UPDATE_CONTENT_SUBMIT_BUTTON = document.getElementById("updateContentSubmitButton");
+const createContentContentDefinitionId = document.getElementById("createContentContentDefinitionId");
+const createContentMasterId = document.getElementById("createContentMasterId");
+const updateContentContentDefinitionId = document.getElementById("updateContentContentDefinitionId");
+const updateContentMasterId = document.getElementById("updateContentMasterId");
 
-const CREATE_CONTENT_LANGUAGE_SELECT = document.getElementById("createContentLanguage");
-const GET_CONTENT_LANGUAGE_SELECT = document.getElementById("getContentLanguage");
-const UPDATE_CONTENT_LANGUAGE_SELECT = document.getElementById("updateContentLanguage");
-const DELETE_CONTENT_LANGUAGE_SELECT = document.getElementById("deleteContentLanguage");
+const createContentAddPropertiesButton = document.getElementById("createContentAddPropertiesButton");
+const createContentSubmitButton = document.getElementById("createContentSubmitButton");
+const updateContentAddPropertiesButton = document.getElementById("updateContentAddPropertiesButton");
+const updateContentSubmitButton = document.getElementById("updateContentSubmitButton");
 
-await getLanguages()
+const createContentLanguageSelect = document.getElementById("createContentLanguage");
+const getContentLanguageSelect = document.getElementById("getContentLanguage");
+const updateContentLanguageSelect = document.getElementById("updateContentLanguage");
+const deleteContentLanguageSelect = document.getElementById("deleteContentLanguage");
+
+getLanguages();
 
 async function getLanguages()
 {
-    const LANGUAGES = await sendRequest("/getLanguages", "GET");
-    if (LANGUAGES)
+    const languages = await getGroups("e4b10c04-1878-4830-a115-e42d52705059");
+    if (languages)
     {
-        for (let language of LANGUAGES)
+        for (let language of languages)
         {
-            const OPTION = document.createElement("option");
-            OPTION.value = language.id;
-            OPTION.text = language.identifiers.title;
-            CREATE_CONTENT_LANGUAGE_SELECT.appendChild(OPTION);
-            GET_CONTENT_LANGUAGE_SELECT.appendChild(OPTION.cloneNode(true));
-            UPDATE_CONTENT_LANGUAGE_SELECT.appendChild(OPTION.cloneNode(true));
-            DELETE_CONTENT_LANGUAGE_SELECT.appendChild(OPTION.cloneNode(true));
+            const option = document.createElement("option");
+            option.value = language.id;
+            option.text = language.identifiers.title;
+            createContentLanguageSelect.appendChild(option);
+            getContentLanguageSelect.appendChild(option.cloneNode(true));
+            updateContentLanguageSelect.appendChild(option.cloneNode(true));
+            deleteContentLanguageSelect.appendChild(option.cloneNode(true));
         }
     }
 
-    $(CREATE_CONTENT_LANGUAGE_SELECT).select2();
-    $(GET_CONTENT_LANGUAGE_SELECT).select2();
-    $(UPDATE_CONTENT_LANGUAGE_SELECT).select2();
-    $(DELETE_CONTENT_LANGUAGE_SELECT).select2();
+    $(createContentLanguageSelect).select2();
+    $(getContentLanguageSelect).select2();
+    $(updateContentLanguageSelect).select2();
+    $(deleteContentLanguageSelect).select2();
 }
 
-CREATE_CONTENT_ADD_PROPERTIES_BUTTON.addEventListener("click", async () => {
-    await addProperties(CREATE_CONTENT_CONTENT_DEFINITION_ID.value,
-        CREATE_CONTENT_MASTER_ID.value, CREATE_CONTENT_LANGUAGE_SELECT.value,
-        CREATE_CONTENT_LANGUAGE_PROPERTIES_DIV, 
-        CREATE_CONTENT_ADD_PROPERTIES_BUTTON, CREATE_CONTENT_SUBMIT_BUTTON,
-        "create");
-});
-
-UPDATE_CONTENT_ADD_PROPERTIES_BUTTON.addEventListener("click", async () => {
-    await addProperties(UPDATE_CONTENT_CONTENT_DEFINITION_ID.value,
-        UPDATE_CONTENT_MASTER_ID.value, UPDATE_CONTENT_LANGUAGE_SELECT.value,
-        UPDATE_CONTENT_LANGUAGE_PROPERTIES_DIV, 
-        UPDATE_CONTENT_ADD_PROPERTIES_BUTTON, UPDATE_CONTENT_SUBMIT_BUTTON,
-        "update");
-});
-
-async function addProperties(CONTENT_DEFINITION_ID, MASTER_ID, LANGUAGE_ID, DIV,
-    ADD_PROPERTIES_BUTTON, SUBMIT_BUTTON, ACTION)
+createContentAddPropertiesButton.addEventListener("click", async () =>
 {
-    ADD_PROPERTIES_BUTTON.hidden = true;
+    if (!createContentContentDefinitionId?.value || !createContentMasterId?.value) 
+    {
+        console.error("Content Definition Id and Master Id are required to add properties.");
+        return;
+    }
+    await addProperties(
+        createContentContentDefinitionId.value,
+        createContentMasterId.value,
+        createContentLanguageSelect.value,
+        createContentLanguagePropertiesDiv,
+        createContentAddPropertiesButton,
+        createContentSubmitButton,
+        "create"
+    );
+});
 
-    const PROPERTIES_FORM_DATA = new FormData();
-    PROPERTIES_FORM_DATA.append("contentDefinitionId", CONTENT_DEFINITION_ID);
+updateContentAddPropertiesButton.addEventListener("click", async () =>
+{
+    if (!updateContentContentDefinitionId?.value)
+    {
+        console.error("Content Definition Id and Master Id are required to add properties.");
+        return; 
+    }
+    await addProperties(
+        updateContentContentDefinitionId.value,
+        updateContentMasterId.value,
+        updateContentLanguageSelect.value,
+        updateContentLanguagePropertiesDiv,
+        updateContentAddPropertiesButton,
+        updateContentSubmitButton,
+        "update"
+    );
+});
 
-    const PROPERTIES = await sendRequest("/getProperties", "POST", PROPERTIES_FORM_DATA);
+async function addProperties(contentDefinitionId, masterId, languageId, div, addPropertiesButton, submitButton, action)
+{
+    addPropertiesButton.hidden = true;
+
+    const properties = await nomadSdk.getContentDefinition(contentDefinitionId);
 
     let contentId = null;
-    if (ACTION === "create")
+    if (action === "create")
     {
-        contentId = MASTER_ID
+        contentId = masterId;
     }
     else
     {
-        const FORM_DATA = new FormData();
-        FORM_DATA.append("contentDefinitionId", CONTENT_DEFINITION_ID);
-        FORM_DATA.append("languageId", LANGUAGE_ID);
-
-        const CONTENTS = await sendRequest("/getContents", "POST", FORM_DATA);
+        const contents = await getContents(contentDefinitionId, languageId);
         try
         {
-            contentId = CONTENTS.find(content => content.masterId === MASTER_ID).id;
-        } 
+            contentId = contents.find(content => content.masterId === masterId).id;
+        }
         catch (error)
         {
             console.error("Master Id not found in content definition");
         }
     }
 
-    const CONTENT_FORM_DATA = new FormData();
-    CONTENT_FORM_DATA.append("contentId", contentId);
-    CONTENT_FORM_DATA.append("contentDefinitionId", CONTENT_DEFINITION_ID);
+    const contentData = await nomadSdk.getContent(contentId, contentDefinitionId);
 
-    const CONTENT_DATA = await sendRequest("/getContentData", "POST", CONTENT_FORM_DATA);
+    const propertiesDiv = document.createElement("div");
+    propertiesDiv.classList.add("properties");
 
-    const PROPERTIES_DIV = document.createElement("div");
-    PROPERTIES_DIV.classList.add("properties");
-    
-    for (let contentField of PROPERTIES.contentFields)
+    for (let contentField of properties.contentFields)
     {
-        const PROPERTY = contentField.properties;
+        const property = contentField.properties;
 
-        const PROPERTY_DIV = document.createElement("div");
+        const propertyDiv = document.createElement("div");
 
-        const LABEL = document.createElement("label");
-        LABEL.textContent = PROPERTY.title;
-        PROPERTY_DIV.appendChild(LABEL);
+        const label = document.createElement("label");
+        label.textContent = property.title;
+        propertyDiv.appendChild(label);
 
-        let camelPropertyTitle = PROPERTY.title.replace(/ /g, "");
-        if (camelPropertyTitle.slice(1) === camelPropertyTitle.slice(1).toUpperCase()) camelPropertyTitle = camelPropertyTitle.toLowerCase();
+        let camelPropertyTitle = property.title.replace(/ /g, "");
+        if (camelPropertyTitle.slice(1) === camelPropertyTitle.slice(1).toUpperCase())
+        {
+            camelPropertyTitle = camelPropertyTitle.toLowerCase();
+        }
         camelPropertyTitle = camelPropertyTitle[0].toLowerCase() + camelPropertyTitle.slice(1);
 
-        if ((PROPERTY.fieldId.description === "Short Text" || PROPERTY.fieldId.description === "Number") && contentField.isInEditorForm)
+        if ((property.fieldId.description === "Short Text" || property.fieldId.description === "Number") && contentField.isInEditorForm)
         {
-            const INPUT = document.createElement("input");
-            INPUT.type = "text";
-            INPUT.id = camelPropertyTitle;
-            if (CONTENT_DATA && CONTENT_DATA.properties[camelPropertyTitle]) INPUT.value = CONTENT_DATA.properties[camelPropertyTitle];
-
-            PROPERTY_DIV.appendChild(INPUT);
-            PROPERTIES_DIV.appendChild(PROPERTY_DIV);
-        }
-        else if (PROPERTY.fieldId.description === "Long Text" && contentField.isInEditorForm)
-        {
-            const TEXTAREA = document.createElement("textarea");
-            TEXTAREA.id = camelPropertyTitle;
-
-            if (CONTENT_DATA && CONTENT_DATA.properties[camelPropertyTitle]) TEXTAREA.value = CONTENT_DATA.properties[camelPropertyTitle];
-
-            PROPERTY_DIV.appendChild(TEXTAREA);
-            PROPERTIES_DIV.appendChild(PROPERTY_DIV);
-        }
-        else if ((PROPERTY.fieldId.description === "Lookup Multi-Select Chip View" || 
-            PROPERTY.fieldId.description === "Related Content Definition") && contentField.isInEditorForm)
-        {
-            const SELECT = document.createElement("select");
-            SELECT.multiple = PROPERTY.fieldId.description === "Lookup Multi-Select Chip View";
-            SELECT.id = camelPropertyTitle;
-            
-            const CONTENT_DEFINITION_ID = PROPERTY.fieldId.description === "Lookup Multi-Select Chip View" ?
-                PROPERTY.lookupDropdownProperties.lookupKey :
-                PROPERTY.relatedContentDefinition.id;
-
-            const FORM_DATA = new FormData();
-            FORM_DATA.append("contentDefinitionId", CONTENT_DEFINITION_ID);
-            FORM_DATA.append("languageId", LANGUAGE_ID);
-
-            const OPTIONS = await sendRequest("/getContents", "POST", FORM_DATA);
-            
-            for (let option of OPTIONS)
+            const input = document.createElement("input");
+            input.type = "text";
+            input.id = camelPropertyTitle;
+            if (contentData && contentData.properties[camelPropertyTitle])
             {
-                const OPTION = document.createElement("option");
-                OPTION.value = option.id;
-                OPTION.text = option.title;
+                input.value = contentData.properties[camelPropertyTitle];
+            }
 
-                if (CONTENT_DATA && CONTENT_DATA.properties[camelPropertyTitle]) 
+            propertyDiv.appendChild(input);
+            propertiesDiv.appendChild(propertyDiv);
+        }
+        else if (property.fieldId.description === "Long Text" && contentField.isInEditorForm)
+        {
+            const textarea = document.createElement("textarea");
+            textarea.id = camelPropertyTitle;
+
+            if (contentData && contentData.properties[camelPropertyTitle])
+            {
+                textarea.value = contentData.properties[camelPropertyTitle];
+            }
+
+            propertyDiv.appendChild(textarea);
+            propertiesDiv.appendChild(propertyDiv);
+        }
+        else if ((property.fieldId.description === "Lookup Multi-Select Chip View" ||
+            property.fieldId.description === "Related Content Definition") && contentField.isInEditorForm)
+        {
+            const select = document.createElement("select");
+            select.multiple = property.fieldId.description === "Lookup Multi-Select Chip View";
+            select.id = camelPropertyTitle;
+
+            const contentDefinitionIdForSelect = property.fieldId.description === "Lookup Multi-Select Chip View"
+                ? property.lookupDropdownProperties.lookupKey
+                : property.relatedContentDefinition.id;
+
+            const options = await getContents(contentDefinitionIdForSelect, languageId);
+
+            for (let optionData of options)
+            {
+                const option = document.createElement("option");
+                option.value = optionData.id;
+                option.text = optionData.title;
+
+                if (contentData && contentData.properties[camelPropertyTitle])
                 {
-                    if (PROPERTY.fieldId.description === "Lookup Multi-Select Chip View")
+                    if (property.fieldId.description === "Lookup Multi-Select Chip View")
                     {
-                        for (let selectedOption of CONTENT_DATA.properties[camelPropertyTitle])
+                        for (let selectedOption of contentData.properties[camelPropertyTitle])
                         {
-                            if (selectedOption.id === option.id)
+                            if (selectedOption.id === optionData.id)
                             {
-                                OPTION.selected = true;
+                                option.selected = true;
                             }
                         }
                     }
-                    else if (CONTENT_DATA.properties[camelPropertyTitle].id === option.id)
+                    else if (contentData.properties[camelPropertyTitle].id === optionData.id)
                     {
-                        OPTION.selected = true;
+                        option.selected = true;
                     }
                 }
 
-                SELECT.appendChild(OPTION);
+                select.appendChild(option);
             }
 
-            PROPERTY_DIV.appendChild(SELECT);
-            PROPERTIES_DIV.appendChild(PROPERTY_DIV);
+            propertyDiv.appendChild(select);
+            propertiesDiv.appendChild(propertyDiv);
 
-            $(SELECT).select2();
+            $(select).select2();
         }
-        else if (PROPERTY.fieldId.description === "Asset Selector" && contentField.isInEditorForm)
+        else if (property.fieldId.description === "Asset Selector" && contentField.isInEditorForm)
         {
-            LABEL.textContent += " Id";
+            label.textContent += " Id";
 
-            const INPUT = document.createElement("input");
-            INPUT.type = "text";
-            INPUT.id = camelPropertyTitle;
+            const input = document.createElement("input");
+            input.type = "text";
+            input.id = camelPropertyTitle;
 
-            if (CONTENT_DATA && CONTENT_DATA.properties[camelPropertyTitle]) INPUT.value = CONTENT_DATA.properties[camelPropertyTitle].id;
-
-            PROPERTY_DIV.appendChild(INPUT);
-            PROPERTIES_DIV.appendChild(PROPERTY_DIV);
-        }
-        else if (PROPERTY.fieldId.description === "Date" && contentField.isInEditorForm)
-        {
-            const INPUT = document.createElement("input");
-            INPUT.type = "datetime-local";
-            INPUT.id = camelPropertyTitle;
-
-            const DATE = new Date(CONTENT_DATA.properties[camelPropertyTitle]);
-            if (!isNaN(DATE))
+            if (contentData && contentData.properties[camelPropertyTitle])
             {
-                const FROMATTED_DATE = DATE.toISOString().slice(0, -8);
-                if (CONTENT_DATA && CONTENT_DATA.properties[camelPropertyTitle]) INPUT.value = FROMATTED_DATE;
+                input.value = contentData.properties[camelPropertyTitle].id;
             }
 
-            PROPERTY_DIV.appendChild(INPUT);
-            PROPERTIES_DIV.appendChild(PROPERTY_DIV);
+            propertyDiv.appendChild(input);
+            propertiesDiv.appendChild(propertyDiv);
         }
-        else if (PROPERTY.fieldId.description === "Checkbox" && contentField.isInEditorForm)
+        else if (property.fieldId.description === "Date" && contentField.isInEditorForm)
         {
-            const INPUT = document.createElement("select");
-            INPUT.id = camelPropertyTitle;
+            const input = document.createElement("input");
+            input.type = "datetime-local";
+            input.id = camelPropertyTitle;
 
-            const TRUE_OPTION = document.createElement("option");
-            TRUE_OPTION.value = "true";
-            TRUE_OPTION.text = "True";
-
-            const FALSE_OPTION = document.createElement("option");
-            FALSE_OPTION.value = "false";
-            FALSE_OPTION.text = "False";
-
-            if (CONTENT_DATA && CONTENT_DATA.properties[camelPropertyTitle])
+            const date = new Date(contentData.properties[camelPropertyTitle]);
+            if (!isNaN(date))
             {
-                if (CONTENT_DATA.properties[camelPropertyTitle] === "true")
+                const formattedDate = date.toISOString().slice(0, -8);
+                if (contentData && contentData.properties[camelPropertyTitle])
                 {
-                    TRUE_OPTION.selected = true;
+                    input.value = formattedDate;
+                }
+            }
+
+            propertyDiv.appendChild(input);
+            propertiesDiv.appendChild(propertyDiv);
+        }
+        else if (property.fieldId.description === "Checkbox" && contentField.isInEditorForm)
+        {
+            const input = document.createElement("select");
+            input.id = camelPropertyTitle;
+
+            const trueOption = document.createElement("option");
+            trueOption.value = "true";
+            trueOption.text = "True";
+
+            const falseOption = document.createElement("option");
+            falseOption.value = "false";
+            falseOption.text = "False";
+
+            if (contentData && contentData.properties[camelPropertyTitle])
+            {
+                if (contentData.properties[camelPropertyTitle] === "true")
+                {
+                    trueOption.selected = true;
                 }
                 else
                 {
-                    FALSE_OPTION.selected = true;
+                    falseOption.selected = true;
                 }
             }
 
-            INPUT.appendChild(TRUE_OPTION);
-            INPUT.appendChild(FALSE_OPTION);
+            input.appendChild(trueOption);
+            input.appendChild(falseOption);
 
-            PROPERTY_DIV.appendChild(INPUT);
-            PROPERTIES_DIV.appendChild(PROPERTY_DIV);
+            propertyDiv.appendChild(input);
+            propertiesDiv.appendChild(propertyDiv);
 
-            $(INPUT).select2();
+            $(input).select2();
         }
     }
-    
-    DIV.appendChild(PROPERTIES_DIV);
 
-    SUBMIT_BUTTON.hidden = false;
+    div.appendChild(propertiesDiv);
+
+    submitButton.hidden = false;
 }
 
-CREATE_FORM.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const FORM_DATA = getElements(CREATE_FORM);
-    await sendRequest("/createContent", "POST", FORM_DATA);
-});
-
-GET_FORM.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const FORM_DATA = getElements(GET_FORM);
-    await sendRequest("/getContent", "POST", FORM_DATA);
-});
-
-UPDATE_FORM.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const FORM_DATA = getElements(UPDATE_FORM);
-    await sendRequest("/updateContent", "POST", FORM_DATA);
-});
-
-DELETE_FORM.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const FORM_DATA = getElements(DELETE_FORM);
-    await sendRequest("/deleteContent", "POST", FORM_DATA);
-});
-
-function getElements(FORM)
+createForm.addEventListener("submit", async (event) =>
 {
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    event.preventDefault();
+    const formData = getElements(createForm);
+    await nomadSdk.updateContent(
+        formData.get("createContentMasterId"),
+        formData.get("createContentContentDefinitionId"),
+        getPropertiesFromForm(formData, "createContent"),
+        formData.get("createContentLanguage")
+    );
+});
+
+getForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    const formData = getElements(getForm);
+    const contents = await getContents(
+        formData.get("getContentContentDefinitionId"),
+        JSON.parse(formData.get("getContentLanguage")).id,
+        formData.get("getContentMasterId")
+    );
+    console.log(contents[0]);
+});
+
+updateForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    const formData = getElements(updateForm);
+    const contents = await getContents(
+        formData.get("updateContentContentDefinitionId"),
+        JSON.parse(formData.get("updateContentLanguage")).id,
+        formData.get("updateContentMasterId")
+    );
+    if (contents.length > 0)
+    {
+        await nomadSdk.updateContent(
+            contents[0].id,
+            formData.get("updateContentContentDefinitionId"),
+            getPropertiesFromForm(formData, "updateContent"),
+            formData.get("updateContentLanguage")
+        );
+    }
+});
+
+deleteForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    const formData = getElements(deleteForm);
+    const contents = await getContents(
+        formData.get("deleteContentContentDefinitionId"),
+        JSON.parse(formData.get("deleteContentLanguage")).id,
+        formData.get("deleteContentMasterId")
+    );
+    if (contents.length > 0)
+    {
+        await nomadSdk.deleteContent(
+            contents[0].id,
+            formData.get("deleteContentContentDefinitionId")
+        );
+    }
+});
+
+function getElements(form)
+{
+    const formData = new FormData();
+    for (let input of form)
     {
         if (input.id === "") continue;
-        if (input.tagName === "SELECT") {
-            const SELECTED_OPTIONS = []
-            for (let element of input) {
-                if (element.selected) {
-                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase()) {
-                        if (input.id) {
-                            FORM_DATA.append(input.id, element.value);
-                        } else {
-                            FORM_DATA.append(input.name, element.value);
+        if (input.tagName === "SELECT")
+        {
+            const selectedOptions = [];
+            for (let element of input)
+            {
+                if (element.selected)
+                {
+                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase())
+                    {
+                        if (input.id)
+                        {
+                            formData.append(input.id, element.value);
                         }
-                    } else {
-                        SELECTED_OPTIONS.push({ id: element.value, description: element.label });
+                        else
+                        {
+                            formData.append(input.name, element.value);
+                        }
+                    }
+                    else
+                    {
+                        selectedOptions.push({ id: element.value, description: element.label });
                     }
                 }
             }
             if (input.multiple)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS));
+                formData.append(input.id, JSON.stringify(selectedOptions));
             }
-            else if (SELECTED_OPTIONS.length > 0)
+            else if (selectedOptions.length > 0)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS[0]));
+                formData.append(input.id, JSON.stringify(selectedOptions[0]));
             }
         }
         else if (input.tagName === "INPUT" || input.tagName === "TEXTAREA")
         {
-            if (input.id) {
-                FORM_DATA.append(input.id, input.value);
-            } else {
-                FORM_DATA.append(input.name, input.value);
+            if (input.id)
+            {
+                formData.append(input.id, input.value);
+            }
+            else
+            {
+                formData.append(input.name, input.value);
             }
         }
     }
-    return FORM_DATA;
+    return formData;
 }
 
-async function sendRequest(PATH, METHOD, BODY)
+function getPropertiesFromForm(formData, prefix)
 {
-    try
+    const properties = {};
+    for (let [key, value] of formData.entries())
     {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
+        if (key.startsWith(prefix) && !key.endsWith("Id") && !key.endsWith("Language"))
         {
+            let propKey = key.replace(prefix, "");
+            propKey = propKey.charAt(0).toLowerCase() + propKey.slice(1);
             try
             {
-                const DATA = await RESPONSE.json();
-                if (DATA) return DATA;
+                properties[propKey] = JSON.parse(value);
             }
-            catch (error)
+            catch
             {
-                console.log("No data returned");
+                properties[propKey] = value;
             }
         }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
     }
-    catch (error)
+    return properties;
+}
+
+async function getGroups(contentDefinitionId)
+{
+    const groupList = [];
+    let offset = 0;
+    while (true)
     {
-        console.error(error);
+        const searchInfo = await nomadSdk.search(
+            null, offset, null,
+            [
+                { 
+                    fieldName: "contentDefinitionId", 
+                    operator: "Equals", 
+                    values: contentDefinitionId 
+                },
+                { 
+                    fieldName: "languageId", 
+                    operator: "Equals", 
+                    values: "c66131cd-27fc-4f83-9b89-b57575ac0ed8" 
+                },
+                { 
+                    fieldName: "active", 
+                    operator: "Equals", 
+                    values: true 
+                } 
+            ], null, null, null, null, true, null
+        );
+        if (!searchInfo)
+        {
+            return [];
+        }
+        groupList.push(...searchInfo.items);
+        ++offset;
+        if (searchInfo.items.length < 100) break;
     }
+    return groupList;
+}
+
+async function getContents(contentDefinitionId, languageId, masterId)
+{
+    const contents = [];
+    let offset = 0;
+    while (true)
+    {
+        const filters = [
+            { 
+                fieldName: "contentDefinitionId", 
+                operator: "Equals", 
+                values: contentDefinitionId 
+            },
+            { 
+                fieldName: "languageId", 
+                operator: "Equals", 
+                values: languageId 
+            },
+        ];
+        if (masterId)
+        {
+            filters.push({ fieldName: "masterId", operator: "Equals", values: masterId });
+        }
+
+        const searchInfo = await nomadSdk.search(
+            null, offset, null, filters, null, null, null, null, true, null
+        );
+
+        if (!searchInfo || searchInfo.items.length === 0) break;
+        contents.push(...searchInfo.items);
+        ++offset;
+        if (searchInfo.items.length < 100) break;
+    }
+    return contents;
 }

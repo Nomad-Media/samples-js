@@ -1,217 +1,305 @@
-const CREATE_USER_FORM = document.getElementById("createUserForm");
-const GET_USER_FORM = document.getElementById("getUserForm");
-const UPDATE_USER_FORM = document.getElementById("updateUserForm");
-const DELETE_USER_FORM = document.getElementById("deleteUserForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-const CREATE_COUNTRY_SELECT = document.getElementById("createCountry");
-const CREATE_SECURITY_GROUPS_SELECT = document.getElementById("createSecurityGroups");
-const CREATE_STATE_SELECT = document.getElementById("createState");
-const CREATE_SYSTEM_ROLE = document.getElementById("createSystemRole");
-const CREATE_USER_STATUS_SELECT = document.getElementById("createUserStatus");
-const UPDATE_COUNTRY_SELECT = document.getElementById("updateCountry");
-const UPDATE_SECURITY_GROUPS_SELECT = document.getElementById("updateSecurityGroups");
-const UPDATE_STATE_SELECT = document.getElementById("updateState");
-const UPDATE_SYSTEM_ROLE = document.getElementById("updateSystemRole");
-const UPDATE_USER_STATUS_SELECT = document.getElementById("updateUserStatus");
+const COUNTRY_CONTENT_DEFINITION_ID = "ed1edc64-21a5-413e-8cf6-a21285d51e7c";
+const SECURITY_GROUP_CONTENT_DEFINITION_ID = "5a91bebb-05c5-4e11-ab8d-48f5a6dd93c0";
+const STATE_CONTENT_DEFINITION_ID = "066fa41a-ec24-486c-81fd-a43085064870";
+const SYSTEM_ROLE_CONTENT_DEFINITION_ID = "0c32db1f-35ab-41ce-b6b6-5d87e8ae478b";
+const USER_CONTENT_DEFINITION_ID = "b42cb50a-1664-4b68-a8f8-2272b9b13e7c";
+const USER_STATUS_CONTENT_DEFINITION_ID = "7cd8e9e6-4bd4-471b-906a-965b2ab0e9aa";
+const LANGUAGE_ID = "c66131cd-27fc-4f83-9b89-b57575ac0ed8";
 
-await getCountries();
+const createUserForm = document.getElementById("createUserForm");
+const getUserForm = document.getElementById("getUserForm");
+const updateUserForm = document.getElementById("updateUserForm");
+const deleteUserForm = document.getElementById("deleteUserForm");
+
+const createCountrySelect = document.getElementById("createCountry");
+const createSecurityGroupsSelect = document.getElementById("createSecurityGroups");
+const createStateSelect = document.getElementById("createState");
+const createSystemRole = document.getElementById("createSystemRole");
+const createUserStatusSelect = document.getElementById("createUserStatus");
+const updateCountrySelect = document.getElementById("updateCountry");
+const updateSecurityGroupsSelect = document.getElementById("updateSecurityGroups");
+const updateStateSelect = document.getElementById("updateState");
+const updateSystemRole = document.getElementById("updateSystemRole");
+const updateUserStatusSelect = document.getElementById("updateUserStatus");
+
+getCountries();
+getSecurityGroups();
+getStates();
+getSystemRoles();
+getUserStatuses();
 
 async function getCountries()
 {
-    const COUNTRIES = await sendRequest("/getCountries", "GET");
-    for (let country of COUNTRIES)
+    const countries = await getGroups(COUNTRY_CONTENT_DEFINITION_ID);
+    for (let country of countries)
     {
-        const OPTION = document.createElement("option");
-        OPTION.value = country.id;
-        OPTION.text = country.title;
-        CREATE_COUNTRY_SELECT.appendChild(OPTION);
-        UPDATE_COUNTRY_SELECT.appendChild(OPTION.cloneNode(true));
+        const option = document.createElement("option");
+        option.value = country.id;
+        option.text = country.title;
+        createCountrySelect.appendChild(option);
+        updateCountrySelect.appendChild(option.cloneNode(true));
     }
-
-    $(CREATE_COUNTRY_SELECT).select2();
-    $(UPDATE_COUNTRY_SELECT).select2();
+    $(createCountrySelect).select2();
+    $(updateCountrySelect).select2();
 }
-
-await getSecurityGroups();
 
 async function getSecurityGroups()
 {
-    const SECURITY_GROUPS = await sendRequest("/getSecurityGroups", "GET");
-    for (let securityGroup of SECURITY_GROUPS)
+    const securityGroups = await getGroups(SECURITY_GROUP_CONTENT_DEFINITION_ID);
+    for (let securityGroup of securityGroups)
     {
-        const OPTION = document.createElement("option");
-        OPTION.value = securityGroup.id;
-        OPTION.text = securityGroup.title;
-        CREATE_SECURITY_GROUPS_SELECT.appendChild(OPTION);
-        UPDATE_SECURITY_GROUPS_SELECT.appendChild(OPTION.cloneNode(true));
+        const option = document.createElement("option");
+        option.value = securityGroup.id;
+        option.text = securityGroup.title;
+        createSecurityGroupsSelect.appendChild(option);
+        updateSecurityGroupsSelect.appendChild(option.cloneNode(true));
     }
-
-    $(CREATE_SECURITY_GROUPS_SELECT).select2();
-    $(UPDATE_SECURITY_GROUPS_SELECT).select2();
+    $(createSecurityGroupsSelect).select2();
+    $(updateSecurityGroupsSelect).select2();
 }
-
-await getStates();
 
 async function getStates()
-
 {
-    const STATES = await sendRequest("/getStates", "GET");
-    for (let state of STATES)
+    const states = await getGroups(STATE_CONTENT_DEFINITION_ID);
+    for (let state of states)
     {
-        const OPTION = document.createElement("option");
-        OPTION.value = state.id;
-        OPTION.text = state.title;
-        CREATE_STATE_SELECT.appendChild(OPTION);
-        UPDATE_STATE_SELECT.appendChild(OPTION.cloneNode(true));
+        const option = document.createElement("option");
+        option.value = state.id;
+        option.text = state.title;
+        createStateSelect.appendChild(option);
+        updateStateSelect.appendChild(option.cloneNode(true));
     }
-
-    $(CREATE_STATE_SELECT).select2();
-    $(UPDATE_STATE_SELECT).select2();
+    $(createStateSelect).select2();
+    $(updateStateSelect).select2();
 }
-
-await getSystemRoles();
 
 async function getSystemRoles()
 {
-    const SYSTEM_ROLES = await sendRequest("/getSystemRoles", "GET");
-    for (let systemRole of SYSTEM_ROLES)
+    const systemRoles = await getGroups(SYSTEM_ROLE_CONTENT_DEFINITION_ID);
+    for (let systemRole of systemRoles)
     {
-        const OPTION = document.createElement("option");
-        OPTION.value = systemRole.id;
-        OPTION.text = systemRole.title;
-        CREATE_SYSTEM_ROLE.appendChild(OPTION);
-        UPDATE_SYSTEM_ROLE.appendChild(OPTION.cloneNode(true));
+        const option = document.createElement("option");
+        option.value = systemRole.id;
+        option.text = systemRole.title;
+        createSystemRole.appendChild(option);
+        updateSystemRole.appendChild(option.cloneNode(true));
     }
-
-    $(CREATE_SYSTEM_ROLE).select2();
-    $(UPDATE_SYSTEM_ROLE).select2();
+    $(createSystemRole).select2();
+    $(updateSystemRole).select2();
 }
-
-await getUserStatuses();
 
 async function getUserStatuses()
 {
-    const USER_STATUSES = await sendRequest("/getUserStatuses", "GET");
-    for (let userStatus of USER_STATUSES)
+    const userStatuses = await getGroups(USER_STATUS_CONTENT_DEFINITION_ID);
+    for (let userStatus of userStatuses)
     {
-        const OPTION = document.createElement("option");
-        OPTION.value = userStatus.id;
-        OPTION.text = userStatus.title;
-        CREATE_USER_STATUS_SELECT.appendChild(OPTION);
-        UPDATE_USER_STATUS_SELECT.appendChild(OPTION.cloneNode(true));
+        const option = document.createElement("option");
+        option.value = userStatus.id;
+        option.text = userStatus.title;
+        createUserStatusSelect.appendChild(option);
+        updateUserStatusSelect.appendChild(option.cloneNode(true));
     }
-
-    $(CREATE_USER_STATUS_SELECT).select2();
-    $(UPDATE_USER_STATUS_SELECT).select2();
+    $(createUserStatusSelect).select2();
+    $(updateUserStatusSelect).select2();
 }
 
-CREATE_USER_FORM.addEventListener("submit", async (event) =>
+createUserForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(CREATE_USER_FORM);
+    const formData = getElements(createUserForm);
 
-    const USER_INFO = await sendRequest("/createUser", "POST", FORM_DATA);
+    // Parse select values
+    const userStatus = JSON.parse(formData.get("createUserStatus"));
+    const state = JSON.parse(formData.get("createState"));
+    const country = JSON.parse(formData.get("createCountry"));
+    const systemRole = JSON.parse(formData.get("createSystemRole"));
+
+    let securityGroup = null;
+    if (formData.get("createSecurityGroups"))
+    {
+        securityGroup = JSON.parse(formData.get("createSecurityGroups"));
+        securityGroup = Array.isArray(securityGroup) ? securityGroup : [securityGroup];
+    }
+
+    const userId = await nomadSdk.createContent(USER_CONTENT_DEFINITION_ID);
+
+    const properties = {
+        status: userStatus,
+        stateId: state,
+        country: country,
+        role: systemRole
+    };
+
+    if (formData.get("firstName")) properties.firstName = formData.get("firstName");
+    if (formData.get("lastName")) properties.lastName = formData.get("lastName");
+    if (formData.get("email")) properties.email = formData.get("email");
+    if (formData.get("organization")) properties.organization = formData.get("organization");
+    if (formData.get("title")) properties.title = formData.get("title");
+    if (formData.get("phone")) properties.phone = formData.get("phone");
+    if (formData.get("phoneExt")) properties.phoneExt = formData.get("phoneExt");
+    if (formData.get("mobilePhone")) properties.mobilePhone = formData.get("mobilePhone");
+    if (formData.get("address")) properties.address = formData.get("address");
+    if (formData.get("address2")) properties.address2 = formData.get("address2");
+    if (formData.get("city")) properties.city = formData.get("city");
+    if (formData.get("postalCode")) properties.postalCode = formData.get("postalCode");
+    if (securityGroup) properties.assignedSecurityGroups = securityGroup;
+
+    const userInfo = await nomadSdk.updateContent(userId.contentId, USER_CONTENT_DEFINITION_ID, properties);
+
+    console.log(userInfo);
 });
 
-GET_USER_FORM.addEventListener("submit", async (event) =>
+getUserForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(GET_USER_FORM);
+    const formData = getElements(getUserForm);
 
-    const USER_INFO = await sendRequest("/getUser", "POST", FORM_DATA);
+    const userInfo = await nomadSdk.getContent(formData.get("userId"), USER_CONTENT_DEFINITION_ID);
+
+    console.log(userInfo);
 });
 
-UPDATE_USER_FORM.addEventListener("submit", async (event) =>
+updateUserForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(UPDATE_USER_FORM);
+    const formData = getElements(updateUserForm);
 
-    const USER_INFO = await sendRequest("/updateUser", "POST", FORM_DATA);
+    // Parse select values
+    const userStatus = JSON.parse(formData.get("updateUserStatus"));
+    const state = JSON.parse(formData.get("updateState"));
+    const country = JSON.parse(formData.get("updateCountry"));
+    const systemRole = JSON.parse(formData.get("updateSystemRole"));
+
+    let securityGroup = null;
+    if (formData.get("updateSecurityGroups"))
+    {
+        securityGroup = JSON.parse(formData.get("updateSecurityGroups"));
+        securityGroup = Array.isArray(securityGroup) ? securityGroup : [securityGroup];
+    }
+
+    const properties = {
+        status: userStatus,
+        stateId: state,
+        country: country,
+        role: systemRole
+    };
+
+    if (formData.get("firstName")) properties.firstName = formData.get("firstName");
+    if (formData.get("lastName")) properties.lastName = formData.get("lastName");
+    if (formData.get("email")) properties.email = formData.get("email");
+    if (formData.get("organization")) properties.organization = formData.get("organization");
+    if (formData.get("title")) properties.title = formData.get("title");
+    if (formData.get("phone")) properties.phone = formData.get("phone");
+    if (formData.get("phoneExt")) properties.phoneExt = formData.get("phoneExt");
+    if (formData.get("mobilePhone")) properties.mobilePhone = formData.get("mobilePhone");
+    if (formData.get("address")) properties.address = formData.get("address");
+    if (formData.get("address2")) properties.address2 = formData.get("address2");
+    if (formData.get("city")) properties.city = formData.get("city");
+    if (formData.get("postalCode")) properties.postalCode = formData.get("postalCode");
+    if (securityGroup) properties.assignedSecurityGroups = securityGroup;
+
+    const userInfo = await nomadSdk.updateContent(formData.get("userId"), USER_CONTENT_DEFINITION_ID, properties);
+
+    console.log(userInfo);
 });
 
-DELETE_USER_FORM.addEventListener("submit", async (event) =>
+deleteUserForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(DELETE_USER_FORM);
+    const formData = getElements(deleteUserForm);
 
-    const USER_INFO = await sendRequest("/deleteUser", "POST", FORM_DATA);
+    await nomadSdk.deleteContent(formData.get("userId"), USER_CONTENT_DEFINITION_ID);
+
+    console.log("User deleted successfully");
 });
 
-function getElements(FORM)
+function getElements(form)
 {
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    const formData = new FormData();
+    for (let input of form)
     {
         if (input.id === "") continue;
-        if (input.tagName === "SELECT") {
-            const SELECTED_OPTIONS = []
-            for (let element of input) {
-                if (element.selected) {
-                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase()) {
-                        if (input.id) {
-                            FORM_DATA.append(input.id, element.value);
-                        } else {
-                            FORM_DATA.append(input.name, element.value);
+        if (input.tagName === "SELECT")
+        {
+            const selectedOptions = [];
+            for (let element of input)
+            {
+                if (element.selected)
+                {
+                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase())
+                    {
+                        if (input.id)
+                        {
+                            formData.append(input.id, element.value);
                         }
-                    } else {
-                        SELECTED_OPTIONS.push({ id: element.value, description: element.label });
+                        else
+                        {
+                            formData.append(input.name, element.value);
+                        }
+                    }
+                    else
+                    {
+                        selectedOptions.push({ id: element.value, description: element.label });
                     }
                 }
             }
             if (input.multiple)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS));
+                formData.append(input.id, JSON.stringify(selectedOptions));
             }
-            else if (SELECTED_OPTIONS.length > 0)
+            else if (selectedOptions.length > 0)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS[0]));
+                formData.append(input.id, JSON.stringify(selectedOptions[0]));
             }
         }
         else if (input.tagName === "INPUT" || input.tagName === "TEXTAREA")
         {
-            if (input.id) {
-                FORM_DATA.append(input.id, input.value);
-            } else {
-                FORM_DATA.append(input.name, input.value);
+            if (input.id)
+            {
+                formData.append(input.id, input.value);
+            }
+            else
+            {
+                formData.append(input.name, input.value);
             }
         }
     }
-    return FORM_DATA;
+    return formData;
 }
 
-async function sendRequest(PATH, METHOD, BODY)
+async function getGroups(contentDefinitionId)
 {
-    try
+    const groupList = [];
+    let offset = 0;
+    while (true)
     {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
-        {
-            try
-            {
-                const DATA = await RESPONSE.json();
-                if (DATA) return DATA;
-            }
-            catch (error)
-            {
-                console.log("No data returned");
-            }
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
+        const searchInfo = await nomadSdk.search(
+            null, offset, null,
+            [
+                {
+                    fieldName: "contentDefinitionId",
+                    operator: "Equals",
+                    values: contentDefinitionId,
+                },
+                {
+                    fieldName: "languageId",
+                    operator: "Equals",
+                    values: LANGUAGE_ID
+                }
+            ], null, null, null, null, true, null
+        );
+        if (!searchInfo) return [];
+        groupList.push(...searchInfo.items);
+        ++offset;
+        if (searchInfo.items.length < 100) break;
     }
-    catch (error)
-    {
-        console.error(error);
-    }
+    return groupList;
 }

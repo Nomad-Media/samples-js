@@ -1,5 +1,5 @@
 {
-  "name": "basic-live-channel",
+  "name": "media-builder",
   "main": "server.js",
   "type": "module",
   "scripts": {

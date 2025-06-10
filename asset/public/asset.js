@@ -1,686 +1,937 @@
-const ARCHIVE_ASSET_FORM = document.getElementById("archiveAssetForm");
-const BATCH_ACTION_FORM = document.getElementById("batchActionForm");
-const BUILD_MEDIA_FORM = document.getElementById("buildMediaForm");
-const CLIP_ASSET_FORM = document.getElementById("clipAssetForm");
-const COPY_ASSET_FORM = document.getElementById("copyAssetForm");
-const CREATE_ANNOTATION_FORM = document.getElementById("createAnnotationForm");
-const CREATE_ASSET_AD_BREAK_FORM = document.getElementById("createAssetAdBreakForm");
-const CREATE_FOLDER_ASSET_FORM = document.getElementById("createFolderAssetForm");
-const CREATE_PLACEHOLDER_ASSET_FORM = document.getElementById("createPlaceholderAssetForm");
-const CREATE_SCREENSHOT_AT_TIMECODE_FORM = document.getElementById("createScreenshotAtTimecodeForm");
-const DELETE_ANNOTATION_FORM = document.getElementById("deleteAnnotationForm");
-const DELETE_ASSET_FORM = document.getElementById("deleteAssetForm");
-const DELETE_ASSET_AD_BREAK_FORM = document.getElementById("deleteAssetAdBreakForm");
-const DOWNLOAD_ARCHIVE_ASSET_FORM = document.getElementById("downloadArchiveAssetForm");
-const DUPLICATE_ASSET_FORM = document.getElementById("duplicateAssetForm");
-const GET_ANNOTATIONS_FORM = document.getElementById("getAnnotationsForm");
-const GET_ASSET_FORM = document.getElementById("getAssetForm");
-const GET_ASSET_AD_BREAKS_FORM = document.getElementById("getAssetAdBreaksForm");
-const GET_ASSET_CHILD_NODES_FORM = document.getElementById("getAssetChildNodesForm");
-const GET_ASSET_DETAILS_FORM = document.getElementById("getAssetDetailsForm");
-const GET_ASSET_MANIFEST_WITH_COOKIES_FORM = document.getElementById("getAssetManifestWithCookiesForm");
-const GET_ASSET_METADATA_SUMMARY_FORM = document.getElementById("getAssetMetadataSummaryForm");
-const GET_ASSET_PARENT_FOLDERS_FORM = document.getElementById("getAssetParentFoldersForm");
-const GET_ASSET_SCREENSHOT_DETAILS_FORM = document.getElementById("getAssetScreenshotDetailsForm");
-const GET_ASSET_SEGMENT_DETAILS_FORM = document.getElementById("getAssetSegmentDetailsForm");
-const GET_USER_UPLOAD_PARTS_FORM = document.getElementById("getUserUploadPartsForm");
-const GET_USER_UPLOADS_FORM = document.getElementById("getUserUploadsForm");
-const IMPORT_ANNOTATIONS_FORM = document.getElementById("importAnnotationsForm");
-const INDEX_ASSET_FORM = document.getElementById("indexAssetForm");
-const LOCAL_RESTORE_ASSET_FORM = document.getElementById("localRestoreAssetForm");
-const MOVE_ASSET_FORM = document.getElementById("moveAssetForm");
-const RECORDS_ASSET_TRACKING_BEACON_FORM = document.getElementById("recordsAssetTrackingBeaconForm");
-const REGISTER_ASSET_FORM = document.getElementById("registerAssetForm");
-const REPROCESS_ASSET_FORM = document.getElementById("reprocessAssetForm");
-const RESTORE_ASSET_FORM = document.getElementById("restoreAssetForm");
-const SHARE_ASSET_FORM = document.getElementById("shareAssetForm");
-const START_WORKFLOW_FORM = document.getElementById("startWorkflowForm");
-const TRANSCRIBE_ASSET_FORM = document.getElementById("transcribeAssetForm");
-const UPDATE_ANNOTATION_FORM = document.getElementById("updateAnnotationForm");
-const UPDATE_ASSET_FORM = document.getElementById("updateAssetForm");
-const UPDATE_ASSET_AD_BREAK_FORM = document.getElementById("updateAssetAdBreakForm");
-const UPDATE_ASSET_LANGUAGE_FORM = document.getElementById("updateAssetLanguageForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSDK = new NomadMediaSDK(config);
 
-const BATCH_ACTION_ACTION_ARGUMENTS_DIV = document.getElementById("batchActionActionArgumentsDiv");
-const BUILD_MEDIA_SOURCES_DIV = document.getElementById("buildMediaSourcesDiv");
-const COPY_ASSET_ACTION_ARGUMENTS_DIV = document.getElementById("copyAssetActionArgumentsDiv");
-const CREATE_ANNOTATION_PROPERTIES_DIV = document.getElementById("createAnnotationPropertiesDiv");
-const IMPORT_ANNOTATIONS_DIV = document.getElementById("importAnnotationsDiv");
-const MOVE_ASSET_ACTION_ARGUMENTS_DIV = document.getElementById("moveAssetActionArgumentsDiv");
-const START_WORKFLOW_ACTION_ARGUMENTS_DIV = document.getElementById("startWorkflowActionArgumentsDiv");
-const TRANSCRIBE_ASSET_DIV = document.getElementById("transcribeAssetDiv");
-const UPDATE_ANNOTATION_PROPERTIES_DIV = document.getElementById("updateAnnotationPropertiesDiv");
-const UPDATE_ASSET_CUSTOM_PROPERTIES_DIV = document.getElementById("updateAssetCustomPropertiesDiv");
+const collectionContentDefinitionId = "20352932-05d2-4a7a-8821-06fcf4438ced";
+const labelContentDefinitionId = "fc710473-d014-4b2a-b812-c98255e32046";
+const languageContentDefinitionId = "e4b10c04-1878-4830-a115-e42d52705059";
+const tagContentDefinitionId = "c806783c-f127-48ae-90c9-32175f4e1fff";
 
-const BATCH_ACTION_ADD_ACTION_ARGUMENT_BUTTON = document.getElementById("batchActionAddActionArgumentButton");
-const BUILD_MEDIA_ADD_SOURCE_BUTTON = document.getElementById("buildMediaAddSourceButton");
-const COPY_ASSET_ADD_ACTION_ARGUMENT_BUTTON = document.getElementById("copyAssetAddActionArgumentButton");
-const IMPORT_ANNOTATIONS_ADD_ANNOTATION_BUTTON = document.getElementById("importAnnotationsAddAnnotationButton");
-const MOVE_ASSET_ADD_ACTION_ARGUMENT_BUTTON = document.getElementById("moveAssetAddActionArgumentButton");
-const START_WORKFLOW_ADD_ACTION_ARGUMENT_BUTTON = document.getElementById("startWorkflowAddActionArgumentButton");
-const TRANSCRIBE_ASSET_ADD_TRANSCRIPT_BUTTON = document.getElementById("transcribeAssetAddTranscriptButton");
-const UPDATE_ASSET_ADD_CUSTOM_PROPERTY_BUTTON = document.getElementById("updateAssetAddCustomPropertyButton");
-
-const BUILD_MEDIA_TAGS_SELECT = document.getElementById("buildMediaTagsSelect");
-const BUILD_MEDIA_COLLECTIONS_SELECT = document.getElementById("buildMediaCollectionsSelect");
-const BUILD_MEDIA_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT = document.getElementById("buildMediaRelatedContentsContentDefinitionsSelect");
-const BUILD_MEDIA_RELATED_CONTENTS_SELECT = document.getElementById("buildMediaRelatedContentsSelect");
-const CLIP_ASSET_TAGS_SELECT = document.getElementById("clipAssetTagsSelect");
-const CLIP_ASSET_COLLECTIONS_SELECT = document.getElementById("clipAssetCollectionsSelect");
-const CLIP_ASSET_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT = document.getElementById("clipAssetRelatedContentsContentDefinitionsSelect");
-const CLIP_ASSET_RELATED_CONTENTS_SELECT = document.getElementById("clipAssetRelatedContentsSelect");
-const CREATE_ANNOTATION_COUNTRY_SELECT = document.getElementById("createAnnotationCountrySelect");
-const CREATE_ASSET_AD_BREAK_LABELS_SELECT = document.getElementById("createAssetAdBreakLabelsSelect");
-const CREATE_ASSET_AD_BREAK_TAGS_SELECT = document.getElementById("createAssetAdBreakTagsSelect");
-const RECORDS_ASSET_TRACKING_BEACON_LIVE_CHANNEL_SELECT = document.getElementById("recordsAssetTrackingBeaconLiveChannelSelect");
-const REGISTER_ASSET_COLLECTIONS_SELECT = document.getElementById("registerAssetCollectionsSelect");
-const REGISTER_ASSET_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT = document.getElementById("registerAssetRelatedContentsContentDefinitionsSelect");
-const REGISTER_ASSET_RELATED_CONTENTS_SELECT = document.getElementById("registerAssetRelatedContentsSelect");
-const REGISTER_ASSET_TAGS_SELECT = document.getElementById("registerAssetTagsSelect");
-const UPDATE_ANNOTATION_COUNTRY_SELECT = document.getElementById("updateAnnotationCountrySelect");
-const UPDATE_ASSET_AD_BREAK_LABELS_SELECT = document.getElementById("updateAssetAdBreakLabelsSelect");
-const UPDATE_ASSET_AD_BREAK_TAGS_SELECT = document.getElementById("updateAssetAdBreakTagsSelect");
-const UPDATE_ASSET_LANGUAGE_SELECT = document.getElementById("updateAssetLanguageSelect");
-
-await getContentDefinitions();
+getCollectionList();
+getContentDefinitions();
+getCountryList();
+getLabelList();
+getLanguageList();
+getLiveChannels();
+getTagList();
 
 async function getContentDefinitions()
 {
-    const CONTENT_DEFINITIONS = await sendRequest("/get-content-definition-list", "GET");
+    const contentDefinitions = await nomadSDK.getContentDefinitions();
+    const contentDefinitionItems = contentDefinitions.items;
 
-    if (CONTENT_DEFINITIONS)
+    if (contentDefinitionItems)
     {
-        for (let contentDefinition of CONTENT_DEFINITIONS)
+        for (let contentDefinition of contentDefinitionItems)
         {
-            const OPTION = document.createElement("option");
-            OPTION.value = contentDefinition.contentDefinitionId;
-            OPTION.textContent = contentDefinition.properties.title;
-            BUILD_MEDIA_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT.appendChild(OPTION);
-            CLIP_ASSET_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT.appendChild(OPTION.cloneNode(true));
-            REGISTER_ASSET_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT.appendChild(OPTION.cloneNode(true));
+            const option = document.createElement("option");
+            option.value = contentDefinition.contentDefinitionId;
+            option.textContent = contentDefinition.properties.title;
+            buildMediaRelatedContentsContentDefinitionsSelect.appendChild(option);
+            clipAssetRelatedContentsContentDefinitionsSelect.appendChild(option.cloneNode(true));
+            registerAssetRelatedContentsContentDefinitionsSelect.appendChild(option.cloneNode(true));
         }
 
-        $(BUILD_MEDIA_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT).select2();
-        $(CLIP_ASSET_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT).select2();
-        $(REGISTER_ASSET_RELATED_CONTENTS_CONTENT_DEFINITIONS_SELECT).select2();
+        $(buildMediaRelatedContentsContentDefinitionsSelect).select2();
+        $(clipAssetRelatedContentsContentDefinitionsSelect).select2();
+        $(registerAssetRelatedContentsContentDefinitionsSelect).select2();
     }
 }
-
-await getCollectionList();
 
 async function getCollectionList()
 {
-    const COLLECTION_LIST = await sendRequest("/get-collection-list", "GET");
+    const collectionList = await getGroups(collectionContentDefinitionId);
 
-    if (COLLECTION_LIST)
+    if (collectionList)
     {
-        for(let collectionIdx = 0; collectionIdx < COLLECTION_LIST.length; ++collectionIdx)
+        for (let collectionIdx = 0; collectionIdx < collectionList.length; ++collectionIdx)
         {
             let option = document.createElement("option");
-            option.value = COLLECTION_LIST[collectionIdx].id;
-            option.text = COLLECTION_LIST[collectionIdx].title;
-            BUILD_MEDIA_COLLECTIONS_SELECT.appendChild(option);
-            CLIP_ASSET_COLLECTIONS_SELECT.appendChild(option.cloneNode(true));
-            REGISTER_ASSET_COLLECTIONS_SELECT.appendChild(option.cloneNode(true));
+            option.value = collectionList[collectionIdx].id;
+            option.text = collectionList[collectionIdx].title;
+            buildMediaCollectionsSelect.appendChild(option);
+            clipAssetCollectionsSelect.appendChild(option.cloneNode(true));
+            registerAssetCollectionsSelect.appendChild(option.cloneNode(true));
         }
 
-        $(BUILD_MEDIA_COLLECTIONS_SELECT).select2();
-        $(CLIP_ASSET_COLLECTIONS_SELECT).select2();
-        $(REGISTER_ASSET_COLLECTIONS_SELECT).select2();
+        $(buildMediaCollectionsSelect).select2();
+        $(clipAssetCollectionsSelect).select2();
+        $(registerAssetCollectionsSelect).select2();
     }
 }
-
-await getCountryList();
 
 async function getCountryList()
 {
-    const COUNTRY_LIST = await sendRequest("/get-country-list", "GET");
+    const lookup = await nomadSDK.miscFunctions("config/ea1d7060-6291-46b8-9468-135e7b94021b/lookups.json", "GET", null, true);
+    const countryList = lookup[5].children;
 
-    if (COUNTRY_LIST)
+    if (countryList)
     {
-        for(let countryIdx = 0; countryIdx < COUNTRY_LIST.length; ++countryIdx)
+        for (let countryIdx = 0; countryIdx < countryList.length; ++countryIdx)
         {
             let option = document.createElement("option");
-            option.value = COUNTRY_LIST[countryIdx].id;
-            option.text = COUNTRY_LIST[countryIdx].label;
-            CREATE_ANNOTATION_COUNTRY_SELECT.appendChild(option);
-            UPDATE_ANNOTATION_COUNTRY_SELECT.appendChild(option.cloneNode(true));
+            option.value = countryList[countryIdx].id;
+            option.text = countryList[countryIdx].label;
+            createAnnotationCountrySelect.appendChild(option);
+            updateAnnotationCountrySelect.appendChild(option.cloneNode(true));
         }
 
-        $(CREATE_ANNOTATION_COUNTRY_SELECT).select2();
-        $(UPDATE_ANNOTATION_COUNTRY_SELECT).select2();
+        $(createAnnotationCountrySelect).select2();
+        $(updateAnnotationCountrySelect).select2();
     }
 }
-
-await getLabelList();
 
 async function getLabelList()
 {
-    const LABEL_LIST = await sendRequest("/get-label-list", "GET");
+    const labelList = await getGroups(labelContentDefinitionId);
 
-    if (LABEL_LIST)
+    if (labelList)
     {
-        for(let labelIdx = 0; labelIdx < LABEL_LIST.length; ++labelIdx)
+        for (let labelIdx = 0; labelIdx < labelList.length; ++labelIdx)
         {
             let option = document.createElement("option");
-            option.value = LABEL_LIST[labelIdx].id;
-            option.text = LABEL_LIST[labelIdx].title;
-            CREATE_ASSET_AD_BREAK_LABELS_SELECT.appendChild(option);
-            UPDATE_ASSET_AD_BREAK_LABELS_SELECT.appendChild(option.cloneNode(true));
+            option.value = labelList[labelIdx].id;
+            option.text = labelList[labelIdx].title;
+            createAssetAdBreakLabelsSelect.appendChild(option);
+            updateAssetAdBreakLabelsSelect.appendChild(option.cloneNode(true));
         }
 
-        $(CREATE_ASSET_AD_BREAK_LABELS_SELECT).select2();
-        $(UPDATE_ASSET_AD_BREAK_LABELS_SELECT).select2();
+        $(createAssetAdBreakLabelsSelect).select2();
+        $(updateAssetAdBreakLabelsSelect).select2();
     }
 }
-
-await getLanguageList();
 
 async function getLanguageList()
 {
-    const LANGUAGE_LIST = await sendRequest("/get-language-list", "GET");
+    const languageList = await getGroups(languageContentDefinitionId);
 
-    if (LANGUAGE_LIST)
+    if (languageList)
     {
-        for(let languageIdx = 0; languageIdx < LANGUAGE_LIST.length; ++languageIdx)
+        for (let languageIdx = 0; languageIdx < languageList.length; ++languageIdx)
         {
             let option = document.createElement("option");
-            option.value = LANGUAGE_LIST[languageIdx].id;
-            option.text = LANGUAGE_LIST[languageIdx].title;
-            UPDATE_ASSET_LANGUAGE_SELECT.appendChild(option);
+            option.value = languageList[languageIdx].id;
+            option.text = languageList[languageIdx].title;
+            updateAssetLanguageSelect.appendChild(option);
         }
 
-        $(UPDATE_ASSET_LANGUAGE_SELECT).select2();
+        $(updateAssetLanguageSelect).select2();
     }
 }
-
-await getLiveChannels();
 
 async function getLiveChannels()
 {
-    const LIVE_CHANNELS = await sendRequest("/get-live-channel-list", "GET");
+    const liveChannels = await nomadSDK.getLiveChannels();
 
-    if (LIVE_CHANNELS)
+    if (liveChannels)
     {
-        for (let liveChannel of LIVE_CHANNELS)
+        for (let liveChannel of liveChannels)
         {
-            const OPTION = document.createElement("option");
-            OPTION.value = liveChannel.id;
-            OPTION.textContent = liveChannel.name;
-            RECORDS_ASSET_TRACKING_BEACON_LIVE_CHANNEL_SELECT.appendChild(OPTION);
+            const option = document.createElement("option");
+            option.value = liveChannel.id;
+            option.textContent = liveChannel.name;
+            recordsAssetTrackingBeaconLiveChannelSelect.appendChild(option);
         }
 
-        $(RECORDS_ASSET_TRACKING_BEACON_LIVE_CHANNEL_SELECT).select2();
+        $(recordsAssetTrackingBeaconLiveChannelSelect).select2();
     }
 }
 
-await getTagList();
-
 async function getTagList()
 {
-    const TAG_LIST = await sendRequest("/get-tag-list", "GET");
+    const tagList = await getGroups(tagContentDefinitionId);
 
-    if (TAG_LIST)
+    if (tagList)
     {
-        for(let tagIdx = 0; tagIdx < TAG_LIST.length; ++tagIdx)
+        for (let tagIdx = 0; tagIdx < tagList.length; ++tagIdx)
         {
             let option = document.createElement("option");
-            option.value = TAG_LIST[tagIdx].id;
-            option.text = TAG_LIST[tagIdx].title;
-            BUILD_MEDIA_TAGS_SELECT.appendChild(option);
-            CLIP_ASSET_TAGS_SELECT.appendChild(option.cloneNode(true));
-            CREATE_ASSET_AD_BREAK_TAGS_SELECT.appendChild(option.cloneNode(true));
-            REGISTER_ASSET_TAGS_SELECT.appendChild(option.cloneNode(true));
-            UPDATE_ASSET_AD_BREAK_TAGS_SELECT.appendChild(option.cloneNode(true));
+            option.value = tagList[tagIdx].id;
+            option.text = tagList[tagIdx].title;
+            buildMediaTagsSelect.appendChild(option);
+            clipAssetTagsSelect.appendChild(option.cloneNode(true));
+            createAssetAdBreakTagsSelect.appendChild(option.cloneNode(true));
+            registerAssetTagsSelect.appendChild(option.cloneNode(true));
+            updateAssetAdBreakTagsSelect.appendChild(option.cloneNode(true));
         }
 
-        $(BUILD_MEDIA_TAGS_SELECT).select2();
-        $(CLIP_ASSET_TAGS_SELECT).select2();
-        $(CREATE_ASSET_AD_BREAK_TAGS_SELECT).select2();
-        $(REGISTER_ASSET_TAGS_SELECT).select2();
-        $(UPDATE_ASSET_AD_BREAK_TAGS_SELECT).select2();
+        $(buildMediaTagsSelect).select2();
+        $(clipAssetTagsSelect).select2();
+        $(createAssetAdBreakTagsSelect).select2();
+        $(registerAssetTagsSelect).select2();
+        $(updateAssetAdBreakTagsSelect).select2();
     }
+}
+
+async function populateRelatedContentSelect(contentDefinitionId, relatedContentsSelect)
+{
+    let relatedContentList;
+    console.log("config.apiType", config.apiType);
+    if (config.apiType !== "portal")
+    {
+        relatedContentList = await getGroups(contentDefinitionId);
+    }
+
+    relatedContentsSelect.innerHTML = "";
+
+    for (let relatedContentIdx = 0; relatedContentIdx < relatedContentList.length; ++relatedContentIdx)
+    {
+        let option = document.createElement("option");
+        option.value = relatedContentList[relatedContentIdx].id;
+        option.text = relatedContentList[relatedContentIdx].title;
+        relatedContentsSelect.appendChild(option);
+    }
+
+    $(relatedContentsSelect).select2();
 }
 
 $("#buildMediaRelatedContentsContentDefinitionsSelect").on("select2:select", async function(event)
 {
-    await populateRelatedContentSelect(event.params.data.id, BUILD_MEDIA_RELATED_CONTENTS_SELECT);
+    await populateRelatedContentSelect(event.params.data.id, buildMediaRelatedContentsSelect);
 });
 
 $("#clipAssetRelatedContentsContentDefinitionsSelect").on("select2:select", async function(event)
 {
-    await populateRelatedContentSelect(event.params.data.id, CLIP_ASSET_RELATED_CONTENTS_SELECT);
-});
-
-ARCHIVE_ASSET_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(ARCHIVE_ASSET_FORM);
-
-    console.log(await sendRequest("/archive-asset", "POST", FORM_DATA));
-});
-
-BATCH_ACTION_ADD_ACTION_ARGUMENT_BUTTON.addEventListener('click', function() 
-{
-    createAddButtonElements(["Argument Key", "Argument Value"], 
-        ["argumentKey", "argumentValue"], BATCH_ACTION_ACTION_ARGUMENTS_DIV);
-});
-
-BATCH_ACTION_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(BATCH_ACTION_FORM);
-
-    console.log(await sendRequest("/batch-action", "POST", FORM_DATA));
-});
-
-BUILD_MEDIA_ADD_SOURCE_BUTTON.addEventListener('click', function()
-{
-    createAddButtonElements(["Source Asset Id", "Start Time Code", "End Time Code"], 
-        ["sourceAssetId", "startTimeCode", "endTimeCode"], BUILD_MEDIA_SOURCES_DIV);
-});
-
-BUILD_MEDIA_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(BUILD_MEDIA_FORM);
-
-    console.log(await sendRequest("/build-media", "POST", FORM_DATA));
-});
-
-CLIP_ASSET_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CLIP_ASSET_FORM);
-
-    console.log(await sendRequest("/clip-asset", "POST", FORM_DATA));
-});
-
-COPY_ASSET_ADD_ACTION_ARGUMENT_BUTTON.addEventListener('click', function()
-{
-    createAddButtonElements(["Argument Key", "Argument Value"], 
-        ["argumentKey", "argumentValue"], COPY_ASSET_ACTION_ARGUMENTS_DIV);
-});
-
-COPY_ASSET_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(COPY_ASSET_FORM);
-
-    console.log(await sendRequest("/copy-asset", "POST", FORM_DATA));
-});
-
-CREATE_ANNOTATION_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_ANNOTATION_FORM);
-
-    console.log(await sendRequest("/create-annotation", "POST", FORM_DATA));
-});
-
-CREATE_ASSET_AD_BREAK_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_ASSET_AD_BREAK_FORM);
-
-    console.log(await sendRequest("/create-asset-ad-break", "POST", FORM_DATA));
-});
-
-CREATE_FOLDER_ASSET_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_FOLDER_ASSET_FORM);
-
-    console.log(await sendRequest("/create-folder-asset", "POST", FORM_DATA));
-});
-
-CREATE_PLACEHOLDER_ASSET_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_PLACEHOLDER_ASSET_FORM);
-
-    console.log(await sendRequest("/create-placeholder-asset", "POST", FORM_DATA));
-});
-
-CREATE_SCREENSHOT_AT_TIMECODE_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(CREATE_SCREENSHOT_AT_TIMECODE_FORM);
-
-    console.log(await sendRequest("/create-screenshot-at-timecode", "POST", FORM_DATA));
-});
-
-DELETE_ANNOTATION_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(DELETE_ANNOTATION_FORM);
-
-    await sendRequest("/delete-annotation", "DELETE", FORM_DATA);
-});
-
-DELETE_ASSET_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(DELETE_ASSET_FORM);
-
-    await sendRequest("/delete-asset", "DELETE", FORM_DATA);
-});
-
-DELETE_ASSET_AD_BREAK_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(DELETE_ASSET_AD_BREAK_FORM);
-
-    await sendRequest("/delete-asset-ad-break", "DELETE", FORM_DATA);
-});
-
-DOWNLOAD_ARCHIVE_ASSET_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(DOWNLOAD_ARCHIVE_ASSET_FORM);
-
-    console.log(await sendRequest("/download-archive-asset", "POST", FORM_DATA));
-});
-
-DUPLICATE_ASSET_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(DUPLICATE_ASSET_FORM);
-
-    console.log(await sendRequest("/duplicate-asset", "POST", FORM_DATA));
-});
-
-GET_ANNOTATIONS_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_ANNOTATIONS_FORM);
-
-    console.log(await sendRequest("/get-annotations", "POST", FORM_DATA));
-});
-
-GET_ASSET_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_ASSET_FORM);
-
-    console.log(await sendRequest("/get-asset", "POST", FORM_DATA));
-});
-
-GET_ASSET_AD_BREAKS_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_ASSET_AD_BREAKS_FORM);
-
-    console.log(await sendRequest("/get-asset-ad-breaks", "POST", FORM_DATA));
-});
-
-GET_ASSET_CHILD_NODES_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_ASSET_CHILD_NODES_FORM);
-
-    console.log(await sendRequest("/get-asset-child-nodes", "POST", FORM_DATA));
-});
-
-GET_ASSET_DETAILS_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_ASSET_DETAILS_FORM);
-
-    console.log(await sendRequest("/get-asset-details", "POST", FORM_DATA));
-});
-
-GET_ASSET_MANIFEST_WITH_COOKIES_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_ASSET_MANIFEST_WITH_COOKIES_FORM);
-
-    console.log(await sendRequest("/get-asset-manifest-with-cookies", "POST", FORM_DATA));
-});
-
-GET_ASSET_METADATA_SUMMARY_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_ASSET_METADATA_SUMMARY_FORM);
-
-    console.log(await sendRequest("/get-asset-metadata-summary", "POST", FORM_DATA));
-});
-
-GET_ASSET_PARENT_FOLDERS_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_ASSET_PARENT_FOLDERS_FORM);
-
-    console.log(await sendRequest("/get-asset-parent-folders", "POST", FORM_DATA));
-});
-
-GET_ASSET_SCREENSHOT_DETAILS_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_ASSET_SCREENSHOT_DETAILS_FORM);
-
-    console.log(await sendRequest("/get-asset-screenshot-details", "POST", FORM_DATA));
-});
-
-GET_ASSET_SEGMENT_DETAILS_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_ASSET_SEGMENT_DETAILS_FORM);
-
-    console.log(await sendRequest("/get-asset-segment-details", "POST", FORM_DATA));
-});
-
-GET_USER_UPLOAD_PARTS_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_USER_UPLOAD_PARTS_FORM);
-
-    console.log(await sendRequest("/get-user-upload-parts", "POST", FORM_DATA));
-});
-
-GET_USER_UPLOADS_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(GET_USER_UPLOADS_FORM);
-
-    console.log(await sendRequest("/get-user-uploads", "POST", FORM_DATA));
-});
-
-IMPORT_ANNOTATIONS_ADD_ANNOTATION_BUTTON.addEventListener('click', function()
-{
-    createAddButtonElements(["Start Time Code", "End Time Code"], 
-        ["startTimeCode", "endTimeCode"], IMPORT_ANNOTATIONS_DIV);
-});
-
-IMPORT_ANNOTATIONS_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(IMPORT_ANNOTATIONS_FORM);
-
-    await sendRequest("/import-annotations", "POST", FORM_DATA);
-});
-
-INDEX_ASSET_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(INDEX_ASSET_FORM);
-
-    console.log(await sendRequest("/index-asset", "POST", FORM_DATA));
-});
-
-LOCAL_RESTORE_ASSET_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(LOCAL_RESTORE_ASSET_FORM);
-
-    console.log(await sendRequest("/local-restore-asset", "POST", FORM_DATA));
-});
-
-MOVE_ASSET_ADD_ACTION_ARGUMENT_BUTTON.addEventListener('click', function()
-{
-    createAddButtonElements(["Argument Key", "Argument Value"], 
-        ["argumentKey", "argumentValue"], MOVE_ASSET_ACTION_ARGUMENTS_DIV);
-});
-
-MOVE_ASSET_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(MOVE_ASSET_FORM);
-
-    console.log(await sendRequest("/move-asset", "POST", FORM_DATA));
-});
-
-RECORDS_ASSET_TRACKING_BEACON_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(RECORDS_ASSET_TRACKING_BEACON_FORM);
-
-    console.log(await sendRequest("/record-asset-tracking-beacon", "POST", FORM_DATA));
+    await populateRelatedContentSelect(event.params.data.id, clipAssetRelatedContentsSelect);
 });
 
 $("#registerAssetRelatedContentsContentDefinitionsSelect").on("select2:select", async function(event)
 {
-    await populateRelatedContentSelect(event.params.data.id, REGISTER_ASSET_RELATED_CONTENTS_SELECT);
+    await populateRelatedContentSelect(event.params.data.id, registerAssetRelatedContentsSelect);
 });
 
-REGISTER_ASSET_FORM.addEventListener("submit", async (event) =>
+archiveAssetForm.addEventListener("submit", async (event) =>
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(REGISTER_ASSET_FORM);
+    const formData = getElements(archiveAssetForm);
 
-    console.log(await sendRequest("/register-asset", "POST", FORM_DATA));
+    await nomadSDK.archiveAsset(formData.assetId);
 });
 
-REPROCESS_ASSET_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(REPROCESS_ASSET_FORM);
-
-    console.log(await sendRequest("/reprocess-asset", "POST", FORM_DATA));
-});
-
-RESTORE_ASSET_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(RESTORE_ASSET_FORM);
-
-    console.log(await sendRequest("/restore-asset", "POST", FORM_DATA));
-});
-
-SHARE_ASSET_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(SHARE_ASSET_FORM);
-
-    console.log(await sendRequest("/share-asset", "POST", FORM_DATA));
-});
-
-START_WORKFLOW_ADD_ACTION_ARGUMENT_BUTTON.addEventListener('click', function()
+batchActionAddActionArgumentButton.addEventListener('click', function() 
 {
     createAddButtonElements(["Argument Key", "Argument Value"], 
-        ["argumentKey", "argumentValue"], START_WORKFLOW_ACTION_ARGUMENTS_DIV);
+        ["argumentKey", "argumentValue"], batchActionActionArgumentsDiv);
 });
 
-START_WORKFLOW_FORM.addEventListener("submit", async (event) =>
+batchActionForm.addEventListener("submit", async (event) =>
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(START_WORKFLOW_FORM);
+    const formData = getElements(batchActionForm);
 
-    console.log(await sendRequest("/start-workflow", "POST", FORM_DATA));
+    let batchAction = null;
+    if (formData.batchActionId)
+    {
+        batchAction = {
+            id: formData.batchActionId,
+            description: formData.batchActionActionArgumentsDiv
+        };
+    }
+
+    let targetIds = null;
+    if (formData.targetIds)
+    {
+        targetIds = formData.targetIds.split(',')
+    }
+
+    const actionArguments = [];
+    if (typeof formData.argumentKey !== "undefined")
+    {
+        for (let argumentActionIdx = 0; argumentActionIdx < formData.argumentKey.length; ++argumentActionIdx) 
+        {
+            actionArguments[formData.argumentKey[argumentActionIdx]] = formData.argumentValue[argumentActionIdx];
+        }
+    }
+
+    await nomadSDK.batchAction(
+        formData.actionName,
+        batchAction,
+        formData.contentDefinitionId,
+        formData.schemaName,
+        targetIds,
+        actionArguments,
+        formData.resolverExcempt === "True"
+    );
 });
 
-TRANSCRIBE_ASSET_ADD_TRANSCRIPT_BUTTON.addEventListener('click', function()
+buildMediaAddSourceButton.addEventListener('click', function()
+{
+    createAddButtonElements(["Source Asset Id", "Start Time Code", "End Time Code"], 
+        ["sourceAssetId", "startTimeCode", "endTimeCode"], buildMediaSourcesDiv);
+});
+
+buildMediaForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    const formData = getElements(buildMediaForm);
+
+    let collections = null;
+    if (formData.buildMediaCollectionsSelect)
+    {
+        const parsed = JSON.parse(formData.buildMediaCollectionsSelect);
+        collections = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    let relatedContents = null;
+    if (formData.buildMediaRelatedContentsSelect)
+    {
+        const parsed = JSON.parse(formData.buildMediaRelatedContentsSelect);
+        relatedContents = Array.isArray(parsed) ? parsed : [parsed];
+        if (formData.buildMediaRelatedContentsContentDefinitionsSelect)
+        {
+            relatedContents.forEach(item =>
+            {
+                item["type"] = formData.buildMediaRelatedContentsContentDefinitionsSelect;
+            });
+        }
+    }
+
+    let tags = null;
+    if (formData.buildMediaTagsSelect)
+    {
+        const parsed = JSON.parse(formData.buildMediaTagsSelect);
+        tags = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    await nomadSDK.buildMedia(
+        formData.sources,
+        formData.title,
+        tags,
+        collections,
+        relatedContents,
+        formData.destinationFolderId,
+        formData.videoBitrate,
+        formData.audioTracks
+    );
+});
+
+clipAssetForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    const formData = getElements(clipAssetForm);
+
+    let collections = null;
+    if (formData.clipAssetCollectionsSelect)
+    {
+        const parsed = JSON.parse(formData.clipAssetCollectionsSelect);
+        collections = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    let relatedContents = null;
+    if (formData.clipAssetRelatedContentsSelect)
+    {
+        const parsed = JSON.parse(formData.clipAssetRelatedContentsSelect);
+        relatedContents = Array.isArray(parsed) ? parsed : [parsed];
+        if (formData.clipAssetRelatedContentsContentDefinitionsSelect)
+        {
+            relatedContents.forEach(item =>
+            {
+                item["type"] = formData.clipAssetRelatedContentsContentDefinitionsSelect;
+            });
+        }
+    }
+
+    let tags = null;
+    if (formData.clipAssetTagsSelect)
+    {
+        const parsed = JSON.parse(formData.clipAssetTagsSelect);
+        tags = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    await nomadSDK.clipAsset(
+        formData.assetId,
+        formData.startTimeCode,
+        formData.endTimeCode,
+        formData.title,
+        formData.outputFolderId,
+        tags,
+        collections,
+        relatedContents,
+        formData.videoBitrate,
+        formData.audioTracks
+    );
+});
+
+copyAssetAddActionArgumentButton.addEventListener('click', function ()
+{
+    createAddButtonElements(["Argument Key", "Argument Value"],
+        ["argumentKey", "argumentValue"], copyAssetActionArgumentsDiv);
+});
+
+copyAssetForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    const formData = getElements(copyAssetForm);
+
+    let batchAction = null;
+    if (formData.batchActionId)
+    {
+        batchAction = {
+            id: formData.batchActionId,
+            description: formData.batchActionName
+        };
+    }
+
+    let targetIds = null;
+    if (formData.targetIds)
+    {
+        targetIds = formData.targetIds.split(",");
+    }
+
+    const actionArguments = {};
+    if (typeof formData.argumentKey !== "undefined")
+    {
+        for (let i = 0; i < formData.argumentKey.length; ++i)
+        {
+            actionArguments[formData.argumentKey[i]] = formData.argumentValue[i];
+        }
+    }
+
+    await nomadSDK.copyAsset(
+        formData.assetId,
+        batchAction,
+        formData.contentDefintionId,
+        formData.schemaName,
+        targetIds,
+        actionArguments,
+        formData.resolverExcempt === "True"
+    );
+});
+
+createAnnotationForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    const formData = getElements(createAnnotationForm);
+
+    const properties = {
+        country: formData.updateAnnotationCountrySelect,
+        description: formData.description,
+        firstKeyword: formData.firstKeyword,
+        secondKeyword: formData.secondKeyword
+    };
+
+    await nomadSDK.createAnnotation(
+        formData.assetId,
+        formData.startTimeCode,
+        formData.endTimeCode,
+        properties,
+        formData.contentId,
+        formData.imageUrl
+    );
+});
+
+createAssetAdBreakForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    const formData = getElements(createAssetAdBreakForm);
+
+    let tags = null;
+    if (formData.createAssetAdBreakTagsSelect)
+    {
+        const parsed = JSON.parse(formData.createAssetAdBreakTagsSelect);
+        tags = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    let labels = null;
+    if (formData.createAssetAdBreakLabelsSelect)
+    {
+        const parsed = JSON.parse(formData.createAssetAdBreakLabelsSelect);
+        labels = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    await nomadSDK.createAssetAdBreak(
+        formData.assetId,
+        formData.timeCode,
+        tags,
+        labels
+    );
+});
+
+createFolderAssetForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    const formData = getElements(createFolderAssetForm);
+
+    await nomadSDK.createFolderAsset(
+        formData.parentId,
+        formData.displayName
+    );
+});
+
+createPlaceholderAssetForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    const formData = getElements(createPlaceholderAssetForm);
+
+    await nomadSDK.createPlaceholderAsset(
+        formData.parentId,
+        formData.assetName
+    );
+});
+
+createScreenshotAtTimecodeForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    const formData = getElements(createScreenshotAtTimecodeForm);
+
+    await nomadSDK.createScreenshotAtTimecode(
+        formData.assetId,
+        formData.timeCode
+    );
+});
+
+deleteAnnotationForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    const formData = getElements(deleteAnnotationForm);
+    await nomadSDK.deleteAnnotation(formData.assetId, formData.annotationId);
+});
+
+deleteAssetForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    const formData = getElements(deleteAssetForm);
+    await nomadSDK.deleteAsset(formData.assetId);
+});
+
+deleteAssetAdBreakForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    const formData = getElements(deleteAssetAdBreakForm);
+    await nomadSDK.deleteAssetAdBreak(formData.assetId, formData.adBreakId);
+});
+
+downloadArchiveAssetForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    const formData = getElements(downloadArchiveAssetForm);
+    const assetIds = formData.assetId.split(",");
+    await nomadSDK.downloadArchiveAsset(assetIds, formData.fileName, formData.downloadProxy === "True");
+});
+
+duplicateAssetForm.addEventListener("submit", async (event) =>
+{
+    event.preventDefault();
+    const formData = getElements(duplicateAssetForm);
+    await nomadSDK.duplicateAsset(formData.assetId);
+});
+
+getAnnotationsForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(getAnnotationsForm);
+    await nomadSDK.getAnnotations(formData.assetId);
+});
+
+getAssetForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(getAssetForm);
+    await nomadSDK.getAsset(formData.assetId);
+});
+
+getAssetAdBreaksForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(getAssetAdBreaksForm);
+    await nomadSDK.getAssetAdBreaks(formData.assetId);
+});
+
+getAssetChildNodesForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(getAssetChildNodesForm);
+    await nomadSDK.getAssetChildNodes(
+        formData.assetId,
+        formData.folderId,
+        formData.sortColumn,
+        formData.isDesc === "True",
+        formData.pageIndex,
+        formData.pageSize
+    );
+});
+
+getAssetDetailsForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(getAssetDetailsForm);
+    await nomadSDK.getAssetDetails(formData.assetId);
+});
+
+getAssetManifestWithCookiesForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(getAssetManifestWithCookiesForm);
+    await nomadSDK.getAssetManifestWithCookies(formData.assetId, formData.cookieId);
+});
+
+getAssetMetadataSummaryForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(getAssetMetadataSummaryForm);
+    await nomadSDK.getAssetMetadataSummary(formData.assetId);
+});
+
+getAssetParentFoldersForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(getAssetParentFoldersForm);
+    await nomadSDK.getAssetParentFolders(formData.assetId, formData.pageSize);
+});
+
+getAssetScreenshotDetailsForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(getAssetScreenshotDetailsForm);
+    await nomadSDK.getAssetScreenshotDetails(formData.assetId, formData.segmentId, formData.screenshotId);
+});
+
+getAssetSegmentDetailsForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(getAssetSegmentDetailsForm);
+    await nomadSDK.getAssetSegmentDetails(formData.assetId, formData.segmentId);
+});
+
+getUserUploadPartsForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(getUserUploadPartsForm);
+    await nomadSDK.getUserUploadParts(formData.assetId);
+});
+
+getUserUploadsForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(getUserUploadsForm);
+    await nomadSDK.getUserUploads(formData.includeCompletedUploads === "True");
+});
+
+importAnnotationsAddAnnotationButton.addEventListener('click', function()
+{
+    createAddButtonElements(["Start Time Code", "End Time Code"], 
+        ["startTimeCode", "endTimeCode"], importAnnotationsDiv);
+});
+
+importAnnotationsForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(importAnnotationsForm);
+    const startTimeCodes = Array.isArray(formData.startTimeCode) ? formData.startTimeCode : [formData.startTimeCode];
+    const endTimeCodes = Array.isArray(formData.endTimeCode) ? formData.endTimeCode : [formData.endTimeCode];
+    const annotations = [];
+    for (let i = 0; i < startTimeCodes.length; ++i) 
+    {   
+        annotations.push({
+            startTimeCode: startTimeCodes[i],
+            endTimeCode: endTimeCodes[i]
+        });
+    }
+    await nomadSDK.importAnnotations(formData.assetId, annotations);
+});
+
+indexAssetForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(indexAssetForm);
+    await nomadSDK.indexAsset(formData.assetId);
+});
+
+localRestoreAssetForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(localRestoreAssetForm);
+    await nomadSDK.localRestoreAsset(formData.assetId, formData.profile);
+});
+
+moveAssetAddActionArgumentButton.addEventListener('click', function()
+{
+    createAddButtonElements(["Argument Key", "Argument Value"], 
+        ["argumentKey", "argumentValue"], moveAssetActionArgumentsDiv);
+});
+
+moveAssetForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(moveAssetForm);
+
+    let batchAction = null;
+    if (formData.batchActionId) 
+    {
+        batchAction = {
+            id: formData.batchActionId,
+            description: formData.batchActionName
+        };
+    }
+
+    let targetIds = null;
+    if (formData.targetIds) 
+    {
+        targetIds = formData.targetIds.split(",");
+    }
+
+    const actionArguments = {};
+    if (typeof formData.argumentKey !== "undefined") 
+    {
+        for (let i = 0; i < formData.argumentKey.length; ++i) 
+        {
+            actionArguments[formData.argumentKey[i]] = formData.argumentValue[i];
+        }
+    }
+
+    await nomadSDK.moveAsset(
+        formData.assetId,
+        batchAction,
+        formData.contentDefintionId,
+        formData.schemaName,
+        targetIds,
+        actionArguments,
+        formData.resolverExcempt === "True"
+    );
+});
+
+recordsAssetTrackingBeaconForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(recordsAssetTrackingBeaconForm);
+    const liveChannel = JSON.parse(formData.recordsAssetTrackingBeaconLiveChannelSelect);
+    await nomadSDK.recordsAssetTrackingBeacon(
+        formData.assetId,
+        formData.trackingEvent,
+        liveChannel,
+        formData.contentId,
+        formData.second
+    );
+});
+
+registerAssetForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(registerAssetForm);
+
+    let collections = null;
+    if (formData.registerAssetCollectionsSelect) 
+    {
+        const parsed = JSON.parse(formData.registerAssetCollectionsSelect);
+        collections = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    let relatedContents = null;
+    if (formData.registerAssetRelatedContentsSelect) 
+    {
+        const parsed = JSON.parse(formData.registerAssetRelatedContentsSelect);
+        relatedContents = Array.isArray(parsed) ? parsed : [parsed];
+        if (formData.registerAssetRelatedContentsContentDefinitionsSelect) 
+        {
+            relatedContents.forEach(item => {
+                item["type"] = formData.registerAssetRelatedContentsContentDefinitionsSelect;
+            });
+        }
+    }
+
+    let tags = null;
+    if (formData.registerAssetTagsSelect) 
+    {
+        const parsed = JSON.parse(formData.registerAssetTagsSelect);
+        tags = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    await nomadSDK.registerAsset(
+        formData.assetId,
+        formData.parentId,
+        formData.displayObjectKey,
+        formData.bucketName,
+        formData.objectKey,
+        formData.eTag,
+        tags,
+        collections,
+        relatedContents,
+        formData.sequencer,
+        formData.assetStatus,
+        formData.storageClass,
+        formData.assetType,
+        formData.contentLength,
+        formData.storageEventName,
+        formData.createDate,
+        formData.storageSouceIpAddress,
+        formData.startMediaProcessor === "True",
+        formData.deleteMissingAsset === "True"
+    );
+});
+
+reprocessAssetForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(reprocessAssetForm);
+    const targetIds = formData.targetIds.split(",");
+    await nomadSDK.reprocessAsset(targetIds);
+});
+
+restoreAssetForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(restoreAssetForm);
+    await nomadSDK.restoreAsset(formData.assetId);
+});
+
+shareAssetForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(shareAssetForm);
+
+    const nomadUsers = formData.nomadUsers ? formData.nomadUsers.split(",").map(id => ({ id })) : [];
+    const externalUsers = formData.externalUsers ? formData.externalUsers.split(",").map(id => ({ id })) : [];
+
+    await nomadSDK.shareAsset(
+        formData.assetId,
+        nomadUsers,
+        externalUsers,
+        formData.shareDurationInHours
+    );
+});
+
+startWorkflowAddActionArgumentButton.addEventListener('click', function()
+{
+    createAddButtonElements(["Argument Key", "Argument Value"], 
+        ["argumentKey", "argumentValue"], startWorkflowActionArgumentsDiv);
+});
+
+startWorkflowForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(startWorkflowForm);
+
+    const actionArguments = {};
+    if (typeof formData.argumentKey !== "undefined") {
+        for (let i = 0; i < formData.argumentKey.length; ++i) {
+            actionArguments[formData.argumentKey[i]] = formData.argumentValue[i];
+        }
+    }
+
+    const targetIds = formData.targetIds.split(",");
+    await nomadSDK.startWorkflow(actionArguments, targetIds);
+});
+
+transcribeAssetAddTranscriptButton.addEventListener('click', function()
 {
     createAddButtonElements(["Start Time Code", "Content"], 
-        ["startTimeCode", "content"], TRANSCRIBE_ASSET_DIV, ["time", "text"]);
+        ["startTimeCode", "content"], transcribeAssetDiv, ["time", "text"]);
 });
 
-TRANSCRIBE_ASSET_FORM.addEventListener("submit", async (event) =>
+transcribeAssetForm.addEventListener("submit", async (event) => 
 {
     event.preventDefault();
+    const formData = getElements(transcribeAssetForm);
 
-    const FORM_DATA = getElements(TRANSCRIBE_ASSET_FORM);
+    const startTimeCodes = Array.isArray(formData.startTimeCode) ? formData.startTimeCode : [formData.startTimeCode];
+    const contents = Array.isArray(formData.content) ? formData.content : [formData.content];
+    const transcript = [];
+    for (let i = 0; i < startTimeCodes.length; ++i) {
+        transcript.push({
+            startTimeCode: startTimeCodes[i],
+            content: contents[i]
+        });
+    }
 
-    console.log(await sendRequest("/transcribe-asset", "POST", FORM_DATA));
+    await nomadSDK.transcribeAsset(
+        formData.assetId,
+        formData.transcriptId,
+        transcript
+    );
 });
 
-UPDATE_ANNOTATION_FORM.addEventListener("submit", async (event) =>
-{
-    event.preventDefault();
-
-    const FORM_DATA = getElements(UPDATE_ANNOTATION_FORM);
-
-    console.log(await sendRequest("/update-annotation", "PUT", FORM_DATA));
-});
-
-UPDATE_ASSET_ADD_CUSTOM_PROPERTY_BUTTON.addEventListener('click', function()
+updateAssetAddCustomPropertyButton.addEventListener('click', function()
 {
     createAddButtonElements(["Property Key", "Property Value"],
-        ["propertyKey", "propertyValue"], UPDATE_ASSET_CUSTOM_PROPERTIES_DIV);
+        ["propertyKey", "propertyValue"], updateAssetCustomPropertiesDiv);
 });
 
-UPDATE_ASSET_FORM.addEventListener("submit", async (event) =>
+updateAnnotationForm.addEventListener("submit", async (event) => 
 {
     event.preventDefault();
+    const formData = getElements(updateAnnotationForm);
 
-    const FORM_DATA = getElements(UPDATE_ASSET_FORM);
+    const country = JSON.parse(formData.updateAnnotationCountrySelect);
 
-    console.log(await sendRequest("/update-asset", "PATCH", FORM_DATA));
+    await nomadSDK.updateAnnotation(
+        formData.assetId,
+        formData.annotationId,
+        formData.startTimeCode,
+        formData.endTimeCode,
+        formData.firstKeyword,
+        formData.secondKeyword,
+        formData.description,
+        country,
+        formData.contentId,
+        formData.imageUrl
+    );
 });
 
-UPDATE_ASSET_AD_BREAK_FORM.addEventListener("submit", async (event) =>
+updateAssetForm.addEventListener("submit", async (event) => 
 {
     event.preventDefault();
+    const formData = getElements(updateAssetForm);
 
-    const FORM_DATA = getElements(UPDATE_ASSET_AD_BREAK_FORM);
+    const properties = {};
+    if (formData.propertyKey) 
+    {
+        const propertyKeys = Array.isArray(formData.propertyKey) ? formData.propertyKey : [formData.propertyKey];
+        const propertyValues = Array.isArray(formData.propertyValue) ? formData.propertyValue : [formData.propertyValue];
+        for (let i = 0; i < propertyKeys.length; ++i) {
+            properties[propertyKeys[i]] = propertyValues[i];
+        }
+    }
 
-    console.log(await sendRequest("/update-asset-ad-break", "PUT", FORM_DATA));
+    await nomadSDK.updateAsset(
+        formData.assetId,
+        formData.displayName,
+        formData.displayDate,
+        formData.availableStartDate,
+        formData.availableEndDate,
+        properties
+    );
 });
 
-UPDATE_ASSET_LANGUAGE_FORM.addEventListener("submit", async (event) =>
+updateAssetAdBreakForm.addEventListener("submit", async (event) => 
 {
     event.preventDefault();
+    const formData = getElements(updateAssetAdBreakForm);
 
-    const FORM_DATA = getElements(UPDATE_ASSET_LANGUAGE_FORM);
+    let tags = null;
+    if (formData.updateAssetAdBreakTagsSelect) 
+    {
+        const parsed = JSON.parse(formData.updateAssetAdBreakTagsSelect);
+        tags = Array.isArray(parsed) ? parsed : [parsed];
+    }
 
-    console.log(await sendRequest("/update-asset-language", "PUT", FORM_DATA));
+    let labels = null;
+    if (formData.updateAssetAdBreakLabelsSelect) 
+    {
+        const parsed = JSON.parse(formData.updateAssetAdBreakLabelsSelect);
+        labels = Array.isArray(parsed) ? parsed : [parsed];
+    }
+
+    await nomadSDK.updateAssetAdBreak(
+        formData.assetId,
+        formData.adBreakId,
+        formData.timeCode,
+        tags,
+        labels
+    );
+});
+
+updateAssetLanguageForm.addEventListener("submit", async (event) => 
+{
+    event.preventDefault();
+    const formData = getElements(updateAssetLanguageForm);
+
+    const language = JSON.parse(formData.updateAssetLanguageSelect);
+    await nomadSDK.updateAssetLanguage(
+        formData.assetId,
+        language.id
+    );
 });
 
 function getElements(FORM)
@@ -688,17 +939,26 @@ function getElements(FORM)
     const FORM_DATA = new FormData();
     for (let input of FORM)
     {
-        if (input.tagName === "SELECT") {
+        if (input.tagName === "SELECT") 
+        {   
             const SELECTED_OPTIONS = []
-            for (let element of input) {
-                if (element.selected) {
-                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase()) {
-                        if (input.id) {
+            for (let element of input) 
+            {   
+                if (element.selected) 
+                {
+                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase()) 
+                    {
+                        if (input.id) 
+                        {
                             FORM_DATA.append(input.id, element.value);
-                        } else {
+                        } 
+                        else 
+                        {
                             FORM_DATA.append(input.name, element.value);
                         }
-                    } else {
+                    } 
+                    else 
+                    {
                         SELECTED_OPTIONS.push({ id: element.value, description: element.label });
                     }
                 }
@@ -714,40 +974,17 @@ function getElements(FORM)
         }
         else if (input.tagName === "INPUT")
         {
-            if (input.id) {
+            if (input.id) 
+            {
                 FORM_DATA.append(input.id, input.value);
-            } else {
+            } 
+            else 
+            {
                 FORM_DATA.append(input.name, input.value);
             }
         }
     }
     return FORM_DATA;
-}
-
-async function sendRequest(PATH, METHOD, BODY)
-{
-    try
-    {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
-        {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
 }
 
 function createAddButtonElements(LABELS, INPUT_NAMES, DIV, TYPES) {
@@ -788,21 +1025,54 @@ function createAddButtonElements(LABELS, INPUT_NAMES, DIV, TYPES) {
     DIV.appendChild(REMOVE_BUTTON);
 }
 
-async function populateRelatedContentSelect(CONTENT_DEFINITION_ID, RELATED_CONTENTS_SELECT)
+async function populateRelatedContentSelect(contentDefinitionId, relatedContentsSelect)
 {
-    const FORM_DATA = new FormData();
-    FORM_DATA.append("contentDefinitionId", CONTENT_DEFINITION_ID);
-    const RELATED_CONTENT_LIST = await sendRequest("/get-related-content-list", "POST", FORM_DATA);
-
-    RELATED_CONTENTS_SELECT.innerHTML = "";
-
-    for(let relatedContentIdx = 0; relatedContentIdx < RELATED_CONTENT_LIST.length; ++relatedContentIdx)
+    let relatedContentList;
+    console.log("config.apiType", config.apiType);
+    if (config.apiType !== "portal")
     {
-        let option = document.createElement("option");
-        option.value = RELATED_CONTENT_LIST[relatedContentIdx].id;
-        option.text = RELATED_CONTENT_LIST[relatedContentIdx].title;
-        RELATED_CONTENTS_SELECT.appendChild(option);
+        relatedContentList = await getGroups(contentDefinitionId);
     }
 
-    $(RELATED_CONTENTS_SELECT).select2();
+    relatedContentsSelect.innerHTML = "";
+
+    for(let relatedContentIdx = 0; relatedContentIdx < relatedContentList.length; ++relatedContentIdx)
+    {
+        let option = document.createElement("option");
+        option.value = relatedContentList[relatedContentIdx].id;
+        option.text = relatedContentList[relatedContentIdx].title;
+        relatedContentsSelect.appendChild(option);
+    }
+
+    $(relatedContentsSelect).select2();
+}
+
+async function getGroups(groupContentDefinitionId)
+{
+    const groupList = [];
+    let offset = 0;
+    while (true)
+    {
+        const searchInfo = await nomadSDK.search(null, offset, null, 
+            [
+                {
+                    fieldName: "contentDefinitionId",
+                    operator: "Equals",
+                    values: groupContentDefinitionId,
+                },
+                {
+                    fieldName: "languageId",
+                    operator: "Equals",
+                    values: "c66131cd-27fc-4f83-9b89-b57575ac0ed8"
+                }
+            ], null, null, null, null, true, null);
+
+        if (!searchInfo) return [];
+        groupList.push(...searchInfo.items);
+
+        ++offset;
+
+        if (searchInfo.items.length < 100) break;
+    }
+    return groupList;
 }

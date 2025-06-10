@@ -1,66 +1,71 @@
-const GET_CONTENT_DEFINITIONS_FORM = document.getElementById("getContentDefinitionsForm");
-const GET_CONTENT_DEFINITION_FORM = document.getElementById("getContentDefinitionForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-GET_CONTENT_DEFINITIONS_FORM.addEventListener("submit", async (event) =>
+const getContentDefinitionsForm = document.getElementById("getContentDefinitionsForm");
+const getContentDefinitionForm = document.getElementById("getContentDefinitionForm");
+
+getContentDefinitionsForm.addEventListener("submit", async (event) =>
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(GET_CONTENT_DEFINITIONS_FORM);
+    const formData = getElements(getContentDefinitionsForm);
 
-    const CONTENT_DEFINITIONS = await sendRequest("/getContentDefinitions", "POST", FORM_DATA);
+    const contentManagementType = formData.get("contentManagementType");
+    const sortColumn = formData.get("sortColumn");
+    const isDescending = formData.get("isDescending") === "true";
+    const pageIndex = formData.get("pageIndex");
+    const pageSize = formData.get("pageSize");
 
-    if (CONTENT_DEFINITIONS) console.log(CONTENT_DEFINITIONS);
+    const contentDefinitions = await nomadSdk.getContentDefinitions(
+        contentManagementType,
+        sortColumn,
+        isDescending,
+        pageIndex,
+        pageSize
+    );
+
+    if (contentDefinitions)
+    {
+        console.log(contentDefinitions);
+    }
 });
 
-GET_CONTENT_DEFINITION_FORM.addEventListener("submit", async (event) =>
+getContentDefinitionForm.addEventListener("submit", async (event) =>
 {
     event.preventDefault();
 
-    const FORM_DATA = getElements(GET_CONTENT_DEFINITION_FORM);
+    const formData = getElements(getContentDefinitionForm);
 
-    const CONTENT_DEFINITION = await sendRequest("/getContentDefinition", "POST", FORM_DATA);
+    const contentDefinitionId = formData.get("contentDefinitionId");
 
-    if (CONTENT_DEFINITION) console.log(CONTENT_DEFINITION);
+    const contentDefinition = await nomadSdk.getContentDefinition(contentDefinitionId);
+
+    if (contentDefinition)
+    {
+        console.log(contentDefinition);
+    }
 });
 
-function getElements(FORM)
+function getElements(form)
 {
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    const formData = new FormData();
+    for (let input of form)
     {
         if (input.tagName === "INPUT" || input.tagName === "SELECT")
         {
-            if (input.type !== "checkbox" || input.type === "checkbox" && input.checked)
+            if (input.type !== "checkbox" || (input.type === "checkbox" && input.checked))
             {
-                input.id ? FORM_DATA.append(input.id, input.value) : FORM_DATA.append(input.name, input.value);
+                if (input.id)
+                {
+                    formData.append(input.id, input.value);
+                }
+                else
+                {
+                    formData.append(input.name, input.value);
+                }
             }
         }
     }
-    return FORM_DATA;
-}
-
-async function sendRequest(PATH, METHOD, BODY)
-{
-    try
-    {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
-
-        if (RESPONSE.ok)
-        {
-            const DATA = await RESPONSE.json();
-            if (DATA) return DATA;
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
+    return formData;
 }
