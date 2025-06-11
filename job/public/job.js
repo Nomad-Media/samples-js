@@ -1,82 +1,111 @@
-const CREATE_FORM = document.getElementById("createForm");
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
 
-CREATE_FORM.addEventListener("submit", async (event) => {
+const createForm = document.getElementById("createForm");
+const createJobIdForm = document.getElementById("createJobIdForm");
+
+createForm.addEventListener("submit", async function (event)
+{
     event.preventDefault();
-    const FORM_DATA = getElements(CREATE_FORM);
-    await sendRequest("/createJob", "POST", FORM_DATA);
-});
+    const formData = getElements(createForm);
 
-function getElements(FORM)
-{
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
-    {
-        if (input.id === "") continue;
-        if (input.tagName === "SELECT") {
-            const SELECTED_OPTIONS = []
-            for (let element of input) {
-                if (element.selected) {
-                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase()) {
-                        if (input.id) {
-                            FORM_DATA.append(input.id, element.value);
-                        } else {
-                            FORM_DATA.append(input.name, element.value);
-                        }
-                    } else {
-                        SELECTED_OPTIONS.push({ id: element.value, description: element.label });
-                    }
-                }
-            }
-            if (input.multiple)
-            {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS));
-            }
-            else if (SELECTED_OPTIONS.length > 0)
-            {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS[0]));
-            }
-        }
-        else if (input.tagName === "INPUT" || input.tagName === "TEXTAREA")
-        {
-            if (input.id) {
-                FORM_DATA.append(input.id, input.value);
-            } else {
-                FORM_DATA.append(input.name, input.value);
-            }
-        }
-    }
-    return FORM_DATA;
-}
-
-async function sendRequest(PATH, METHOD, BODY)
-{
     try
     {
-        const REQUEST = { method: METHOD };
-        if (BODY) REQUEST["body"] = BODY;
-        const RESPONSE = await fetch(PATH, REQUEST);
+        const requestedTasks = formData.get("requestedTasks") ? formData.get("requestedTasks").split(",") : null;
+        const requestedTranscodeProfiles = formData.get("requestedTranscodeProfiles") ? formData.get("requestedTranscodeProfiles").split(",") : null;
+        const replaceExistingJob = formData.get("replaceExistingJob") === "true";
 
-        if (RESPONSE.ok)
-        {
-            try
-            {
-                const DATA = await RESPONSE.json();
-                if (DATA) return DATA;
-            }
-            catch (error)
-            {
-                console.log("No data returned");
-            }
-        }
-        else
-        {
-            const INFO = await RESPONSE.json();
-            console.error(JSON.stringify(INFO, null, 4));
-            console.error("HTTP-Error: " + RESPONSE.status);
-        }
+        const response = await nomadSdk.createJob(
+            formData.get("bucketName"),
+            formData.get("objectKey"),
+            formData.get("notificationCallbackUrl"),
+            requestedTasks,
+            formData.get("externalId"),
+            requestedTranscodeProfiles,
+            replaceExistingJob,
+            formData.get("assetUrl")
+        );
+
+        console.log(response);
     }
     catch (error)
     {
         console.error(error);
     }
+});
+
+createJobIdForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+    const formData = getElements(createJobIdForm);
+
+    try
+    {
+        const response = await nomadSdk.createJobId(
+            formData.get("assetId"),
+            formData.get("jobResultUrl"),
+            formData.get("externalId")
+        );
+
+        console.log(response);
+    }
+    catch (error)
+    {
+        console.error(error);
+    }   
+});
+
+function getElements(form)
+{
+    const formData = new FormData();
+    for (let input of form)
+    {
+        if (input.id === "") continue;
+        if (input.tagName === "SELECT")
+        {
+            const selectedOptions = [];
+            for (let element of input)
+            {
+                if (element.selected)
+                {
+                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase())
+                    {
+                        if (input.id)
+                        {
+                            formData.append(input.id, element.value);
+                        }
+                        else
+                        {
+                            formData.append(input.name, element.value);
+                        }
+                    }
+                    else
+                    {
+                        selectedOptions.push({ id: element.value, description: element.label });
+                    }
+                }
+            }
+            if (input.multiple)
+            {
+                formData.append(input.id, JSON.stringify(selectedOptions));
+            }
+            else if (selectedOptions.length > 0)
+            {
+                formData.append(input.id, JSON.stringify(selectedOptions[0]));
+            }
+        }
+        else if (input.tagName === "INPUT" || input.tagName === "TEXTAREA")
+        {
+            if (input.id)
+            {
+                formData.append(input.id, input.value);
+            }
+            else
+            {
+                formData.append(input.name, input.value);
+            }
+        }
+    }
+    return formData;
 }

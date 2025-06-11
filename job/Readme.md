@@ -26,4 +26,20 @@ In the nomad-sdk/js directory there are two versions of the Nomad SDK. There is 
 
 ## Create Job
 
-To create a job, enter the bucket name, object key, notification callback url, and external id of the job. Then, optionally 
+To create a job, enter the bucket name, object key, notification callback url, and external id of the job. Optionally, enter the asset url, requested tasks and requested transcode profile.
+
+![](images/create-job.png)
+
+> 📘 Note
+> 
+> For more information about the API call used go to [Add Tag or Collection](https://developer.nomad-cms.com/docs/create-job)
+
+## Create Job Id
+
+To create a job for an asset, enter 2 when prompted. Then enter the asset id and job result url you want to assign to the job. Optionally, enter the external id.
+
+![](images/create-job-id.png)
+
+> 📘 Note
+> 
+> For more information about the API call used go to [Add Tag or Collection](https://developer.nomad-cms.com/docs/create-job-id)
