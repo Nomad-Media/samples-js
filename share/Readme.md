@@ -48,6 +48,8 @@ To get a share, enter the id of the share and click `Submit`.
 
 To update a share, enter the id of the share into the first field. Then enter data into the fields you want to update and click `Submit`.
 
+![](images/update-share.png)
+
 > 📘 Note
 >
 > For more information about the API call used, go to [Update Shate](https://developer.nomad-cms.com/docs/update-share)
@@ -55,6 +57,8 @@ To update a share, enter the id of the share into the first field. Then enter da
 ## Share Expire
 
 To expire a share, enter the id of the share and click `Submit`.
+
+![](images/share-expire.png)
 
 > 📘 Note
 >
@@ -64,6 +68,8 @@ To expire a share, enter the id of the share and click `Submit`.
 
 To get the notifications for a sahre, enter the id of the share and the id(s) of the nomad users and/or external users and click `Submit`.
 
+![](images/share-notification.png)
+
 > 📘 Note
 >
 > For more information about the API call used, go to [Share Notification](https://developer.nomad-cms.com/docs/share-notification)
@@ -71,6 +77,8 @@ To get the notifications for a sahre, enter the id of the share and the id(s) of
 ## Delete Share
 
 To delete a share, enter the id of the share and click `Submit`.
+
+![](images/delete-share.png)
 
 > 📘 Note
 >
