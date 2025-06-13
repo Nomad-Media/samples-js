@@ -43,8 +43,8 @@
         <label for="pageSize">Page Size:</label>
         <input type="text" id="pageSize">
 
-        <label for="ids">Ids (separated by comma):</label>
-        <input type="text" id="ids">
+        <label for="ids">Ids:</label>
+        <input type="text" id="ids" placeholder="e.g. id1,id2">
         
         <h3>Sort Fields</h3>
         <div id="sortFieldsDiv"></div>
@@ -74,6 +74,9 @@
     <form id="getMediaGroupForm">
         <label for="mediaGroupId">Media Group Id:</label>
         <input type="text" id="mediaGroupId" required>
+
+        <label for="mediaGroupFilters">Media Group Filters:</label>
+        <input type="text" id="mediaGroupFilters" placeholder="e.g. filter1,filter2">
 
         <br><br>
         <button type="submit">Submit</button>

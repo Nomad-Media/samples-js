@@ -133,7 +133,8 @@ getMediaGroupForm.addEventListener("submit", async function (event)
     const formData = getElements(getMediaGroupForm);
 
     const mediaGroupId = formData.get("mediaGroupId");
-    const result = await nomadSdk.getMediaGroup(mediaGroupId);
+    const mediaGroupFilters = formData.get("mediaGroupFilters") === "" ? null : formData.get("mediaGroupFilters").split(',');
+    const result = await nomadSdk.getMediaGroup(mediaGroupId, mediaGroupFilters);
     console.log(result);
 });
 
@@ -294,4 +295,5 @@ function getElements(form)
             }
         }
     }
+    return formData;
 }
