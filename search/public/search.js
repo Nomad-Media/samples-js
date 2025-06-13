@@ -137,9 +137,9 @@ searchForm.addEventListener("submit", async function (event)
     const formData = getElements(searchForm);
 
     const filters = [];
-    const fieldNames = formData.getAll("fieldName");
-    const operators = formData.getAll("operator");
-    const values = formData.getAll("value");
+    const fieldNames = formData.fieldName ? (Array.isArray(formData.fieldName) ? formData.fieldName : [formData.fieldName]) : [];
+    const operators = formData.operator ? (Array.isArray(formData.operator) ? formData.operator : [formData.operator]) : [];
+    const values = formData.value ? (Array.isArray(formData.value) ? formData.value : [formData.value]) : [];
     for (let i = 0; i < fieldNames.length; ++i)
     {
         filters.push({
@@ -150,8 +150,8 @@ searchForm.addEventListener("submit", async function (event)
     }
 
     const sortFields = [];
-    const sortFieldNames = formData.getAll("sortFieldName");
-    const sortTypes = formData.getAll("sortType");
+    const sortFieldNames = formData.sortFieldName ? (Array.isArray(formData.sortFieldName) ? formData.sortFieldName : [formData.sortFieldName]) : [];
+    const sortTypes = formData.sortType ? (Array.isArray(formData.sortType) ? formData.sortType : [formData.sortType]) : [];
     for (let i = 0; i < sortFieldNames.length; ++i)
     {
         sortFields.push({
@@ -160,30 +160,30 @@ searchForm.addEventListener("submit", async function (event)
         });
     }
 
-    const resultFieldNames = formData.get("resultFieldNames") !== "" && formData.get("resultFieldNames") !== null
-        ? formData.get("resultFieldNames").split(",").map(elem => ({ name: elem }))
+    const resultFieldNames = formData.resultFieldNames !== "" && formData.resultFieldNames !== null && formData.resultFieldNames !== undefined
+        ? formData.resultFieldNames.split(",").map(elem => ({ name: elem }))
         : null;
 
-    const fullUrlNames = formData.get("fullUrlNames") !== "" && formData.get("fullUrlNames") !== null
-        ? formData.get("fullUrlNames").split(",")
+    const fullUrlNames = formData.fullUrlNames !== "" && formData.fullUrlNames !== null && formData.fullUrlNames !== undefined
+        ? formData.fullUrlNames.split(",")
         : null;
 
     const searchMovieInfo = await nomadSdk.search(
-        formData.get("searchQuery"),
-        formData.get("pageOffset"),
-        formData.get("pageSize"),
+        formData.searchQuery,
+        formData.pageOffset,
+        formData.pageSize,
         filters.length !== 0 ? filters : null,
         sortFields.length !== 0 ? sortFields : null,
         resultFieldNames,
         fullUrlNames,
-        formData.get("distinctOnFieldName"),
-        formData.get("includeVideoClips") === "True",
-        formData.get("similarAssetId"),
-        formData.get("minScore"),
-        formData.get("excludeTotalRecordCount"),
-        formData.get("filterBinder"),
-        formData.get("useLlmSearch") === "True",
-        formData.get("includeInternalFieldsInResults") === "True"
+        formData.distinctOnFieldName,
+        formData.includeVideoClips === "True",
+        formData.similarAssetId,
+        formData.minScore,
+        formData.excludeTotalRecordCount,
+        formData.filterBinder,
+        formData.useLlmSearch === "True",
+        formData.includeInternalFieldsInResults === "True"
     );
 
     console.log(searchMovieInfo);
@@ -191,44 +191,48 @@ searchForm.addEventListener("submit", async function (event)
 
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    const formData = {};
+    for (let input of form.elements)
     {
-        if (input.tagName === "SELECT") {
-            const selectedOptions = []
-            for (let element of input) {
-                if (element.selected) {
-                    if (element.value === element.label) {
-                        if (input.id) {
-                            formData.append(input.id, element.value);
-                        } else {
-                            formData.append(input.name, element.value);
-                        }
-                    } else {
-                        selectedOptions.push({ id: element.value, description: element.label });
+        if (!input.tagName) continue;
+        if (input.type === "file")
+        {
+            if (input.files && input.files.length > 0)
+            {
+                formData[input.id || input.name] = input.files[0];
+            }
+        }
+        else if (input.tagName === "SELECT")
+        {
+            const selectedOptions = [];
+            for (let option of input.options)
+            {
+                if (option.selected)
+                {
+                    if (option.value.trim().toLowerCase() === option.label.trim().toLowerCase())
+                    {
+                        const value = option.value !== "" ? option.value : null;
+                        formData[input.id || input.name] = value;
+                    }
+                    else
+                    {
+                        selectedOptions.push({ id: option.value, description: option.label });
                     }
                 }
             }
             if (selectedOptions.length > 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions);
             }
             else if (selectedOptions.length === 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions[0]));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions[0]);
             }
         }
-        else if (input.tagName === "INPUT")
+        else if (input.tagName === "INPUT" || input.tagName === "TEXTAREA")
         {
-            if (input.type === "file") {
-                formData.append(input.id, input.files[0]);
-            } else {
-                if (input.id) {
-                    formData.append(input.id, input.value);
-                } else {
-                    formData.append(input.name, input.value);
-                }
-            }
+            const value = input.value !== "" ? input.value : null;
+            formData[input.id || input.name] = value;
         }
     }
     return formData;

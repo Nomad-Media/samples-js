@@ -115,7 +115,7 @@ function getElements(form)
             if (input.type !== "checkbox" || (input.type === "checkbox" && input.checked))
             {
                 const value = input.value !== "" ? input.value : null;
-                input.id ? elems[input.id] = value : elems[input.name] = value;
+                elems[input.id || input.name] = value;
             }
         }
     }

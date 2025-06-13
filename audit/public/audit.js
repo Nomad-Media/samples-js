@@ -9,11 +9,10 @@ getAuditForm.addEventListener("submit", async (event) =>
     event.preventDefault();
 
     const formData = getElements(getAuditForm);
-    const contentId = formData.get("contentId");
 
     try 
     {
-        const audit = await nomadSdk.getAudit(contentId);
+        const audit = await nomadSdk.getAudit(formData.contentId);
         console.log(audit);
     } 
     catch (error) 
@@ -24,21 +23,16 @@ getAuditForm.addEventListener("submit", async (event) =>
 
 function getElements(form) 
 {
-    const formData = new FormData();
-    for (let input of form) 
+    const formData = {};
+    for (let input of form.elements) 
     {
+        if (!input.tagName) continue;
         if (input.tagName === "INPUT" || input.tagName === "SELECT") 
         {
             if (input.type !== "checkbox" || (input.type === "checkbox" && input.checked)) 
             {
-                if (input.id) 
-                {
-                    formData.append(input.id, input.value);
-                }   
-                else 
-                {
-                    formData.append(input.name, input.value);
-                }
+                const value = input.value !== "" ? input.value : null;
+                formData[input.id || input.name] = value;
             }
         }
     }

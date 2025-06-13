@@ -1,3 +1,7 @@
+import NomadMediaSDK from "@nomad-media/full";
+import config from "../config.js";
+const nomadSdk = new NomadMediaSDK(config);
+
 const createLiveOutputProfileGroupForm = document.getElementById("createLiveOutputProfileGroupForm");
 const deleteLiveOutputProfileGroupForm = document.getElementById("deleteLiveOutputProfileGroupForm");
 const getLiveOutputProfileGroupForm = document.getElementById("getLiveOutputProfileGroupForm");
@@ -12,10 +16,11 @@ const updateLiveOutputGroupArchiveLiveOutputProfileSelect = document.getElementB
 const updateLiveOutputGroupLiveOutputProfilesSelect = document.getElementById("updateLiveOutputGroupLiveOutputProfilesSelect");
 
 getLiveOutputTypes();
+getLiveOutputProfile();
 
 async function getLiveOutputTypes()
 {
-    const response = await sendRequest("/get-live-output-types", "GET");
+    const response = await nomadSdk.getLiveOutputTypes();
     const liveOutputTypes = response.items;
 
     for (let liveOutputTypeIdx = 0; liveOutputTypeIdx < liveOutputTypes.length; ++liveOutputTypeIdx)
@@ -31,11 +36,9 @@ async function getLiveOutputTypes()
     $(updateLiveOutputGroupOutputTypeSelect).select2();
 }
 
-getLiveOutputProfile();
-
 async function getLiveOutputProfile()
 {
-    const liveOutputProfiles = await sendRequest("/get-live-output-profiles", "GET");
+    const liveOutputProfiles = await nomadSdk.getLiveOutputProfiles();
 
     for (let liveOutputProfileIdx = 0; liveOutputProfileIdx < liveOutputProfiles.length; ++liveOutputProfileIdx)
     {
@@ -60,24 +63,24 @@ createLiveOutputProfileGroupForm.addEventListener("submit", async function (even
 
     const formData = getElements(createLiveOutputProfileGroupForm);
 
-    let type = formData.get("createLiveOutputGroupOutputTypeSelect") ? JSON.parse(formData.get("createLiveOutputGroupOutputTypeSelect")) : null;
+    let type = formData.createLiveOutputGroupOutputTypeSelect ? JSON.parse(formData.createLiveOutputGroupOutputTypeSelect) : null;
     type = type && type.id === "" ? null : type;
 
-    let archiveOutputProfiles = formData.get("createLiveOutputGroupArchiveLiveOutputProfileSelect") ? JSON.parse(formData.get("createLiveOutputGroupArchiveLiveOutputProfileSelect")) : null;
+    let archiveOutputProfiles = formData.createLiveOutputGroupArchiveLiveOutputProfileSelect ? JSON.parse(formData.createLiveOutputGroupArchiveLiveOutputProfileSelect) : null;
     archiveOutputProfiles = archiveOutputProfiles && archiveOutputProfiles.id === "" ? null : archiveOutputProfiles;
 
-    let outputProfiles = formData.get("createLiveOutputGroupLiveOutputProfilesSelect") ? JSON.parse(formData.get("createLiveOutputGroupLiveOutputProfilesSelect")) : null;
+    let outputProfiles = formData.createLiveOutputGroupLiveOutputProfilesSelect ? JSON.parse(formData.createLiveOutputGroupLiveOutputProfilesSelect) : null;
     outputProfiles = outputProfiles && outputProfiles.id === "" ? null : outputProfiles;
 
-    await sendRequest("/create-live-output-profile-group", "POST", {
-        name: formData.get("name"),
-        isEnabled: formData.get("isEnabled") === "true",
-        manifestType: formData.get("manifestType"),
-        isDefaultGroup: formData.get("isDefaultGroup") === "true",
+    await nomadSdk.createLiveOutputProfileGroup(
+        formData.name,
+        formData.isEnabled === "true",
+        formData.manifestType,
+        formData.isDefaultGroup === "true",
         type,
         archiveOutputProfiles,
         outputProfiles
-    });
+    );
 });
 
 deleteLiveOutputProfileGroupForm.addEventListener("submit", async function (event)
@@ -86,9 +89,7 @@ deleteLiveOutputProfileGroupForm.addEventListener("submit", async function (even
 
     const formData = getElements(deleteLiveOutputProfileGroupForm);
 
-    await sendRequest("/delete-live-output-profile-group", "POST", {
-        id: formData.get("id")
-    });
+    await nomadSdk.deleteLiveOutputProfileGroup(formData.id);
 });
 
 getLiveOutputProfileGroupForm.addEventListener("submit", async function (event)
@@ -97,16 +98,15 @@ getLiveOutputProfileGroupForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getLiveOutputProfileGroupForm);
 
-    await sendRequest("/get-live-output-profile-group", "POST", {
-        id: formData.get("id")
-    });
+    await nomadSdk.getLiveOutputProfileGroup(formData.id);
 });
 
 getLiveOutputProfileGroupsForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
 
-    await sendRequest("/get-live-output-profile-groups", "GET");
+    const response = await nomadSdk.getLiveOutputProfileGroups();
+    console.log(response);
 });
 
 updateLiveOutputProfileGroupForm.addEventListener("submit", async function (event)
@@ -115,106 +115,64 @@ updateLiveOutputProfileGroupForm.addEventListener("submit", async function (even
 
     const formData = getElements(updateLiveOutputProfileGroupForm);
 
-    let type = formData.get("updateLiveOutputGroupOutputTypeSelect") ? JSON.parse(formData.get("updateLiveOutputGroupOutputTypeSelect")) : null;
+    let type = formData.updateLiveOutputGroupOutputTypeSelect ? JSON.parse(formData.updateLiveOutputGroupOutputTypeSelect) : null;
     type = type && type.id === "" ? null : type;
 
-    let archiveOutputProfiles = formData.get("updateLiveOutputGroupArchiveLiveOutputProfileSelect") ? JSON.parse(formData.get("updateLiveOutputGroupArchiveLiveOutputProfileSelect")) : null;
+    let archiveOutputProfiles = formData.updateLiveOutputGroupArchiveLiveOutputProfileSelect ? JSON.parse(formData.updateLiveOutputGroupArchiveLiveOutputProfileSelect) : null;
     archiveOutputProfiles = archiveOutputProfiles && archiveOutputProfiles.id === "" ? null : archiveOutputProfiles;
 
-    let outputProfiles = formData.get("updateLiveOutputGroupLiveOutputProfilesSelect") ? JSON.parse(formData.get("updateLiveOutputGroupLiveOutputProfilesSelect")) : null;
+    let outputProfiles = formData.updateLiveOutputGroupLiveOutputProfilesSelect ? JSON.parse(formData.updateLiveOutputGroupLiveOutputProfilesSelect) : null;
     outputProfiles = outputProfiles && outputProfiles.id === "" ? null : outputProfiles;
 
-    await sendRequest("/update-live-output-profile-group", "PUT", {
-        id: formData.get("id"),
-        name: formData.get("name"),
-        isEnabled: formData.get("isEnabled") === "true",
-        manifestType: formData.get("manifestType"),
-        isDefaultGroup: formData.get("isDefaultGroup") === "true",
+    await nomadSdk.updateLiveOutputProfileGroup(
+        formData.id,
+        formData.name,
+        formData.isEnabled === "true",
+        formData.manifestType,
+        formData.isDefaultGroup === "true",
         type,
         archiveOutputProfiles,
         outputProfiles
-    });
+    );
 });
 
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    const formData = {};
+    for (let input of form.elements)
     {
+        if (!input.tagName) continue;
         if (input.tagName === "SELECT")
         {
             const selectedOptions = [];
-            for (let element of input)
+            for (let option of input.options)
             {
-                if (element.selected)
+                if (option.selected)
                 {
-                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase())
+                    if (option.value.trim().toLowerCase() === option.label.trim().toLowerCase())
                     {
-                        if (input.id)
-                        {
-                            formData.append(input.id, element.value);
-                        }
-                        else
-                        {
-                            formData.append(input.name, element.value);
-                        }
+                        const value = option.value !== "" ? option.value : null;
+                        formData[input.id || input.name] = value;
                     }
                     else
                     {
-                        selectedOptions.push({ id: element.value, description: element.label });
+                        selectedOptions.push({ id: option.value, description: option.label });
                     }
                 }
             }
             if (selectedOptions.length > 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions);
             }
             else if (selectedOptions.length === 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions[0]));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions[0]);
             }
         }
         else if (input.tagName === "INPUT")
         {
-            if (input.id)
-            {
-                formData.append(input.id, input.value);
-            }
-            else
-            {
-                formData.append(input.name, input.value);
-            }
+            formData[input.id || input.name] = input.value !== "" ? input.value : null;
         }
     }
     return formData;
-}
-
-async function sendRequest(path, method, body)
-{
-    try
-    {
-        const request = { method: method };
-        if (body)
-        {
-            request.headers = { "Content-Type": "application/json" };
-            request.body = JSON.stringify(body);
-        }
-        const response = await fetch(path, request);
-
-        if (response.ok)
-        {
-            const data = await response.json();
-            if (data) return data;
-        }
-        else
-        {
-            const info = await response.json();
-            console.error(JSON.stringify(info, null, 4));
-            console.error("HTTP-Error: " + response.status);
-        }
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
 }

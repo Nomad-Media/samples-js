@@ -11,18 +11,12 @@ getContentDefinitionsForm.addEventListener("submit", async (event) =>
 
     const formData = getElements(getContentDefinitionsForm);
 
-    const contentManagementType = formData.get("contentManagementType");
-    const sortColumn = formData.get("sortColumn");
-    const isDescending = formData.get("isDescending") === "true";
-    const pageIndex = formData.get("pageIndex");
-    const pageSize = formData.get("pageSize");
-
     const contentDefinitions = await nomadSdk.getContentDefinitions(
-        contentManagementType,
-        sortColumn,
-        isDescending,
-        pageIndex,
-        pageSize
+        formData.contentManagementType,
+        formData.sortColumn,
+        formData.isDescending === "true",
+        formData.pageIndex,
+        formData.pageSize
     );
 
     if (contentDefinitions)
@@ -37,9 +31,7 @@ getContentDefinitionForm.addEventListener("submit", async (event) =>
 
     const formData = getElements(getContentDefinitionForm);
 
-    const contentDefinitionId = formData.get("contentDefinitionId");
-
-    const contentDefinition = await nomadSdk.getContentDefinition(contentDefinitionId);
+    const contentDefinition = await nomadSdk.getContentDefinition(formData.contentDefinitionId);
 
     if (contentDefinition)
     {
@@ -49,21 +41,17 @@ getContentDefinitionForm.addEventListener("submit", async (event) =>
 
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    const formData = {};
+    for (let input of form.elements)
     {
+        if (!input.tagName) continue;
         if (input.tagName === "INPUT" || input.tagName === "SELECT")
         {
             if (input.type !== "checkbox" || (input.type === "checkbox" && input.checked))
             {
-                if (input.id)
-                {
-                    formData.append(input.id, input.value);
-                }
-                else
-                {
-                    formData.append(input.name, input.value);
-                }
+                // If input is "" (empty string), set to null
+                const value = input.value !== "" ? input.value : null;
+                formData[input.id || input.name] = value;
             }
         }
     }

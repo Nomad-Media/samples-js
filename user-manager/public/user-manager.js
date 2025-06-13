@@ -114,15 +114,15 @@ createUserForm.addEventListener("submit", async function (event)
     const formData = getElements(createUserForm);
 
     // Parse select values
-    const userStatus = JSON.parse(formData.get("createUserStatus"));
-    const state = JSON.parse(formData.get("createState"));
-    const country = JSON.parse(formData.get("createCountry"));
-    const systemRole = JSON.parse(formData.get("createSystemRole"));
+    const userStatus = formData.createUserStatus ? JSON.parse(formData.createUserStatus) : null;
+    const state = formData.createState ? JSON.parse(formData.createState) : null;
+    const country = formData.createCountry ? JSON.parse(formData.createCountry) : null;
+    const systemRole = formData.createSystemRole ? JSON.parse(formData.createSystemRole) : null;
 
     let securityGroup = null;
-    if (formData.get("createSecurityGroups"))
+    if (formData.createSecurityGroups)
     {
-        securityGroup = JSON.parse(formData.get("createSecurityGroups"));
+        securityGroup = JSON.parse(formData.createSecurityGroups);
         securityGroup = Array.isArray(securityGroup) ? securityGroup : [securityGroup];
     }
 
@@ -135,18 +135,18 @@ createUserForm.addEventListener("submit", async function (event)
         role: systemRole
     };
 
-    if (formData.get("firstName")) properties.firstName = formData.get("firstName");
-    if (formData.get("lastName")) properties.lastName = formData.get("lastName");
-    if (formData.get("email")) properties.email = formData.get("email");
-    if (formData.get("organization")) properties.organization = formData.get("organization");
-    if (formData.get("title")) properties.title = formData.get("title");
-    if (formData.get("phone")) properties.phone = formData.get("phone");
-    if (formData.get("phoneExt")) properties.phoneExt = formData.get("phoneExt");
-    if (formData.get("mobilePhone")) properties.mobilePhone = formData.get("mobilePhone");
-    if (formData.get("address")) properties.address = formData.get("address");
-    if (formData.get("address2")) properties.address2 = formData.get("address2");
-    if (formData.get("city")) properties.city = formData.get("city");
-    if (formData.get("postalCode")) properties.postalCode = formData.get("postalCode");
+    if (formData.firstName) properties.firstName = formData.firstName;
+    if (formData.lastName) properties.lastName = formData.lastName;
+    if (formData.email) properties.email = formData.email;
+    if (formData.organization) properties.organization = formData.organization;
+    if (formData.title) properties.title = formData.title;
+    if (formData.phone) properties.phone = formData.phone;
+    if (formData.phoneExt) properties.phoneExt = formData.phoneExt;
+    if (formData.mobilePhone) properties.mobilePhone = formData.mobilePhone;
+    if (formData.address) properties.address = formData.address;
+    if (formData.address2) properties.address2 = formData.address2;
+    if (formData.city) properties.city = formData.city;
+    if (formData.postalCode) properties.postalCode = formData.postalCode;
     if (securityGroup) properties.assignedSecurityGroups = securityGroup;
 
     const userInfo = await nomadSdk.updateContent(userId.contentId, USER_CONTENT_DEFINITION_ID, properties);
@@ -160,7 +160,7 @@ getUserForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getUserForm);
 
-    const userInfo = await nomadSdk.getContent(formData.get("userId"), USER_CONTENT_DEFINITION_ID);
+    const userInfo = await nomadSdk.getContent(formData.userId, USER_CONTENT_DEFINITION_ID);
 
     console.log(userInfo);
 });
@@ -172,15 +172,15 @@ updateUserForm.addEventListener("submit", async function (event)
     const formData = getElements(updateUserForm);
 
     // Parse select values
-    const userStatus = JSON.parse(formData.get("updateUserStatus"));
-    const state = JSON.parse(formData.get("updateState"));
-    const country = JSON.parse(formData.get("updateCountry"));
-    const systemRole = JSON.parse(formData.get("updateSystemRole"));
+    const userStatus = formData.updateUserStatus ? JSON.parse(formData.updateUserStatus) : null;
+    const state = formData.updateState ? JSON.parse(formData.updateState) : null;
+    const country = formData.updateCountry ? JSON.parse(formData.updateCountry) : null;
+    const systemRole = formData.updateSystemRole ? JSON.parse(formData.updateSystemRole) : null;
 
     let securityGroup = null;
-    if (formData.get("updateSecurityGroups"))
+    if (formData.updateSecurityGroups)
     {
-        securityGroup = JSON.parse(formData.get("updateSecurityGroups"));
+        securityGroup = JSON.parse(formData.updateSecurityGroups);
         securityGroup = Array.isArray(securityGroup) ? securityGroup : [securityGroup];
     }
 
@@ -191,21 +191,21 @@ updateUserForm.addEventListener("submit", async function (event)
         role: systemRole
     };
 
-    if (formData.get("firstName")) properties.firstName = formData.get("firstName");
-    if (formData.get("lastName")) properties.lastName = formData.get("lastName");
-    if (formData.get("email")) properties.email = formData.get("email");
-    if (formData.get("organization")) properties.organization = formData.get("organization");
-    if (formData.get("title")) properties.title = formData.get("title");
-    if (formData.get("phone")) properties.phone = formData.get("phone");
-    if (formData.get("phoneExt")) properties.phoneExt = formData.get("phoneExt");
-    if (formData.get("mobilePhone")) properties.mobilePhone = formData.get("mobilePhone");
-    if (formData.get("address")) properties.address = formData.get("address");
-    if (formData.get("address2")) properties.address2 = formData.get("address2");
-    if (formData.get("city")) properties.city = formData.get("city");
-    if (formData.get("postalCode")) properties.postalCode = formData.get("postalCode");
+    if (formData.firstName) properties.firstName = formData.firstName;
+    if (formData.lastName) properties.lastName = formData.lastName;
+    if (formData.email) properties.email = formData.email;
+    if (formData.organization) properties.organization = formData.organization;
+    if (formData.title) properties.title = formData.title;
+    if (formData.phone) properties.phone = formData.phone;
+    if (formData.phoneExt) properties.phoneExt = formData.phoneExt;
+    if (formData.mobilePhone) properties.mobilePhone = formData.mobilePhone;
+    if (formData.address) properties.address = formData.address;
+    if (formData.address2) properties.address2 = formData.address2;
+    if (formData.city) properties.city = formData.city;
+    if (formData.postalCode) properties.postalCode = formData.postalCode;
     if (securityGroup) properties.assignedSecurityGroups = securityGroup;
 
-    const userInfo = await nomadSdk.updateContent(formData.get("userId"), USER_CONTENT_DEFINITION_ID, properties);
+    const userInfo = await nomadSdk.updateContent(formData.userId, USER_CONTENT_DEFINITION_ID, properties);
 
     console.log(userInfo);
 });
@@ -216,60 +216,46 @@ deleteUserForm.addEventListener("submit", async function (event)
 
     const formData = getElements(deleteUserForm);
 
-    await nomadSdk.deleteContent(formData.get("userId"), USER_CONTENT_DEFINITION_ID);
+    await nomadSdk.deleteContent(formData.userId, USER_CONTENT_DEFINITION_ID);
 
     console.log("User deleted successfully");
 });
 
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    const formData = {};
+    for (let input of form.elements)
     {
-        if (input.id === "") continue;
+        if (!input.id) continue;
         if (input.tagName === "SELECT")
         {
             const selectedOptions = [];
-            for (let element of input)
+            for (let option of input.options)
             {
-                if (element.selected)
+                if (option.selected)
                 {
-                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase())
+                    if (option.value.trim().toLowerCase() === option.label.trim().toLowerCase())
                     {
-                        if (input.id)
-                        {
-                            formData.append(input.id, element.value);
-                        }
-                        else
-                        {
-                            formData.append(input.name, element.value);
-                        }
+                        formData[input.id] = option.value;
                     }
                     else
                     {
-                        selectedOptions.push({ id: element.value, description: element.label });
+                        selectedOptions.push({ id: option.value, description: option.label });
                     }
                 }
             }
             if (input.multiple)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions));
+                formData[input.id] = JSON.stringify(selectedOptions);
             }
             else if (selectedOptions.length > 0)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions[0]));
+                formData[input.id] = JSON.stringify(selectedOptions[0]);
             }
         }
         else if (input.tagName === "INPUT" || input.tagName === "TEXTAREA")
         {
-            if (input.id)
-            {
-                formData.append(input.id, input.value);
-            }
-            else
-            {
-                formData.append(input.name, input.value);
-            }
+            formData[input.id] = input.value;
         }
     }
     return formData;

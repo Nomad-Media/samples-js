@@ -66,11 +66,10 @@ createTagForm.addEventListener("submit", async function (event)
 
     const formData = getElements(createTagForm);
 
-    const type = formData.get("createTagOrCollection");
-    const name = formData.get("createTagName");
-
-    const result = await nomadSdk.createTagOrCollection(type, name);
-    console.log(result);
+    await nomadSdk.createTagOrCollection(
+        formData.createTagOrCollection,
+        formData.createTagName
+    );
 });
 
 addTagOrCollection.addEventListener("change", async function (event)
@@ -101,15 +100,14 @@ addTagForm.addEventListener("submit", async function (event)
 
     const formData = getElements(addTagForm);
 
-    const type = formData.get("addTagOrCollection");
-    const contentId = formData.get("addTagContentId");
-    const contentDefinition = formData.get("addTagContentDefinition");
-    const name = formData.get("addTagName");
-    const tagId = formData.get("addTagId");
-    const createNewValue = formData.get("createNew");
-
-    const result = await nomadSdk.addTagOrCollection(type, contentId, contentDefinition, name, tagId, createNewValue);
-    console.log(result);
+    await nomadSdk.addTagOrCollection(
+        formData.addTagOrCollection,
+        formData.addTagContentId,
+        formData.addTagContentDefinition,
+        formData.addTagName,
+        formData.addTagId,
+        formData.createNew
+    );
 });
 
 getTagOrCollection.addEventListener("change", async function (event)
@@ -127,11 +125,10 @@ getTagForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getTagForm);
 
-    const type = formData.get("getTagOrCollection");
-    const tagId = formData.get("getTagId");
-
-    const result = await nomadSdk.getTagOrCollection(type, tagId);
-    console.log(result);
+    await nomadSdk.getTagOrCollection(
+        formData.getTagOrCollection,
+        formData.getTagId
+    );
 });
 
 removeTagOrCollection.addEventListener("change", async function (event)
@@ -149,13 +146,12 @@ removeTagForm.addEventListener("submit", async function (event)
 
     const formData = getElements(removeTagForm);
 
-    const type = formData.get("removeTagOrCollection");
-    const contentId = formData.get("removeTagContentId");
-    const contentDefinition = formData.get("removeTagContentDefinition");
-    const tagId = formData.get("removeTagId");
-
-    const result = await nomadSdk.removeTagOrCollection(type, contentId, contentDefinition, tagId);
-    console.log(result);
+    await nomadSdk.removeTagOrCollection(
+        formData.removeTagOrCollection,
+        formData.removeTagContentId,
+        formData.removeTagContentDefinition,
+        formData.removeTagId
+    );
 });
 
 deleteTagOrCollection.addEventListener("change", async function (event)
@@ -173,11 +169,10 @@ deleteTagForm.addEventListener("submit", async function (event)
 
     const formData = getElements(deleteTagForm);
 
-    const type = formData.get("deleteTagOrCollection");
-    const tagId = formData.get("deleteTagId");
-
-    const result = await nomadSdk.deleteTagOrCollection(type, tagId);
-    console.log(result);
+    await nomadSdk.deleteTagOrCollection(
+        formData.deleteTagOrCollection,
+        formData.deleteTagId
+    );
 });
 
 addRelatedContentForm.addEventListener("submit", async function (event)
@@ -186,12 +181,11 @@ addRelatedContentForm.addEventListener("submit", async function (event)
 
     const formData = getElements(addRelatedContentForm);
 
-    const contentId = formData.get("addRelatedContentId");
-    const relatedContentId = formData.get("addRelatedRelatedContentId");
-    const contentDefinition = formData.get("addRelatedContentDefinition");
-
-    const result = await nomadSdk.addRelatedContent(contentId, relatedContentId, contentDefinition);
-    console.log(result);
+    await nomadSdk.addRelatedContent(
+        formData.addRelatedContentId,
+        formData.addRelatedRelatedContentId,
+        formData.addRelatedContentDefinition
+    );
 });
 
 deleteRelatedContentForm.addEventListener("submit", async function (event)
@@ -200,12 +194,11 @@ deleteRelatedContentForm.addEventListener("submit", async function (event)
 
     const formData = getElements(deleteRelatedContentForm);
 
-    const contentId = formData.get("deleteRelatedContentId");
-    const relatedContentId = formData.get("deleteRelatedRelatedContentId");
-    const contentDefinition = formData.get("deleteRelatedContentDefinition");
-
-    const result = await nomadSdk.deleteRelatedContent(contentId, relatedContentId, contentDefinition);
-    console.log(result);
+    await nomadSdk.deleteRelatedContent(
+        formData.deleteRelatedContentId,
+        formData.deleteRelatedRelatedContentId,
+        formData.deleteRelatedContentDefinition
+    );
 });
 
 addCustomPropertiesForm.addEventListener("submit", async function (event)
@@ -214,40 +207,38 @@ addCustomPropertiesForm.addEventListener("submit", async function (event)
 
     const formData = getElements(addCustomPropertiesForm);
 
-    const assetId = formData.get("addCustomPropertiesAssetId");
-    const name = formData.get("name");
-    const date = formData.get("date");
+    const assetId = formData.addCustomPropertiesAssetId;
+    const name = formData.name;
+    const date = formData.date;
 
-    const propertyNames = formData.getAll("propertyName");
-    const propertyValues = formData.getAll("propertyValue");
+    const propertyNames = [];
+    const propertyValues = [];
+    for (let input of addCustomPropertiesForm.elements)
+    {
+        if (input.name === "propertyName") propertyNames.push(input.value);
+        if (input.name === "propertyValue") propertyValues.push(input.value);
+    }
     const properties = {};
-
     for (let i = 0; i < propertyNames.length; i++)
     {
         properties[propertyNames[i]] = propertyValues[i];
     }
 
-    const result = await nomadSdk.addCustomProperties(assetId, name, date, properties);
-    console.log(result);
+    await nomadSdk.addCustomProperties(assetId, name, date, properties);
 });
 
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    const formData = {};
+    for (let input of form.elements)
     {
+        if (!input.tagName) continue;
         if (input.tagName === "INPUT" || input.tagName === "SELECT")
         {
             if (input.type !== "checkbox" || (input.type === "checkbox" && input.checked))
             {
-                if (input.id)
-                {
-                    formData.append(input.id, input.value);
-                }
-                else
-                {
-                    formData.append(input.name, input.value);
-                }
+                const value = input.value !== "" ? input.value : null;
+                formData[input.id || input.name] = value;
             }
         }
     }

@@ -4,6 +4,7 @@ const nomadSdk = new NomadMediaSDK(config);
 
 const getUserSessionForm = document.getElementById("getUserSessionForm");
 const changeSessionStatusForm = document.getElementById("changeSessionStatusForm");
+const deleteUserSessionForm = document.getElementById("deleteUserSessionForm");
 
 getUserSessionForm.addEventListener("submit", async function (event)
 {
@@ -29,8 +30,8 @@ changeSessionStatusForm.addEventListener("submit", async function (event)
     try
     {
         const userSession = await nomadSdk.changeSessionStatus(
-            formData.get("changeSessionStatus"),
-            formData.get("applicationId")
+            formData.changeSessionStatus,
+            formData.applicationId
         );
         console.log(userSession);
     }
@@ -40,16 +41,35 @@ changeSessionStatusForm.addEventListener("submit", async function (event)
     }
 });
 
+deleteUserSessionForm.addEventListener("submit", async function (event)
+{
+    event.preventDefault();
+
+    const formData = getElements(deleteUserSessionForm);
+
+    try
+    {
+        const result = await nomadSdk.deleteUserSession(
+            formData.sessionId
+        );
+        console.log(result);
+    }
+    catch (error)
+    {
+        console.error(error);
+    }
+});
+
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    const formData = {};
+    for (let input of form.elements)
     {
         if (input.tagName === "INPUT" || input.tagName === "SELECT")
         {
             if (input.type !== "checkbox" || (input.type === "checkbox" && input.checked))
             {
-                input.id ? formData.append(input.id, input.value) : formData.append(input.name, input.value);
+                formData[input.id || input.name] = input.value;
             }
         }
     }

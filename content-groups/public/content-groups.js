@@ -19,8 +19,7 @@ getGroupForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getGroupForm);
 
-    const groupId = formData.get("groupId");
-    const result = await nomadSdk.getContentGroup(groupId);
+    const result = await nomadSdk.getContentGroup(formData.groupId);
     console.log(result);
 });
 
@@ -38,8 +37,7 @@ createForm.addEventListener("submit", async function (event)
 
     const formData = getElements(createForm);
 
-    const name = formData.get("name");
-    const result = await nomadSdk.createContentGroup(name);
+    const result = await nomadSdk.createContentGroup(formData.name);
     console.log(result);
 });
 
@@ -49,9 +47,8 @@ addForm.addEventListener("submit", async function (event)
 
     const formData = getElements(addForm);
 
-    const groupId = formData.get("groupId");
-    const contentIds = formData.get("contentIds")?.split(",") || [];
-    const result = await nomadSdk.addContentsToContentGroup(groupId, contentIds);
+    const contentIds = formData.contentIds ? formData.contentIds.split(",") : [];
+    const result = await nomadSdk.addContentsToContentGroup(formData.groupId, contentIds);
     console.log(result);
 });
 
@@ -61,9 +58,8 @@ removeForm.addEventListener("submit", async function (event)
 
     const formData = getElements(removeForm);
 
-    const groupId = formData.get("groupId");
-    const contentIds = formData.get("contentIds")?.split(",") || [];
-    const result = await nomadSdk.removeContentsFromContentGroup(groupId, contentIds);
+    const contentIds = formData.contentIds ? formData.contentIds.split(",") : [];
+    const result = await nomadSdk.removeContentsFromContentGroup(formData.groupId, contentIds);
     console.log(result);
 });
 
@@ -73,9 +69,7 @@ renameForm.addEventListener("submit", async function (event)
 
     const formData = getElements(renameForm);
 
-    const groupId = formData.get("groupId");
-    const renameGroup = formData.get("renameGroup");
-    const result = await nomadSdk.renameContentGroup(groupId, renameGroup);
+    const result = await nomadSdk.renameContentGroup(formData.groupId, formData.renameGroup);
     console.log(result);
 });
 
@@ -85,9 +79,8 @@ shareForm.addEventListener("submit", async function (event)
 
     const formData = getElements(shareForm);
 
-    const groupId = formData.get("groupId");
-    const userIds = formData.get("userIds")?.split(",") || [];
-    const result = await nomadSdk.shareContentGroupWithUsers(groupId, userIds);
+    const userIds = formData.userIds ? formData.userIds.split(",") : [];
+    const result = await nomadSdk.shareContentGroupWithUsers(formData.groupId, userIds);
     console.log(result);
 });
 
@@ -97,9 +90,8 @@ stopSharingForm.addEventListener("submit", async function (event)
 
     const formData = getElements(stopSharingForm);
 
-    const groupId = formData.get("groupId");
-    const userIds = formData.get("userIds")?.split(",") || [];
-    const result = await nomadSdk.stopSharingContentGroupWithUsers(groupId, userIds);
+    const userIds = formData.userIds ? formData.userIds.split(",") : [];
+    const result = await nomadSdk.stopSharingContentGroupWithUsers(formData.groupId, userIds);
     console.log(result);
 });
 
@@ -109,9 +101,8 @@ portalForm.addEventListener("submit", async function (event)
 
     const formData = getElements(portalForm);
 
-    const groupNames = formData.get("groupNames")?.split(",") || [];
-    const portalId = formData.get("portalId");
-    const result = await nomadSdk.getPortalGroups(groupNames, portalId);
+    const groupNames = formData.groupNames ? formData.groupNames.split(",") : [];
+    const result = await nomadSdk.getPortalGroups(groupNames, formData.portalId);
     console.log(result);
 });
 
@@ -121,66 +112,54 @@ deleteForm.addEventListener("submit", async function (event)
 
     const formData = getElements(deleteForm);
 
-    const groupId = formData.get("groupId");
-    const result = await nomadSdk.deleteContentGroup(groupId);
+    const result = await nomadSdk.deleteContentGroup(formData.groupId);
     console.log(result);
 });
 
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    const formData = {};
+    for (let input of form.elements)
     {
-        if (input.tagName === "SELECT")
+        if (!input.tagName) continue;
+        if (input.type === "file")
+        {
+            if (input.files && input.files.length > 0)
+            {
+                formData[input.id || input.name] = input.files[0];
+            }
+        }
+        else if (input.tagName === "SELECT")
         {
             const selectedOptions = [];
-            for (let element of input)
+            for (let option of input.options)
             {
-                if (element.selected)
+                if (option.selected)
                 {
-                    if (element.value === element.label)
+                    if (option.value.trim().toLowerCase() === option.label.trim().toLowerCase())
                     {
-                        if (input.id)
-                        {
-                            formData.append(input.id, element.value);
-                        }
-                        else
-                        {
-                            formData.append(input.name, element.value);
-                        }
+                        const value = option.value !== "" ? option.value : null;
+                        formData[input.id || input.name] = value;
                     }
                     else
                     {
-                        selectedOptions.push({ id: element.value, description: element.label });
+                        selectedOptions.push({ id: option.value, description: option.label });
                     }
                 }
             }
             if (selectedOptions.length > 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions);
             }
             else if (selectedOptions.length === 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions[0]));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions[0]);
             }
         }
         else if (input.tagName === "INPUT")
         {
-            if (input.type === "file")
-            {
-                formData.append(input.id, input.files[0]);
-            }
-            else
-            {
-                if (input.id)
-                {
-                    formData.append(input.id, input.value);
-                }
-                else
-                {
-                    formData.append(input.name, input.value);
-                }
-            }
+            const value = input.value !== "" ? input.value : null;
+            formData[input.id || input.name] = value;
         }
     }
     return formData;

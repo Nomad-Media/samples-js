@@ -17,9 +17,9 @@ getContentForm.addEventListener("submit", async function (event)
     const formData = getElements(getContentForm);
 
     await nomadSdk.getContent(
-        formData.get("getContentContentId"),
-        formData.get("getContentContentDefinitionId"),
-        formData.get("isRevision")
+        formData.getContentContentId,
+        formData.getContentContentDefinitionId,
+        formData.isRevision
     );
 });
 
@@ -30,8 +30,8 @@ createForm.addEventListener("submit", async function (event)
     const formData = getElements(createForm);
 
     await nomadSdk.createContent(
-        formData.get("createContentContentDefinitionId"),
-        formData.get("createContentLanguageId")
+        formData.createContentContentDefinitionId,
+        formData.createContentLanguageId
     );
 });
 
@@ -42,10 +42,10 @@ updateForm.addEventListener("submit", async function (event)
     const formData = getElements(updateForm);
 
     await nomadSdk.updateContent(
-        formData.get("updateContentContentId"),
-        formData.get("updateContentContentDefinitionId"),
-        formData.get("updateContentProperties"),
-        formData.get("updateContentLanguageId")
+        formData.updateContentContentId,
+        formData.updateContentContentDefinitionId,
+        formData.updateContentProperties,
+        formData.updateContentLanguageId
     );
 });
 
@@ -56,10 +56,10 @@ deactivateForm.addEventListener("submit", async function (event)
     const formData = getElements(deactivateForm);
 
     await nomadSdk.deactivateContentUserTrack(
-        formData.get("sessionId"),
-        formData.get("contentId"),
-        formData.get("contentDefinitionId"),
-        formData.get("deactivate") === "True"
+        formData.sessionId,
+        formData.contentId,
+        formData.contentDefinitionId,
+        formData.deactivate === "True"
     );
 });
 
@@ -70,12 +70,12 @@ getContentUserTrackForm.addEventListener("submit", async function (event)
     const formData = getElements(getContentUserTrackForm);
 
     await nomadSdk.getContentUserTrack(
-        formData.get("contentId"),
-        formData.get("contentDefinitionId"),
-        formData.get("sortColumn"),
-        formData.get("isDescending") === "True",
-        formData.get("pageIndex"),
-        formData.get("pageSize")
+        formData.contentId,
+        formData.contentDefinitionId,
+        formData.sortColumn,
+        formData.isDescending === "True",
+        formData.pageIndex,
+        formData.pageSize
     );
 });
 
@@ -86,8 +86,8 @@ getContentUserTrackTouchForm.addEventListener("submit", async function (event)
     const formData = getElements(getContentUserTrackTouchForm);
 
     await nomadSdk.getContentUserTrackTouch(
-        formData.get("contentId"),
-        formData.get("contentDefinitionId")
+        formData.contentId,
+        formData.contentDefinitionId
     );
 });
 
@@ -98,28 +98,24 @@ deleteForm.addEventListener("submit", async function (event)
     const formData = getElements(deleteForm);
 
     await nomadSdk.deleteContent(
-        formData.get("deleteContentContentId"),
-        formData.get("deleteContentContentDefinitionId")
+        formData.deleteContentContentId,
+        formData.deleteContentContentDefinitionId
     );
 });
 
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    const formData = {};
+    for (let input of form.elements)
     {
+        if (!input.tagName) continue;
         if (input.tagName === "INPUT" || input.tagName === "SELECT")
         {
             if (input.type !== "checkbox" || (input.type === "checkbox" && input.checked))
             {
-                if (input.id)
-                {
-                    formData.append(input.id, input.value);
-                }
-                else
-                {
-                    formData.append(input.name, input.value);
-                }
+                // If input is "" (empty string), set to null
+                const value = input.value !== "" ? input.value : null;
+                formData[input.id || input.name] = value;
             }
         }
     }

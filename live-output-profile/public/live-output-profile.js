@@ -38,29 +38,29 @@ createLiveOutputProfileForm.addEventListener("submit", async function (event)
 
     const formData = getElements(createLiveOutputProfileForm);
 
-    let type = formData.get("createLiveOutputTypeSelect") ? JSON.parse(formData.get("createLiveOutputTypeSelect")) : null;
+    let type = formData.createLiveOutputTypeSelect ? JSON.parse(formData.createLiveOutputTypeSelect) : null;
     type = type && type.id === "" ? null : type;
 
-    let videoBitrateMode = formData.get("videoBitrateMode") ? JSON.parse(formData.get("videoBitrateMode")) : null;
+    let videoBitrateMode = formData.videoBitrateMode ? JSON.parse(formData.videoBitrateMode) : null;
     videoBitrateMode = videoBitrateMode && videoBitrateMode.id === "" ? null : videoBitrateMode;
 
-    let videoCodec = formData.get("videoCodec") ? JSON.parse(formData.get("videoCodec")) : null;
+    let videoCodec = formData.videoCodec ? JSON.parse(formData.videoCodec) : null;
     videoCodec = videoCodec && videoCodec.id === "" ? null : videoCodec;
 
     const response = await nomadSdk.createLiveOutputProfile(
-        formData.get("name"),
+        formData.name,
         type,
-        formData.get("enabled") === "true",
-        formData.get("audioBitrate"),
-        formData.get("outputStreamKey"),
-        formData.get("outputUrl"),
-        formData.get("secondaryOutputKey"),
-        formData.get("secondaryOutputUrl"),
-        formData.get("videoBitrate"),
+        formData.enabled === "true",
+        formData.audioBitrate,
+        formData.outputStreamKey,
+        formData.outputUrl,
+        formData.secondaryOutputKey,
+        formData.secondaryOutputUrl,
+        formData.videoBitrate,
         videoBitrateMode,
         videoCodec,
-        formData.get("videoHeight"),
-        formData.get("videoWidth")
+        formData.videoHeight,
+        formData.videoWidth
     );
     console.log(response);
 });
@@ -71,7 +71,7 @@ deleteLiveOutputProfileForm.addEventListener("submit", async function (event)
 
     const formData = getElements(deleteLiveOutputProfileForm);
 
-    const response = await nomadSdk.deleteLiveOutputProfile(formData.get("id"));
+    const response = await nomadSdk.deleteLiveOutputProfile(formData.id);
     console.log(response);
 });
 
@@ -81,7 +81,7 @@ getLiveOutputProfileForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getLiveOutputProfileForm);
 
-    const response = await nomadSdk.getLiveOutputProfile(formData.get("id"));
+    const response = await nomadSdk.getLiveOutputProfile(formData.id);
     console.log(response);
 });
 
@@ -106,82 +106,79 @@ updateLiveOutputProfileForm.addEventListener("submit", async function (event)
 
     const formData = getElements(updateLiveOutputProfileForm);
 
-    let type = formData.get("updateLiveOutputTypeSelect") ? JSON.parse(formData.get("updateLiveOutputTypeSelect")) : null;
+    let type = formData.updateLiveOutputTypeSelect ? JSON.parse(formData.updateLiveOutputTypeSelect) : null;
     type = type && type.id === "" ? null : type;
 
-    let videoBitrateMode = formData.get("videoBitrateMode") ? JSON.parse(formData.get("videoBitrateMode")) : null;
+    let videoBitrateMode = formData.videoBitrateMode ? JSON.parse(formData.videoBitrateMode) : null;
     videoBitrateMode = videoBitrateMode && videoBitrateMode.id === "" ? null : videoBitrateMode;
 
-    let videoCodec = formData.get("videoCodec") ? JSON.parse(formData.get("videoCodec")) : null;
+    let videoCodec = formData.videoCodec ? JSON.parse(formData.videoCodec) : null;
     videoCodec = videoCodec && videoCodec.id === "" ? null : videoCodec;
 
     const response = await nomadSdk.updateLiveOutputProfile(
-        formData.get("id"),
-        formData.get("name"),
+        formData.id,
+        formData.name,
         type,
-        formData.get("enabled") === "true",
-        formData.get("audioBitrate"),
-        formData.get("outputStreamKey"),
-        formData.get("outputUrl"),
-        formData.get("secondaryOutputKey"),
-        formData.get("secondaryOutputUrl"),
-        formData.get("videoBitrate"),
+        formData.enabled === "true",
+        formData.audioBitrate,
+        formData.outputStreamKey,
+        formData.outputUrl,
+        formData.secondaryOutputKey,
+        formData.secondaryOutputUrl,
+        formData.videoBitrate,
         videoBitrateMode,
         videoCodec,
-        formData.get("videoHeight"),
-        formData.get("videoWidth")
+        formData.videoHeight,
+        formData.videoWidth
     );
     console.log(response);
 });
 
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    const formData = {};
+    for (let input of form.elements)
     {
-        if (input.tagName === "SELECT")
+        if (!input.tagName) continue;
+        if (input.type === "file")
+        {
+            if (input.files && input.files.length > 0)
+            {
+                formData[input.id || input.name] = input.files[0];
+            }
+        }
+        else if (input.tagName === "SELECT")
         {
             const selectedOptions = [];
-            for (let element of input)
+            for (let option of input.options)
             {
-                if (element.selected)
+                if (option.selected)
                 {
-                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase())
+                    if (option.value.trim().toLowerCase() === option.label.trim().toLowerCase())
                     {
-                        if (input.id)
-                        {
-                            formData.append(input.id, element.value);
-                        }
-                        else
-                        {
-                            formData.append(input.name, element.value);
-                        }
+                        const value = option.value !== "" ? option.value : null;
+                        formData[input.id || input.name] = value;
                     }
                     else
                     {
-                        selectedOptions.push({ id: element.value, description: element.label });
+                        selectedOptions.push({ id: option.value, description: option.label });
                     }
                 }
             }
             if (selectedOptions.length > 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions);
             }
             else if (selectedOptions.length === 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions[0]));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions[0]);
             }
         }
-        else if (input.tagName === "INPUT")
+        else if (input.tagName === "INPUT" || input.tagName === "TEXTAREA")
         {
-            if (input.id)
-            {
-                formData.append(input.id, input.value);
-            }
-            else
-            {
-                formData.append(input.name, input.value);
-            }
+            const value = input.value !== "" ? input.value : null;
+            formData[input.id || input.name] = value;
         }
     }
+    return formData;
 }

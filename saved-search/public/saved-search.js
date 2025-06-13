@@ -477,55 +477,85 @@ getSearchSavedByIdForm.addEventListener('submit', async function(event)
 
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    // Collect all values for each name/id, similar to FormData.getAll
+    const data = {};
+    for (let el of form.elements)
     {
-        if (input.tagName === "SELECT") 
+        if (!el.tagName) continue;
+        let key = el.id || el.name;
+        if (!key) continue;
+
+        if (el.type === "file")
         {
-            const selectedOptions = []
-            for (let element of input) 
+            if (el.files && el.files.length > 0)
             {
-                if (element.selected) 
+                data[key] = el.files.length === 1 ? el.files[0] : Array.from(el.files);
+            }
+        }
+        else if (el.tagName === "SELECT" && el.multiple)
+        {
+            const selected = Array.from(el.options)
+                .filter(opt => opt.selected)
+                .map(opt => opt.value === "" ? null : opt.value);
+            data[key] = selected.length > 1 ? JSON.stringify(selected) : (selected[0] ?? null);
+        }
+        else if (el.tagName === "SELECT")
+        {
+            const selected = Array.from(el.options)
+                .filter(opt => opt.selected)
+                .map(opt => opt.value === "" ? null : opt.value);
+            data[key] = selected.length > 1 ? JSON.stringify(selected) : (selected[0] ?? null);
+        }
+        else if (el.tagName === "INPUT" || el.tagName === "TEXTAREA")
+        {
+            if (el.type === "checkbox" || el.type === "radio")
+            {
+                if (el.checked)
                 {
-                    if (input.id) 
+                    const value = el.value === "" ? null : el.value;
+                    if (data[key])
                     {
-                        formData.append(input.id, element.value);
-                    } 
-                    else 
+                        if (Array.isArray(data[key]))
+                            data[key].push(value);
+                        else
+                            data[key] = [data[key], value];
+                    }
+                    else
                     {
-                        formData.append(input.name, element.value);
+                        data[key] = value;
                     }
                 }
             }
-            if (selectedOptions.length > 1)
+            else
             {
-                formData.append(input.id, JSON.stringify(selectedOptions));
-            }
-            else if (selectedOptions.length === 1)
-            {
-                formData.append(input.id, JSON.stringify(selectedOptions[0]));
-            }
-        }
-        else if (input.tagName === "INPUT")
-        {
-            if (input.type === "file") 
-            {
-                formData.append(input.id, input.files[0]);
-            } 
-            else 
-            {
-                if (input.id) 
+                const value = el.value === "" ? null : el.value;
+                if (data[key])
                 {
-                    formData.append(input.id, input.value);
+                    if (Array.isArray(data[key]))
+                        data[key].push(value);
+                    else
+                        data[key] = [data[key], value];
                 }
-                else 
+                else
                 {
-                    formData.append(input.name, input.value);
+                    data[key] = value;
                 }
             }
         }
     }
-    return formData;
+
+    // Provide .get and .getAll methods for compatibility
+    return {
+        get: (key) => {
+            if (Array.isArray(data[key])) return data[key][0];
+            return data[key];
+        },
+        getAll: (key) => {
+            if (Array.isArray(data[key])) return data[key];
+            if (data[key] !== undefined) return [data[key]];
+            return [];
+        }
+    };
 }
 
 function getSearchResultFieldsData(div) 

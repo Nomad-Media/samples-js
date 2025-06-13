@@ -16,8 +16,7 @@ getGroupForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const formData = getElements(getGroupForm);
-    const groupId = formData.get("getGroupId");
-    console.log(await nomadSdk.getContentGroup(groupId));
+    console.log(await nomadSdk.getContentGroup(formData.getGroupId));
 });
 
 getGroupsForm.addEventListener("submit", async function (event)
@@ -30,73 +29,66 @@ createForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const formData = getElements(createForm);
-    const name = formData.get("createName");
-    console.log(await nomadSdk.createContentGroup(name));
+    console.log(await nomadSdk.createContentGroup(formData.createName));
 });
 
 addForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const formData = getElements(addForm);
-    const groupId = formData.get("addGroupId");
-    const contentIds = formData.get("addContentIds").split(",");
-    console.log(await nomadSdk.addContentsToContentGroup(groupId, contentIds));
+    const contentIds = formData.addContentIds ? formData.addContentIds.split(",") : [];
+    console.log(await nomadSdk.addContentsToContentGroup(formData.addGroupId, contentIds));
 });
 
 removeForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const formData = getElements(removeForm);
-    const groupId = formData.get("removeGroupId");
-    const contentIds = formData.get("removeContentIds").split(",");
-    console.log(await nomadSdk.removeContentsFromContentGroup(groupId, contentIds));
+    const contentIds = formData.removeContentIds ? formData.removeContentIds.split(",") : [];
+    console.log(await nomadSdk.removeContentsFromContentGroup(formData.removeGroupId, contentIds));
 });
 
 renameForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const formData = getElements(renameForm);
-    const groupId = formData.get("renameGroupId");
-    const newName = formData.get("renameGroup");
-    console.log(await nomadSdk.renameContentGroup(groupId, newName));
+    console.log(await nomadSdk.renameContentGroup(formData.renameGroupId, formData.renameGroup));
 });
 
 shareForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const formData = getElements(shareForm);
-    const groupId = formData.get("shareGroupId");
-    const userIds = formData.get("shareUserIds").split(",");
-    console.log(await nomadSdk.shareContentGroup(groupId, userIds));
+    const userIds = formData.shareUserIds ? formData.shareUserIds.split(",") : [];
+    console.log(await nomadSdk.shareContentGroup(formData.shareGroupId, userIds));
 });
 
 stopShareForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const formData = getElements(stopShareForm);
-    const groupId = formData.get("stopsSharingGroupId");
-    const userIds = formData.get("removeSharedUserIds").split(",");
-    console.log(await nomadSdk.stopSharingContentGroupWithUsers(groupId, userIds));
+    const userIds = formData.removeSharedUserIds ? formData.removeSharedUserIds.split(",") : [];
+    console.log(await nomadSdk.stopSharingContentGroupWithUsers(formData.stopsSharingGroupId, userIds));
 });
 
 deleteForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const formData = getElements(deleteForm);
-    const groupId = formData.get("deleteGroupId");
-    console.log(await nomadSdk.deleteContentGroup(groupId));
+    console.log(await nomadSdk.deleteContentGroup(formData.deleteGroupId));
 });
 
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    const formData = {};
+    for (let input of form.elements)
     {
+        if (!input.tagName) continue;
         if (input.tagName === "INPUT" || input.tagName === "SELECT")
         {
             if (input.type !== "checkbox" || (input.type === "checkbox" && input.checked))
             {
-                input.id ? formData.append(input.id, input.value) : formData.append(input.name, input.value);
+                formData[input.id || input.name] = input.value !== "" ? input.value : null;
             }
         }
     }

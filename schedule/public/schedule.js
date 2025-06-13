@@ -378,40 +378,40 @@ createIntelligentPlaylistForm.addEventListener("submit", async function (event)
     const formData = getElements(createIntelligentPlaylistForm);
 
     let collections = null;
-    if (formData.get("createIntelligentPlaylistCollectionsSelect"))
+    if (formData.createIntelligentPlaylistCollectionsSelect)
     {
-        const parsed = JSON.parse(formData.get("createIntelligentPlaylistCollectionsSelect"));
+        const parsed = JSON.parse(formData.createIntelligentPlaylistCollectionsSelect);
         collections = Array.isArray(parsed) ? parsed : [parsed];
     }
 
     let relatedContents = null;
-    if (formData.get("createIntelligentPlaylistRelatedContentsSelect"))
+    if (formData.createIntelligentPlaylistRelatedContentsSelect)
     {
-        const parsed = JSON.parse(formData.get("createIntelligentPlaylistRelatedContentsSelect"));
+        const parsed = JSON.parse(formData.createIntelligentPlaylistRelatedContentsSelect);
         relatedContents = Array.isArray(parsed) ? parsed : [parsed];
         relatedContents.forEach(item => {
-            item["type"] = formData.get("createIntelligentPlaylistRelatedContentsContentDefinitionsSelect");
+            item["type"] = formData.createIntelligentPlaylistRelatedContentsContentDefinitionsSelect;
         });
     }
 
     let tags = null;
-    if (formData.get("createIntelligentPlaylistTagsSelect"))
+    if (formData.createIntelligentPlaylistTagsSelect)
     {
-        const parsed = JSON.parse(formData.get("createIntelligentPlaylistTagsSelect"));
+        const parsed = JSON.parse(formData.createIntelligentPlaylistTagsSelect);
         tags = Array.isArray(parsed) ? parsed : [parsed];
     }
 
-    const thumbnailAsset = formData.get("thumbnailAssetId") ? { id: formData.get("thumbnailAssetId") } : null;
+    const thumbnailAsset = formData.thumbnailAssetId ? { id: formData.thumbnailAssetId } : null;
 
     const result = await nomadSdk.createIntelligentPlaylist(
         collections,
-        formData.get("endSearchDate"),
-        formData.get("endSearchDurationInMinutes"),
-        formData.get("name"),
+        formData.endSearchDate,
+        formData.endSearchDurationInMinutes,
+        formData.name,
         relatedContents,
-        formData.get("searchDate"),
-        formData.get("searchDurationInMinutes"),
-        formData.get("createIntelligentPlaylistSearchFilterTypeSelect"),
+        formData.searchDate,
+        formData.searchDurationInMinutes,
+        formData.createIntelligentPlaylistSearchFilterTypeSelect,
         tags,
         thumbnailAsset
     );
@@ -424,14 +424,14 @@ createIntelligentScheduleForm.addEventListener("submit", async function (event)
 
     const formData = getElements(createIntelligentScheduleForm);
 
-    const defaultVideoAsset = formData.get("defaultVideoAssetId") ? { id: formData.get("defaultVideoAssetId") } : null;
-    const thumbnailAsset = formData.get("thumbnailAssetId") ? { id: formData.get("thumbnailAssetId") } : null;
+    const defaultVideoAsset = formData.defaultVideoAssetId ? { id: formData.defaultVideoAssetId } : null;
+    const thumbnailAsset = formData.thumbnailAssetId ? { id: formData.thumbnailAssetId } : null;
 
     const result = await nomadSdk.createIntelligentSchedule(
         defaultVideoAsset,
-        formData.get("name"),
+        formData.name,
         thumbnailAsset,
-        formData.get("createIntelligentScheduleTimeZoneSelect")
+        formData.createIntelligentScheduleTimeZoneSelect
     );
     console.log(result);
 });
@@ -442,15 +442,16 @@ createPlaylistForm.addEventListener("submit", async function (event)
 
     const formData = getElements(createPlaylistForm);
 
-    const defaultVideoAsset = (formData.get("defaultVideoAssetId") && formData.get("createPlaylistLoopPlaylistSelect") === "False")
-        ? { id: formData.get("defaultVideoAssetId") }
-        : null;
-    const thumbnailAsset = formData.get("thumbnailAssetId") ? { id: formData.get("thumbnailAssetId") } : null;
+    const defaultVideoAsset = (formData.defaultVideoAssetId && formData.createPlaylistLoopPlaylistSelect === "False"
+        ? { id: formData.defaultVideoAssetId }
+        : null
+    );
+    const thumbnailAsset = formData.thumbnailAssetId ? { id: formData.thumbnailAssetId } : null;
 
     const result = await nomadSdk.createPlaylist(
-        formData.get("name"),
+        formData.name,
         thumbnailAsset,
-        formData.get("createPlaylistLoopPlaylistSelect") === "True",
+        formData.createPlaylistLoopPlaylistSelect === "True",
         defaultVideoAsset
     );
     console.log(result);
@@ -463,9 +464,9 @@ createPlaylistVideoForm.addEventListener("submit", async function (event)
     const formData = getElements(createPlaylistVideoForm);
 
     const result = await nomadSdk.createPlaylistVideo(
-        formData.get("playlistId"),
-        { id: formData.get("assetId") },
-        formData.get("previousItem")
+        formData.playlistId,
+        { id: formData.assetId },
+        formData.previousItem
     );
     console.log(result);
 });
@@ -477,20 +478,20 @@ createScheduleItemAssetForm.addEventListener("submit", async function (event)
     const formData = getElements(createScheduleItemAssetForm);
 
     let days = null;
-    if (formData.get("createScheduleItemAssetDays"))
+    if (formData.createScheduleItemAssetDays)
     {
-        const parsed = JSON.parse(formData.get("createScheduleItemAssetDays"));
+        const parsed = JSON.parse(formData.createScheduleItemAssetDays);
         days = Array.isArray(parsed) ? parsed : [parsed];
     }
 
     const result = await nomadSdk.createScheduleItemAsset(
-        formData.get("scheduleId"),
-        { id: formData.get("assetId") },
+        formData.scheduleId,
+        { id: formData.assetId },
         days,
-        formData.get("durationTimeCode"),
-        formData.get("endTimeCode"),
-        formData.get("previousItem"),
-        formData.get("timeCode")
+        formData.durationTimeCode,
+        formData.endTimeCode,
+        formData.previousItem,
+        formData.timeCode
     );
     console.log(result);
 });
@@ -502,22 +503,22 @@ createScheduleItemLiveChannelForm.addEventListener("submit", async function (eve
     const formData = getElements(createScheduleItemLiveChannelForm);
 
     let days = null;
-    if (formData.get("createScheduleItemLiveChannelDays"))
+    if (formData.createScheduleItemLiveChannelDays)
     {
-        const parsed = JSON.parse(formData.get("createScheduleItemLiveChannelDays"));
+        const parsed = JSON.parse(formData.createScheduleItemLiveChannelDays);
         days = Array.isArray(parsed) ? parsed : [parsed];
     }
 
-    const liveChannel = JSON.parse(formData.get("createScheduleItemLiveChannelsSelect"));
+    const liveChannel = JSON.parse(formData.createScheduleItemLiveChannelsSelect);
 
     const result = await nomadSdk.createScheduleItemLiveChannel(
-        formData.get("scheduleId"),
+        formData.scheduleId,
         days,
-        formData.get("durationTimeCode"),
-        formData.get("endTimeCode"),
+        formData.durationTimeCode,
+        formData.endTimeCode,
         liveChannel,
-        formData.get("previousItem"),
-        formData.get("timeCode")
+        formData.previousItem,
+        formData.timeCode
     );
     console.log(result);
 });
@@ -529,51 +530,51 @@ createScheduleItemSearchFilterForm.addEventListener("submit", async function (ev
     const formData = getElements(createScheduleItemSearchFilterForm);
 
     let collections = null;
-    if (formData.get("createScheduleItemSearchFilterCollectionsSelect"))
+    if (formData.createScheduleItemSearchFilterCollectionsSelect)
     {
-        const parsed = JSON.parse(formData.get("createScheduleItemSearchFilterCollectionsSelect"));
+        const parsed = JSON.parse(formData.createScheduleItemSearchFilterCollectionsSelect);
         collections = Array.isArray(parsed) ? parsed : [parsed];
     }
 
     let days = null;
-    if (formData.get("createScheduleItemSearchFilterDays"))
+    if (formData.createScheduleItemSearchFilterDays)
     {
-        const parsed = JSON.parse(formData.get("createScheduleItemSearchFilterDays"));
+        const parsed = JSON.parse(formData.createScheduleItemSearchFilterDays);
         days = Array.isArray(parsed) ? parsed : [parsed];
     }
 
     let relatedContents = null;
-    if (formData.get("createScheduleItemSearchFilterRelatedContentsSelect"))
+    if (formData.createScheduleItemSearchFilterRelatedContentsSelect)
     {
-        const parsed = JSON.parse(formData.get("createScheduleItemSearchFilterRelatedContentsSelect"));
+        const parsed = JSON.parse(formData.createScheduleItemSearchFilterRelatedContentsSelect);
         relatedContents = Array.isArray(parsed) ? parsed : [parsed];
         relatedContents.forEach(item => {
-            item["type"] = formData.get("createScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect");
+            item["type"] = formData.createScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect;
         });
     }
 
     let tags = null;
-    if (formData.get("createScheduleItemSearchFilterTagsSelect"))
+    if (formData.createScheduleItemSearchFilterTagsSelect)
     {
-        const parsed = JSON.parse(formData.get("createScheduleItemSearchFilterTagsSelect"));
+        const parsed = JSON.parse(formData.createScheduleItemSearchFilterTagsSelect);
         tags = Array.isArray(parsed) ? parsed : [parsed];
     }
 
     const result = await nomadSdk.createScheduleItemSearchFilter(
-        formData.get("scheduleId"),
+        formData.scheduleId,
         collections,
         days,
-        formData.get("durationTimeCode"),
-        formData.get("endSearchDate"),
-        formData.get("endSearchDurationInMinutes"),
-        formData.get("endTimeCode"),
-        formData.get("previousItem"),
+        formData.durationTimeCode,
+        formData.endSearchDate,
+        formData.endSearchDurationInMinutes,
+        formData.endTimeCode,
+        formData.previousItem,
         relatedContents,
-        formData.get("searchDate"),
-        formData.get("searchDurationInMinutes"),
-        formData.get("createScheduleItemSearchFilterTypeSelect"),
+        formData.searchDate,
+        formData.searchDurationInMinutes,
+        formData.createScheduleItemSearchFilterTypeSelect,
         tags,
-        formData.get("timeCode")
+        formData.timeCode
     );
     console.log(result);
 });
@@ -585,22 +586,22 @@ createScheduleItemPlaylistScheduleForm.addEventListener("submit", async function
     const formData = getElements(createScheduleItemPlaylistScheduleForm);
 
     let days = null;
-    if (formData.get("createScheduleItemPlaylistScheduleDays"))
+    if (formData.createScheduleItemPlaylistScheduleDays)
     {
-        const parsed = JSON.parse(formData.get("createScheduleItemPlaylistScheduleDays"));
+        const parsed = JSON.parse(formData.createScheduleItemPlaylistScheduleDays);
         days = Array.isArray(parsed) ? parsed : [parsed];
     }
 
-    const playlistSchedule = JSON.parse(formData.get("createScheduleItemPlaylistSchedulesSelect"));
+    const playlistSchedule = JSON.parse(formData.createScheduleItemPlaylistSchedulesSelect);
 
     const result = await nomadSdk.createScheduleItemPlaylistSchedule(
-        formData.get("scheduleId"),
+        formData.scheduleId,
         days,
-        formData.get("durationTimeCode"),
-        formData.get("endTimeCode"),
+        formData.durationTimeCode,
+        formData.endTimeCode,
         playlistSchedule,
-        formData.get("previousItem"),
-        formData.get("timeCode")
+        formData.previousItem,
+        formData.timeCode
     );
     console.log(result);
 });
@@ -611,7 +612,7 @@ deleteIntelligentPlaylistForm.addEventListener("submit", async function (event)
 
     const formData = getElements(deleteIntelligentPlaylistForm);
 
-    await nomadSdk.deleteIntelligentPlaylist(formData.get("scheduleId"));
+    await nomadSdk.deleteIntelligentPlaylist(formData.scheduleId);
     console.log("Deleted intelligent playlist");
 });
 
@@ -621,7 +622,7 @@ deleteIntelligentScheduleForm.addEventListener("submit", async function (event)
 
     const formData = getElements(deleteIntelligentScheduleForm);
 
-    await nomadSdk.deleteIntelligentSchedule(formData.get("scheduleId"));
+    await nomadSdk.deleteIntelligentSchedule(formData.scheduleId);
     console.log("Deleted intelligent schedule");
 });
 
@@ -631,7 +632,7 @@ deletePlaylistForm.addEventListener("submit", async function (event)
 
     const formData = getElements(deletePlaylistForm);
 
-    await nomadSdk.deletePlaylist(formData.get("scheduleId"));
+    await nomadSdk.deletePlaylist(formData.scheduleId);
     console.log("Deleted playlist");
 });
 
@@ -641,7 +642,7 @@ deleteScheduleItemForm.addEventListener("submit", async function (event)
 
     const formData = getElements(deleteScheduleItemForm);
 
-    await nomadSdk.deleteScheduleItem(formData.get("scheduleId"), formData.get("itemId"));
+    await nomadSdk.deleteScheduleItem(formData.scheduleId, formData.itemId);
     console.log("Deleted schedule item");
 });
 
@@ -651,7 +652,7 @@ getPlaylistForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getPlaylistForm);
 
-    const result = await nomadSdk.getPlaylist(formData.get("scheduleId"));
+    const result = await nomadSdk.getPlaylist(formData.scheduleId);
     console.log(result);
 });
 
@@ -661,7 +662,7 @@ getIntelligentPlaylistForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getIntelligentPlaylistForm);
 
-    const result = await nomadSdk.getIntelligentPlaylist(formData.get("scheduleId"));
+    const result = await nomadSdk.getIntelligentPlaylist(formData.scheduleId);
     console.log(result);
 });
 
@@ -671,7 +672,7 @@ getIntelligentScheduleForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getIntelligentScheduleForm);
 
-    const result = await nomadSdk.getIntelligentSchedule(formData.get("scheduleId"));
+    const result = await nomadSdk.getIntelligentSchedule(formData.scheduleId);
     console.log(result);
 });
 
@@ -681,7 +682,7 @@ getScheduleItemForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getScheduleItemForm);
 
-    const result = await nomadSdk.getScheduleItem(formData.get("scheduleId"), formData.get("itemId"));
+    const result = await nomadSdk.getScheduleItem(formData.scheduleId, formData.itemId);
     console.log(result);
 });
 
@@ -691,7 +692,7 @@ getScheduleItemsForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getScheduleItemsForm);
 
-    const result = await nomadSdk.getScheduleItems(formData.get("scheduleId"));
+    const result = await nomadSdk.getScheduleItems(formData.scheduleId);
     console.log(result);
 });
 
@@ -701,7 +702,7 @@ getSchedulePreviewForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getSchedulePreviewForm);
 
-    const result = await nomadSdk.getSchedulePreview(formData.get("scheduleId"));
+    const result = await nomadSdk.getSchedulePreview(formData.scheduleId);
     console.log(result);
 });
 
@@ -712,9 +713,9 @@ moveScheduleItemForm.addEventListener("submit", async function (event)
     const formData = getElements(moveScheduleItemForm);
 
     const result = await nomadSdk.moveScheduleItem(
-        formData.get("scheduleId"),
-        formData.get("itemId"),
-        formData.get("previousItem")
+        formData.scheduleId,
+        formData.itemId,
+        formData.previousItem
     );
     console.log(result);
 });
@@ -726,8 +727,8 @@ publishIntelligentScheduleForm.addEventListener("submit", async function (event)
     const formData = getElements(publishIntelligentScheduleForm);
 
     const result = await nomadSdk.publishIntelligentSchedule(
-        formData.get("scheduleId"),
-        formData.get("numberOfLockedDays")
+        formData.scheduleId,
+        formData.numberOfLockedDays
     );
     console.log(result);
 });
@@ -739,8 +740,8 @@ startScheduleForm.addEventListener("submit", async function (event)
     const formData = getElements(startScheduleForm);
 
     const result = await nomadSdk.startSchedule(
-        formData.get("scheduleId"),
-        formData.get("skipCleanupOnFailure") === "True"
+        formData.scheduleId,
+        formData.skipCleanupOnFailure === "True"
     );
     console.log(result);
 });
@@ -752,8 +753,8 @@ stopScheduleForm.addEventListener("submit", async function (event)
     const formData = getElements(stopScheduleForm);
 
     const result = await nomadSdk.stopSchedule(
-        formData.get("scheduleId"),
-        formData.get("forceStop") === "True"
+        formData.scheduleId,
+        formData.forceStop === "True"
     );
     console.log(result);
 });
@@ -765,41 +766,41 @@ updateIntelligentPlaylistForm.addEventListener("submit", async function (event)
     const formData = getElements(updateIntelligentPlaylistForm);
 
     let collections = null;
-    if (formData.get("updateIntelligentPlaylistCollectionsSelect"))
+    if (formData.updateIntelligentPlaylistCollectionsSelect)
     {
-        const parsed = JSON.parse(formData.get("updateIntelligentPlaylistCollectionsSelect"));
+        const parsed = JSON.parse(formData.updateIntelligentPlaylistCollectionsSelect);
         collections = Array.isArray(parsed) ? parsed : [parsed];
     }
 
     let relatedContents = null;
-    if (formData.get("updateIntelligentPlaylistRelatedContentsSelect"))
+    if (formData.updateIntelligentPlaylistRelatedContentsSelect)
     {
-        const parsed = JSON.parse(formData.get("updateIntelligentPlaylistRelatedContentsSelect"));
+        const parsed = JSON.parse(formData.updateIntelligentPlaylistRelatedContentsSelect);
         relatedContents = Array.isArray(parsed) ? parsed : [parsed];
         relatedContents.forEach(item => {
-            item["type"] = formData.get("updateIntelligentPlaylistRelatedContentsContentDefinitionsSelect");
+            item["type"] = formData.updateIntelligentPlaylistRelatedContentsContentDefinitionsSelect;
         });
     }
 
     let tags = null;
-    if (formData.get("updateIntelligentPlaylistTagsSelect"))
+    if (formData.updateIntelligentPlaylistTagsSelect)
     {
-        const parsed = JSON.parse(formData.get("updateIntelligentPlaylistTagsSelect"));
+        const parsed = JSON.parse(formData.updateIntelligentPlaylistTagsSelect);
         tags = Array.isArray(parsed) ? parsed : [parsed];
     }
 
-    const thumbnailAsset = formData.get("thumbnailAssetId") ? { id: formData.get("thumbnailAssetId") } : null;
+    const thumbnailAsset = formData.thumbnailAssetId ? { id: formData.thumbnailAssetId } : null;
 
     const result = await nomadSdk.updateIntelligentPlaylist(
-        formData.get("scheduleId"),
+        formData.scheduleId,
         collections,
-        formData.get("endSearchDate"),
-        formData.get("endSearchDurationInMinutes"),
-        formData.get("name"),
+        formData.endSearchDate,
+        formData.endSearchDurationInMinutes,
+        formData.name,
         relatedContents,
-        formData.get("searchDate"),
-        formData.get("searchDurationInMinutes"),
-        formData.get("updateIntelligentPlaylistSearchFilterTypeSelect"),
+        formData.searchDate,
+        formData.searchDurationInMinutes,
+        formData.updateIntelligentPlaylistSearchFilterTypeSelect,
         tags,
         thumbnailAsset
     );
@@ -812,17 +813,17 @@ updateIntelligentScheduleForm.addEventListener("submit", async function (event)
 
     const formData = getElements(updateIntelligentScheduleForm);
 
-    const defaultVideoAsset = formData.get("defaultVideoAssetId") ? { id: formData.get("defaultVideoAssetId") } : null;
-    const thumbnailAsset = formData.get("thumbnailAssetId") ? { id: formData.get("thumbnailAssetId") } : null;
+    const defaultVideoAsset = formData.defaultVideoAssetId ? { id: formData.defaultVideoAssetId } : null;
+    const thumbnailAsset = formData.thumbnailAssetId ? { id: formData.thumbnailAssetId } : null;
 
     const result = await nomadSdk.updateIntelligentSchedule(
-        formData.get("scheduleId"),
+        formData.scheduleId,
         defaultVideoAsset,
-        formData.get("name"),
+        formData.name,
         thumbnailAsset,
-        formData.get("updateIntelligentScheduleTimeZoneSelect")
+        formData.updateIntelligentScheduleTimeZoneSelect
     );
-    console.log(result);
+    console.log(result)
 });
 
 updatePlaylistForm.addEventListener("submit", async function (event)
@@ -831,16 +832,16 @@ updatePlaylistForm.addEventListener("submit", async function (event)
 
     const formData = getElements(updatePlaylistForm);
 
-    const defaultVideoAsset = (formData.get("defaultVideoAssetId") && formData.get("updatePlaylistLoopPlaylistSelect") === "False")
-        ? { id: formData.get("defaultVideoAssetId") }
+    const defaultVideoAsset = (formData.defaultVideoAssetId) && formData.updatePlaylistLoopPlaylistSelect === "False"
+        ? { id: formData.defaultVideoAssetId }
         : null;
-    const thumbnailAsset = formData.get("thumbnailAssetId") ? { id: formData.get("thumbnailAssetId") } : null;
+    const thumbnailAsset = formData.thumbnailAssetId ? { id: formData.thumbnailAssetId } : null;
 
     const result = await nomadSdk.updatePlaylist(
-        formData.get("scheduleId"),
+        formData.scheduleId,
         defaultVideoAsset,
-        formData.get("updatePlaylistLoopPlaylistSelect") === "True",
-        formData.get("name"),
+        formData.updatePlaylistLoopPlaylistSelect === "True",
+        formData.name,
         thumbnailAsset
     );
     console.log(result);
@@ -853,9 +854,9 @@ updatePlaylistVideoForm.addEventListener("submit", async function (event)
     const formData = getElements(updatePlaylistVideoForm);
 
     const result = await nomadSdk.updatePlaylistVideo(
-        formData.get("playlistId"),
-        formData.get("itemId"),
-        { id: formData.get("assetId") }
+        formData.playlistId,
+        formData.itemId,
+        { id: formData.assetId }
     );
     console.log(result);
 });
@@ -867,20 +868,20 @@ updateScheduleItemAssetForm.addEventListener("submit", async function (event)
     const formData = getElements(updateScheduleItemAssetForm);
 
     let days = null;
-    if (formData.get("updateScheduleItemAssetDays"))
+    if (formData.updateScheduleItemAssetDays)
     {
-        const parsed = JSON.parse(formData.get("updateScheduleItemAssetDays"));
+        const parsed = JSON.parse(formData.updateScheduleItemAssetDays);
         days = Array.isArray(parsed) ? parsed : [parsed];
     }
 
     const result = await nomadSdk.updateScheduleItemAsset(
-        formData.get("scheduleId"),
-        formData.get("itemId"),
-        { id: formData.get("assetId") },
+        formData.scheduleId,
+        formData.itemId,
+        { id: formData.assetId },
         days,
-        formData.get("durationTimeCode"),
-        formData.get("endTimeCode"),
-        formData.get("timeCode")
+        formData.durationTimeCode,
+        formData.endTimeCode,
+        formData.timeCode
     );
     console.log(result);
 });
@@ -892,22 +893,22 @@ updateScheduleItemLiveChannelForm.addEventListener("submit", async function (eve
     const formData = getElements(updateScheduleItemLiveChannelForm);
 
     let days = null;
-    if (formData.get("updateScheduleItemLiveChannelDays"))
+    if (formData.updateScheduleItemLiveChannelDays)
     {
-        const parsed = JSON.parse(formData.get("updateScheduleItemLiveChannelDays"));
+        const parsed = JSON.parse(formData.updateScheduleItemLiveChannelDays);
         days = Array.isArray(parsed) ? parsed : [parsed];
     }
 
-    const liveChannel = JSON.parse(formData.get("updateScheduleItemLiveChannelsSelect"));
+    const liveChannel = JSON.parse(formData.updateScheduleItemLiveChannelsSelect);
 
     const result = await nomadSdk.updateScheduleItemLiveChannel(
-        formData.get("scheduleId"),
-        formData.get("itemId"),
+        formData.scheduleId,
+        formData.itemId,
         days,
-        formData.get("durationTimeCode"),
-        formData.get("endTimeCode"),
+        formData.durationTimeCode,
+        formData.endTimeCode,
         liveChannel,
-        formData.get("timeCode")
+        formData.timeCode
     );
     console.log(result);
 });
@@ -919,51 +920,51 @@ updateScheduleItemSearchFilterForm.addEventListener("submit", async function (ev
     const formData = getElements(updateScheduleItemSearchFilterForm);
 
     let collections = null;
-    if (formData.get("updateScheduleItemSearchFilterCollectionsSelect"))
+    if (formData.updateScheduleItemSearchFilterCollectionsSelect)
     {
-        const parsed = JSON.parse(formData.get("updateScheduleItemSearchFilterCollectionsSelect"));
+        const parsed = JSON.parse(formData.updateScheduleItemSearchFilterCollectionsSelect);
         collections = Array.isArray(parsed) ? parsed : [parsed];
     }
 
     let days = null;
-    if (formData.get("updateScheduleItemSearchFilterDays"))
+    if (formData.updateScheduleItemSearchFilterDays)
     {
-        const parsed = JSON.parse(formData.get("updateScheduleItemSearchFilterDays"));
+        const parsed = JSON.parse(formData.updateScheduleItemSearchFilterDays);
         days = Array.isArray(parsed) ? parsed : [parsed];
     }
 
     let relatedContents = null;
-    if (formData.get("updateScheduleItemSearchFilterRelatedContentsSelect"))
+    if (formData.updateScheduleItemSearchFilterRelatedContentsSelect)
     {
-        const parsed = JSON.parse(formData.get("updateScheduleItemSearchFilterRelatedContentsSelect"));
+        const parsed = JSON.parse(formData.updateScheduleItemSearchFilterRelatedContentsSelect);
         relatedContents = Array.isArray(parsed) ? parsed : [parsed];
         relatedContents.forEach(item => {
-            item["type"] = formData.get("updateScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect");
+            item["type"] = formData.updateScheduleItemSearchFilterRelatedContentsContentDefinitionsSelect;
         });
     }
 
     let tags = null;
-    if (formData.get("updateScheduleItemSearchFilterTagsSelect"))
+    if (formData.updateScheduleItemSearchFilterTagsSelect)
     {
-        const parsed = JSON.parse(formData.get("updateScheduleItemSearchFilterTagsSelect"));
+        const parsed = JSON.parse(formData.updateScheduleItemSearchFilterTagsSelect);
         tags = Array.isArray(parsed) ? parsed : [parsed];
     }
 
     const result = await nomadSdk.updateScheduleItemSearchFilter(
-        formData.get("scheduleId"),
-        formData.get("itemId"),
+        formData.scheduleId,
+        formData.itemId,
         collections,
         days,
-        formData.get("durationTimeCode"),
-        formData.get("endSearchDate"),
-        formData.get("endSearchDurationInMinutes"),
-        formData.get("endTimeCode"),
+        formData.durationTimeCode,
+        formData.endSearchDate,
+        formData.endSearchDurationInMinutes,
+        formData.endTimeCode,
         relatedContents,
-        formData.get("searchDate"),
-        formData.get("searchDurationInMinutes"),
-        formData.get("updateScheduleItemSearchFilterTypeSelect"),
+        formData.searchDate,
+        formData.searchDurationInMinutes,
+        formData.updateScheduleItemSearchFilterTypeSelect,
         tags,
-        formData.get("timeCode")
+        formData.timeCode
     );
     console.log(result);
 });
@@ -975,29 +976,29 @@ updateScheduleItemPlaylistScheduleForm.addEventListener("submit", async function
     const formData = getElements(updateScheduleItemPlaylistScheduleForm);
 
     let days = null;
-    if (formData.get("updateScheduleItemPlaylistScheduleDays"))
+    if (formData.updateScheduleItemPlaylistScheduleDays)
     {
-        const parsed = JSON.parse(formData.get("updateScheduleItemPlaylistScheduleDays"));
+        const parsed = JSON.parse(formData.updateScheduleItemPlaylistScheduleDays);
         days = Array.isArray(parsed) ? parsed : [parsed];
     }
 
-    const playlistSchedule = JSON.parse(formData.get("updateScheduleItemPlaylistSchedulesSelect"));
+    const playlistSchedule = JSON.parse(formData.updateScheduleItemPlaylistSchedulesSelect);
 
     const result = await nomadSdk.updateScheduleItemPlaylistSchedule(
-        formData.get("scheduleId"),
-        formData.get("itemId"),
+        formData.scheduleId,
+        formData.itemId,
         days,
-        formData.get("durationTimeCode"),
-        formData.get("endTimeCode"),
+        formData.durationTimeCode,
+        formData.endTimeCode,
         playlistSchedule,
-        formData.get("timeCode")
+        formData.timeCode
     );
     console.log(result);
 });
 
 function getElements(form)
 {
-    const formData = new FormData();
+    const formData = {};
     for (let input of form)
     {
         if (input.tagName === "SELECT")
@@ -1007,35 +1008,23 @@ function getElements(form)
             {
                 if (element.selected)
                 {
-                    if (input.id)
-                    {
-                        formData.append(input.id, element.value);
-                    }
-                    else
-                    {
-                        formData.append(input.name, element.value);
-                    }
+                    const value = element.value !== "" ? element.value : null;
+                    formData[input.id || input.name] = value;
                 }
             }
             if (selectedOptions.length > 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions));
+                formData[input.id] = JSON.stringify(selectedOptions);
             }
             else if (selectedOptions.length === 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions[0]));
+                formData[input.id] = JSON.stringify(selectedOptions[0]);
             }
         }
         else if (input.tagName === "INPUT")
         {
-            if (input.id)
-            {
-                formData.append(input.id, input.value);
-            }
-            else
-            {
-                formData.append(input.name, input.value);
-            }
+            const value = input.value !== "" ? input.value : null;
+            formData[input.id || input.name] = value;
         }
     }
     return formData;

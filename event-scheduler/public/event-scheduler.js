@@ -167,27 +167,32 @@ createForm.addEventListener("submit", async function (event)
 
     const formData = getElements(createForm);
 
-    let contentId = formData.get("createOrUpdateEventSelect") === "update" ? formData.get("contnetId") : null;
+    let contentId = formData.createOrUpdateEventSelect === "update" ? formData.contnetId : null;
 
     let name = null;
-    if (formData.get("seriesSelect"))
+    if (formData.seriesSelect)
     {
-        if (formData.get("name") === "")
+        if (formData.name === "" || formData.name === null)
         {
-            name = formData.get("seriesSelect").description;
+            name = JSON.parse(formData.seriesSelect).description;
         }
         else
         {
-            name = formData.get("name");
+            name = formData.name;
         }
     }
 
-    const eventType = JSON.parse(formData.get("eventTypeSelect"));
-    const series = formData.get("seriesSelect") ? JSON.parse(formData.get("seriesSelect")) : null;
+    const eventType = JSON.parse(formData.eventTypeSelect);
+    const series = formData.seriesSelect ? JSON.parse(formData.seriesSelect) : null;
 
     const properties = {};
-    const keys = formData.getAll("key");
-    const values = formData.getAll("value");
+    const keys = [];
+    const values = [];
+    for (let input of createForm.elements)
+    {
+        if (input.name === "key") keys.push(input.value);
+        if (input.name === "value") values.push(input.value);
+    }
     for (let i = 0; i < keys.length; ++i)
     {
         let value = values[i];
@@ -200,8 +205,8 @@ createForm.addEventListener("submit", async function (event)
     }
 
     const eventId = await nomadSdk.createAndUpdateEvent(
-        contentId, eventContentDefinitionId, name, formData.get("startDatetime"), formData.get("endDatetime"),
-        eventType, series, formData.get("isDisabled") === "true", formData.get("overrideSeriesDetailsSelect") === "true",
+        contentId, eventContentDefinitionId, name, formData.startDatetime, formData.endDatetime,
+        eventType, series, formData.isDisabled === "true", formData.overrideSeriesDetailsSelect === "true",
         properties
     );
 
@@ -256,28 +261,28 @@ addForm.addEventListener("submit", async function (event)
 
     const formData = getElements(addForm);
 
-    const slateVideo = formData.get("slateVideoId") === ""
-        ? null : { id: formData.get("slateVideoId"), description: formData.get("slateVideoName") };
-    const prerollVideo = formData.get("prerollVideoId") === ""
-        ? null : { id: formData.get("prerollVideoId"), description: formData.get("prerollVideoName") };
-    const postrollVideo = formData.get("postrollVideoId") === ""
-        ? null : { id: formData.get("postrollVideoId"), description: formData.get("postrollVideoName") };
-    const archiveFolder = formData.get("archiveFolderId") === ""
-        ? null : { id: formData.get("archiveFolderId"), description: formData.get("archiveFolderName") };
-    const primaryLivestreamInput = formData.get("primaryLivestreamInputSelect")
-        ? JSON.parse(formData.get("primaryLivestreamInputSelect")) : null;
-    const backupLivestreamInput = formData.get("backupLivestreamInputSelect")
-        ? JSON.parse(formData.get("backupLivestreamInputSelect")) : null;
-    const externalOutputProfiles = formData.get("externalOutputProfilesSelect")
-        ? Array.isArray(JSON.parse(formData.get("externalOutputProfilesSelect")))
-            ? JSON.parse(formData.get("externalOutputProfilesSelect"))
-            : [JSON.parse(formData.get("externalOutputProfilesSelect"))]
+    const slateVideo = !formData.slateVideoId
+        ? null : { id: formData.slateVideoId, description: formData.slateVideoName };
+    const prerollVideo = !formData.prerollVideoId
+        ? null : { id: formData.prerollVideoId, description: formData.prerollVideoName };
+    const postrollVideo = !formData.postrollVideoId
+        ? null : { id: formData.postrollVideoId, description: formData.postrollVideoName };
+    const archiveFolder = !formData.archiveFolderId
+        ? null : { id: formData.archiveFolderId, description: formData.archiveFolderName };
+    const primaryLivestreamInput = formData.primaryLivestreamInputSelect
+        ? JSON.parse(formData.primaryLivestreamInputSelect) : null;
+    const backupLivestreamInput = formData.backupLivestreamInputSelect
+        ? JSON.parse(formData.backupLivestreamInputSelect) : null;
+    const externalOutputProfiles = formData.externalOutputProfilesSelect
+        ? Array.isArray(JSON.parse(formData.externalOutputProfilesSelect))
+            ? JSON.parse(formData.externalOutputProfilesSelect)
+            : [JSON.parse(formData.externalOutputProfilesSelect)]
         : null;
 
     await nomadSdk.addLiveScheduleToEvent(
-        formData.get("addEventId"), slateVideo, prerollVideo, postrollVideo, formData.get("isSecureOutput") === "true",
-        archiveFolder, primaryLivestreamInput, backupLivestreamInput, formData.get("primaryLivesteamInputUrl"),
-        formData.get("backupLivestreamInputUrl"), externalOutputProfiles
+        formData.addEventId, slateVideo, prerollVideo, postrollVideo, formData.isSecureOutput === "true",
+        archiveFolder, primaryLivestreamInput, backupLivestreamInput, formData.primaryLivesteamInputUrl,
+        formData.backupLivestreamInputUrl, externalOutputProfiles
     );
 });
 
@@ -288,8 +293,8 @@ extendForm.addEventListener("submit", async function (event)
     const formData = getElements(extendForm);
 
     await nomadSdk.extendLiveSchedule(
-        formData.get("extendEventId"), JSON.parse(formData.get("daysOfTheWeekSelect")), formData.get("recurringWeeks"),
-        formData.get("endDatetime"), formData.get("timeZoneOffsetSeconds")
+        formData.extendEventId, JSON.parse(formData.daysOfTheWeekSelect), formData.recurringWeeks,
+        formData.endDatetime, formData.timeZoneOffsetSeconds
     );
 });
 
@@ -299,7 +304,7 @@ getForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getForm);
 
-    const eventInfo = await nomadSdk.getLiveSchedule(formData.get("getEventId"));
+    const eventInfo = await nomadSdk.getLiveSchedule(formData.getEventId);
     console.log(eventInfo);
 });
 
@@ -309,7 +314,7 @@ startForm.addEventListener("submit", async function (event)
 
     const formData = getElements(startForm);
 
-    await nomadSdk.startLiveSchedule(formData.get("startEventId"));
+    await nomadSdk.startLiveSchedule(formData.startEventId);
 });
 
 stopForm.addEventListener("submit", async function (event)
@@ -318,7 +323,7 @@ stopForm.addEventListener("submit", async function (event)
 
     const formData = getElements(stopForm);
 
-    await nomadSdk.stopLiveSchedule(formData.get("stopEventId"));
+    await nomadSdk.stopLiveSchedule(formData.stopEventId);
 });
 
 deleteForm.addEventListener("submit", async function (event)
@@ -327,57 +332,46 @@ deleteForm.addEventListener("submit", async function (event)
 
     const formData = getElements(deleteForm);
 
-    await nomadSdk.deleteEvent(formData.get("deleteId"), formData.get("deleteContentDefinitionId"));
+    await nomadSdk.deleteEvent(formData.deleteId, formData.deleteContentDefinitionId);
 });
 
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    const formData = {};
+    for (let input of form.elements)
     {
+        if (!input.tagName) continue;
         if (input.tagName === "SELECT")
         {
             const selectedOptions = [];
-            for (let element of input)
+            for (let option of input.options)
             {
-                if (element.selected)
+                if (option.selected)
                 {
-                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase())
+                    if (option.value.trim().toLowerCase() === option.label.trim().toLowerCase())
                     {
-                        if (input.id)
-                        {
-                            formData.append(input.id, element.value);
-                        }
-                        else
-                        {
-                            formData.append(input.name, element.value);
-                        }
+                        const value = option.value !== "" ? option.value : null;
+                        formData[input.id || input.name] = value;
                     }
                     else
                     {
-                        selectedOptions.push({ id: element.value, description: element.label });
+                        selectedOptions.push({ id: option.value, description: option.label });
                     }
                 }
             }
             if (selectedOptions.length > 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions);
             }
             else if (selectedOptions.length === 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions[0]));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions[0]);
             }
         }
         else if (input.tagName === "INPUT")
         {
-            if (input.id)
-            {
-                formData.append(input.id, input.value);
-            }
-            else
-            {
-                formData.append(input.name, input.value);
-            }
+            const value = input.value !== "" ? input.value : null;
+            formData[input.id || input.name] = value;
         }
     }
     return formData;

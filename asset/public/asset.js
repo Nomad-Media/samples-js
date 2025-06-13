@@ -934,57 +934,45 @@ updateAssetLanguageForm.addEventListener("submit", async (event) =>
     );
 });
 
-function getElements(FORM)
+function getElements(form)
 {
-    const FORM_DATA = new FormData();
-    for (let input of FORM)
+    const formData = {}
+    for (let input of form)
     {
         if (input.tagName === "SELECT") 
         {   
-            const SELECTED_OPTIONS = []
+            const selectedOptions = []
             for (let element of input) 
             {   
                 if (element.selected) 
                 {
                     if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase()) 
                     {
-                        if (input.id) 
-                        {
-                            FORM_DATA.append(input.id, element.value);
-                        } 
-                        else 
-                        {
-                            FORM_DATA.append(input.name, element.value);
-                        }
+                        const value = element.value !== "" ? element.value : null;
+                        formData[input.id || input.name] = value;
                     } 
                     else 
                     {
-                        SELECTED_OPTIONS.push({ id: element.value, description: element.label });
+                        selectedOptions.push({ id: element.value, description: element.label });
                     }
                 }
             }
-            if (SELECTED_OPTIONS.length > 1)
+            if (selectedOptions.length > 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS));
+                formData[input.id] = JSON.stringify(selectedOptions);
             }
-            else if (SELECTED_OPTIONS.length === 1)
+            else if (selectedOptions.length === 1)
             {
-                FORM_DATA.append(input.id, JSON.stringify(SELECTED_OPTIONS[0]));
+                formData[input.id] = JSON.stringify(selectedOptions[0]);
             }
         }
         else if (input.tagName === "INPUT")
         {
-            if (input.id) 
-            {
-                FORM_DATA.append(input.id, input.value);
-            } 
-            else 
-            {
-                FORM_DATA.append(input.name, input.value);
-            }
+            const value = input.value !== "" ? input.value : null;
+            formData[input.id || input.name] = value;
         }
     }
-    return FORM_DATA;
+    return formData;
 }
 
 function createAddButtonElements(LABELS, INPUT_NAMES, DIV, TYPES) {

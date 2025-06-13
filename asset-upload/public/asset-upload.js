@@ -5,88 +5,82 @@ const nomadSdk = new NomadMediaSDK(config);
 const uploadAssetForm = document.getElementById("uploadAssetForm");
 const uploadRelatedAssetForm = document.getElementById("uploadRelatedAssetForm");
 
-uploadAssetForm.addEventListener("submit", async function (event) {
+uploadAssetForm.addEventListener("submit", async function (event)
+{
     event.preventDefault();
     const formData = getElements(uploadAssetForm);
 
-    const name = formData.get("name");
-    const existingAssetId = formData.get("existingAssetId");
-    const relatedContentId = formData.get("relatedContentId");
-    const uploadOverwriteOption = formData.get("uploadOverwriteOption");
-    const file = formData.get("file");
-    const parentId = formData.get("parentId");
-    const languageId = formData.get("languageId");
-
     await nomadSdk.uploadAsset(
-        name,
-        existingAssetId,
-        relatedContentId,
-        uploadOverwriteOption,
-        file,
-        parentId,
-        languageId
+        formData.name,
+        formData.existingAssetId,
+        formData.relatedContentId,
+        formData.uploadOverwriteOption,
+        formData.file,
+        formData.parentId,
+        formData.languageId
     );
 });
 
-uploadRelatedAssetForm.addEventListener("submit", async function (event) {
+uploadRelatedAssetForm.addEventListener("submit", async function (event)
+{
     event.preventDefault();
     const formData = getElements(uploadRelatedAssetForm);
 
-    const existingAssetId = formData.get("existingAssetId");
-    const relatedAssetId = formData.get("relatedAssetId");
-    const newRelatedAssetMetadataType = formData.get("newRelatedAssetMetadataType");
-    const uploadOverwriteOption = formData.get("uploadOverwriteOption");
-    const file = formData.get("file");
-    const parentId = formData.get("parentId");
-    const languageId = formData.get("languageId");
-
     await nomadSdk.uploadRelatedAsset(
-        existingAssetId,
-        relatedAssetId,
-        newRelatedAssetMetadataType,
-        uploadOverwriteOption,
-        file,
-        parentId,
-        languageId
+        formData.existingAssetId,
+        formData.relatedAssetId,
+        formData.newRelatedAssetMetadataType,
+        formData.uploadOverwriteOption,
+        formData.file,
+        formData.parentId,
+        formData.languageId
     );
 });
 
-function getElements(form) {
-    const formData = new FormData();
-    for (let input of form) {
-        if (input.type === "file") {
-            for (let file of input.files) {
-                formData.append(input.id, file);
+function getElements(form)
+{
+    const formData = {};
+    for (let input of form.elements)
+    {
+        if (!input.tagName) continue;
+        if (input.type === "file")
+        {
+            if (input.files && input.files.length > 0)
+            {
+                formData[input.id || input.name] = input.files[0];
             }
         }
-        else if (input.tagName === "SELECT") {
+        else if (input.tagName === "SELECT")
+        {
             const selectedOptions = [];
-            for (let element of input) {
-                if (element.selected) {
-                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase()) {
-                        if (input.id) {
-                            formData.append(input.id, element.value);
-                        } else {
-                            formData.append(input.name, element.value);
-                        }
-                    } else {
-                        selectedOptions.push({ id: element.value, description: element.label });
+            for (let option of input.options)
+            {
+                if (option.selected)
+                {
+                    if (option.value.trim().toLowerCase() === option.label.trim().toLowerCase())
+                    {
+                        const value = option.value !== "" ? option.value : null;
+                        formData[input.id || input.name] = value;
+                    }
+                    else
+                    {
+                        selectedOptions.push({ id: option.value, description: option.label });
                     }
                 }
             }
-            if (selectedOptions.length > 1) {
-                formData.append(input.id, JSON.stringify(selectedOptions));
+            if (selectedOptions.length > 1)
+            {
+                formData[input.id || input.name] = JSON.stringify(selectedOptions);
             }
-            else if (selectedOptions.length === 1) {
-                formData.append(input.id, JSON.stringify(selectedOptions[0]));
+            else if (selectedOptions.length === 1)
+            {
+                formData[input.id || input.name] = JSON.stringify(selectedOptions[0]);
             }
         }
-        else if (input.tagName === "INPUT") {
-            if (input.id) {
-                formData.append(input.id, input.value);
-            } else {
-                formData.append(input.name, input.value);
-            }
+        else if (input.tagName === "INPUT")
+        {
+            const value = input.value !== "" ? input.value : null;
+            formData[input.id || input.name] = value;
         }
     }
     return formData;

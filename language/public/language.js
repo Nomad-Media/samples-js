@@ -283,10 +283,10 @@ createForm.addEventListener("submit", async (event) =>
     event.preventDefault();
     const formData = getElements(createForm);
     await nomadSdk.updateContent(
-        formData.get("createContentMasterId"),
-        formData.get("createContentContentDefinitionId"),
+        formData.createContentMasterId,
+        formData.createContentContentDefinitionId,
         getPropertiesFromForm(formData, "createContent"),
-        formData.get("createContentLanguage")
+        formData.createContentLanguage
     );
 });
 
@@ -295,9 +295,9 @@ getForm.addEventListener("submit", async (event) =>
     event.preventDefault();
     const formData = getElements(getForm);
     const contents = await getContents(
-        formData.get("getContentContentDefinitionId"),
-        JSON.parse(formData.get("getContentLanguage")).id,
-        formData.get("getContentMasterId")
+        formData.getContentContentDefinitionId,
+        JSON.parse(formData.getContentLanguage).id,
+        formData.getContentMasterId
     );
     console.log(contents[0]);
 });
@@ -307,17 +307,17 @@ updateForm.addEventListener("submit", async (event) =>
     event.preventDefault();
     const formData = getElements(updateForm);
     const contents = await getContents(
-        formData.get("updateContentContentDefinitionId"),
-        JSON.parse(formData.get("updateContentLanguage")).id,
-        formData.get("updateContentMasterId")
+        formData.updateContentContentDefinitionId,
+        JSON.parse(formData.updateContentLanguage).id,
+        formData.updateContentMasterId
     );
     if (contents.length > 0)
     {
         await nomadSdk.updateContent(
             contents[0].id,
-            formData.get("updateContentContentDefinitionId"),
+            formData.updateContentContentDefinitionId,
             getPropertiesFromForm(formData, "updateContent"),
-            formData.get("updateContentLanguage")
+            formData.updateContentLanguage
         );
     }
 });
@@ -327,68 +327,55 @@ deleteForm.addEventListener("submit", async (event) =>
     event.preventDefault();
     const formData = getElements(deleteForm);
     const contents = await getContents(
-        formData.get("deleteContentContentDefinitionId"),
-        JSON.parse(formData.get("deleteContentLanguage")).id,
-        formData.get("deleteContentMasterId")
+        formData.deleteContentContentDefinitionId,
+        JSON.parse(formData.deleteContentLanguage).id,
+        formData.deleteContentMasterId
     );
     if (contents.length > 0)
     {
         await nomadSdk.deleteContent(
             contents[0].id,
-            formData.get("deleteContentContentDefinitionId")
+            formData.deleteContentContentDefinitionId
         );
     }
 });
 
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    const formData = {};
+    for (let input of form.elements)
     {
-        if (input.id === "") continue;
+        if (!input.tagName || !input.id) continue;
         if (input.tagName === "SELECT")
         {
             const selectedOptions = [];
-            for (let element of input)
+            for (let option of input.options)
             {
-                if (element.selected)
+                if (option.selected)
                 {
-                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase())
+                    if (option.value.trim().toLowerCase() === option.label.trim().toLowerCase())
                     {
-                        if (input.id)
-                        {
-                            formData.append(input.id, element.value);
-                        }
-                        else
-                        {
-                            formData.append(input.name, element.value);
-                        }
+                        const value = option.value !== "" ? option.value : null;
+                        formData[input.id || input.name] = value;
                     }
                     else
                     {
-                        selectedOptions.push({ id: element.value, description: element.label });
+                        selectedOptions.push({ id: option.value, description: option.label });
                     }
                 }
             }
             if (input.multiple)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions);
             }
             else if (selectedOptions.length > 0)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions[0]));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions[0]);
             }
         }
         else if (input.tagName === "INPUT" || input.tagName === "TEXTAREA")
         {
-            if (input.id)
-            {
-                formData.append(input.id, input.value);
-            }
-            else
-            {
-                formData.append(input.name, input.value);
-            }
+            formData[input.id || input.name] = input.value !== "" ? input.value : null;
         }
     }
     return formData;
@@ -397,7 +384,7 @@ function getElements(form)
 function getPropertiesFromForm(formData, prefix)
 {
     const properties = {};
-    for (let [key, value] of formData.entries())
+    for (let key in formData)
     {
         if (key.startsWith(prefix) && !key.endsWith("Id") && !key.endsWith("Language"))
         {
@@ -405,11 +392,11 @@ function getPropertiesFromForm(formData, prefix)
             propKey = propKey.charAt(0).toLowerCase() + propKey.slice(1);
             try
             {
-                properties[propKey] = JSON.parse(value);
+                properties[propKey] = JSON.parse(formData[key]);
             }
             catch
             {
-                properties[propKey] = value;
+                properties[propKey] = formData[key];
             }
         }
     }

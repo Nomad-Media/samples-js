@@ -84,11 +84,11 @@ mediaSearchForm.addEventListener("submit", async function (event)
 
     const formData = getElements(mediaSearchForm);
 
-    const ids = formData.get("ids") === "" ? [] : formData.get("ids").split(',');
+    const ids = formData.ids === "" || !formData.ids ? [] : formData.ids.split(',');
 
     const sortFields = [];
-    const sortFieldNames = formData.getAll("sortFieldName");
-    const sortTypes = formData.getAll("sortType");
+    const sortFieldNames = formData.sortFieldName ? (Array.isArray(formData.sortFieldName) ? formData.sortFieldName : [formData.sortFieldName]) : [];
+    const sortTypes = formData.sortType ? (Array.isArray(formData.sortType) ? formData.sortType : [formData.sortType]) : [];
     for (let i = 0; i < sortFieldNames.length; ++i)
     {
         sortFields.push({
@@ -97,9 +97,9 @@ mediaSearchForm.addEventListener("submit", async function (event)
         });
     }
 
-    const searchQuery = formData.get("searchQuery");
-    const pageOffset = formData.get("pageOffset");
-    const pageSize = formData.get("pageSize");
+    const searchQuery = formData.searchQuery;
+    const pageOffset = formData.pageOffset;
+    const pageSize = formData.pageSize;
 
     const result = await nomadSdk.mediaSearch(
         searchQuery, ids, sortFields, pageOffset, pageSize
@@ -113,7 +113,7 @@ getDynamicContentForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getDynamicContentForm);
 
-    const dynamicContentId = formData.get("dynamicContentId");
+    const dynamicContentId = formData.dynamicContentId;
     const result = await nomadSdk.getDynamicContent(dynamicContentId);
     console.log(result);
 });
@@ -132,8 +132,8 @@ getMediaGroupForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getMediaGroupForm);
 
-    const mediaGroupId = formData.get("mediaGroupId");
-    const mediaGroupFilters = formData.get("mediaGroupFilters") === "" ? null : formData.get("mediaGroupFilters").split(',');
+    const mediaGroupId = formData.mediaGroupId;
+    const mediaGroupFilters = formData.mediaGroupFilters === "" || !formData.mediaGroupFilters ? null : formData.mediaGroupFilters.split(',');
     const result = await nomadSdk.getMediaGroup(mediaGroupId, mediaGroupFilters);
     console.log(result);
 });
@@ -144,7 +144,7 @@ getMediaItemForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getMediaItemForm);
 
-    const mediaItemId = formData.get("mediaItemId");
+    const mediaItemId = formData.mediaItemId;
     const result = await nomadSdk.getMediaItem(mediaItemId);
     console.log(result);
 });
@@ -163,7 +163,7 @@ getSiteConfigForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getSiteConfigForm);
 
-    const siteConfigId = formData.get("siteConfigId");
+    const siteConfigId = formData.siteConfigId;
     const result = await nomadSdk.getSiteConfig(siteConfigId);
     console.log(result);
 });
@@ -182,7 +182,7 @@ getMyGroupForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getMyGroupForm);
 
-    const myGroupId = formData.get("myGroupId");
+    const myGroupId = formData.myGroupId;
     const result = await nomadSdk.getMyGroup(myGroupId);
     console.log(result);
 });
@@ -201,8 +201,8 @@ clearContinueWatchingForm.addEventListener("submit", async function (event)
 
     const formData = getElements(clearContinueWatchingForm);
 
-    const userId = formData.get("userId");
-    const assetId = formData.get("assetId");
+    const userId = formData.userId;
+    const assetId = formData.assetId;
     const result = await nomadSdk.clearContinueWatching(userId, assetId);
     console.log(result);
 });
@@ -213,7 +213,7 @@ getContentCookiesForm.addEventListener("submit", async function (event)
 
     const formData = getElements(getContentCookiesForm);
 
-    const contentId = formData.get("contentId");
+    const contentId = formData.contentId;
     const result = await nomadSdk.getContentCookies(contentId);
     console.log(result);
 });
@@ -224,13 +224,13 @@ formForm.addEventListener("submit", async function (event)
 
     const formData = getElements(formForm);
 
-    const contentDefinitionId = formData.get("contentDefinitionId");
-    const firstName = formData.get("firstName");
-    const lastName = formData.get("lastName");
-    const active = formData.get("active");
-    const startDate = formData.get("startDate");
-    const lookupId = formData.get("lookupId");
-    const description = formData.get("description");
+    const contentDefinitionId = formData.contentDefinitionId;
+    const firstName = formData.firstName;
+    const lastName = formData.lastName;
+    const active = formData.active;
+    const startDate = formData.startDate;
+    const lookupId = formData.lookupId;
+    const description = formData.description;
 
     const result = await nomadSdk.createForm(contentDefinitionId, {
         firstName, lastName, active, startDate, lookupId, description
@@ -240,59 +240,48 @@ formForm.addEventListener("submit", async function (event)
 
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    const formData = {};
+    for (let input of form.elements)
     {
-        if (input.tagName === "SELECT")
+        if (!input.tagName) continue;
+        if (input.type === "file")
+        {
+            if (input.files && input.files.length > 0)
+            {
+                formData[input.id || input.name] = input.files[0];
+            }
+        }
+        else if (input.tagName === "SELECT")
         {
             const selectedOptions = [];
-            for (let element of input)
+            for (let option of input.options)
             {
-                if (element.selected)
+                if (option.selected)
                 {
-                    if (element.value === element.label)
+                    if (option.value.trim().toLowerCase() === option.label.trim().toLowerCase())
                     {
-                        if (input.id)
-                        {
-                            formData.append(input.id, element.value);
-                        }
-                        else
-                        {
-                            formData.append(input.name, element.value);
-                        }
+                        const value = option.value !== "" ? option.value : null;
+                        formData[input.id || input.name] = value;
                     }
                     else
                     {
-                        selectedOptions.push({ id: element.value, description: element.label });
+                        selectedOptions.push({ id: option.value, description: option.label });
                     }
                 }
             }
             if (selectedOptions.length > 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions);
             }
             else if (selectedOptions.length === 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions[0]));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions[0]);
             }
         }
-        else if (input.tagName === "INPUT")
+        else if (input.tagName === "INPUT" || input.tagName === "TEXTAREA")
         {
-            if (input.type === "file")
-            {
-                formData.append(input.id, input.files[0]);
-            }
-            else
-            {
-                if (input.id)
-                {
-                    formData.append(input.id, input.value);
-                }
-                else
-                {
-                    formData.append(input.name, input.value);
-                }
-            }
+            const value = input.value !== "" ? input.value : null;
+            formData[input.id || input.name] = value;
         }
     }
     return formData;

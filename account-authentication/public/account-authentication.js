@@ -53,7 +53,8 @@ function getElements(FORM)
         {
             if (input.type !== "checkbox" || (input.type === "checkbox" && input.checked)) 
             {
-                formData[input.id || input.name] = input.value;
+                const value = input.value !== "" ? input.value : null;
+                formData[input.id || input.name] = value;
             }
         }
     }

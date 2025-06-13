@@ -69,11 +69,11 @@ placeholderForm.addEventListener("submit", async function(event)
     event.preventDefault();
     const formData = getElements(placeholderForm);
 
-    const parentDirectoryId = formData.get("parentDirectoryId");
-    const assetName = formData.get("assetName");
-    const languageId = formData.get("languageSelect");
-    const tagsSelectValue = formData.get("tagsSelect");
-    const file = formData.get("file");
+    const parentDirectoryId = formData.parentDirectoryId;
+    const assetName = formData.assetName;
+    const languageId = formData.languageSelect;
+    const tagsSelectValue = formData.tagsSelect;
+    const file = formData.file;
 
     let tags = null;
     if (tagsSelectValue)
@@ -107,59 +107,48 @@ placeholderForm.addEventListener("submit", async function(event)
 
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    const formData = {};
+    for (let input of form.elements)
     {
+        if (!input.tagName) continue;
         if (input.type === "file")
         {
-            for (let file of input.files)
+            if (input.files && input.files.length > 0)
             {
-                formData.append(input.id, file);
+                formData[input.id || input.name] = input.files[0];
             }
         }
         else if (input.tagName === "SELECT")
         {
             const selectedOptions = [];
-            for (let element of input)
+            for (let option of input.options)
             {
-                if (element.selected)
+                if (option.selected)
                 {
-                    if (element.value.trim().toLowerCase() === element.label.trim().toLowerCase())
+                    if (option.value.trim().toLowerCase() === option.label.trim().toLowerCase())
                     {
-                        if (input.id)
-                        {
-                            formData.append(input.id, element.value);
-                        }
-                        else
-                        {
-                            formData.append(input.name, element.value);
-                        }
+                        const value = option.value !== "" ? option.value : null;
+                        formData[input.id || input.name] = value;
                     }
                     else
                     {
-                        selectedOptions.push({ id: element.value, description: element.label });
+                        selectedOptions.push({ id: option.value, description: option.label });
                     }
                 }
             }
             if (selectedOptions.length > 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions);
             }
             else if (selectedOptions.length === 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions[0]));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions[0]);
             }
         }
         else if (input.tagName === "INPUT")
         {
-            if (input.id)
-            {
-                formData.append(input.id, input.value);
-            }
-            else
-            {
-                formData.append(input.name, input.value);
-            }
+            const value = input.value !== "" ? input.value : null;
+            formData[input.id || input.name] = value;
         }
     }
     return formData;

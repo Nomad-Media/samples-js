@@ -13,9 +13,9 @@ videoTrackingForm.addEventListener("submit", async function (event)
     try
     {
         const trackingInfo = await nomadSdk.getVideoTracking(
-            formData.get("assetId"),
-            formData.get("trackingEvent"),
-            formData.get("seconds")
+            formData.assetId,
+            formData.trackingEvent,
+            formData.seconds
         );
         console.log(trackingInfo);
     }
@@ -27,58 +27,48 @@ videoTrackingForm.addEventListener("submit", async function (event)
 
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    const formData = {};
+    for (let input of form.elements)
     {
+        if (!input.tagName) continue;
         if (input.tagName === "SELECT")
         {
             const selectedOptions = [];
-            for (let element of input)
+            for (let option of input.options)
             {
-                if (element.selected)
+                if (option.selected)
                 {
-                    if (element.value === element.label)
+                    if (option.value.trim().toLowerCase() === option.label.trim().toLowerCase())
                     {
-                        if (input.id)
-                        {
-                            formData.append(input.id, element.value);
-                        }
-                        else
-                        {
-                            formData.append(input.name, element.value);
-                        }
+                        formData[input.id || input.name] = option.value !== "" ? option.value : null;
                     }
                     else
                     {
-                        selectedOptions.push({ id: element.value, description: element.label });
+                        selectedOptions.push({ id: option.value, description: option.label });
                     }
                 }
             }
             if (selectedOptions.length > 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions);
             }
             else if (selectedOptions.length === 1)
             {
-                formData.append(input.id, JSON.stringify(selectedOptions[0]));
+                formData[input.id || input.name] = JSON.stringify(selectedOptions[0]);
             }
         }
         else if (input.tagName === "INPUT")
         {
             if (input.type === "file")
             {
-                formData.append(input.id, input.files[0]);
+                if (input.files && input.files.length > 0)
+                {
+                    formData[input.id || input.name] = input.files[0];
+                }
             }
             else
             {
-                if (input.id)
-                {
-                    formData.append(input.id, input.value);
-                }
-                else
-                {
-                    formData.append(input.name, input.value);
-                }
+                formData[input.id || input.name] = input.value !== "" ? input.value : null;
             }
         }
     }

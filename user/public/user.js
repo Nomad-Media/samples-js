@@ -18,63 +18,63 @@ deleteUserForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const userData = getElements(deleteUserForm);
-    await nomadSdk.deleteUser(userData.get("userId"));
+    await nomadSdk.deleteUser(userData.userId);
 });
 
 deleteUserDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const userData = getElements(deleteUserDataForm);
-    await nomadSdk.deleteUserData(userData.get("userId"));
+    await nomadSdk.deleteUserData(userData.userId);
 });
 
 deleteUserContentAttributeDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const userData = getElements(deleteUserContentAttributeDataForm);
-    await nomadSdk.deleteUserContentAttributeData(userData.get("userId"));
+    await nomadSdk.deleteUserContentAttributeData(userData.userId);
 });
 
 deleteUserContentGroupDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const userData = getElements(deleteUserContentGroupDataForm);
-    await nomadSdk.deleteUserContentGroupData(userData.get("userId"));
+    await nomadSdk.deleteUserContentGroupData(userData.userId);
 });
 
 deleteUserDislikesDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const userData = getElements(deleteUserDislikesDataForm);
-    await nomadSdk.deleteUserDislikesData(userData.get("userId"));
+    await nomadSdk.deleteUserDislikesData(userData.userId);
 });
 
 deleteUserLikesDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const userData = getElements(deleteUserLikesDataForm);
-    await nomadSdk.deleteUserLikesData(userData.get("userId"));
+    await nomadSdk.deleteUserLikesData(userData.userId);
 });
 
 deleteUserFavoritesDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const userData = getElements(deleteUserFavoritesDataForm);
-    await nomadSdk.deleteUserFavoritesData(userData.get("userId"));
+    await nomadSdk.deleteUserFavoritesData(userData.userId);
 });
 
 deleteUserSavedSearchDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const userData = getElements(deleteUserSavedSearchDataForm);
-    await nomadSdk.deleteUserSavedSearchData(userData.get("userId"));
+    await nomadSdk.deleteUserSavedSearchData(userData.userId);
 });
 
 deleteUserSessionDataForm.addEventListener("submit", async function (event)
 {
     event.preventDefault();
     const userData = getElements(deleteUserSessionDataForm);
-    await nomadSdk.deleteUserSessionData(userData.get("userId"));
+    await nomadSdk.deleteUserSessionData(userData.userId);
 });
 
 deleteUserContentSecurityDataForm.addEventListener("submit", async function (event)
@@ -82,12 +82,12 @@ deleteUserContentSecurityDataForm.addEventListener("submit", async function (eve
     event.preventDefault();
     const userData = getElements(deleteUserContentSecurityDataForm);
     await nomadSdk.deleteUserContentSecurityData(
-        userData.get("contentId"),
-        userData.get("contentDefinitionId"),
-        userData.get("email"),
-        userData.get("id"),
-        userData.get("keyName"),
-        `${userData.get("expirationDate")}Z`
+        userData.contentId,
+        userData.contentDefinitionId,
+        userData.email,
+        userData.id,
+        userData.keyName,
+        `${userData.expirationDate}Z`
     );
 });
 
@@ -96,34 +96,34 @@ deleteUserVideoTrackingDataForm.addEventListener("submit", async function (event
     event.preventDefault();
     const userData = getElements(deleteUserVideoTrackingDataForm);
     await nomadSdk.deleteUserVideoTrackingData(
-        userData.get("assetId"),
-        userData.get("contentId"),
-        userData.get("videoTrackingAttribute"),
-        userData.get("id"),
-        userData.get("isFirstQuartile") === "true",
-        userData.get("isMidpoint") === "true",
-        userData.get("isThirdQuartile") === "true",
-        userData.get("isComplete") === "true",
-        userData.get("isHidden") === "true",
-        userData.get("isLiveStream") === "true",
-        userData.get("maxSeconds"),
-        userData.get("lastSeconds"),
-        userData.get("totalSeconds"),
-        userData.get("lastBeaconDate"),
-        userData.get("keyName")
+        userData.assetId,
+        userData.contentId,
+        userData.videoTrackingAttribute,
+        userData.id,
+        userData.isFirstQuartile === "true",
+        userData.isMidpoint === "true",
+        userData.isThirdQuartile === "true",
+        userData.isComplete === "true",
+        userData.isHidden === "true",
+        userData.isLiveStream === "true",
+        userData.maxSeconds,
+        userData.lastSeconds,
+        userData.totalSeconds,
+        userData.lastBeaconDate,
+        userData.keyName
     );
 });
 
 function getElements(form)
 {
-    const formData = new FormData();
-    for (let input of form)
+    const formData = {};
+    for (let input of form.elements)
     {
         if (input.tagName === "INPUT" || input.tagName === "SELECT")
         {
             if (input.type !== "checkbox" || (input.type === "checkbox" && input.checked))
             {
-                input.id ? formData.append(input.id, input.value) : formData.append(input.name, input.value);
+                formData[input.id || input.name] = input.value;
             }
         }
     }
