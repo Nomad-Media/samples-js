@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>SHare</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fav Icon -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+     <!-- Google Fonts -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+ 
+     <!-- Sweet Alert 2 -->
+     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui@5.0.4/material-ui.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="share.css">
+
+    <!-- JS -->
+    <script type="module" src="share.js" defer></script>
+</head>
+
+<body>
+
+    <h1>Share</h1>
+    <h3>Share</h3>
+    <form id="shareForm">
+        <label for="assetId">Asset Id:</label>
+        <input type="text" id="assetId" name="assetId">
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+
+        <label for="sharedContents">Shared Contents:</label>
+        <input type="text" id="sharedContents" name="sharedContents" placeholder="Comma-separated IDs">
+
+        <label for="sharedDuration">Shared Duration:</label>
+        <input type="text" id="sharedDuration" name="sharedDuration">
+
+        <label for="sharedPermissions">Shared Permissions:</label>
+        <input type="text" id="sharedPermissions" name="sharedPermissions" placeholder="Comma-separated permissions">
+
+        <label for="sharedType">Shared Type:</label>
+        <input type="text" id="sharedType" name="sharedType">
+
+        <label for="sharedStatus">Shared Status:</label>
+        <input type="text" id="sharedStatus" name="sharedStatus">
+
+        <label for="sharedDurationInHours">Shared Duration (Hours):</label>
+        <input type="text" id="sharedDurationInHours" name="sharedDurationInHours">
+
+        <label for="sharedLink">Shared Link:</label>
+        <input type="text" id="sharedLink" name="sharedLink">
+
+        <label for="ownerId">Owner Id:</label>
+        <input type="text" id="ownerId" name="ownerId">
+
+        <label for="expirationDate">Expiration Date:</label>
+        <input type="datetime-local" id="expirationDate" name="expirationDate">
+        
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Get Share</h3>
+    <form id="getShareForm">
+        <label for="shareId">Share Id:</label>
+        <input type="text" id="shareId" name="shareId" required>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Update Share</h3>
+    <form id="updateShareForm">
+        <label for="shareId">Share Id:</label>
+        <input type="text" id="shareId" name="shareId" required>
+
+        <label for="assetId">Asset Id:</label>
+        <input type="text" id="assetId" name="assetId" required>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+
+        <label for="sharedContents">Shared Contents:</label>
+        <input type="text" id="sharedContents" name="sharedContents" placeholder="Comma-separated">
+
+        <label for="sharedDuration">Shared Duration:</label>
+        <input type="text" id="sharedDuration" name="sharedDuration">
+
+        <label for="sharedPermissions">Shared Permissions:</label>
+        <input type="text" id="sharedPermissions" name="sharedPermissions" placeholder="Comma-separated">
+
+        <label for="sharedType">Shared Type:</label>
+        <input type="text" id="sharedType" name="sharedType">
+
+        <label for="sharedStatus">Shared Status:</label>
+        <input type="text" id="sharedStatus" name="sharedStatus">
+
+        <label for="sharedDurationInHours">Shared Duration (Hours):</label>
+        <input type="text" id="sharedDurationInHours" name="sharedDurationInHours">
+
+        <label for="sharedLink">Shared Link:</label>
+        <input type="text" id="sharedLink" name="sharedLink">
+
+        <label for="ownerId">Owner Id:</label>
+        <input type="text" id="ownerId" name="ownerId">
+
+        <label for="expirationDate">Expiration Date:</label>
+        <input type="datetime-local" id="expirationDate" name="expirationDate">
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Share Expire</h3>
+    <form id="shareExpireForm">
+        <label for="shareId">Share Id:</label>
+        <input type="text" id="shareId" name="shareId" required>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Share Notification</h3>
+    <form id="shareNotificationForm">
+        <label for="shareId">Share Id:</label>
+        <input type="text" id="shareId" name="shareId" required>
+
+        <label for="nomadUserIds">Nomad User Ids:</label>
+        <input type="text" id="nomadUserIds" name="nomadUserIds" placeholder="Comma-separated">
+
+        <label for="externalUserIds">External User Ids:</label>
+        <input type="text" id="externalUserIds" name="externalUserIds" placeholder="Comma-separated">
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Delete Share</h3>
+    <form id="deleteShareForm">
+        <label for="shareId">Share Id:</label>
+        <input type="text" id="shareId" name="shareId" required>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>
