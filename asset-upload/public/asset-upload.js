@@ -10,6 +10,10 @@ uploadAssetForm.addEventListener("submit", async function (event)
     event.preventDefault();
     const formData = getElements(uploadAssetForm);
 
+    const uploadReplaceOverwriteOptions = formData.uploadReplaceOverwriteOptions
+        ? formData.uploadReplaceOverwriteOptions.split(",").map(option => option.trim())
+        : null;
+
     await nomadSdk.uploadAsset(
         formData.name,
         formData.existingAssetId,
@@ -17,7 +21,8 @@ uploadAssetForm.addEventListener("submit", async function (event)
         formData.uploadOverwriteOption,
         formData.file,
         formData.parentId,
-        formData.languageId
+        formData.languageId,
+        uploadReplaceOverwriteOptions
     );
 });
 
