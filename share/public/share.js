@@ -19,6 +19,7 @@ shareForm.addEventListener("submit", async function (event)
 
     const sharedContents = elems.sharedContents ? elems.sharedContents.split(",") : [];
     const sharedPermissions = elems.sharedPermissions ? elems.sharedPermissions.split(",") : [];
+    const users = elems.users ? elems.users.split(",") : [];
 
     const result = await nomadSdk.share(
         elems.assetId,
@@ -31,7 +32,8 @@ shareForm.addEventListener("submit", async function (event)
         elems.sharedDurationInHours,
         elems.sharedLink,
         elems.ownerId,
-        elems.expirationDate
+        elems.expirationDate,
+        users
     );
 
     console.log(result);
@@ -55,6 +57,7 @@ updateShareForm.addEventListener("submit", async function (event)
 
     const sharedContents = elems.sharedContents ? elems.sharedContents.split(",") : [];
     const sharedPermissions = elems.sharedPermissions ? elems.sharedPermissions.split(",") : [];
+    const users = elems.users ? elems.users.split(",") : [];
     
     const result = await nomadSdk.updateShare(
         elems.shareId,
@@ -68,7 +71,8 @@ updateShareForm.addEventListener("submit", async function (event)
         elems.sharedDurationInHours,
         elems.sharedLink,
         elems.ownerId,
-        elems.expirationDate
+        elems.expirationDate,
+        users
     );
 
     console.log(result);
